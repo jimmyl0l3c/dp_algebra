@@ -26,22 +26,24 @@ class CalcMenu extends StatelessWidget {
         ),
         children: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              routeState.go('/calc/0');
+            },
             child: const ListTile(
               title: Text('Operace s maticemi'),
               subtitle: Text(
                   'Součet, rozdíl, součin, vlastnosti matic (hodnost, determinant)'),
             ),
           ),
-          TextButton(
-            onPressed: () {},
-            child: const ListTile(
+          const TextButton(
+            onPressed: null,
+            child: ListTile(
               title: Text('Soustavy lineárních rovnic'),
             ),
           ),
-          TextButton(
-            onPressed: () {},
-            child: const ListTile(
+          const TextButton(
+            onPressed: null,
+            child: ListTile(
               title: Text('Vektorové prostory'),
               subtitle: Text(
                   'Lineární (ne)závislost vektorů, nalezení báze, transformace souřadnic od báze k bázi, ...'),

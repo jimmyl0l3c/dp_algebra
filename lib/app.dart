@@ -28,6 +28,7 @@ class _AlgebraAppState extends State<AlgebraApp> {
         '/exercise',
         '/exercise/:exerciseId',
         '/calc',
+        '/calc/:calcId',
       ],
     );
 
