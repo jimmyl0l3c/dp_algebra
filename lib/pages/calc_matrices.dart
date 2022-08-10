@@ -12,6 +12,7 @@ class CalcMatrices extends StatefulWidget {
 
 class _CalcMatricesState extends State<CalcMatrices> {
   late Map<String, Matrix> _matrices;
+  List<String> _namePool = ['B', 'C', 'D', 'E', 'F', 'G'];
 
   _CalcMatricesState() {
     _matrices = {'A': Matrix(columns: 2, rows: 2)};
@@ -26,7 +27,25 @@ class _CalcMatricesState extends State<CalcMatrices> {
       body: Wrap(
         direction: Axis.horizontal,
         children: [
-          MatrixInput(matrix: _matrices['A']!),
+          for (var matrix in _matrices.entries)
+            MatrixInput(
+              matrix: matrix.value,
+              name: matrix.key,
+            ),
+          OutlinedButton(
+            onPressed: _namePool.isNotEmpty
+                ? () {
+                    if (_namePool.isEmpty) return;
+                    setState(() {
+                      _matrices[_namePool.removeAt(0)] =
+                          Matrix(columns: 2, rows: 2);
+                    });
+                  }
+                : null,
+            child: const Text('+'),
+          ),
+          Text('${_matrices['A']![0][0]} ${_matrices['A']![0][1]};'),
+          Text('${_matrices['A']![1][0]} ${_matrices['A']![1][1]}'),
         ],
       ),
     );

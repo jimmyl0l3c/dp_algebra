@@ -39,7 +39,7 @@ class Matrix {
     _matrix.add(row);
   }
 
-  void setValue(int i, int j, Fraction value) => _matrix[i][j] = value;
+  void setValue(int r, int c, Fraction value) => _matrix[r][c] = value;
 
   Fraction getDeterminant() {
     // TODO: implement
