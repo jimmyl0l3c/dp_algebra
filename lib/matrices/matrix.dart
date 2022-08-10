@@ -10,7 +10,13 @@ class Matrix {
   Matrix({int columns = 1, int rows = 1, int defaultValue = 0}) {
     _defaultVal = defaultValue.toFraction();
     for (var i = 0; i < rows; i++) {
-      addRow();
+      List<Fraction> row = List<Fraction>.empty(growable: true);
+
+      for (var j = 0; j < columns; j++) {
+        row.add(_defaultVal);
+      }
+
+      _matrix.add(row);
     }
   }
 
@@ -32,6 +38,8 @@ class Matrix {
 
     _matrix.add(row);
   }
+
+  void setValue(int i, int j, Fraction value) => _matrix[i][j] = value;
 
   Fraction getDeterminant() {
     // TODO: implement
