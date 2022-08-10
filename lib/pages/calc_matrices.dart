@@ -7,7 +7,7 @@ class CalcMatrices extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kalkulačka - Operace s maticemi'),
+        title: const Text('Kalkulačka - Operace s maticemi'),
       ),
       body: Container(),
     );
