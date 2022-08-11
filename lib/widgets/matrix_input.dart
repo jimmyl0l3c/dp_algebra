@@ -7,11 +7,13 @@ import '../matrices/matrix.dart';
 class MatrixInput extends StatefulWidget {
   final Matrix matrix;
   final String name;
+  final VoidCallback deleteMatrix;
 
   const MatrixInput({
     Key? key,
     required this.matrix,
     required this.name,
+    required this.deleteMatrix,
   }) : super(key: key);
 
   @override
@@ -24,7 +26,19 @@ class _MatrixInputState extends State<MatrixInput> {
     return Card(
       child: Column(
         children: [
-          Text(widget.name),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(widget.name),
+              IconButton(
+                onPressed: widget.deleteMatrix,
+                icon: const Icon(Icons.close),
+                iconSize: 12.0,
+                splashRadius: 15.0,
+                color: Colors.redAccent,
+              ),
+            ],
+          ),
           Container(
             width: 60 * widget.matrix.getColumns().toDouble(),
             child: GridView.count(
