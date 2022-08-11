@@ -1,6 +1,7 @@
 import 'package:dp_algebra/matrices/matrix_operations.dart';
 import 'package:dp_algebra/widgets/matrix_solution_view.dart';
 import 'package:flutter/material.dart';
+import 'package:fraction/fraction.dart';
 
 import '../matrices/matrix.dart';
 import '../matrices/matrix_exceptions.dart';
@@ -74,7 +75,8 @@ class _CalcMatricesState extends State<CalcMatrices> {
             ],
           ),
           const Divider(),
-          const Text('Operace'),
+          const Text(
+              'Operace'), // TODO: nasobeni skalarem, maticove transformace
           Row(
             children: [
               const Text('Determinant'),
@@ -85,7 +87,24 @@ class _CalcMatricesState extends State<CalcMatrices> {
                 children: [
                   for (var matrix in _matrices.entries) Text(matrix.key),
                 ],
-                onPressed: (int index) {},
+                onPressed: (int index) {
+                  Matrix? m = _matrices[_matrices.keys.elementAt(index)];
+                  if (m == null) return;
+                  Fraction? solution;
+                  try {
+                    solution = m.getDeterminant();
+                  } on MatrixIsNotSquareException {
+                    // TODO: show error
+                    return;
+                  }
+                  setState(() {
+                    _solutions.add(Solution(
+                      leftOp: m,
+                      operation: MatrixOperation.det,
+                      solution: solution,
+                    ));
+                  });
+                },
               ),
             ],
           ),

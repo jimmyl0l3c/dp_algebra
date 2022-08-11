@@ -23,6 +23,7 @@ class MatrixInput extends StatefulWidget {
 class _MatrixInputState extends State<MatrixInput> {
   @override
   Widget build(BuildContext context) {
+    print(widget.matrix.toString());
     return Card(
       child: Column(
         children: [
@@ -42,6 +43,7 @@ class _MatrixInputState extends State<MatrixInput> {
           SizedBox(
             width: 60 * widget.matrix.getColumns().toDouble(),
             child: GridView.count(
+              // TODO: fix (update FormField values)
               crossAxisCount: widget.matrix.getColumns(),
               shrinkWrap: true,
               mainAxisSpacing: 4.0,

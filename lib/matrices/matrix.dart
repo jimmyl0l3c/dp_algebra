@@ -4,7 +4,7 @@ import 'package:fraction/fraction.dart';
 class Matrix {
   List<List<Fraction>> _matrix = List<List<Fraction>>.empty(growable: true);
   Object?
-      _stepByStep; // TODO: implement: Object containing steps of last (or last n) operations
+      _stepByStep; // TODO: implement: Object containing steps of last (or last n) operation(s)
   late Fraction _defaultVal;
 
   Matrix({int columns = 1, int rows = 1, int defaultValue = 0}) {
@@ -47,11 +47,37 @@ class Matrix {
   void setValue(int r, int c, Fraction value) => _matrix[r][c] = value;
 
   Fraction getDeterminant() {
+    if (getRows() != getColumns()) throw MatrixIsNotSquareException();
+    // TODO: implement
+    throw UnimplementedError();
+  }
+
+  Matrix getTransposed() {
+    // TODO: implement
+    throw UnimplementedError();
+  }
+
+  Matrix? getInverse() {
     // TODO: implement
     throw UnimplementedError();
   }
 
   int getRank() {
+    // TODO: implement
+    throw UnimplementedError();
+  }
+
+  void addRowToRowNTimes(int rowOrigin, int rowTarget, Fraction n) {
+    // TODO: implement
+    throw UnimplementedError();
+  }
+
+  void multiplyRowByN(int row, Fraction n) {
+    // TODO: implement
+    throw UnimplementedError();
+  }
+
+  void exchangeRows(int row1, int row2) {
     // TODO: implement
     throw UnimplementedError();
   }
@@ -96,7 +122,6 @@ class Matrix {
   Matrix operator -(Matrix other) => entryWiseOperation(other, (a, b) => a - b);
 
   Matrix operator *(dynamic other) {
-    // TODO: fix
     if (other is Fraction) {
       int rows = getRows();
       int cols = getColumns();
