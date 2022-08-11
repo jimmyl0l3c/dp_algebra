@@ -20,6 +20,16 @@ enum MatrixOperation {
     prependSymbol: true,
     binary: false,
   ),
+  inverse(
+    description: 'Inverzní matice',
+    symbol: '^{-1}',
+    binary: false,
+  ),
+  transpose(
+    description: 'Transponovaná matice',
+    symbol: '^T',
+    binary: false,
+  ),
   rank(
     description: 'Hodnost',
     symbol: 'h',
