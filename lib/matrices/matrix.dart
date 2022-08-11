@@ -20,6 +20,11 @@ class Matrix {
     }
   }
 
+  Matrix.from(Matrix m)
+      : _matrix = m._matrix.map((row) => List<Fraction>.from(row)).toList(),
+        _stepByStep = m._stepByStep,
+        _defaultVal = m._defaultVal;
+
   int getColumns() => _matrix.isNotEmpty ? _matrix.first.length : 0;
   int getRows() => _matrix.length;
 
@@ -71,11 +76,27 @@ class Matrix {
     return output;
   }
 
+  @override
+  bool operator ==(Object other) {
+    if (other is! Matrix) return false;
+    int rows = getRows();
+    int cols = getColumns();
+    if (rows != other.getRows()) return false;
+    if (cols != other.getColumns()) return false;
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        if (_matrix[r][c] != other[r][c]) return false;
+      }
+    }
+    return true;
+  }
+
   Matrix operator +(Matrix other) => entryWiseOperation(other, (a, b) => a + b);
 
   Matrix operator -(Matrix other) => entryWiseOperation(other, (a, b) => a - b);
 
   Matrix operator *(dynamic other) {
+    // TODO: fix
     if (other is Fraction) {
       int rows = getRows();
       int cols = getColumns();
@@ -113,4 +134,30 @@ class Matrix {
   List<Fraction> operator [](int i) {
     return _matrix[i];
   }
+
+  @override
+  String toString() {
+    StringBuffer buffer = StringBuffer('(');
+    int rows = getRows();
+    int cols = getColumns();
+
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        if (c == cols - 1) {
+          buffer.write(_matrix[r][c].toString());
+        } else {
+          buffer.write('${_matrix[r][c].toString()}, ');
+        }
+      }
+      if (r != rows - 1) {
+        buffer.write('; ');
+      }
+    }
+    buffer.write(')');
+    return buffer.toString();
+  }
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => super.hashCode;
 }
