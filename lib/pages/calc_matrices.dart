@@ -256,7 +256,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   }
                   setState(() {
                     _solutions.add(Solution(
-                      leftOp: m,
+                      leftOp: Matrix.from(m),
                       operation: MatrixOperation.det,
                       solution: solution,
                     ));
@@ -281,7 +281,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   Matrix? solution = m.getTransposed();
                   setState(() {
                     _solutions.add(Solution(
-                      leftOp: m,
+                      leftOp: Matrix.from(m),
                       operation: MatrixOperation.transpose,
                       solution: solution,
                     ));
@@ -312,7 +312,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   }
                   setState(() {
                     _solutions.add(Solution(
-                      leftOp: m,
+                      leftOp: Matrix.from(m),
                       operation: MatrixOperation.inverse,
                       solution: solution,
                     ));

@@ -53,8 +53,15 @@ class Matrix {
   }
 
   Matrix getTransposed() {
-    // TODO: implement
-    throw UnimplementedError();
+    int rows = getRows();
+    int cols = getColumns();
+    Matrix output = Matrix(rows: cols, columns: rows);
+    for (var i = 0; i < rows; i++) {
+      for (var j = 0; j < cols; j++) {
+        output[j][i] = _matrix[i][j];
+      }
+    }
+    return output;
   }
 
   Matrix? getInverse() {
