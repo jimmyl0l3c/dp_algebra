@@ -52,6 +52,7 @@ class _MatrixInputState extends State<MatrixInput> {
                             if (dValue == null) return;
                             widget.matrix.setValue(i, j, dValue.toFraction());
                           } else {
+                            if (value.startsWith('/')) value = '0$value';
                             if (!value.isFraction) return;
                             widget.matrix.setValue(i, j, value.toFraction());
                           }
@@ -70,8 +71,9 @@ class _MatrixInputState extends State<MatrixInput> {
                           if (value == null || value.isEmpty) return null;
                           if (value.contains('/')) {
                             int index = value.indexOf('/');
-                            if (index == value.length - 1)
+                            if (index == value.length - 1) {
                               return 'Nelze dělit nulou';
+                            }
                             int? parsed =
                                 int.tryParse(value.substring(index + 1));
                             if (parsed == null || parsed == 0) {
@@ -83,6 +85,7 @@ class _MatrixInputState extends State<MatrixInput> {
                                 ? 'Neplatná hodnota'
                                 : null;
                           }
+                          if (value.startsWith('/')) value = '0$value';
                           if (!value.isFraction) return 'Neplatná hodnota';
                           return null;
                         },

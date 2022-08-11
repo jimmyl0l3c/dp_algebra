@@ -11,7 +11,7 @@ class Menu extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Linear Algebra - Menu'),
+        title: const Text('Lineární Algebra - Menu'),
         centerTitle: true,
       ),
       body: Center(
@@ -22,19 +22,19 @@ class Menu extends StatelessWidget {
             children: [
               const ElevatedButton(
                 onPressed: null,
-                child: Text('Learn'),
+                child: Text('Výuka'),
               ),
               const SizedBox(height: 8.0),
               const ElevatedButton(
                 onPressed: null,
-                child: Text('Exercise'),
+                child: Text('Procvičování'),
               ),
               const SizedBox(height: 8.0),
               ElevatedButton(
                   onPressed: () {
                     routeState.go('/calc');
                   },
-                  child: const Text('Calculator')),
+                  child: const Text('Kalkulačka')),
             ],
           ),
         ),
