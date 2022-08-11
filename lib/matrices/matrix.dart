@@ -68,18 +68,23 @@ class Matrix {
   }
 
   void addRowToRowNTimes(int rowOrigin, int rowTarget, Fraction n) {
-    // TODO: implement
-    throw UnimplementedError();
+    int cols = getColumns();
+    for (var c = 0; c < cols; c++) {
+      _matrix[rowTarget][c] += n * _matrix[rowOrigin][c];
+    }
   }
 
   void multiplyRowByN(int row, Fraction n) {
-    // TODO: implement
-    throw UnimplementedError();
+    int cols = getColumns();
+    for (var c = 0; c < cols; c++) {
+      _matrix[row][c] *= n;
+    }
   }
 
   void exchangeRows(int row1, int row2) {
-    // TODO: implement
-    throw UnimplementedError();
+    var tmp = _matrix[row1];
+    _matrix[row1] = _matrix[row2];
+    _matrix[row2] = tmp;
   }
 
   bool isSameSizeAs(Matrix other) =>
@@ -169,9 +174,9 @@ class Matrix {
     for (var r = 0; r < rows; r++) {
       for (var c = 0; c < cols; c++) {
         if (c == cols - 1) {
-          buffer.write(_matrix[r][c].toString());
+          buffer.write(_matrix[r][c].reduce().toString());
         } else {
-          buffer.write('${_matrix[r][c].toString()}, ');
+          buffer.write('${_matrix[r][c].reduce().toString()}, ');
         }
       }
       if (r != rows - 1) {
