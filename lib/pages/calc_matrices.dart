@@ -1,4 +1,5 @@
 import 'package:dp_algebra/matrices/matrix_operations.dart';
+import 'package:dp_algebra/widgets/fraction_input.dart';
 import 'package:dp_algebra/widgets/matrix_solution_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
@@ -18,10 +19,13 @@ class CalcMatrices extends StatefulWidget {
 class _CalcMatricesState extends State<CalcMatrices> {
   late Map<String, Matrix> _matrices;
   final List<String> _namePool = ['B', 'C', 'D', 'E', 'F', 'G'];
+
   String? _binaryLeft = 'A';
   String? _binaryRight = 'A';
   String? _binaryOperation = '+';
-  List<Solution> _solutions = [];
+  Fraction? _scalarC = Fraction(1);
+
+  final List<Solution> _solutions = [];
 
   _CalcMatricesState() {
     _matrices = {'A': Matrix(columns: 2, rows: 2)};
@@ -75,39 +79,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
             ],
           ),
           const Divider(),
-          const Text(
-              'Operace'), // TODO: nasobeni skalarem, maticove transformace
-          Row(
-            children: [
-              const Text('Determinant'),
-              ToggleButtons(
-                isSelected: [
-                  for (var i = 0; i < _matrices.length; i++) false,
-                ],
-                children: [
-                  for (var matrix in _matrices.entries) Text(matrix.key),
-                ],
-                onPressed: (int index) {
-                  Matrix? m = _matrices[_matrices.keys.elementAt(index)];
-                  if (m == null) return;
-                  Fraction? solution;
-                  try {
-                    solution = m.getDeterminant();
-                  } on MatrixIsNotSquareException {
-                    // TODO: show error
-                    return;
-                  }
-                  setState(() {
-                    _solutions.add(Solution(
-                      leftOp: m,
-                      operation: MatrixOperation.det,
-                      solution: solution,
-                    ));
-                  });
-                },
-              ),
-            ],
-          ),
+          const Text('Operace'),
           Row(
             children: [
               const Text('Binární operace'),
@@ -214,6 +186,167 @@ class _CalcMatricesState extends State<CalcMatrices> {
                 iconSize: 20.0,
                 splashRadius: 21.0,
               )
+            ],
+          ),
+          Row(
+            children: [
+              const Text('Násobení matice skalárem:'),
+              SizedBox(
+                width: 80,
+                child: FractionInput(
+                  onChanged: (String value) {
+                    if (value.isEmpty) {
+                      _scalarC = Fraction(0);
+                    } else if (value.contains('.')) {
+                      double? dValue = double.tryParse(value);
+                      if (dValue == null) return;
+                      _scalarC = dValue.toFraction();
+                    } else {
+                      if (value.startsWith('/')) value = '0$value';
+                      if (!value.isFraction) return;
+                      _scalarC = value.toFraction();
+                    }
+                  },
+                  initialValue: _scalarC.toString(),
+                ),
+              ),
+              const Icon(Icons.close),
+              ToggleButtons(
+                isSelected: [
+                  for (var i = 0; i < _matrices.length; i++) false,
+                ],
+                children: [
+                  for (var matrix in _matrices.entries) Text(matrix.key),
+                ],
+                onPressed: (int index) {
+                  Matrix? m = _matrices[_matrices.keys.elementAt(index)];
+                  if (m == null) return;
+                  Matrix? solution = m * _scalarC;
+                  setState(() {
+                    _solutions.add(Solution(
+                      leftOp: _scalarC,
+                      rightOp: Matrix.from(m),
+                      operation: MatrixOperation.multiply,
+                      solution: solution,
+                    ));
+                  });
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const Text('Determinant'),
+              ToggleButtons(
+                isSelected: [
+                  for (var i = 0; i < _matrices.length; i++) false,
+                ],
+                children: [
+                  for (var matrix in _matrices.entries) Text(matrix.key),
+                ],
+                onPressed: (int index) {
+                  Matrix? m = _matrices[_matrices.keys.elementAt(index)];
+                  if (m == null) return;
+                  Fraction? solution;
+                  try {
+                    solution = m.getDeterminant();
+                  } on MatrixIsNotSquareException {
+                    // TODO: show error
+                    return;
+                  }
+                  setState(() {
+                    _solutions.add(Solution(
+                      leftOp: m,
+                      operation: MatrixOperation.det,
+                      solution: solution,
+                    ));
+                  });
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const Text('Transponovaná matice'),
+              ToggleButtons(
+                isSelected: [
+                  for (var i = 0; i < _matrices.length; i++) false,
+                ],
+                children: [
+                  for (var matrix in _matrices.entries) Text(matrix.key),
+                ],
+                onPressed: (int index) {
+                  Matrix? m = _matrices[_matrices.keys.elementAt(index)];
+                  if (m == null) return;
+                  Matrix? solution = m.getTransposed();
+                  setState(() {
+                    _solutions.add(Solution(
+                      leftOp: m,
+                      operation: MatrixOperation.transpose,
+                      solution: solution,
+                    ));
+                  });
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const Text('Inverzní matice'),
+              ToggleButtons(
+                isSelected: [
+                  for (var i = 0; i < _matrices.length; i++) false,
+                ],
+                children: [
+                  for (var matrix in _matrices.entries) Text(matrix.key),
+                ],
+                onPressed: (int index) {
+                  Matrix? m = _matrices[_matrices.keys.elementAt(index)];
+                  if (m == null) return;
+                  Matrix? solution;
+                  try {
+                    solution = m.getInverse();
+                  } on MatrixInverseImpossibleException {
+                    // TODO: show error
+                    return;
+                  }
+                  setState(() {
+                    _solutions.add(Solution(
+                      leftOp: m,
+                      operation: MatrixOperation.inverse,
+                      solution: solution,
+                    ));
+                  });
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              OutlinedButton(
+                  onPressed: () {
+                    Matrix a = _matrices.values.first;
+                    print(a);
+                    a.addRowToRowNTimes(0, 1, Fraction(-3, 2));
+                    print(a);
+                  },
+                  child: const Text('Debug: 1.row + (-3/2) * 0.row')),
+              OutlinedButton(
+                  onPressed: () {
+                    Matrix a = _matrices.values.first;
+                    print(a);
+                    a.multiplyRowByN(1, Fraction(-2));
+                    print(a);
+                  },
+                  child: const Text('Debug: 1.row * (-2)')),
+              OutlinedButton(
+                  onPressed: () {
+                    Matrix a = _matrices.values.first;
+                    print(a);
+                    a.exchangeRows(0, 1);
+                    print(a);
+                  },
+                  child: const Text('Debug: Exchange rows 0. and 1.')),
             ],
           ),
           const Divider(),

@@ -4,4 +4,6 @@ class MatrixMultiplySizeException implements Exception {}
 
 class MatrixIsNotSquareException implements Exception {}
 
+class MatrixInverseImpossibleException implements Exception {}
+
 class InvalidTypeException implements Exception {}
