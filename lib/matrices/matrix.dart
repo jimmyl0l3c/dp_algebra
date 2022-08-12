@@ -48,6 +48,11 @@ class Matrix {
 
   Fraction getDeterminant() {
     if (getRows() != getColumns()) throw MatrixIsNotSquareException();
+    if (getRows() == 1) return _matrix.first.first;
+    if (getRows() == 2) {
+      return _matrix[0][0] * _matrix[1][1] - _matrix[0][1] * _matrix[1][0];
+    }
+    // Sarrus? Gauss?
     // TODO: implement
     throw UnimplementedError();
   }

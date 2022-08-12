@@ -5,7 +5,7 @@ class MatrixView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement, widgets for rendering matrices (in solutions)
+    // TODO: implement, widget for rendering matrices (in solutions)
     return Container();
   }
 }

@@ -45,6 +45,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
     }
 
     return Scaffold(
+      // TODO: split into multiple components
       appBar: AppBar(
         title: const Text('Kalkulačka - Operace s maticemi'),
       ),
@@ -129,49 +130,58 @@ class _CalcMatricesState extends State<CalcMatrices> {
                 },
               ),
               OutlinedButton(
-                  onPressed: () {
-                    if (_binaryLeft == null || _binaryRight == null) {
-                      return; // TODO: show error
-                    }
-                    Matrix? a = _matrices[_binaryLeft];
-                    Matrix? b = _matrices[_binaryRight];
-                    if (a == null || b == null) return; // TODO: show error
-                    Matrix? solution;
-                    MatrixOperation? operation;
-                    try {
-                      switch (_binaryOperation) {
-                        case '+':
-                          operation = MatrixOperation.add;
-                          solution = a + b;
-                          break;
-                        case '-':
-                          operation = MatrixOperation.diff;
-                          solution = a - b;
-                          break;
-                        case '*':
-                          operation = MatrixOperation.multiply;
-                          solution = a * b;
-                          break;
-                        default:
-                          return;
-                      }
-                    } on MatrixSizeMismatchException {
-                      // TODO: show error
-                      return;
-                    } on MatrixMultiplySizeException {
-                      // TODO: show error
-                      return;
-                    }
-                    Matrix leftOp = Matrix.from(a);
-                    setState(() {
-                      _solutions.add(Solution(
-                        leftOp: leftOp,
-                        rightOp: a == b ? leftOp : Matrix.from(b),
-                        operation: operation!,
-                        solution: solution,
-                      ));
-                    });
-                  },
+                  onPressed: (_binaryLeft == null || _binaryRight == null)
+                      ? null
+                      : () {
+                          if (_binaryLeft == null || _binaryRight == null) {
+                            showError(context,
+                                'Zvolte matice, se kterými se má operace provést');
+                            return;
+                          }
+                          Matrix? a = _matrices[_binaryLeft];
+                          Matrix? b = _matrices[_binaryRight];
+                          if (a == null || b == null) {
+                            showError(context, 'Zvolené matice neexistují');
+                            return;
+                          }
+                          Matrix? solution;
+                          MatrixOperation? operation;
+                          try {
+                            switch (_binaryOperation) {
+                              case '+':
+                                operation = MatrixOperation.add;
+                                solution = a + b;
+                                break;
+                              case '-':
+                                operation = MatrixOperation.diff;
+                                solution = a - b;
+                                break;
+                              case '*':
+                                operation = MatrixOperation.multiply;
+                                solution = a * b;
+                                break;
+                              default:
+                                return;
+                            }
+                          } on MatrixSizeMismatchException {
+                            showError(
+                                context, 'Matice musí mít stejnou velikost');
+                            return;
+                          } on MatrixMultiplySizeException {
+                            showError(context,
+                                'Počet sloupců první matice musí být roven počtu řádků druhé');
+                            return;
+                          }
+                          Matrix leftOp = Matrix.from(a);
+                          setState(() {
+                            _solutions.add(Solution(
+                              leftOp: leftOp,
+                              rightOp: a == b ? leftOp : Matrix.from(b),
+                              operation: operation!,
+                              solution: solution,
+                            ));
+                          });
+                        },
                   child: const Text('=')),
               IconButton(
                 onPressed: () {
@@ -251,7 +261,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   try {
                     solution = m.getDeterminant();
                   } on MatrixIsNotSquareException {
-                    // TODO: show error
+                    showError(context, 'Matice musí být čtvercová');
                     return;
                   }
                   setState(() {
@@ -307,7 +317,8 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   try {
                     solution = m.getInverse();
                   } on MatrixInverseImpossibleException {
-                    // TODO: show error
+                    showError(
+                        context, 'Inverzní matice k zadané matici neexistuje');
                     return;
                   }
                   setState(() {
@@ -356,5 +367,12 @@ class _CalcMatricesState extends State<CalcMatrices> {
         ],
       ),
     );
+  }
+
+  void showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
   }
 }
