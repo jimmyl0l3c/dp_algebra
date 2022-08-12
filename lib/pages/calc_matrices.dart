@@ -396,6 +396,14 @@ class _CalcMatricesState extends State<CalcMatrices> {
                     print(a);
                   },
                   child: const Text('Debug: Exchange rows 0. and 1.')),
+              OutlinedButton(
+                  onPressed: () {
+                    Matrix a = _matrices.values.first;
+                    print(a);
+                    Matrix t = a.getTriangular();
+                    print(t);
+                  },
+                  child: const Text('Debug: Triangular')),
             ],
           ),
           const Divider(),

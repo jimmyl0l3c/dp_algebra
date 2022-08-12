@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dp_algebra/matrices/matrix_exceptions.dart';
 import 'package:fraction/fraction.dart';
 
@@ -53,9 +55,13 @@ class Matrix {
     if (getRows() == 2) {
       return _matrix[0][0] * _matrix[1][1] - _matrix[0][1] * _matrix[1][0];
     }
-    // Sarrus? Gauss?
-    // TODO: implement
-    throw UnimplementedError();
+
+    Matrix triangular = getTriangular(isDeterminant: true);
+    Fraction output = Fraction(1);
+    for (var i = 0; i < triangular.getRows(); i++) {
+      output *= triangular[i][i];
+    }
+    return output.reduce();
   }
 
   Matrix getTransposed() {
@@ -71,6 +77,10 @@ class Matrix {
   }
 
   Matrix? getInverse() {
+    if (getDeterminant() == Fraction(0)) {
+      throw MatrixInverseImpossibleException();
+    }
+
     // TODO: implement
     throw UnimplementedError();
   }
@@ -78,6 +88,43 @@ class Matrix {
   int getRank() {
     // TODO: implement
     throw UnimplementedError();
+  }
+
+  Matrix getTriangular({bool isDeterminant = false}) {
+    int diagonal = min(getColumns(), getRows());
+    Matrix triangular = Matrix.from(this);
+    // Optimizations
+    Fraction zero = Fraction(0);
+    Fraction one = Fraction(1);
+    Fraction nOne = Fraction(-1);
+
+    for (var i = 0; i < (diagonal - 1); i++) {
+      int? nonZero;
+      // Find row with non-zero value
+      for (var j = 0; j < (getRows() - i); j++) {
+        if (triangular[j + i][i] != zero) {
+          nonZero = j + i;
+          // Prefer 1 over other non-zero values
+          if (triangular[j + i][i] == one) break;
+        }
+      }
+      if (nonZero == null) continue;
+
+      // Exchange rows if necessary
+      if (nonZero != i) {
+        triangular.exchangeRows(i, nonZero);
+        if (isDeterminant) triangular.multiplyRowByN(nonZero, nOne);
+      }
+
+      // Clear remaining rows
+      for (var j = 0; j < (getRows() - i - 1); j++) {
+        int row = i + 1 + j;
+        if (triangular[row][i] == zero) continue;
+        triangular.addRowToRowNTimes(
+            i, row, nOne * triangular[row][i] / triangular[i][i]);
+      }
+    }
+    return triangular;
   }
 
   void addRowToRowNTimes(int rowOrigin, int rowTarget, Fraction n) {
