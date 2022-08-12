@@ -399,14 +399,6 @@ class _CalcMatricesState extends State<CalcMatrices> {
                     print(a);
                   },
                   child: const Text('Debug: Exchange rows 0. and 1.')),
-              OutlinedButton(
-                  onPressed: () {
-                    Matrix a = _matrices.values.first;
-                    print(a);
-                    Fraction t = a.getMinor(1, 0);
-                    print(t);
-                  },
-                  child: const Text('Debug: Test')),
             ],
           ),
           const Divider(),

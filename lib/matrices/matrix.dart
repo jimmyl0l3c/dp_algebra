@@ -4,7 +4,6 @@ import 'package:dp_algebra/matrices/matrix_exceptions.dart';
 import 'package:fraction/fraction.dart';
 
 class Matrix {
-  // TODO: reduce fractions after operations (namely after transformations)
   List<List<Fraction>> _matrix = List<List<Fraction>>.empty(growable: true);
   Object?
       _stepByStep; // TODO: implement: Object containing steps of last (or last n) operation(s)
@@ -70,7 +69,7 @@ class Matrix {
     Matrix output = Matrix(rows: cols, columns: rows);
     for (var i = 0; i < rows; i++) {
       for (var j = 0; j < cols; j++) {
-        output[j][i] = _matrix[i][j];
+        output[j][i] = _matrix[i][j].reduce();
       }
     }
     return output;
@@ -165,21 +164,34 @@ class Matrix {
   }
 
   void addRowToRowNTimes(int rowOrigin, int rowTarget, Fraction n) {
-    // TODO: check if parameters arent out of bounds
+    if (rowOrigin < 0 ||
+        rowTarget < 0 ||
+        rowOrigin >= getRows() ||
+        rowTarget >= getRows()) {
+      throw MatrixOutOfBoundsException();
+    }
     int cols = getColumns();
     for (var c = 0; c < cols; c++) {
       _matrix[rowTarget][c] += n * _matrix[rowOrigin][c];
+      _matrix[rowTarget][c] = _matrix[rowTarget][c].reduce();
     }
   }
 
   void multiplyRowByN(int row, Fraction n) {
+    if (row < 0 || row >= getRows()) {
+      throw MatrixOutOfBoundsException();
+    }
     int cols = getColumns();
     for (var c = 0; c < cols; c++) {
       _matrix[row][c] *= n;
+      _matrix[row][c] = _matrix[row][c].reduce();
     }
   }
 
   void exchangeRows(int row1, int row2) {
+    if (row1 < 0 || row2 < 0 || row1 >= getRows() || row2 >= getRows()) {
+      throw MatrixOutOfBoundsException();
+    }
     var tmp = _matrix[row1];
     _matrix[row1] = _matrix[row2];
     _matrix[row2] = tmp;
