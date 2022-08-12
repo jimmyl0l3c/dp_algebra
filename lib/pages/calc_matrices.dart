@@ -352,6 +352,9 @@ class _CalcMatricesState extends State<CalcMatrices> {
                     showError(
                         context, 'Inverzní matice k zadané matici neexistuje');
                     return;
+                  } on MatrixIsNotSquareException {
+                    showError(context, 'Matice musí být čtvercová');
+                    return;
                   }
                   setState(() {
                     _solutions.add(Solution(
@@ -400,10 +403,10 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   onPressed: () {
                     Matrix a = _matrices.values.first;
                     print(a);
-                    Matrix t = a.getTriangular();
+                    Fraction t = a.getMinor(1, 0);
                     print(t);
                   },
-                  child: const Text('Debug: Triangular')),
+                  child: const Text('Debug: Test')),
             ],
           ),
           const Divider(),

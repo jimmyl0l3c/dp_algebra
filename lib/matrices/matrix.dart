@@ -77,13 +77,50 @@ class Matrix {
   }
 
   Matrix? getInverse() {
-    if (getDeterminant() == Fraction(0)) {
+    Fraction determinant = getDeterminant();
+    if (determinant == Fraction(0)) {
       throw MatrixInverseImpossibleException();
     }
 
-    // TODO: implement
-    throw UnimplementedError();
+    Matrix inverse = Matrix(rows: getRows(), columns: getColumns());
+    for (var r = 0; r < getRows(); r++) {
+      for (var c = 0; c < getRows(); c++) {
+        inverse[r][c] = getAlgSupplement(c, r);
+      }
+    }
+
+    return inverse * determinant.inverse();
   }
+
+  Fraction getMinor(int row, int column) {
+    if (getRows() != getColumns()) throw MatrixIsNotSquareException();
+    int n = getRows();
+    if (row < 0 || column < 0 || row >= n || column >= n) {
+      throw MatrixOutOfBoundsException();
+    }
+
+    // Skip row and column
+    Matrix minor = Matrix(rows: n - 1, columns: n - 1);
+    int rInc = 0, cInc = 0;
+    for (var r = 0; r < n; r++) {
+      if (r == row) {
+        rInc++;
+        continue;
+      }
+      cInc = 0;
+      for (var c = 0; c < n; c++) {
+        if (c == column) {
+          cInc++;
+          continue;
+        }
+        minor[r - rInc][c - cInc] = _matrix[r][c];
+      }
+    }
+    return minor.getDeterminant();
+  }
+
+  Fraction getAlgSupplement(int row, int column) =>
+      pow(-1, row + column + 2).toFraction() * getMinor(row, column);
 
   int getRank() {
     // TODO: implement
@@ -121,13 +158,14 @@ class Matrix {
         int row = i + 1 + j;
         if (triangular[row][i] == zero) continue;
         triangular.addRowToRowNTimes(
-            i, row, nOne * triangular[row][i] / triangular[i][i]);
+            i, row, triangular[row][i].negate() / triangular[i][i]);
       }
     }
     return triangular;
   }
 
   void addRowToRowNTimes(int rowOrigin, int rowTarget, Fraction n) {
+    // TODO: check if parameters arent out of bounds
     int cols = getColumns();
     for (var c = 0; c < cols; c++) {
       _matrix[rowTarget][c] += n * _matrix[rowOrigin][c];
