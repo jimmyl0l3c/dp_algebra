@@ -21,9 +21,9 @@ class MatrixInput extends StatefulWidget {
 }
 
 class _MatrixInputState extends State<MatrixInput> {
+  // TODO: add option to remove rows and columns
   @override
   Widget build(BuildContext context) {
-    print(widget.matrix.toString());
     return Card(
       child: Column(
         children: [

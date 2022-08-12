@@ -83,21 +83,26 @@ class _CalcMatricesState extends State<CalcMatrices> {
           const Text('Operace'),
           Row(
             children: [
-              const Text('Binární operace'),
+              const Text('Binární operace:'),
+              const SizedBox(
+                width: 8.0,
+              ),
               DropdownButton<String>(
-                value: _binaryLeft,
-                items: [
-                  for (var matrix in _matrices.entries)
-                    DropdownMenuItem(
-                      value: matrix.key,
-                      child: Text(matrix.key),
-                    ),
-                ],
-                onChanged: (String? val) {
-                  setState(() {
-                    _binaryLeft = val;
-                  });
-                },
+                  value: _binaryLeft,
+                  items: [
+                    for (var matrix in _matrices.entries)
+                      DropdownMenuItem(
+                        value: matrix.key,
+                        child: Text(matrix.key),
+                      ),
+                  ],
+                  onChanged: (String? val) {
+                    setState(() {
+                      _binaryLeft = val;
+                    });
+                  }),
+              const SizedBox(
+                width: 8.0,
               ),
               DropdownButton<String>(
                 value: _binaryOperation,
@@ -114,6 +119,9 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   });
                 },
               ),
+              const SizedBox(
+                width: 8.0,
+              ),
               DropdownButton<String>(
                 value: _binaryRight,
                 items: [
@@ -128,6 +136,9 @@ class _CalcMatricesState extends State<CalcMatrices> {
                     _binaryRight = val;
                   });
                 },
+              ),
+              const SizedBox(
+                width: 8.0,
               ),
               OutlinedButton(
                   onPressed: (_binaryLeft == null || _binaryRight == null)
@@ -201,6 +212,9 @@ class _CalcMatricesState extends State<CalcMatrices> {
           Row(
             children: [
               const Text('Násobení matice skalárem:'),
+              const SizedBox(
+                width: 8.0,
+              ),
               SizedBox(
                 width: 80,
                 child: FractionInput(
@@ -220,7 +234,16 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   value: _scalarC.toString(),
                 ),
               ),
-              const Icon(Icons.close),
+              const SizedBox(
+                width: 8.0,
+              ),
+              const Icon(
+                Icons.circle,
+                size: 12.0,
+              ),
+              const SizedBox(
+                width: 8.0,
+              ),
               ToggleButtons(
                 isSelected: [
                   for (var i = 0; i < _matrices.length; i++) false,
@@ -246,7 +269,10 @@ class _CalcMatricesState extends State<CalcMatrices> {
           ),
           Row(
             children: [
-              const Text('Determinant'),
+              const Text('Determinant:'),
+              const SizedBox(
+                width: 8.0,
+              ),
               ToggleButtons(
                 isSelected: [
                   for (var i = 0; i < _matrices.length; i++) false,
@@ -277,7 +303,10 @@ class _CalcMatricesState extends State<CalcMatrices> {
           ),
           Row(
             children: [
-              const Text('Transponovaná matice'),
+              const Text('Transponovaná matice:'),
+              const SizedBox(
+                width: 8.0,
+              ),
               ToggleButtons(
                 isSelected: [
                   for (var i = 0; i < _matrices.length; i++) false,
@@ -302,7 +331,10 @@ class _CalcMatricesState extends State<CalcMatrices> {
           ),
           Row(
             children: [
-              const Text('Inverzní matice'),
+              const Text('Inverzní matice:'),
+              const SizedBox(
+                width: 8.0,
+              ),
               ToggleButtons(
                 isSelected: [
                   for (var i = 0; i < _matrices.length; i++) false,

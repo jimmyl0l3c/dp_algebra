@@ -2,6 +2,7 @@ import 'package:dp_algebra/matrices/matrix_exceptions.dart';
 import 'package:fraction/fraction.dart';
 
 class Matrix {
+  // TODO: reduce fractions after operations (namely after transformations)
   List<List<Fraction>> _matrix = List<List<Fraction>>.empty(growable: true);
   Object?
       _stepByStep; // TODO: implement: Object containing steps of last (or last n) operation(s)
