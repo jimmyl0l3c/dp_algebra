@@ -2,38 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fraction/fraction.dart';
 
-class FractionInput extends StatefulWidget {
+class FractionInput extends StatelessWidget {
   final ValueChanged<String> onChanged;
-  final String? initialValue;
+  final TextEditingController? controller;
 
-  const FractionInput({
+  FractionInput({
     Key? key,
     required this.onChanged,
-    required this.initialValue,
-  }) : super(key: key);
+    required value,
+  })  : controller = TextEditingController(text: value),
+        super(key: key);
 
-  @override
-  State<FractionInput> createState() => _FractionInputState();
-}
-
-class _FractionInputState extends State<FractionInput> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      decoration: const InputDecoration(
-        hintText: '0',
-        border: OutlineInputBorder(),
-      ),
-      keyboardType:
-          const TextInputType.numberWithOptions(decimal: true, signed: true),
-      onChanged: widget.onChanged,
+      onChanged: onChanged,
+      controller: controller,
       inputFormatters: [
         FilteringTextInputFormatter(
           RegExp(r'^[+-]?[0-9]*[./]?[0-9]*'),
           allow: true,
         )
       ],
-      initialValue: widget.initialValue,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (String? value) {
         if (value == null || value.isEmpty) return null;
@@ -54,6 +44,12 @@ class _FractionInputState extends State<FractionInput> {
         if (!value.isFraction) return 'Neplatná hodnota';
         return null;
       },
+      keyboardType:
+          const TextInputType.numberWithOptions(decimal: true, signed: true),
+      decoration: const InputDecoration(
+        hintText: '0',
+        border: OutlineInputBorder(),
+      ),
     );
   }
 }

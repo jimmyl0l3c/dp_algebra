@@ -217,7 +217,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                       _scalarC = value.toFraction();
                     }
                   },
-                  initialValue: _scalarC.toString(),
+                  value: _scalarC.toString(),
                 ),
               ),
               const Icon(Icons.close),
@@ -338,7 +338,9 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   onPressed: () {
                     Matrix a = _matrices.values.first;
                     print(a);
-                    a.addRowToRowNTimes(0, 1, Fraction(-3, 2));
+                    setState(() {
+                      a.addRowToRowNTimes(0, 1, Fraction(-3, 2));
+                    });
                     print(a);
                   },
                   child: const Text('Debug: 1.row + (-3/2) * 0.row')),
@@ -346,7 +348,9 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   onPressed: () {
                     Matrix a = _matrices.values.first;
                     print(a);
-                    a.multiplyRowByN(1, Fraction(-2));
+                    setState(() {
+                      a.multiplyRowByN(1, Fraction(-2));
+                    });
                     print(a);
                   },
                   child: const Text('Debug: 1.row * (-2)')),
@@ -354,7 +358,9 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   onPressed: () {
                     Matrix a = _matrices.values.first;
                     print(a);
-                    a.exchangeRows(0, 1);
+                    setState(() {
+                      a.exchangeRows(0, 1);
+                    });
                     print(a);
                   },
                   child: const Text('Debug: Exchange rows 0. and 1.')),
