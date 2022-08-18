@@ -48,6 +48,7 @@ class _AlgebraAppState extends State<AlgebraApp> {
   Widget build(BuildContext context) => RouteStateScope(
         notifier: _routeState,
         child: MaterialApp.router(
+          title: 'Lineární Algebra',
           routeInformationParser: _routeParser,
           routerDelegate: _routerDelegate,
           theme: ThemeData(),
