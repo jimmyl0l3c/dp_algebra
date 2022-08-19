@@ -20,9 +20,11 @@ class Menu extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             children: [
-              const ElevatedButton(
-                onPressed: null,
-                child: Text('Výuka'),
+              ElevatedButton(
+                onPressed: () {
+                  routeState.go('/chapter');
+                },
+                child: const Text('Výuka'),
               ),
               const SizedBox(height: 8.0),
               const ElevatedButton(

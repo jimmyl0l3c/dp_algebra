@@ -23,8 +23,10 @@ class _AlgebraAppState extends State<AlgebraApp> {
     _routeParser = RouteParser(
       allowedPaths: [
         '/',
-        '/chapters',
+        '/chapter',
         '/chapter/:chapterId',
+        '/chapter/:chapterId/:articleId',
+        '/chapter/:chapterId/:articleId/:pageId',
         '/exercise',
         '/exercise/:exerciseId',
         '/calc',

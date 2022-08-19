@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../routing/route_state.dart';
 import 'calc_matrices.dart';
-import 'calc_menu.dart';
 import 'menu.dart';
+import 'section_menu.dart';
 
 class AlgebraNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -19,6 +19,7 @@ class AlgebraNavigator extends StatefulWidget {
 
 class _AlgebraNavigatorState extends State<AlgebraNavigator> {
   final _menuKey = const ValueKey('Main menu key');
+  final _chapterKey = const ValueKey('Learn chapter key');
   final _calcKey = const ValueKey('Calculator key');
   final _calcSectionKey = const ValueKey('Calculator section key');
   final _tempKey = const ValueKey('Temporary unimplemented key');
@@ -57,11 +58,33 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             key: _menuKey,
             child: const Menu(),
           )
-        else if (routeState.route.pathTemplate == '/calc' ||
-            routeState.route.pathTemplate == '/calc/:calcId')
+        else if (routeState.route.pathTemplate.startsWith('/calc'))
           MaterialPage(
             key: _calcKey,
-            child: const CalcMenu(),
+            child: SectionMenu(
+              title: 'Kalkulačka',
+              sections: [
+                Section(
+                    title: 'Operace s maticemi',
+                    subtitle:
+                        'Součet, rozdíl, součin, vlastnosti matic (hodnost, determinant)',
+                    path: '/calc/0'),
+                Section(title: 'Soustavy lineárních rovnic'),
+                Section(
+                  title: 'Vektorové prostory',
+                  subtitle:
+                      'Lineární (ne)závislost vektorů, nalezení báze, transformace souřadnic od báze k bázi, ...',
+                ),
+              ],
+            ),
+          )
+        else if (routeState.route.pathTemplate.startsWith('/chapter'))
+          MaterialPage(
+            key: _chapterKey,
+            child: const SectionMenu(
+              title: 'Výuka - Výběr kapitoly',
+              sections: [],
+            ),
           )
         else
           MaterialPage(
