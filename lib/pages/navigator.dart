@@ -1,9 +1,13 @@
+import 'package:dp_algebra/pages/learn_chapter.dart';
 import 'package:flutter/material.dart';
 
+import '../dev.dart';
+import '../models/learn_chapter.dart';
 import '../routing/route_state.dart';
 import 'calc_matrices.dart';
+import 'calc_menu.dart';
+import 'learn_menu.dart';
 import 'menu.dart';
-import 'section_menu.dart';
 
 class AlgebraNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -19,6 +23,7 @@ class AlgebraNavigator extends StatefulWidget {
 
 class _AlgebraNavigatorState extends State<AlgebraNavigator> {
   final _menuKey = const ValueKey('Main menu key');
+  final _chapterMenuKey = const ValueKey('Learn chapter menu key');
   final _chapterKey = const ValueKey('Learn chapter key');
   final _calcKey = const ValueKey('Calculator key');
   final _calcSectionKey = const ValueKey('Calculator section key');
@@ -29,8 +34,11 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
     final routeState = RouteStateScope.of(context);
     final pathTemplate = routeState.route.pathTemplate;
 
+    LChapter? currentChapter;
     if (pathTemplate == '/chapter/:chapterId') {
-      // find chapter
+      int? chapterId = int.tryParse(routeState.route.parameters['chapterId']!);
+      // TODO: obtain data from db
+      currentChapter = Dev.learnData.firstWhere((c) => c.id == chapterId);
     }
 
     if (pathTemplate == '/exercise/:exerciseId') {
@@ -45,9 +53,12 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
     return Navigator(
       key: widget.navigatorKey,
       onPopPage: (route, dynamic result) {
-        if (route.settings is Page &&
-            (route.settings as Page).key == _calcSectionKey) {
-          routeState.go('/calc');
+        if (route.settings is Page) {
+          if ((route.settings as Page).key == _calcSectionKey) {
+            routeState.go('/calc');
+          } else if ((route.settings as Page).key == _chapterKey) {
+            routeState.go('/chapter');
+          }
         }
 
         return route.didPop(result);
@@ -61,30 +72,12 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
         else if (routeState.route.pathTemplate.startsWith('/calc'))
           MaterialPage(
             key: _calcKey,
-            child: SectionMenu(
-              title: 'Kalkulačka',
-              sections: [
-                Section(
-                    title: 'Operace s maticemi',
-                    subtitle:
-                        'Součet, rozdíl, součin, vlastnosti matic (hodnost, determinant)',
-                    path: '/calc/0'),
-                Section(title: 'Soustavy lineárních rovnic'),
-                Section(
-                  title: 'Vektorové prostory',
-                  subtitle:
-                      'Lineární (ne)závislost vektorů, nalezení báze, transformace souřadnic od báze k bázi, ...',
-                ),
-              ],
-            ),
+            child: const CalcMenu(),
           )
         else if (routeState.route.pathTemplate.startsWith('/chapter'))
           MaterialPage(
-            key: _chapterKey,
-            child: const SectionMenu(
-              title: 'Výuka - Výběr kapitoly',
-              sections: [],
-            ),
+            key: _chapterMenuKey,
+            child: const LearnMenu(),
           )
         else
           MaterialPage(
@@ -92,6 +85,11 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             child: const Text('Unimplemented'),
           ),
 
+        if (currentChapter != null)
+          MaterialPage(
+            key: _chapterKey,
+            child: LearnChapter(chapter: currentChapter),
+          ),
         // Add page to stack if /calc/:calcId
         if (calcId == '0')
           MaterialPage(
