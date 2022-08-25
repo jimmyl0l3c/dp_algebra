@@ -11,12 +11,12 @@ enum MatrixOperation {
   ),
   multiply(
     description: 'Součin',
-    symbol: '*',
+    symbol: r'\cdot',
     binary: true,
   ),
   det(
     description: 'Determinant',
-    symbol: 'det',
+    symbol: r'\text{det}',
     prependSymbol: true,
     binary: false,
   ),

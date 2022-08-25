@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dp_algebra/matrices/extensions.dart';
 import 'package:dp_algebra/matrices/matrix_exceptions.dart';
 import 'package:fraction/fraction.dart';
 
@@ -294,6 +295,26 @@ class Matrix {
       }
     }
     buffer.write(')');
+    return buffer.toString();
+  }
+
+  String toTeX({bool isDeterminant = false}) {
+    StringBuffer buffer = StringBuffer();
+    int rows = getRows();
+    int cols = getColumns();
+
+    buffer.write('\\begin{${isDeterminant ? 'v' : 'p'}matrix} ');
+
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        buffer.write(_matrix[r][c].reduce().toTeX());
+
+        if (c != (cols - 1)) buffer.write(' & ');
+      }
+      if (r != (rows - 1)) buffer.write(r' \\ ');
+    }
+
+    buffer.write(' \\end{${isDeterminant ? 'v' : 'p'}matrix}');
     return buffer.toString();
   }
 
