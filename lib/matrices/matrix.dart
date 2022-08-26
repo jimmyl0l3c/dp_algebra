@@ -49,22 +49,22 @@ class Matrix {
 
   void setValue(int r, int c, Fraction value) => _matrix[r][c] = value;
 
-  Fraction getDeterminant() {
+  Fraction determinant() {
     if (getRows() != getColumns()) throw MatrixIsNotSquareException();
     if (getRows() == 1) return _matrix.first.first;
     if (getRows() == 2) {
       return _matrix[0][0] * _matrix[1][1] - _matrix[0][1] * _matrix[1][0];
     }
 
-    Matrix triangular = getTriangular(isDeterminant: true);
+    Matrix triangularM = triangular(isDeterminant: true);
     Fraction output = Fraction(1);
-    for (var i = 0; i < triangular.getRows(); i++) {
-      output *= triangular[i][i];
+    for (var i = 0; i < triangularM.getRows(); i++) {
+      output *= triangularM[i][i];
     }
     return output.reduce();
   }
 
-  Matrix getTransposed() {
+  Matrix transposed() {
     int rows = getRows();
     int cols = getColumns();
     Matrix output = Matrix(rows: cols, columns: rows);
@@ -76,23 +76,23 @@ class Matrix {
     return output;
   }
 
-  Matrix? getInverse() {
-    Fraction determinant = getDeterminant();
-    if (determinant == Fraction(0)) {
+  Matrix? inverse() {
+    Fraction det = determinant();
+    if (det == Fraction(0)) {
       throw MatrixInverseImpossibleException();
     }
 
     Matrix inverse = Matrix(rows: getRows(), columns: getColumns());
     for (var r = 0; r < getRows(); r++) {
       for (var c = 0; c < getRows(); c++) {
-        inverse[r][c] = getAlgSupplement(c, r);
+        inverse[r][c] = algSupplement(c, r);
       }
     }
 
-    return inverse * determinant.inverse();
+    return inverse * det.inverse();
   }
 
-  Fraction getMinor(int row, int column) {
+  Fraction minor(int row, int column) {
     if (getRows() != getColumns()) throw MatrixIsNotSquareException();
     int n = getRows();
     if (row < 0 || column < 0 || row >= n || column >= n) {
@@ -116,18 +116,18 @@ class Matrix {
         minor[r - rInc][c - cInc] = _matrix[r][c];
       }
     }
-    return minor.getDeterminant();
+    return minor.determinant();
   }
 
-  Fraction getAlgSupplement(int row, int column) =>
-      pow(-1, row + column + 2).toFraction() * getMinor(row, column);
+  Fraction algSupplement(int row, int column) =>
+      pow(-1, row + column + 2).toFraction() * minor(row, column);
 
-  int getRank() {
+  int rank() {
     // TODO: implement
     throw UnimplementedError();
   }
 
-  Matrix getTriangular({bool isDeterminant = false}) {
+  Matrix triangular({bool isDeterminant = false}) {
     int diagonal = min(getColumns(), getRows());
     Matrix triangular = Matrix.from(this);
     // Optimizations
@@ -201,7 +201,7 @@ class Matrix {
   bool isSameSizeAs(Matrix other) =>
       getRows() == other.getRows() && getColumns() == other.getColumns();
 
-  Matrix entryWiseOperation(
+  Matrix doEntryWiseOperation(
       Matrix other, Fraction Function(Fraction, Fraction) operation) {
     if (!isSameSizeAs(other)) throw MatrixSizeMismatchException();
 
@@ -233,9 +233,11 @@ class Matrix {
     return true;
   }
 
-  Matrix operator +(Matrix other) => entryWiseOperation(other, (a, b) => a + b);
+  Matrix operator +(Matrix other) =>
+      doEntryWiseOperation(other, (a, b) => a + b);
 
-  Matrix operator -(Matrix other) => entryWiseOperation(other, (a, b) => a - b);
+  Matrix operator -(Matrix other) =>
+      doEntryWiseOperation(other, (a, b) => a - b);
 
   Matrix operator *(dynamic other) {
     if (other is Fraction) {

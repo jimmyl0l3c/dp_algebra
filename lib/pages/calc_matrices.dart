@@ -285,7 +285,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   if (m == null) return;
                   Fraction? solution;
                   try {
-                    solution = m.getDeterminant();
+                    solution = m.determinant();
                   } on MatrixIsNotSquareException {
                     showError(context, 'Matice musí být čtvercová');
                     return;
@@ -317,7 +317,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                 onPressed: (int index) {
                   Matrix? m = _matrices[_matrices.keys.elementAt(index)];
                   if (m == null) return;
-                  Matrix? solution = m.getTransposed();
+                  Matrix? solution = m.transposed();
                   setState(() {
                     _solutions.add(Solution(
                       leftOp: Matrix.from(m),
@@ -347,7 +347,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   if (m == null) return;
                   Matrix? solution;
                   try {
-                    solution = m.getInverse();
+                    solution = m.inverse();
                   } on MatrixInverseImpossibleException {
                     showError(
                         context, 'Inverzní matice k zadané matici neexistuje');
