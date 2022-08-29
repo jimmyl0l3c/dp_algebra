@@ -4,7 +4,7 @@ import 'package:dp_algebra/models/learn_article.dart';
 import 'package:dp_algebra/models/learn_chapter.dart';
 import 'package:dp_algebra/models/learn_page.dart';
 
-/// Everything inside this folder is for development purposes only
+/// Everything inside this file is for development purposes only
 /// and should be removed before release
 
 class Dev {
@@ -19,9 +19,8 @@ class Dev {
           [
             LPage(
               0,
-              'unnecessary field',
-              [],
               0,
+              [],
             )
           ],
           0,
@@ -32,9 +31,8 @@ class Dev {
           [
             LPage(
               0,
-              'unnecessary field',
-              [],
               1,
+              [],
             )
           ],
           0,
@@ -45,9 +43,8 @@ class Dev {
           [
             LPage(
               0,
-              'unnecessary field',
-              [],
               2,
+              [],
             )
           ],
           0,
@@ -58,9 +55,8 @@ class Dev {
           [
             LPage(
               0,
-              'unnecessary field',
-              [],
               3,
+              [],
             )
           ],
           0,
@@ -77,38 +73,35 @@ class Dev {
           [
             LPage(
               0,
-              'unnecessary field',
-              [],
               0,
+              [],
             )
           ],
           1,
         ),
         LArticle(
-          0,
+          1,
           'Hodnost matice',
           [
             LPage(
               0,
-              'unnecessary field',
-              [],
               0,
+              [],
             )
           ],
-          0,
+          1,
         ),
         LArticle(
-          0,
+          2,
           'Báze',
           [
             LPage(
               0,
-              'unnecessary field',
-              [],
               0,
+              [],
             )
           ],
-          0,
+          1,
         ),
       ],
     ),
@@ -122,44 +115,42 @@ class Dev {
           [
             LPage(
               0,
-              'unnecessary field',
-              [],
               0,
+              [],
             )
           ],
-          0,
+          2,
         ),
         LArticle(
-          0,
+          1,
           'Gaussova eliminační metoda',
           [
             LPage(
               0,
-              'unnecessary field',
-              [],
               0,
+              [],
             )
           ],
-          0,
+          2,
         ),
         LArticle(
-          0,
+          2,
           'Cramerovo pravidlo',
           [
             LPage(
               0,
-              'unnecessary field',
-              [],
               0,
+              [],
             )
           ],
-          0,
+          2,
         ),
       ],
     ),
   ];
 
   static StreamController<List<LChapter>>? _devChapterStreamController;
+  static StreamController<List<LArticle>>? _devArticleStreamController;
 
   static Stream<List<LChapter>> getChapterStream() {
     _devChapterStreamController = StreamController<List<LChapter>>();
@@ -167,7 +158,18 @@ class Dev {
     return _devChapterStreamController!.stream;
   }
 
-  static void disposeStream() {
+  static void disposeChapterStream() {
     _devChapterStreamController?.close();
+  }
+
+  static Stream<List<LArticle>> getArticleStream(int chapterId) {
+    _devArticleStreamController = StreamController<List<LArticle>>();
+    _devArticleStreamController!.add(
+        learnData.firstWhere((element) => element.id == chapterId).articles);
+    return _devArticleStreamController!.stream;
+  }
+
+  static void disposeArticleStream() {
+    _devArticleStreamController?.close();
   }
 }

@@ -1,3 +1,5 @@
+import 'package:dp_algebra/models/learn_article.dart';
+import 'package:dp_algebra/pages/learn_article.dart';
 import 'package:dp_algebra/pages/learn_chapter.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +27,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
   final _menuKey = const ValueKey('Main menu key');
   final _chapterMenuKey = const ValueKey('Learn chapter menu key');
   final _chapterKey = const ValueKey('Learn chapter key');
+  final _articleKey = const ValueKey('Learn article key');
   final _calcKey = const ValueKey('Calculator key');
   final _calcSectionKey = const ValueKey('Calculator section key');
   final _tempKey = const ValueKey('Temporary unimplemented key');
@@ -35,10 +38,19 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
     final pathTemplate = routeState.route.pathTemplate;
 
     LChapter? currentChapter;
-    if (pathTemplate == '/chapter/:chapterId') {
+    LArticle? currentArticle;
+    if (pathTemplate.startsWith('/chapter/:chapterId')) {
       int? chapterId = int.tryParse(routeState.route.parameters['chapterId']!);
       // TODO: obtain data from db
       currentChapter = Dev.learnData.firstWhere((c) => c.id == chapterId);
+
+      if (pathTemplate.startsWith('/chapter/:chapterId/:articleId')) {
+        int? articleId =
+            int.tryParse(routeState.route.parameters['articleId']!);
+        // TODO: obtain data from db
+        currentArticle =
+            currentChapter.articles.firstWhere((a) => a.id == articleId);
+      }
     }
 
     if (pathTemplate == '/exercise/:exerciseId') {
@@ -58,6 +70,8 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             routeState.go('/calc');
           } else if ((route.settings as Page).key == _chapterKey) {
             routeState.go('/chapter');
+          } else if ((route.settings as Page).key == _articleKey) {
+            routeState.go('/chapter/${currentChapter?.id}');
           }
         }
 
@@ -89,6 +103,11 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
           MaterialPage(
             key: _chapterKey,
             child: LearnChapter(chapter: currentChapter),
+          ),
+        if (currentArticle != null)
+          MaterialPage(
+            key: _articleKey,
+            child: LearnArticle(article: currentArticle),
           ),
         // Add page to stack if /calc/:calcId
         if (calcId == '0')

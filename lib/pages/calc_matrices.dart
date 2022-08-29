@@ -6,7 +6,7 @@ import 'package:fraction/fraction.dart';
 
 import '../matrices/matrix.dart';
 import '../matrices/matrix_exceptions.dart';
-import '../matrices/solution.dart';
+import '../matrices/matrix_solution.dart';
 import '../widgets/matrix_input.dart';
 
 class CalcMatrices extends StatefulWidget {
@@ -25,7 +25,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
   String? _binaryOperation = '+';
   Fraction? _scalarC = Fraction(1);
 
-  final List<Solution> _solutions = [];
+  final List<MatrixSolution> _solutions = [];
 
   _CalcMatricesState() {
     _matrices = {'A': Matrix(columns: 2, rows: 2)};
@@ -185,7 +185,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                           }
                           Matrix leftOp = Matrix.from(a);
                           setState(() {
-                            _solutions.add(Solution(
+                            _solutions.add(MatrixSolution(
                               leftOp: leftOp,
                               rightOp: a == b ? leftOp : Matrix.from(b),
                               operation: operation!,
@@ -256,7 +256,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   if (m == null) return;
                   Matrix? solution = m * _scalarC;
                   setState(() {
-                    _solutions.add(Solution(
+                    _solutions.add(MatrixSolution(
                       leftOp: _scalarC,
                       rightOp: Matrix.from(m),
                       operation: MatrixOperation.multiply,
@@ -291,7 +291,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                     return;
                   }
                   setState(() {
-                    _solutions.add(Solution(
+                    _solutions.add(MatrixSolution(
                       leftOp: Matrix.from(m),
                       operation: MatrixOperation.det,
                       solution: solution,
@@ -319,7 +319,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   if (m == null) return;
                   Matrix? solution = m.transposed();
                   setState(() {
-                    _solutions.add(Solution(
+                    _solutions.add(MatrixSolution(
                       leftOp: Matrix.from(m),
                       operation: MatrixOperation.transpose,
                       solution: solution,
@@ -357,7 +357,7 @@ class _CalcMatricesState extends State<CalcMatrices> {
                     return;
                   }
                   setState(() {
-                    _solutions.add(Solution(
+                    _solutions.add(MatrixSolution(
                       leftOp: Matrix.from(m),
                       operation: MatrixOperation.inverse,
                       solution: solution,

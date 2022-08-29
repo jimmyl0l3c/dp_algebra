@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
 import '../matrices/matrix.dart';
-import '../matrices/solution.dart';
+import '../matrices/matrix_solution.dart';
 
 class SolutionView extends StatelessWidget {
-  final Solution solution;
+  final MatrixSolution solution;
   final Map<String, Matrix> matrices;
 
   const SolutionView({

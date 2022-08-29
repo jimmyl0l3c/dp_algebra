@@ -202,7 +202,10 @@ class Matrix {
       getRows() == other.getRows() && getColumns() == other.getColumns();
 
   Matrix doEntryWiseOperation(
-      Matrix other, Fraction Function(Fraction, Fraction) operation) {
+    Matrix other,
+    Fraction Function(Fraction, Fraction) operation,
+    String operationSymbol,
+  ) {
     if (!isSameSizeAs(other)) throw MatrixSizeMismatchException();
 
     int rows = getRows();
@@ -234,10 +237,10 @@ class Matrix {
   }
 
   Matrix operator +(Matrix other) =>
-      doEntryWiseOperation(other, (a, b) => a + b);
+      doEntryWiseOperation(other, (a, b) => a + b, '+');
 
   Matrix operator -(Matrix other) =>
-      doEntryWiseOperation(other, (a, b) => a - b);
+      doEntryWiseOperation(other, (a, b) => a - b, '-');
 
   Matrix operator *(dynamic other) {
     if (other is Fraction) {
@@ -274,9 +277,7 @@ class Matrix {
     }
   }
 
-  List<Fraction> operator [](int i) {
-    return _matrix[i];
-  }
+  List<Fraction> operator [](int i) => _matrix[i];
 
   @override
   String toString() {

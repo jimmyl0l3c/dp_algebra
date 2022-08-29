@@ -4,14 +4,14 @@ import 'package:fraction/fraction.dart';
 import 'matrix.dart';
 import 'matrix_operations.dart';
 
-class Solution {
+class MatrixSolution {
   final dynamic leftOp;
   final Matrix? rightOp;
   final MatrixOperation operation;
   final dynamic solution;
   final Object? stepByStep;
 
-  Solution({
+  MatrixSolution({
     required this.leftOp,
     this.rightOp,
     required this.operation,
@@ -34,7 +34,9 @@ class Solution {
   String toTeX() {
     StringBuffer buffer = StringBuffer();
 
-    if (operation.prependSymbol) buffer.write(operation.symbol);
+    if (operation.prependSymbol) {
+      buffer.write(operation.symbol);
+    }
 
     if (operation.enclose) buffer.write('(');
     buffer.write(_matrixOrFractionToTex(leftOp));
