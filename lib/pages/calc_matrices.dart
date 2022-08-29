@@ -366,40 +366,6 @@ class _CalcMatricesState extends State<CalcMatrices> {
                 ),
               ],
             ),
-            Row(
-              children: [
-                OutlinedButton(
-                    onPressed: () {
-                      Matrix a = _matrices.values.first;
-                      print(a);
-                      setState(() {
-                        a.addRowToRowNTimes(0, 1, Fraction(-3, 2));
-                      });
-                      print(a);
-                    },
-                    child: const Text('Debug: 1.row + (-3/2) * 0.row')),
-                OutlinedButton(
-                    onPressed: () {
-                      Matrix a = _matrices.values.first;
-                      print(a);
-                      setState(() {
-                        a.multiplyRowByN(1, Fraction(-2));
-                      });
-                      print(a);
-                    },
-                    child: const Text('Debug: 1.row * (-2)')),
-                OutlinedButton(
-                    onPressed: () {
-                      Matrix a = _matrices.values.first;
-                      print(a);
-                      setState(() {
-                        a.exchangeRows(0, 1);
-                      });
-                      print(a);
-                    },
-                    child: const Text('Debug: Exchange rows 0. and 1.')),
-              ],
-            ),
             const Divider(),
             const Text('Výsledky:'),
             for (var solution in _solutions.reversed)

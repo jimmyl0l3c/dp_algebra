@@ -50,7 +50,7 @@ class Matrix {
   void setValue(int r, int c, Fraction value) => _matrix[r][c] = value;
 
   Fraction determinant() {
-    if (getRows() != getColumns()) throw MatrixIsNotSquareException();
+    if (!isSquare()) throw MatrixIsNotSquareException();
     if (getRows() == 1) return _matrix.first.first;
     if (getRows() == 2) {
       return _matrix[0][0] * _matrix[1][1] - _matrix[0][1] * _matrix[1][0];
@@ -93,7 +93,7 @@ class Matrix {
   }
 
   Fraction minor(int row, int column) {
-    if (getRows() != getColumns()) throw MatrixIsNotSquareException();
+    if (!isSquare()) throw MatrixIsNotSquareException();
     int n = getRows();
     if (row < 0 || column < 0 || row >= n || column >= n) {
       throw MatrixOutOfBoundsException();
@@ -197,6 +197,8 @@ class Matrix {
     _matrix[row1] = _matrix[row2];
     _matrix[row2] = tmp;
   }
+
+  bool isSquare() => getRows() == getColumns();
 
   bool isSameSizeAs(Matrix other) =>
       getRows() == other.getRows() && getColumns() == other.getColumns();
