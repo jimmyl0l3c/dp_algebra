@@ -40,6 +40,7 @@ dependencies:
   path_to_regexp: ^0.4.0
   fraction: ^4.1.2
   flutter_math_fork: ^0.6.3+1
+  backendless_sdk: ^7.2.6
 
 dev_dependencies:
   flutter_test:

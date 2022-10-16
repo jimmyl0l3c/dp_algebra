@@ -1,9 +1,11 @@
+import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/navigator.dart';
 import 'routing/delegate.dart';
 import 'routing/parser.dart';
 import 'routing/route_state.dart';
+import 'secrets.dart';
 
 class AlgebraApp extends StatefulWidget {
   const AlgebraApp({Key? key}) : super(key: key);
@@ -43,6 +45,13 @@ class _AlgebraAppState extends State<AlgebraApp> {
             ),
         navigatorKey: _navigatorKey);
 
+    Backendless.setUrl('https://eu-api.backendless.com');
+    Backendless.initApp(
+      applicationId: AlgebraSecrets.applicationId,
+      androidApiKey: AlgebraSecrets.androidApiKey,
+      iosApiKey: AlgebraSecrets.iosApiKey,
+      jsApiKey: AlgebraSecrets.jsApiKey,
+    );
     super.initState();
   }
 
