@@ -48,8 +48,6 @@ class _AlgebraAppState extends State<AlgebraApp> {
     Backendless.setUrl('https://eu-api.backendless.com');
     Backendless.initApp(
       applicationId: AlgebraSecrets.applicationId,
-      androidApiKey: AlgebraSecrets.androidApiKey,
-      iosApiKey: AlgebraSecrets.iosApiKey,
       jsApiKey: AlgebraSecrets.jsApiKey,
     );
     super.initState();
