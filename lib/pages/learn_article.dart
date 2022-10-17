@@ -3,7 +3,7 @@ import 'package:dp_algebra/widgets/main_scaffold.dart';
 import 'package:flutter/material.dart';
 
 class LearnArticle extends StatelessWidget {
-  final LArticle article;
+  final Future<LArticle?> article;
 
   const LearnArticle({
     Key? key,
@@ -13,7 +13,7 @@ class LearnArticle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      title: article.title,
+      title: 'Test',
       child: Container(),
     );
   }

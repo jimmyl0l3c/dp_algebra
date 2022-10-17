@@ -1,4 +1,4 @@
-import 'package:dp_algebra/dev.dart';
+import 'package:dp_algebra/data/db_helper.dart';
 import 'package:dp_algebra/models/learn_chapter.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +13,8 @@ class LearnMenu extends StatelessWidget {
     return MainScaffold(
       isSectionRoot: true,
       title: 'Výuka - Výběr kapitoly',
-      child: StreamBuilder<List<LChapter>>(
-          stream: Dev.getChapterStream(),
+      child: FutureBuilder<List<LChapter>?>(
+          future: DbHelper.findAllChapters(),
           builder: (context, snapshot) {
             if (!snapshot.hasData || snapshot.data == null) {
               return const Text('Loading...');

@@ -1,9 +1,9 @@
+import 'package:dp_algebra/data/db_helper.dart';
 import 'package:dp_algebra/models/learn_article.dart';
 import 'package:dp_algebra/pages/learn_article.dart';
 import 'package:dp_algebra/pages/learn_chapter.dart';
 import 'package:flutter/material.dart';
 
-import '../dev.dart';
 import '../models/learn_chapter.dart';
 import '../routing/route_state.dart';
 import 'calc_matrices.dart';
@@ -37,19 +37,23 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
     final routeState = RouteStateScope.of(context);
     final pathTemplate = routeState.route.pathTemplate;
 
-    LChapter? currentChapter;
-    LArticle? currentArticle;
+    int? currentChapterId;
+    int? curentArticleId;
+    Future<LChapter?>? currentChapter;
+    Future<LArticle?>? currentArticle;
     if (pathTemplate.startsWith('/chapter/:chapterId')) {
-      int? chapterId = int.tryParse(routeState.route.parameters['chapterId']!);
-      // TODO: obtain data from db
-      currentChapter = Dev.learnData.firstWhere((c) => c.id == chapterId);
+      currentChapterId =
+          int.tryParse(routeState.route.parameters['chapterId']!);
+      currentChapter = currentChapterId != null
+          ? DbHelper.findChapter(currentChapterId)
+          : null;
 
       if (pathTemplate.startsWith('/chapter/:chapterId/:articleId')) {
-        int? articleId =
+        curentArticleId =
             int.tryParse(routeState.route.parameters['articleId']!);
-        // TODO: obtain data from db
-        currentArticle =
-            currentChapter.articles.firstWhere((a) => a.id == articleId);
+        // TODO: obtain from db
+        // currentArticle =
+        //     currentChapter.articles.firstWhere((a) => a.id == articleId);
       }
     }
 
@@ -71,7 +75,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
           } else if ((route.settings as Page).key == _chapterKey) {
             routeState.go('/chapter');
           } else if ((route.settings as Page).key == _articleKey) {
-            routeState.go('/chapter/${currentChapter?.id}');
+            routeState.go('/chapter/$currentChapterId');
           }
         }
 

@@ -9,9 +9,6 @@ class LBlock {
   final String? title;
   final String content;
 
-  final BlockSize? size; // TODO: remove BockSize? (or make it non-nullable)
-  final bool isImage;
-
   LBlock({
     required this.id,
     required this.pageId,
@@ -19,9 +16,20 @@ class LBlock {
     this.number,
     this.title,
     required this.content,
-    this.size,
-    this.isImage = false,
   });
+
+  LBlock.fromJson(Map<dynamic, dynamic> json)
+      : id = json["id"],
+        pageId = json["pageId"],
+        type = _getType(json["content"]),
+        number = null,
+        title = json["title"],
+        content = json["content"];
+
+  static BlockType _getType(String content) {
+    // TODO: implement logic
+    return BlockType.none;
+  }
 }
 
 enum BlockType {
@@ -30,16 +38,6 @@ enum BlockType {
   lemma,
   consequence,
   remark,
+  image,
   none;
-}
-
-enum BlockSize {
-  fullPage(4),
-  long(3),
-  normal(2),
-  short(1);
-
-  final int value;
-
-  const BlockSize(this.value);
 }
