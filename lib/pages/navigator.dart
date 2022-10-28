@@ -41,6 +41,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
 
     int? currentChapterId;
     int? currentArticleId;
+    int? currentPageId;
     Future<LChapter?>? currentChapter;
     Future<LArticle?>? currentArticle;
     if (pathTemplate.startsWith('/chapter/:chapterId')) {
@@ -53,9 +54,14 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
       if (pathTemplate.startsWith('/chapter/:chapterId/:articleId')) {
         currentArticleId =
             int.tryParse(routeState.route.parameters['articleId']!);
-        // TODO: obtain from db
-        // currentArticle =
-        //     currentChapter.articles.firstWhere((a) => a.id == articleId);
+        currentArticle = currentArticleId != null
+            ? DbHelper.findArticle(currentArticleId)
+            : null;
+
+        if (pathTemplate.startsWith('/chapter/:chapterId/:articleId/:pageId')) {
+          currentPageId = int.tryParse(routeState.route.parameters['pageId']!);
+          // TODO: obtain page
+        }
       }
     }
 

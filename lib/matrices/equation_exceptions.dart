@@ -1,0 +1,1 @@
+class EqNotSolvableByCramerException implements Exception {}

@@ -12,9 +12,26 @@ class LearnArticle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(
-      title: 'Test',
-      child: Container(),
-    );
+    return FutureBuilder<LArticle?>(
+        future: article,
+        builder: (context, snapshot) {
+          Widget? body;
+          if (snapshot.hasData) {
+            if (snapshot.data != null) {
+              body = Container();
+            } else {
+              body = const Text('No pages found');
+            }
+          } else {
+            body = const Text('Loading...');
+          }
+
+          return MainScaffold(
+            title: snapshot.hasData && snapshot.data != null
+                ? snapshot.data!.title
+                : 'Loading ...',
+            child: body,
+          );
+        });
   }
 }

@@ -1,8 +1,13 @@
 import 'package:dp_algebra/data/calc_data_controller.dart';
+import 'package:dp_algebra/matrices/equation_solution.dart';
 import 'package:dp_algebra/widgets/equation_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
+import '../matrices/equation_exceptions.dart';
+import '../matrices/equation_matrix.dart';
+import '../matrices/matrix.dart';
+import '../matrices/matrix_exceptions.dart';
 import '../widgets/main_scaffold.dart';
 
 class CalcEquations extends StatelessWidget {
@@ -28,9 +33,23 @@ class CalcEquations extends StatelessWidget {
               onPressed: null,
               child: Text('Inverzní matice'),
             ),
-            const OutlinedButton(
-              onPressed: null,
-              child: Text('Cramerovo pravidlo'),
+            OutlinedButton(
+              onPressed: () {
+                EquationMatrix m = CalcDataController.getEquationMatrix();
+                try {
+                  Matrix solution = m.solveByCramer();
+                  CalcDataController.addEquationSolution(EquationSolution(
+                    equationMatrix: m, // TODO: clone
+                    solution: solution,
+                  ));
+                } on MatrixIsNotSquareException {
+                  showError(context, 'Matice rovnice musí být čtvercová');
+                } on EqNotSolvableByCramerException {
+                  showError(context,
+                      'Determinant matice rovnice nesmí být roven nula');
+                }
+              },
+              child: const Text('Cramerovo pravidlo'),
             ),
             const Divider(),
             const Text('Výsledky:'),
@@ -54,5 +73,12 @@ class CalcEquations extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
   }
 }

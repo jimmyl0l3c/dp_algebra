@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:dp_algebra/matrices/equation_matrix.dart';
+
 import '../matrices/equation_solution.dart';
-import '../matrices/matrix.dart';
 import '../matrices/matrix_solution.dart';
 
 class CalcDataController {
   static final List<MatrixSolution> _matrixSolutions = [];
-  static final Matrix _equationMatrix = Matrix(columns: 3);
+  static final EquationMatrix _equationMatrix = EquationMatrix(columns: 3);
   static final List<EquationSolution> _equationSolutions = [];
 
   static final StreamController<List<MatrixSolution>>
@@ -32,9 +33,9 @@ class CalcDataController {
   }
 
   static void dispose() {
-    _matrixSolutionStreamController.close();
-    _equationSolutionsStreamController.close();
+    // _matrixSolutionStreamController.close();
+    // _equationSolutionsStreamController.close();
   }
 
-  static Matrix getEquationMatrix() => _equationMatrix;
+  static EquationMatrix getEquationMatrix() => _equationMatrix;
 }

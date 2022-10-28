@@ -47,6 +47,20 @@ class Matrix {
     _matrix.add(row);
   }
 
+  List<Fraction> removeColumn(int index) {
+    List<Fraction> removed = [];
+
+    for (var row in _matrix) {
+      removed.add(row.removeAt(index));
+    }
+
+    return removed;
+  }
+
+  List<Fraction> removeRow(int index) {
+    return _matrix.removeAt(index);
+  }
+
   void setValue(int r, int c, Fraction value) => _matrix[r][c] = value;
 
   Fraction determinant() {

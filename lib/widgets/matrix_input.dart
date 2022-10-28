@@ -90,7 +90,7 @@ class _MatrixInputState extends State<MatrixInput> {
                   });
                 },
                 child: const Text('+ Sloupec'),
-              )
+              ),
             ],
           )
         ],

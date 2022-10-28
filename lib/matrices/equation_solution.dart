@@ -1,7 +1,8 @@
+import 'equation_matrix.dart';
 import 'matrix.dart';
 
 class EquationSolution {
-  final Matrix equationMatrix;
+  final EquationMatrix equationMatrix;
   final Matrix solution;
   final Object? stepByStep;
 
@@ -16,7 +17,7 @@ class EquationSolution {
 
     buffer.write(r'(A\vert y^T)=');
     buffer.write(equationMatrix.toTeX());
-    buffer.write(', ');
+    buffer.write(', x=');
     buffer.write(solution.toTeX());
 
     return buffer.toString();
