@@ -1,5 +1,7 @@
+import 'package:dp_algebra/data/calc_data_controller.dart';
 import 'package:dp_algebra/data/db_helper.dart';
 import 'package:dp_algebra/models/learn_article.dart';
+import 'package:dp_algebra/pages/calc_equations.dart';
 import 'package:dp_algebra/pages/learn_article.dart';
 import 'package:dp_algebra/pages/learn_chapter.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +40,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
     final pathTemplate = routeState.route.pathTemplate;
 
     int? currentChapterId;
-    int? curentArticleId;
+    int? currentArticleId;
     Future<LChapter?>? currentChapter;
     Future<LArticle?>? currentArticle;
     if (pathTemplate.startsWith('/chapter/:chapterId')) {
@@ -49,7 +51,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
           : null;
 
       if (pathTemplate.startsWith('/chapter/:chapterId/:articleId')) {
-        curentArticleId =
+        currentArticleId =
             int.tryParse(routeState.route.parameters['articleId']!);
         // TODO: obtain from db
         // currentArticle =
@@ -71,6 +73,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
       onPopPage: (route, dynamic result) {
         if (route.settings is Page) {
           if ((route.settings as Page).key == _calcSectionKey) {
+            CalcDataController.dispose();
             routeState.go('/calc');
           } else if ((route.settings as Page).key == _chapterKey) {
             routeState.go('/chapter');
@@ -118,6 +121,11 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
           MaterialPage(
             key: _calcSectionKey,
             child: const CalcMatrices(),
+          ),
+        if (calcId == '1')
+          MaterialPage(
+            key: _calcSectionKey,
+            child: const CalcEquations(),
           ),
       ],
     );

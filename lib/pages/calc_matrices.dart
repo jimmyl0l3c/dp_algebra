@@ -1,3 +1,4 @@
+import 'package:dp_algebra/data/calc_data_controller.dart';
 import 'package:dp_algebra/matrices/matrix_operations.dart';
 import 'package:dp_algebra/widgets/fraction_input.dart';
 import 'package:dp_algebra/widgets/main_scaffold.dart';
@@ -25,8 +26,6 @@ class _CalcMatricesState extends State<CalcMatrices> {
   String? _binaryRight = 'A';
   String? _binaryOperation = '+';
   Fraction? _scalarC = Fraction(1);
-
-  final List<MatrixSolution> _solutions = [];
 
   _CalcMatricesState() {
     _matrices = {'A': Matrix(columns: 2, rows: 2)};
@@ -183,14 +182,12 @@ class _CalcMatricesState extends State<CalcMatrices> {
                               return;
                             }
                             Matrix leftOp = Matrix.from(a);
-                            setState(() {
-                              _solutions.add(MatrixSolution(
-                                leftOp: leftOp,
-                                rightOp: a == b ? leftOp : Matrix.from(b),
-                                operation: operation!,
-                                solution: solution,
-                              ));
-                            });
+                            CalcDataController.addMatrixSolution(MatrixSolution(
+                              leftOp: leftOp,
+                              rightOp: a == b ? leftOp : Matrix.from(b),
+                              operation: operation,
+                              solution: solution,
+                            ));
                           },
                     child: const Text('=')),
                 IconButton(
@@ -254,14 +251,12 @@ class _CalcMatricesState extends State<CalcMatrices> {
                     Matrix? m = _matrices[_matrices.keys.elementAt(index)];
                     if (m == null) return;
                     Matrix? solution = m * _scalarC;
-                    setState(() {
-                      _solutions.add(MatrixSolution(
-                        leftOp: _scalarC,
-                        rightOp: Matrix.from(m),
-                        operation: MatrixOperation.multiply,
-                        solution: solution,
-                      ));
-                    });
+                    CalcDataController.addMatrixSolution(MatrixSolution(
+                      leftOp: _scalarC,
+                      rightOp: Matrix.from(m),
+                      operation: MatrixOperation.multiply,
+                      solution: solution,
+                    ));
                   },
                 ),
               ],
@@ -289,13 +284,11 @@ class _CalcMatricesState extends State<CalcMatrices> {
                       showError(context, 'Matice musí být čtvercová');
                       return;
                     }
-                    setState(() {
-                      _solutions.add(MatrixSolution(
-                        leftOp: Matrix.from(m),
-                        operation: MatrixOperation.det,
-                        solution: solution,
-                      ));
-                    });
+                    CalcDataController.addMatrixSolution(MatrixSolution(
+                      leftOp: Matrix.from(m),
+                      operation: MatrixOperation.det,
+                      solution: solution,
+                    ));
                   },
                 ),
               ],
@@ -317,13 +310,11 @@ class _CalcMatricesState extends State<CalcMatrices> {
                     Matrix? m = _matrices[_matrices.keys.elementAt(index)];
                     if (m == null) return;
                     Matrix? solution = m.transposed();
-                    setState(() {
-                      _solutions.add(MatrixSolution(
-                        leftOp: Matrix.from(m),
-                        operation: MatrixOperation.transpose,
-                        solution: solution,
-                      ));
-                    });
+                    CalcDataController.addMatrixSolution(MatrixSolution(
+                      leftOp: Matrix.from(m),
+                      operation: MatrixOperation.transpose,
+                      solution: solution,
+                    ));
                   },
                 ),
               ],
@@ -355,21 +346,35 @@ class _CalcMatricesState extends State<CalcMatrices> {
                       showError(context, 'Matice musí být čtvercová');
                       return;
                     }
-                    setState(() {
-                      _solutions.add(MatrixSolution(
-                        leftOp: Matrix.from(m),
-                        operation: MatrixOperation.inverse,
-                        solution: solution,
-                      ));
-                    });
+
+                    CalcDataController.addMatrixSolution(MatrixSolution(
+                      leftOp: Matrix.from(m),
+                      operation: MatrixOperation.inverse,
+                      solution: solution,
+                    ));
                   },
                 ),
               ],
             ),
             const Divider(),
             const Text('Výsledky:'),
-            for (var solution in _solutions.reversed)
-              SolutionView(solution: solution, matrices: _matrices),
+            StreamBuilder(
+              stream: CalcDataController.matrixSolutionStream,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Container();
+                }
+
+                List<Widget> results = [];
+                for (var solution in snapshot.data!.reversed) {
+                  results.add(
+                      SolutionView(solution: solution, matrices: _matrices));
+                }
+                return Column(
+                  children: results,
+                );
+              },
+            )
           ],
         ),
       ),

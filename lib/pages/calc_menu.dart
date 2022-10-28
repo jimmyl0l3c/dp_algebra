@@ -14,11 +14,15 @@ class CalcMenu extends StatelessWidget {
       child: SectionMenu(
         sections: [
           Section(
-              title: 'Operace s maticemi',
-              subtitle:
-                  'Součet, rozdíl, součin, vlastnosti matic (hodnost, determinant)',
-              path: '/calc/0'),
-          Section(title: 'Soustavy lineárních rovnic'),
+            title: 'Operace s maticemi',
+            subtitle:
+                'Součet, rozdíl, součin, vlastnosti matic (hodnost, determinant)',
+            path: '/calc/0',
+          ),
+          Section(
+            title: 'Soustavy lineárních rovnic',
+            path: '/calc/1',
+          ),
           Section(
             title: 'Vektorové prostory',
             subtitle:
