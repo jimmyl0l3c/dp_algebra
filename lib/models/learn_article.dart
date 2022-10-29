@@ -12,13 +12,17 @@ class LArticle {
       {this.description});
 
   LArticle.fromJson(Map<dynamic, dynamic> json, {int manChapterId = -1})
-      : id = json["id"],
+      : id = json["article_id"],
         order = json["order"],
-        chapterId = json["chapterId"] ?? manChapterId,
+        chapterId = json["chapterId"] != null
+            ? (json["chapterId"]["chapter_id"] ?? manChapterId)
+            : manChapterId,
         title = json["title"],
         description = json["description"],
-        pages = json.containsKey("pages") ? _pagesFromJson(json["pages"]) : [];
+        pages = json.containsKey("pages")
+            ? _pagesFromJson(json["pages"], json["article_id"])
+            : [];
 
-  static List<LPage> _pagesFromJson(List<Map<dynamic, dynamic>> pages) =>
-      pages.map((p) => LPage.fromJson(p)).toList();
+  static List<LPage> _pagesFromJson(List<dynamic> pages, int id) =>
+      pages.map((p) => LPage.fromJson(p, manArticleId: id)).toList();
 }

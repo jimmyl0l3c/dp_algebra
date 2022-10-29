@@ -16,7 +16,7 @@ class LearnMenu extends StatelessWidget {
       child: FutureBuilder<List<LChapter>?>(
           future: DbHelper.findAllChapters(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData || snapshot.data == null) {
+            if (!snapshot.hasData) {
               return const Text('Loading...');
             }
 

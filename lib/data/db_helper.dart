@@ -14,7 +14,7 @@ class DbHelper {
   static Future<LChapter?> findChapter(int id) => Backendless.data
           .of('algebra_learn_chapter')
           .find(DataQueryBuilder()
-            ..whereClause = "id = $id"
+            ..whereClause = "chapter_id = $id"
             ..relationsDepth = 1
             ..related = ['articles'])
           .then((value) {
@@ -22,14 +22,23 @@ class DbHelper {
         return LChapter.fromJson(value.first!);
       });
 
-  static Future<LArticle?> findArticle(int id) => Backendless.data
+  static Future<LArticle?> findArticle(int chapterId, int articleId) =>
+      Backendless.data
           .of('algebra_learn_article')
           .find(DataQueryBuilder()
-            ..whereClause = "id = $id"
+            ..whereClause = "chapterId = $chapterId and article_id = $articleId"
             ..relationsDepth = 1
-            ..related = ['pages'])
+            ..related = ['pages', 'chapterId'])
           .then((value) {
         if (value == null || value.first == null) return null;
-        return LArticle.fromJson(value.first!);
+        try {
+          // TODO: remove this or log it properly
+          return LArticle.fromJson(value.first!);
+        } on Error catch (err) {
+          print(err);
+        } on Exception catch (ex) {
+          print(ex);
+        }
+        return null;
       });
 }

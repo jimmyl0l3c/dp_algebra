@@ -8,9 +8,9 @@ class LPage {
 
   LPage(this.id, this.articleId, this.blocks, {this.title});
 
-  LPage.fromJson(Map<dynamic, dynamic> json)
-      : id = json["id"],
-        articleId = json["articleId"],
+  LPage.fromJson(Map<dynamic, dynamic> json, {int manArticleId = -1})
+      : id = json["page_id"],
+        articleId = json["articleId"] ?? manArticleId,
         title = json["title"],
         blocks =
             json.containsKey("blocks") ? _blocksFromJson(json["blocks"]) : [];

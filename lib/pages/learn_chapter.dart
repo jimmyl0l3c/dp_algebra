@@ -19,7 +19,7 @@ class LearnChapter extends StatelessWidget {
         future: chapter,
         builder: (context, snapshot) {
           Widget? body;
-          if (snapshot.hasData && snapshot.data != null) {
+          if (snapshot.hasData) {
             List<LArticle> articles = snapshot.data!.articles
               ..sort((a, b) => a.order.compareTo(b.order));
             body = SectionMenu(
@@ -37,9 +37,7 @@ class LearnChapter extends StatelessWidget {
           }
 
           return MainScaffold(
-            title: snapshot.hasData && snapshot.data != null
-                ? snapshot.data!.title
-                : 'Loading ...',
+            title: snapshot.hasData ? snapshot.data!.title : 'Loading ...',
             child: body,
           );
         });

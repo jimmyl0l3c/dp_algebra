@@ -54,8 +54,8 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
       if (pathTemplate.startsWith('/chapter/:chapterId/:articleId')) {
         currentArticleId =
             int.tryParse(routeState.route.parameters['articleId']!);
-        currentArticle = currentArticleId != null
-            ? DbHelper.findArticle(currentArticleId)
+        currentArticle = currentChapterId != null && currentArticleId != null
+            ? DbHelper.findArticle(currentChapterId, currentArticleId)
             : null;
 
         if (pathTemplate.startsWith('/chapter/:chapterId/:articleId/:pageId')) {

@@ -19,7 +19,7 @@ class LBlock {
   });
 
   LBlock.fromJson(Map<dynamic, dynamic> json)
-      : id = json["id"],
+      : id = json["block_id"],
         pageId = json["pageId"],
         type = _getType(json["content"]),
         number = null,

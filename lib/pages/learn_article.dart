@@ -16,20 +16,21 @@ class LearnArticle extends StatelessWidget {
         future: article,
         builder: (context, snapshot) {
           Widget? body;
+          String title = 'Loading...';
           if (snapshot.hasData) {
-            if (snapshot.data != null) {
-              body = Container();
-            } else {
-              body = const Text('No pages found');
-            }
+            title = snapshot.data!.title;
+            body = Container();
           } else {
-            body = const Text('Loading...');
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              body = const Text('Loading...');
+            } else {
+              title = 'Article 404';
+              body = const Text('Article not found');
+            }
           }
 
           return MainScaffold(
-            title: snapshot.hasData && snapshot.data != null
-                ? snapshot.data!.title
-                : 'Loading ...',
+            title: title,
             child: body,
           );
         });
