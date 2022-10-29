@@ -1,8 +1,11 @@
 import 'package:dp_algebra/models/learn_article.dart';
+import 'package:dp_algebra/models/learn_page.dart';
 import 'package:dp_algebra/widgets/main_scaffold.dart';
 import 'package:flutter/material.dart';
 
-class LearnArticle extends StatelessWidget {
+import '../widgets/lpage_view.dart';
+
+class LearnArticle extends StatefulWidget {
   final Future<LArticle?> article;
 
   const LearnArticle({
@@ -11,26 +14,96 @@ class LearnArticle extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<LearnArticle> createState() => _LearnArticleState();
+}
+
+class _LearnArticleState extends State<LearnArticle> {
+  int currentPage = 0;
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<LArticle?>(
-        future: article,
+        future: widget.article,
         builder: (context, snapshot) {
           Widget? body;
           String title = 'Loading...';
+          Widget? forwardButton;
+          Widget? backwardButton;
+          Widget? floatingButton;
+
           if (snapshot.hasData) {
             title = snapshot.data!.title;
-            body = Container();
+
+            List<LPage> pages = snapshot.data!.pages;
+            pages.sort(
+              (a, b) => a.order.compareTo(b.order),
+            );
+
+            if (pages.length > currentPage + 1) {
+              forwardButton = FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    currentPage++;
+                  });
+                },
+                child: const Icon(
+                  Icons.arrow_forward,
+                  size: 40,
+                ),
+              );
+            }
+
+            if (currentPage > 0) {
+              backwardButton = FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    currentPage--;
+                  });
+                },
+                child: const Icon(
+                  Icons.arrow_back,
+                  size: 40,
+                ),
+              );
+            }
+
+            if (backwardButton != null || forwardButton != null) {
+              floatingButton = Stack(
+                fit: StackFit.expand,
+                children: [
+                  if (backwardButton != null)
+                    Positioned(
+                      right: 100,
+                      bottom: 20,
+                      child: backwardButton,
+                    ),
+                  if (forwardButton != null)
+                    Positioned(
+                      right: 30,
+                      bottom: 20,
+                      child: forwardButton,
+                    ),
+                ],
+              );
+            }
+
+            body = Container(
+              child: pages.isEmpty
+                  ? const Text('Article is empty')
+                  : LPageView(page: pages[currentPage]),
+            );
           } else {
             if (snapshot.connectionState == ConnectionState.waiting) {
               body = const Text('Loading...');
             } else {
-              title = 'Article 404';
+              title = 'Not found';
               body = const Text('Article not found');
             }
           }
 
           return MainScaffold(
             title: title,
+            floatingActionButton: floatingButton,
             child: body,
           );
         });

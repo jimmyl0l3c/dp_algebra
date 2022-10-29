@@ -6,12 +6,14 @@ class MainScaffold extends StatelessWidget {
   final String title;
   final Widget? child;
   final bool isSectionRoot;
+  final Widget? floatingActionButton;
 
   const MainScaffold({
     Key? key,
     required this.title,
     this.child,
     this.isSectionRoot = false,
+    this.floatingActionButton,
   }) : super(key: key);
 
   @override
@@ -31,6 +33,8 @@ class MainScaffold extends StatelessWidget {
             : null,
       ),
       body: child,
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
