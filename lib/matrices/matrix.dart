@@ -137,8 +137,21 @@ class Matrix {
       pow(-1, row + column + 2).toFraction() * minor(row, column);
 
   int rank() {
-    // TODO: implement
-    throw UnimplementedError();
+    Matrix m = Matrix.from(this);
+    Fraction zero = Fraction(0);
+    int rank = 0;
+
+    m.reduce();
+    for (var i = 0; i < getRows(); i++) {
+      for (var j = 0; j < getColumns(); j++) {
+        if (m[i][j] != zero) {
+          rank++;
+          break;
+        }
+      }
+    }
+
+    return rank;
   }
 
   Matrix triangular({bool isDeterminant = false}) {
@@ -176,6 +189,26 @@ class Matrix {
       }
     }
     return triangular;
+  }
+
+  void reduce() {
+    Fraction zero = Fraction(0);
+
+    for (var i = 0; i < getRows(); i++) {
+      for (var j = 0; j < getColumns(); j++) {
+        if (_matrix[i][j] != zero) {
+          multiplyRowByN(i, _matrix[i][j].inverse());
+
+          for (var k = 0; k < getRows(); k++) {
+            if (k == i) continue;
+
+            addRowToRowNTimes(i, k, _matrix[k][j].negate());
+          }
+
+          break;
+        }
+      }
+    }
   }
 
   void addRowToRowNTimes(int rowOrigin, int rowTarget, Fraction n) {

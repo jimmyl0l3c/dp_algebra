@@ -13,6 +13,11 @@ class EquationMatrix extends Matrix {
     return A.isSquare() && A.determinant() != 0.toFraction();
   }
 
+  bool isSolvable() {
+    Matrix A = Matrix.from(this)..removeColumn(getColumns() - 1);
+    return A.rank() == rank();
+  }
+
   Matrix solveByCramer() {
     Matrix A = Matrix.from(this);
     List<Fraction> yT = A.removeColumn(getColumns() - 1);
@@ -32,6 +37,21 @@ class EquationMatrix extends Matrix {
     }
 
     return solution;
+  }
+
+  Matrix solveByGauss() {
+    Matrix A = Matrix.from(this);
+    Matrix solution = Matrix(columns: A.getColumns());
+
+    if (!isSolvable()) {
+      throw EquationsNotSolvableException();
+    }
+
+    // TODO: implement
+    // A.triangular();
+    A.reduce();
+
+    return A;
   }
 
   @override

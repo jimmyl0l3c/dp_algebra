@@ -25,9 +25,20 @@ class CalcEquations extends StatelessWidget {
             ),
             const Divider(),
             const Text('Metody řešení'),
-            const OutlinedButton(
-              onPressed: null,
-              child: Text('Gaussova eliminační metoda'),
+            OutlinedButton(
+              onPressed: () {
+                EquationMatrix m = CalcDataController.getEquationMatrix();
+                try {
+                  Matrix solution = m.solveByGauss();
+                  CalcDataController.addEquationSolution(EquationSolution(
+                    equationMatrix: m, // TODO: clone
+                    solution: solution,
+                  ));
+                } on EquationsNotSolvableException {
+                  showError(context, 'Soustava rovnic není řešitelná');
+                }
+              },
+              child: const Text('Gaussova eliminační metoda'),
             ),
             const OutlinedButton(
               onPressed: null,
@@ -59,7 +70,7 @@ class CalcEquations extends StatelessWidget {
                 if (!snapshot.hasData) return Container();
 
                 List<Widget> solutions = [];
-                for (var solution in snapshot.data!) {
+                for (var solution in snapshot.data!.reversed) {
                   solutions.add(Math.tex(
                     solution.toTeX(),
                     textScaleFactor: 1.4,
