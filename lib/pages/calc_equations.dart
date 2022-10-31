@@ -40,9 +40,20 @@ class CalcEquations extends StatelessWidget {
               },
               child: const Text('Gaussova eliminační metoda'),
             ),
-            const OutlinedButton(
-              onPressed: null,
-              child: Text('Inverzní matice'),
+            OutlinedButton(
+              onPressed: () {
+                EquationMatrix m = CalcDataController.getEquationMatrix();
+                try {
+                  Matrix solution = m.solveByInverse();
+                  CalcDataController.addEquationSolution(EquationSolution(
+                    equationMatrix: m, // TODO: clone
+                    solution: solution,
+                  ));
+                } on MatrixInverseImpossibleException {
+                  showError(context, 'Matice rovnice nemá inverzní matici');
+                }
+              },
+              child: const Text('Inverzní matice'),
             ),
             OutlinedButton(
               onPressed: () {

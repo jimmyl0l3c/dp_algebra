@@ -40,18 +40,31 @@ class EquationMatrix extends Matrix {
   }
 
   Matrix solveByGauss() {
-    Matrix A = Matrix.from(this);
-    Matrix solution = Matrix(columns: A.getColumns());
-
     if (!isSolvable()) {
       throw EquationsNotSolvableException();
     }
 
-    // TODO: implement
-    // A.triangular();
+    Matrix A = triangular();
+    Matrix solution = Matrix(columns: A.getColumns());
+
     A.reduce();
+    // TODO: implement
 
     return A;
+  }
+
+  Matrix solveByInverse() {
+    Matrix A = Matrix.from(this);
+    List<Fraction> yValues = A.removeColumn(getColumns() - 1);
+
+    Matrix yT = Matrix(columns: 1, rows: yValues.length);
+    for (var i = 0; i < yValues.length; i++) {
+      yT[i][0] = yValues[i];
+    }
+
+    Matrix invA = A.inverse();
+
+    return (invA * yT).transposed();
   }
 
   @override

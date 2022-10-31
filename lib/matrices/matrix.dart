@@ -90,7 +90,7 @@ class Matrix {
     return output;
   }
 
-  Matrix? inverse() {
+  Matrix inverse() {
     Fraction det = determinant();
     if (det == Fraction(0)) {
       throw MatrixInverseImpossibleException();
