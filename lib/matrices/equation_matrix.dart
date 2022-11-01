@@ -1,12 +1,15 @@
-import 'package:dp_algebra/matrices/extensions.dart';
 import 'package:fraction/fraction.dart';
 
+import 'extensions.dart';
 import 'equation_exceptions.dart';
 import 'matrix.dart';
 
 class EquationMatrix extends Matrix {
   EquationMatrix({int columns = 1, int rows = 1, int defaultValue = 0})
       : super(columns: columns, rows: rows, defaultValue: defaultValue);
+
+  EquationMatrix.from(EquationMatrix m)
+      : super.from(m);
 
   bool isSolvableByCramer() {
     Matrix A = Matrix.from(this)..removeColumn(getColumns() - 1);
