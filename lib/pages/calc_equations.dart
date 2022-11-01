@@ -29,10 +29,10 @@ class CalcEquations extends StatelessWidget {
               onPressed: () {
                 EquationMatrix m = CalcDataController.getEquationMatrix();
                 try {
-                  Matrix solution = m.solveByGauss();
+                  GeneralSolution solution = m.solveByGauss();
                   CalcDataController.addEquationSolution(EquationSolution(
                     equationMatrix: EquationMatrix.from(m),
-                    solution: solution,
+                    generalSolution: solution,
                   ));
                 } on EquationsNotSolvableException {
                   showError(context, 'Soustava rovnic není řešitelná');
@@ -51,6 +51,8 @@ class CalcEquations extends StatelessWidget {
                   ));
                 } on MatrixInverseImpossibleException {
                   showError(context, 'Matice rovnice nemá inverzní matici');
+                } on MatrixIsNotSquareException {
+                  showError(context, 'Matice rovnice musí být čtvercová');
                 }
               },
               child: const Text('Inverzní matice'),

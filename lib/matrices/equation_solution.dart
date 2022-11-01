@@ -3,12 +3,14 @@ import 'matrix.dart';
 
 class EquationSolution {
   final EquationMatrix equationMatrix;
-  final Matrix solution;
+  final Matrix? solution;
+  final GeneralSolution? generalSolution;
   final Object? stepByStep;
 
   EquationSolution({
     required this.equationMatrix,
-    required this.solution,
+    this.solution,
+    this.generalSolution,
     this.stepByStep,
   });
 
@@ -18,7 +20,13 @@ class EquationSolution {
     buffer.write(r'(A\vert y^T)=');
     buffer.write(equationMatrix.toTeX());
     buffer.write(', x=');
-    buffer.write(solution.toTeX());
+    if (solution != null) {
+      buffer.write(solution?.toTeX());
+    } else if (generalSolution != null) {
+      buffer.write(generalSolution?.toTeX());
+    } else {
+      buffer.write('()');
+    }
 
     return buffer.toString();
   }

@@ -8,8 +8,7 @@ class EquationMatrix extends Matrix {
   EquationMatrix({int columns = 1, int rows = 1, int defaultValue = 0})
       : super(columns: columns, rows: rows, defaultValue: defaultValue);
 
-  EquationMatrix.from(EquationMatrix m)
-      : super.from(m);
+  EquationMatrix.from(EquationMatrix m) : super.from(m);
 
   bool isSolvableByCramer() {
     Matrix A = Matrix.from(this)..removeColumn(getColumns() - 1);
@@ -42,18 +41,31 @@ class EquationMatrix extends Matrix {
     return solution;
   }
 
-  Matrix solveByGauss() {
+  GeneralSolution solveByGauss() {
     if (!isSolvable()) {
       throw EquationsNotSolvableException();
     }
 
-    Matrix A = triangular();
-    Matrix solution = Matrix(columns: A.getColumns());
+    Matrix A = triangular()..reduce();
 
-    A.reduce();
-    // TODO: implement
+    Fraction zero = Fraction(0);
+    GeneralSolution solution = GeneralSolution(A.getColumns() - 1);
+    for (var r = 0; r < A.getRows(); r++) {
+      for (var c = 0; c < A.getColumns() - 1; c++) {
+        if (A[r][c] != zero) {
+          for (var i = c + 1; i < A.getColumns(); i++) {
+            if (i == A.getColumns() - 1) {
+              solution.updateNumSolution(c, A[r][i]);
+            } else {
+              solution.updateSolution(c, i, A[r][i].negate());
+            }
+          }
+          break;
+        }
+      }
+    }
 
-    return A;
+    return solution;
   }
 
   Matrix solveByInverse() {
@@ -97,6 +109,110 @@ class EquationMatrix extends Matrix {
 
     buffer.write(r'\end{matrix} \right)');
 
+    return buffer.toString();
+  }
+}
+
+class GeneralSolution {
+  final Map<int, Map<int, Fraction>> _solution = {};
+  final Map<int, Fraction> _numSolution = {};
+
+  GeneralSolution(int variableCount) {
+    for (var i = 0; i < variableCount; i++) {
+      _solution[i] = {i: 1.toFraction()}; // all variables are free by default
+      _numSolution[i] = 0.toFraction();
+    }
+  }
+
+  void updateSolution(variableNum, key, value) {
+    if (!_solution.containsKey(variableNum)) return;
+
+    _solution[variableNum]![key] = value;
+    _solution[variableNum]!.remove(variableNum); // remove, not a free variable
+  }
+
+  void updateNumSolution(variableNum, value) {
+    if (!_numSolution.containsKey(variableNum)) return;
+
+    _numSolution[variableNum] = value;
+    _solution[variableNum]!.remove(variableNum); // remove, not a free variable
+  }
+
+  @override
+  String toString() {
+    StringBuffer buffer = StringBuffer('x = (');
+    Fraction zero = Fraction(0);
+    Fraction one = Fraction(1);
+    Fraction minusOne = Fraction(-1);
+
+    for (var i = 0; i < _solution.length; i++) {
+      if (_numSolution[i] != zero) {
+        buffer.write(_numSolution[i]);
+      }
+
+      _solution[i]?.forEach((key, value) {
+        if (value > zero && _numSolution[i] != zero) {
+          buffer.write('+');
+        }
+        if (value != zero) {
+          if (value == minusOne) {
+            buffer.write('-');
+          } else if (value == one) {
+            buffer.write('+');
+          } else {
+            buffer.write(value);
+          }
+          buffer.write('x$key');
+        }
+      });
+
+      if (i != _solution.length - 1) {
+        buffer.write('; ');
+      }
+    }
+
+    buffer.write(')');
+    return buffer.toString();
+  }
+
+  String toTeX() {
+    Fraction zero = Fraction(0);
+    Fraction one = Fraction(1);
+    Fraction minusOne = Fraction(-1);
+
+    StringBuffer buffer = StringBuffer(r'\begin{pmatrix} ');
+
+    bool notZero = false;
+    for (var i = 0; i < _solution.length; i++) {
+      if (_numSolution[i] != zero) {
+        buffer.write(_numSolution[i]);
+        notZero = true;
+      }
+
+      _solution[i]?.forEach((key, value) {
+        if (value > zero && _numSolution[i] != zero) {
+          buffer.write('+');
+        }
+        if (value != zero) {
+          if (value == minusOne) {
+            buffer.write('-');
+          } else if (value == one && notZero) {
+            buffer.write('+');
+          } else if (value != one) {
+            buffer.write(value);
+          }
+          buffer.write('x_{$key}');
+          notZero = true;
+        }
+      });
+
+      if (i != _solution.length - 1) {
+        buffer.write(r' & ');
+      }
+      notZero = false;
+    }
+
+    buffer.write(r' \end{pmatrix}');
     return buffer.toString();
   }
 }
