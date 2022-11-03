@@ -9,6 +9,14 @@ class LPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('id: ${page.id}');
+    return ListView.builder(
+      itemCount: page.blocks.length,
+      itemBuilder: (context, index) {
+        return SizedBox(
+          height: 100,
+          child: Center(child: Text(page.blocks[index].content)),
+        );
+      },
+    );
   }
 }

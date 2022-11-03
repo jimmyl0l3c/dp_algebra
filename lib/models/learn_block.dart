@@ -18,9 +18,9 @@ class LBlock {
     required this.content,
   });
 
-  LBlock.fromJson(Map<dynamic, dynamic> json)
+  LBlock.fromJson(Map<dynamic, dynamic> json, {int manPageId = -1})
       : id = json["block_id"],
-        pageId = json["pageId"],
+        pageId = json["pageId"] ?? manPageId,
         type = _getType(json["content"]),
         number = null,
         title = json["title"],

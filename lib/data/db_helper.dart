@@ -27,12 +27,13 @@ class DbHelper {
           .of('algebra_learn_article')
           .find(DataQueryBuilder()
             ..whereClause = "chapterId = $chapterId and article_id = $articleId"
-            ..relationsDepth = 1
-            ..related = ['pages', 'chapterId'])
+            ..relationsDepth = 2
+            ..related = ['pages', 'chapterId', 'pages.blocks'])
           .then((value) {
         if (value == null || value.first == null) return null;
         try {
           // TODO: remove this or log it properly
+          print(value);
           return LArticle.fromJson(value.first!);
         } on Error catch (err) {
           print(err);

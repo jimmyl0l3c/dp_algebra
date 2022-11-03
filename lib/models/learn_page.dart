@@ -14,9 +14,10 @@ class LPage {
         articleId = json["articleId"] ?? manArticleId,
         order = json["order"],
         title = json["title"],
-        blocks =
-            json.containsKey("blocks") ? _blocksFromJson(json["blocks"]) : [];
+        blocks = json.containsKey("blocks")
+            ? _blocksFromJson(json["blocks"], json["page_id"])
+            : [];
 
-  static List<LBlock> _blocksFromJson(List<Map<dynamic, dynamic>> blocks) =>
-      blocks.map((b) => LBlock.fromJson(b)).toList();
+  static List<LBlock> _blocksFromJson(List<dynamic> blocks, int pageId) =>
+      blocks.map((b) => LBlock.fromJson(b, manPageId: pageId)).toList();
 }
