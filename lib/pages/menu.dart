@@ -27,9 +27,11 @@ class Menu extends StatelessWidget {
                 child: const Text('Výuka'),
               ),
               const SizedBox(height: 8.0),
-              const ElevatedButton(
-                onPressed: null,
-                child: Text('Procvičování'),
+              ElevatedButton(
+                onPressed: () {
+                  routeState.go('/exercise');
+                },
+                child: const Text('Procvičování'),
               ),
               const SizedBox(height: 8.0),
               ElevatedButton(

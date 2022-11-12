@@ -1,17 +1,19 @@
 import 'package:dp_algebra/data/calc_data_controller.dart';
 import 'package:dp_algebra/data/db_helper.dart';
 import 'package:dp_algebra/models/learn_article.dart';
-import 'package:dp_algebra/pages/calc_equations.dart';
-import 'package:dp_algebra/pages/learn_article.dart';
-import 'package:dp_algebra/pages/learn_chapter.dart';
+import 'package:dp_algebra/models/learn_chapter.dart';
+import 'package:dp_algebra/pages/calc/calc_equations.dart';
+import 'package:dp_algebra/pages/calc/calc_matrices.dart';
+import 'package:dp_algebra/pages/calc/calc_menu.dart';
+import 'package:dp_algebra/pages/exercise/exercise_chapter.dart';
+import 'package:dp_algebra/pages/exercise/exercise_menu.dart';
+import 'package:dp_algebra/pages/exercise/exercise_page.dart';
+import 'package:dp_algebra/pages/learn/learn_article.dart';
+import 'package:dp_algebra/pages/learn/learn_chapter.dart';
+import 'package:dp_algebra/pages/learn/learn_menu.dart';
+import 'package:dp_algebra/pages/menu.dart';
+import 'package:dp_algebra/routing/route_state.dart';
 import 'package:flutter/material.dart';
-
-import '../models/learn_chapter.dart';
-import '../routing/route_state.dart';
-import 'calc_matrices.dart';
-import 'calc_menu.dart';
-import 'learn_menu.dart';
-import 'menu.dart';
 
 class AlgebraNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -32,7 +34,9 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
   final _articleKey = const ValueKey('Learn article key');
   final _calcKey = const ValueKey('Calculator key');
   final _calcSectionKey = const ValueKey('Calculator section key');
-  final _tempKey = const ValueKey('Temporary unimplemented key');
+  final _exerciseKey = const ValueKey('Exercise key');
+  final _exerciseChapterKey = const ValueKey('Exercise chapter key');
+  final _exercisePageKey = const ValueKey('Exercise page key');
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +69,13 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
       }
     }
 
-    if (pathTemplate == '/exercise/:exerciseId') {
-      // find exercise
+    String? exerciseChapterId, exercisePageId;
+    if (pathTemplate.startsWith('/exercise/:exerciseChapterId')) {
+      exerciseChapterId = routeState.route.parameters['exerciseChapterId'];
+
+      if (pathTemplate == '/exercise/:exerciseChapterId/:exercisePageId') {
+        exercisePageId = routeState.route.parameters['exercisePageId'];
+      }
     }
 
     String? calcId;
@@ -85,6 +94,10 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             routeState.go('/chapter');
           } else if ((route.settings as Page).key == _articleKey) {
             routeState.go('/chapter/$currentChapterId');
+          } else if ((route.settings as Page).key == _exerciseChapterKey) {
+            routeState.go('/exercise');
+          } else if ((route.settings as Page).key == _exercisePageKey) {
+            routeState.go('/exercise/$exerciseChapterId');
           }
         }
 
@@ -106,10 +119,10 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             key: _chapterMenuKey,
             child: const LearnMenu(),
           )
-        else
+        else if (routeState.route.pathTemplate.startsWith('/exercise'))
           MaterialPage(
-            key: _tempKey,
-            child: const Text('Unimplemented'),
+            key: _exerciseKey,
+            child: const ExerciseMenu(),
           ),
 
         if (currentChapter != null)
@@ -121,6 +134,20 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
           MaterialPage(
             key: _articleKey,
             child: LearnArticle(article: currentArticle),
+          ),
+        // Add page to stack if /exercise/:exerciseChapterId
+        if (exerciseChapterId != null)
+          MaterialPage(
+            key: _exerciseChapterKey,
+            child: ExerciseChapter(chapterId: exerciseChapterId),
+          ),
+        if (exercisePageId != null)
+          MaterialPage(
+            key: _exercisePageKey,
+            child: ExercisePage(
+              chapterId: exerciseChapterId!,
+              pageId: exercisePageId,
+            ),
           ),
         // Add page to stack if /calc/:calcId
         if (calcId == '0')

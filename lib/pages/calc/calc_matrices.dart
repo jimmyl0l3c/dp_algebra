@@ -1,15 +1,14 @@
 import 'package:dp_algebra/data/calc_data_controller.dart';
+import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/matrices/matrix_exceptions.dart';
 import 'package:dp_algebra/matrices/matrix_operations.dart';
+import 'package:dp_algebra/matrices/matrix_solution.dart';
 import 'package:dp_algebra/widgets/fraction_input.dart';
 import 'package:dp_algebra/widgets/main_scaffold.dart';
+import 'package:dp_algebra/widgets/matrix_input.dart';
 import 'package:dp_algebra/widgets/matrix_solution_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
-
-import '../matrices/matrix.dart';
-import '../matrices/matrix_exceptions.dart';
-import '../matrices/matrix_solution.dart';
-import '../widgets/matrix_input.dart';
 
 class CalcMatrices extends StatefulWidget {
   const CalcMatrices({Key? key}) : super(key: key);

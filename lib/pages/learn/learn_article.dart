@@ -3,7 +3,7 @@ import 'package:dp_algebra/models/learn_page.dart';
 import 'package:dp_algebra/widgets/main_scaffold.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/lpage_view.dart';
+import '../../widgets/lpage_view.dart';
 
 class LearnArticle extends StatefulWidget {
   final Future<LArticle?> article;

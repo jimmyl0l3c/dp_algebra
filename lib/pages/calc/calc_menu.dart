@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/main_scaffold.dart';
-import '../widgets/section_menu.dart';
+import '../../widgets/main_scaffold.dart';
+import '../../widgets/section_menu.dart';
 
 class CalcMenu extends StatelessWidget {
   const CalcMenu({Key? key}) : super(key: key);
