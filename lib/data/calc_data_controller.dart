@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:dp_algebra/matrices/equation_matrix.dart';
-
-import '../matrices/equation_solution.dart';
-import '../matrices/matrix_solution.dart';
+import 'package:dp_algebra/matrices/equation_solution.dart';
+import 'package:dp_algebra/matrices/matrix_solution.dart';
 
 class CalcDataController {
   static final List<MatrixSolution> _matrixSolutions = [];

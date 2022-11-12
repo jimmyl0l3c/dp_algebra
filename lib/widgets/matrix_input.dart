@@ -1,8 +1,7 @@
+import 'package:dp_algebra/matrices/matrix.dart';
 import 'package:dp_algebra/widgets/fraction_input.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
-
-import '../matrices/matrix.dart';
 
 class MatrixInput extends StatefulWidget {
   final Matrix matrix;

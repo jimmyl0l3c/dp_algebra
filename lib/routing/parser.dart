@@ -1,7 +1,6 @@
+import 'package:dp_algebra/routing/parsed_route.dart';
 import 'package:flutter/material.dart';
 import 'package:path_to_regexp/path_to_regexp.dart';
-
-import 'parsed_route.dart';
 
 class RouteParser extends RouteInformationParser<ParsedRoute> {
   final List<String> _pathTemplates;

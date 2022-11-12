@@ -1,4 +1,4 @@
-import 'primitive_operation.dart';
+import 'package:dp_algebra/matrices/step_models/primitive_operation.dart';
 
 class OperationStep {
   List<PrimitiveOperation> operations;

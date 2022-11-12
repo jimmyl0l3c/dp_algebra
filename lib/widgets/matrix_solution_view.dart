@@ -1,8 +1,7 @@
+import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/matrices/matrix_solution.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-
-import '../matrices/matrix.dart';
-import '../matrices/matrix_solution.dart';
 
 class SolutionView extends StatelessWidget {
   final MatrixSolution solution;

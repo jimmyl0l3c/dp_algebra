@@ -1,14 +1,13 @@
+import 'package:dp_algebra/data/calc_data_controller.dart';
+import 'package:dp_algebra/matrices/equation_exceptions.dart';
+import 'package:dp_algebra/matrices/equation_matrix.dart';
+import 'package:dp_algebra/matrices/equation_solution.dart';
+import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/matrices/matrix_exceptions.dart';
+import 'package:dp_algebra/widgets/equation_input.dart';
+import 'package:dp_algebra/widgets/main_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-
-import '../../data/calc_data_controller.dart';
-import '../../matrices/equation_exceptions.dart';
-import '../../matrices/equation_matrix.dart';
-import '../../matrices/equation_solution.dart';
-import '../../matrices/matrix.dart';
-import '../../matrices/matrix_exceptions.dart';
-import '../../widgets/equation_input.dart';
-import '../../widgets/main_scaffold.dart';
 
 class CalcEquations extends StatelessWidget {
   const CalcEquations({Key? key}) : super(key: key);

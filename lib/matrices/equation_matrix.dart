@@ -1,8 +1,7 @@
+import 'package:dp_algebra/matrices/equation_exceptions.dart';
+import 'package:dp_algebra/matrices/extensions.dart';
+import 'package:dp_algebra/matrices/matrix.dart';
 import 'package:fraction/fraction.dart';
-
-import 'extensions.dart';
-import 'equation_exceptions.dart';
-import 'matrix.dart';
 
 class EquationMatrix extends Matrix {
   EquationMatrix({int columns = 1, int rows = 1, int defaultValue = 0})

@@ -1,8 +1,7 @@
+import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/matrices/step_models/matrix_entry.dart';
+import 'package:dp_algebra/matrices/step_models/operation_result.dart';
 import 'package:fraction/fraction.dart';
-
-import '../matrix.dart';
-import 'matrix_entry.dart';
-import 'operation_result.dart';
 
 class PrimitiveOperation {}
 

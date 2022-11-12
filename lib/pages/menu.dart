@@ -1,6 +1,5 @@
+import 'package:dp_algebra/routing/route_state.dart';
 import 'package:flutter/material.dart';
-
-import '../routing/route_state.dart';
 
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);

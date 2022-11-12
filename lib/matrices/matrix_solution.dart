@@ -1,8 +1,7 @@
 import 'package:dp_algebra/matrices/extensions.dart';
+import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/matrices/matrix_operations.dart';
 import 'package:fraction/fraction.dart';
-
-import 'matrix.dart';
-import 'matrix_operations.dart';
 
 class MatrixSolution {
   final dynamic leftOp;

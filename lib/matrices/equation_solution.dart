@@ -1,5 +1,5 @@
-import 'equation_matrix.dart';
-import 'matrix.dart';
+import 'package:dp_algebra/matrices/equation_matrix.dart';
+import 'package:dp_algebra/matrices/matrix.dart';
 
 class EquationSolution {
   final EquationMatrix equationMatrix;

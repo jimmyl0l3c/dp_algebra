@@ -1,7 +1,6 @@
 import 'package:backendless_sdk/backendless_sdk.dart';
-
-import '../models/learn_article.dart';
-import '../models/learn_chapter.dart';
+import 'package:dp_algebra/models/learn_article.dart';
+import 'package:dp_algebra/models/learn_chapter.dart';
 
 class DbHelper {
   static Future<List<LChapter>?> findAllChapters() => Backendless.data

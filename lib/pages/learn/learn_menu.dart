@@ -1,9 +1,8 @@
 import 'package:dp_algebra/data/db_helper.dart';
 import 'package:dp_algebra/models/learn_chapter.dart';
+import 'package:dp_algebra/widgets/main_scaffold.dart';
+import 'package:dp_algebra/widgets/section_menu.dart';
 import 'package:flutter/material.dart';
-
-import '../../widgets/main_scaffold.dart';
-import '../../widgets/section_menu.dart';
 
 class LearnMenu extends StatelessWidget {
   const LearnMenu({Key? key}) : super(key: key);

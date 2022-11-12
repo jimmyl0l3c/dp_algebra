@@ -1,7 +1,6 @@
+import 'package:dp_algebra/routing/parsed_route.dart';
+import 'package:dp_algebra/routing/parser.dart';
 import 'package:flutter/material.dart';
-
-import 'parsed_route.dart';
-import 'parser.dart';
 
 class RouteState extends ChangeNotifier {
   final RouteParser _parser;
