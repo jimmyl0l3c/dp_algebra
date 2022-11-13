@@ -18,6 +18,10 @@ class Vector {
 
   Vector.from(Vector v) : _entries = List<Fraction>.from(v._entries);
 
+  void addEntry({Fraction? f}) => _entries.add(f ?? 0.toFraction());
+
+  void setValue(int i, Fraction value) => _entries[i] = value;
+
   int length() => _entries.length;
 
   bool isSameSizeAs(Vector other) => length() == other.length();
