@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:dp_algebra/matrices/extensions.dart';
 import 'package:dp_algebra/matrices/matrix_exceptions.dart';
+import 'package:dp_algebra/matrices/vector.dart';
 import 'package:fraction/fraction.dart';
 
 class Matrix {
@@ -27,6 +28,13 @@ class Matrix {
       : _matrix = m._matrix.map((row) => List<Fraction>.from(row)).toList(),
         _stepByStep = m._stepByStep,
         _defaultVal = m._defaultVal;
+
+  Matrix.fromVectors(List<Vector> vectors) {
+    for (var v in vectors) {
+      _matrix.add(List<Fraction>.from(v.asList()));
+    }
+    _defaultVal = 0.toFraction();
+  }
 
   int getColumns() => _matrix.isNotEmpty ? _matrix.first.length : 0;
   int getRows() => _matrix.length;

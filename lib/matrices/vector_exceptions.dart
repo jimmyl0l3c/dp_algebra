@@ -1,0 +1,1 @@
+class VectorSizeMismatchException implements Exception {}
