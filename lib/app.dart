@@ -29,10 +29,11 @@ class _AlgebraAppState extends State<AlgebraApp> {
         '/chapter/:chapterId/:articleId',
         '/chapter/:chapterId/:articleId/:pageId',
         '/exercise',
-        '/exercise/:exerciseChapterId',
-        '/exercise/:exerciseChapterId/:exercisePageId',
+        '/exercise/:sectionChapterId',
+        '/exercise/:sectionChapterId/:sectionPageId',
         '/calc',
-        '/calc/:calcId',
+        '/calc/:sectionChapterId',
+        '/calc/:sectionChapterId/:sectionPageId'
       ],
     );
 

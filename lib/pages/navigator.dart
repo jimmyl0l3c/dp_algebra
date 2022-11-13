@@ -1,13 +1,14 @@
+import 'package:dp_algebra/data/calc_data.dart';
 import 'package:dp_algebra/data/calc_data_controller.dart';
 import 'package:dp_algebra/data/db_helper.dart';
+import 'package:dp_algebra/data/exercise_data.dart';
 import 'package:dp_algebra/models/learn_article.dart';
 import 'package:dp_algebra/models/learn_chapter.dart';
-import 'package:dp_algebra/pages/calc/calc_equations.dart';
-import 'package:dp_algebra/pages/calc/calc_matrices.dart';
-import 'package:dp_algebra/pages/calc/calc_menu.dart';
-import 'package:dp_algebra/pages/exercise/exercise_chapter.dart';
-import 'package:dp_algebra/pages/exercise/exercise_menu.dart';
-import 'package:dp_algebra/pages/exercise/exercise_page.dart';
+import 'package:dp_algebra/models/section_chapter.dart';
+import 'package:dp_algebra/models/section_page.dart';
+import 'package:dp_algebra/pages/alg_chapter_view.dart';
+import 'package:dp_algebra/pages/alg_menu_view.dart';
+import 'package:dp_algebra/pages/alg_page_view.dart';
 import 'package:dp_algebra/pages/learn/learn_article.dart';
 import 'package:dp_algebra/pages/learn/learn_chapter.dart';
 import 'package:dp_algebra/pages/learn/learn_menu.dart';
@@ -33,7 +34,8 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
   final _chapterKey = const ValueKey('Learn chapter key');
   final _articleKey = const ValueKey('Learn article key');
   final _calcKey = const ValueKey('Calculator key');
-  final _calcSectionKey = const ValueKey('Calculator section key');
+  final _calcChapterKey = const ValueKey('Calculator chapter key');
+  final _calcPageKey = const ValueKey('Calculator page key');
   final _exerciseKey = const ValueKey('Exercise key');
   final _exerciseChapterKey = const ValueKey('Exercise chapter key');
   final _exercisePageKey = const ValueKey('Exercise page key');
@@ -69,27 +71,51 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
       }
     }
 
-    String? exerciseChapterId, exercisePageId;
-    if (pathTemplate.startsWith('/exercise/:exerciseChapterId')) {
-      exerciseChapterId = routeState.route.parameters['exerciseChapterId'];
+    int? sectionChapterId, sectionPageId;
+    if (pathTemplate.contains('/:sectionChapterId')) {
+      sectionChapterId =
+          int.tryParse(routeState.route.parameters['sectionChapterId']!);
 
-      if (pathTemplate == '/exercise/:exerciseChapterId/:exercisePageId') {
-        exercisePageId = routeState.route.parameters['exercisePageId'];
+      if (pathTemplate.contains('/:sectionChapterId/:sectionPageId')) {
+        sectionPageId =
+            int.tryParse(routeState.route.parameters['sectionPageId']!);
       }
     }
 
-    String? calcId;
-    if (pathTemplate == '/calc/:calcId') {
-      calcId = routeState.route.parameters['calcId'];
+    SectionChapterModel? exerciseChapter;
+    SectionPageModel? exercisePage;
+    if (pathTemplate.startsWith('/exercise/') &&
+        sectionChapterId != null &&
+        sectionChapterId < ExerciseData.chapters.length) {
+      exerciseChapter = ExerciseData.chapters[sectionChapterId];
+
+      if (sectionPageId != null &&
+          sectionPageId > exerciseChapter.pages.length) {
+        exercisePage = exerciseChapter.pages[sectionPageId];
+      }
+    }
+
+    SectionChapterModel? calcChapter;
+    SectionPageModel? calcPage;
+    if (pathTemplate.startsWith('/calc/') &&
+        sectionChapterId != null &&
+        sectionChapterId < CalcData.chapters.length) {
+      calcChapter = CalcData.chapters[sectionChapterId];
+
+      if (sectionPageId != null && sectionPageId > calcChapter.pages.length) {
+        calcPage = calcChapter.pages[sectionPageId];
+      }
     }
 
     return Navigator(
       key: widget.navigatorKey,
       onPopPage: (route, dynamic result) {
         if (route.settings is Page) {
-          if ((route.settings as Page).key == _calcSectionKey) {
+          if ((route.settings as Page).key == _calcChapterKey) {
             CalcDataController.dispose();
             routeState.go('/calc');
+          } else if ((route.settings as Page).key == _calcPageKey) {
+            routeState.go('/calc/$sectionChapterId');
           } else if ((route.settings as Page).key == _chapterKey) {
             routeState.go('/chapter');
           } else if ((route.settings as Page).key == _articleKey) {
@@ -97,7 +123,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
           } else if ((route.settings as Page).key == _exerciseChapterKey) {
             routeState.go('/exercise');
           } else if ((route.settings as Page).key == _exercisePageKey) {
-            routeState.go('/exercise/$exerciseChapterId');
+            routeState.go('/exercise/$sectionChapterId');
           }
         }
 
@@ -112,7 +138,11 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
         else if (routeState.route.pathTemplate.startsWith('/calc'))
           MaterialPage(
             key: _calcKey,
-            child: const CalcMenu(),
+            child: AlgMenuView(
+              sectionTitle: 'Kalkulačka',
+              sectionPath: 'calc',
+              chapters: CalcData.chapters,
+            ),
           )
         else if (routeState.route.pathTemplate.startsWith('/chapter'))
           MaterialPage(
@@ -122,7 +152,11 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
         else if (routeState.route.pathTemplate.startsWith('/exercise'))
           MaterialPage(
             key: _exerciseKey,
-            child: const ExerciseMenu(),
+            child: AlgMenuView(
+              sectionTitle: 'Procvičování',
+              sectionPath: 'exercise',
+              chapters: ExerciseData.chapters,
+            ),
           ),
 
         if (currentChapter != null)
@@ -136,29 +170,42 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             child: LearnArticle(article: currentArticle),
           ),
         // Add page to stack if /exercise/:exerciseChapterId
-        if (exerciseChapterId != null)
+        if (exerciseChapter != null && sectionChapterId != null)
           MaterialPage(
             key: _exerciseChapterKey,
-            child: ExerciseChapter(chapterId: exerciseChapterId),
+            child: AlgChapterView(
+              sectionTitle: 'Procvičování',
+              chapter: exerciseChapter,
+              chapterId: sectionChapterId,
+            ),
           ),
-        if (exercisePageId != null)
+        if (exerciseChapter != null && exercisePage != null)
           MaterialPage(
             key: _exercisePageKey,
-            child: ExercisePage(
-              chapterId: exerciseChapterId!,
-              pageId: exercisePageId,
+            child: AlgPageView(
+              sectionTitle: 'Procvičování',
+              chapter: exerciseChapter,
+              page: exercisePage,
             ),
           ),
         // Add page to stack if /calc/:calcId
-        if (calcId == '0')
+        if (calcChapter != null && sectionChapterId != null)
           MaterialPage(
-            key: _calcSectionKey,
-            child: const CalcMatrices(),
+            key: _calcChapterKey,
+            child: AlgChapterView(
+              sectionTitle: 'Kalkulačka',
+              chapter: calcChapter,
+              chapterId: sectionChapterId,
+            ),
           ),
-        if (calcId == '1')
+        if (calcChapter != null && calcPage != null)
           MaterialPage(
-            key: _calcSectionKey,
-            child: const CalcEquations(),
+            key: _calcPageKey,
+            child: AlgPageView(
+              sectionTitle: 'Kalkulačka',
+              chapter: calcChapter,
+              page: calcPage,
+            ),
           ),
       ],
     );

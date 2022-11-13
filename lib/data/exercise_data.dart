@@ -1,23 +1,26 @@
-import 'package:dp_algebra/models/exercise_chapter.dart';
-import 'package:dp_algebra/models/exercise_page.dart';
+import 'package:dp_algebra/models/section_chapter.dart';
+import 'package:dp_algebra/models/section_page.dart';
 import 'package:flutter/material.dart';
 
 class ExerciseData {
-  static List<ExerciseChapterModel> chapters = [
-    ExerciseChapterModel(
+  static List<SectionChapterModel> chapters = [
+    SectionChapterModel(
       title: 'Matice',
-      exercisePages: [
-        ExercisePageModel(
+      subtitle: 'Součet, rozdíl, součin, determinant, inverzní matice',
+      pages: [
+        SectionPageModel(
             title: 'Test', page: const Center(child: Text('Test page')))
       ],
     ),
-    ExerciseChapterModel(
+    SectionChapterModel(
       title: 'Vektorové prostory',
-      exercisePages: [],
+      subtitle:
+          'Lineární (ne)závislost vektorů, nalezení báze, transformace souřadnic od báze k bázi, ...',
+      pages: [],
     ),
-    ExerciseChapterModel(
+    SectionChapterModel(
       title: 'Soustavy lineárních rovnic',
-      exercisePages: [],
+      pages: [],
     ),
   ];
 }
