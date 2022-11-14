@@ -90,7 +90,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
       exerciseChapter = ExerciseData.chapters[sectionChapterId];
 
       if (sectionPageId != null &&
-          sectionPageId > exerciseChapter.pages.length) {
+          sectionPageId < exerciseChapter.pages.length) {
         exercisePage = exerciseChapter.pages[sectionPageId];
       }
     }
@@ -102,7 +102,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
         sectionChapterId < CalcData.chapters.length) {
       calcChapter = CalcData.chapters[sectionChapterId];
 
-      if (sectionPageId != null && sectionPageId > calcChapter.pages.length) {
+      if (sectionPageId != null && sectionPageId < calcChapter.pages.length) {
         calcPage = calcChapter.pages[sectionPageId];
       }
     }
