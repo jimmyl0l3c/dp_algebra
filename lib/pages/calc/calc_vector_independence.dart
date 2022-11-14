@@ -1,5 +1,7 @@
 import 'package:dp_algebra/data/calc_data_controller.dart';
+import 'package:dp_algebra/matrices/equation_matrix.dart';
 import 'package:dp_algebra/matrices/vector.dart';
+import 'package:dp_algebra/matrices/vector_solution.dart';
 import 'package:dp_algebra/widgets/vector_input.dart';
 import 'package:flutter/material.dart';
 
@@ -28,12 +30,41 @@ class CalcVectorIndependence extends StatelessWidget {
           ),
           const Divider(),
           const Text('Operace'),
-          const OutlinedButton(
-            onPressed: null,
-            child: Text('Lineární nezávislost'),
+          OutlinedButton(
+            onPressed: CalcDataController.getVectors().isEmpty
+                ? null
+                : () {
+                    List<Vector> eqVectors = List<Vector>.from(vectors)
+                      ..add(Vector(length: vectors.first.length()));
+                    EquationMatrix m = EquationMatrix.fromVectors(
+                      eqVectors,
+                      vertical: true,
+                    );
+                    CalcDataController.addVectorSolution(VectorSolution(
+                        vectors: vectors,
+                        operation: VectorOperation.linearIndependence,
+                        solution: m.solveByGauss().isZeroVector()));
+                  },
+            child: const Text('Lineární nezávislost'),
           ),
           const Divider(),
           const Text('Výsledky:'),
+          StreamBuilder(
+            stream: CalcDataController.vectorSolutionStream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return Container();
+
+              List<Widget> solutions = [];
+              for (var solution in snapshot.data!.reversed) {
+                if (solution.operation.solutionType == bool) {
+                  solutions.add(Text(
+                      '${solution.operation.description}: ${solution.solution ? 'Ano' : 'Ne'}'));
+                }
+              }
+
+              return Column(children: solutions);
+            },
+          ),
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dp_algebra/matrices/extensions.dart';
 import 'package:dp_algebra/matrices/matrix_exceptions.dart';
 import 'package:dp_algebra/matrices/vector.dart';
+import 'package:dp_algebra/matrices/vector_exceptions.dart';
 import 'package:fraction/fraction.dart';
 
 class Matrix {
@@ -29,11 +30,30 @@ class Matrix {
         _stepByStep = m._stepByStep,
         _defaultVal = m._defaultVal;
 
-  Matrix.fromVectors(List<Vector> vectors) {
-    for (var v in vectors) {
-      _matrix.add(List<Fraction>.from(v.asList()));
+  Matrix.fromVectors(List<Vector> vectors, {bool vertical = false}) {
+    if (vectors.isNotEmpty &&
+        vectors.any((v) => v.length() != vectors.first.length())) {
+      throw VectorSizeMismatchException();
     }
+
     _defaultVal = 0.toFraction();
+
+    if (vertical) {
+      int cols = vectors.length;
+      int rows = vectors.first.length();
+
+      for (var r = 0; r < rows; r++) {
+        List<Fraction> row = [];
+        for (var c = 0; c < cols; c++) {
+          row.add(vectors[c][r]);
+        }
+        _matrix.add(row);
+      }
+    } else {
+      for (var v in vectors) {
+        _matrix.add(List<Fraction>.from(v.asList()));
+      }
+    }
   }
 
   int getColumns() => _matrix.isNotEmpty ? _matrix.first.length : 0;
