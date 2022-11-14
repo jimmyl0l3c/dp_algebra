@@ -1,6 +1,7 @@
 import 'package:dp_algebra/models/section_chapter.dart';
 import 'package:dp_algebra/models/section_page.dart';
-import 'package:flutter/material.dart';
+import 'package:dp_algebra/pages/exercise/matrix_exercises/binary_matrix_exc.dart';
+import 'package:dp_algebra/pages/exercise/matrix_exercises/determinant_exc.dart';
 
 class ExerciseData {
   static List<SectionChapterModel> chapters = [
@@ -9,7 +10,13 @@ class ExerciseData {
       subtitle: 'Součet, rozdíl, součin, determinant, inverzní matice',
       pages: [
         SectionPageModel(
-            title: 'Test', page: const Center(child: Text('Test page')))
+          title: 'Sčítání, odčítání, násobení',
+          page: const BinaryMatrixExc(),
+        ),
+        SectionPageModel(
+          title: 'Determinant',
+          page: const DeterminantExc(),
+        )
       ],
     ),
     SectionChapterModel(
