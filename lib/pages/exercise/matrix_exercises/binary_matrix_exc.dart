@@ -39,11 +39,7 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
               OutlinedButton(
                 onPressed: () {
                   setState(() {
-                    operationSymbol = '+';
-                    int rows = generateSize();
-                    int cols = generateSize();
-                    matrixA = generateMatrix(rows: rows, columns: cols);
-                    matrixB = generateMatrix(rows: rows, columns: cols);
+                    generateEntryWiseExample('+');
                   });
                 },
                 child: const Text('Sčítání'),
@@ -51,11 +47,7 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
               OutlinedButton(
                 onPressed: () {
                   setState(() {
-                    operationSymbol = '-';
-                    int rows = generateSize();
-                    int cols = generateSize();
-                    matrixA = generateMatrix(rows: rows, columns: cols);
-                    matrixB = generateMatrix(rows: rows, columns: cols);
+                    generateEntryWiseExample('-');
                   });
                 },
                 child: const Text('Odčítání'),
@@ -63,23 +55,25 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
               OutlinedButton(
                 onPressed: () {
                   setState(() {
-                    operationSymbol = r'\cdot';
-                    int rows = generateSize();
-                    int cols = generateSize();
-                    int cols2 = generateSize();
-                    matrixA = generateMatrix(rows: rows, columns: cols);
-                    matrixB = generateMatrix(rows: cols, columns: cols2);
+                    generateMultiplyExample();
                   });
                 },
                 child: const Text('Násobení'),
               ),
-              const OutlinedButton(
-                onPressed: null,
-                child: Text('Náhodně'),
+              OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    generateRandomExample();
+                  });
+                },
+                child: const Text('Náhodně'),
               ),
               const VerticalDivider(),
               OutlinedButton(
-                onPressed: null,
+                onPressed: () {
+                  // TODO: replace this
+                  showError(context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+                },
                 child: const Text('Zkontrolovat'),
               ),
             ],
@@ -98,6 +92,46 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
         ],
       ),
     );
+  }
+
+  bool isAnswerCorrect() {
+    Matrix? correctSolution;
+    if (operationSymbol == '+') {
+      correctSolution = matrixA + matrixB;
+    } else if (operationSymbol == '-') {
+      correctSolution = matrixA - matrixB;
+    } else if (operationSymbol == r'\cdot') {
+      correctSolution = matrixA * matrixB;
+    }
+
+    return correctSolution != null && correctSolution == solution;
+  }
+
+  void generateRandomExample() {
+    List<String> operations = ['+', '-', '*'];
+    String operation = operations[random.nextInt(operations.length)];
+    if (operation == '*') {
+      generateMultiplyExample();
+    } else {
+      generateEntryWiseExample(operation);
+    }
+  }
+
+  void generateEntryWiseExample(String operation) {
+    operationSymbol = operation;
+    int rows = generateSize();
+    int cols = generateSize();
+    matrixA = generateMatrix(rows: rows, columns: cols);
+    matrixB = generateMatrix(rows: rows, columns: cols);
+  }
+
+  void generateMultiplyExample() {
+    operationSymbol = r'\cdot';
+    int rows = generateSize();
+    int cols = generateSize();
+    int cols2 = generateSize();
+    matrixA = generateMatrix(rows: rows, columns: cols);
+    matrixB = generateMatrix(rows: cols, columns: cols2);
   }
 
   Matrix generateMatrix({int? rows, int? columns}) {
@@ -121,4 +155,11 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
   }
 
   int generateSize() => random.nextInt(4) + 1;
+
+  void showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
+  }
 }
