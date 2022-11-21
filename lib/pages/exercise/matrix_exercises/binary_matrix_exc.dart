@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/pages/exercise/utils.dart';
 import 'package:dp_algebra/widgets/matrix_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'package:fraction/fraction.dart';
 
 class BinaryMatrixExc extends StatefulWidget {
   const BinaryMatrixExc({Key? key}) : super(key: key);
@@ -72,7 +72,8 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
               OutlinedButton(
                 onPressed: () {
                   // TODO: replace this
-                  showError(context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+                  ExerciseUtils.showError(
+                      context, isAnswerCorrect() ? 'Správně' : 'Špatně');
                 },
                 child: const Text('Zkontrolovat'),
               ),
@@ -119,47 +120,18 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
 
   void generateEntryWiseExample(String operation) {
     operationSymbol = operation;
-    int rows = generateSize();
-    int cols = generateSize();
-    matrixA = generateMatrix(rows: rows, columns: cols);
-    matrixB = generateMatrix(rows: rows, columns: cols);
+    int rows = ExerciseUtils.generateSize();
+    int cols = ExerciseUtils.generateSize();
+    matrixA = ExerciseUtils.generateMatrix(rows: rows, columns: cols);
+    matrixB = ExerciseUtils.generateMatrix(rows: rows, columns: cols);
   }
 
   void generateMultiplyExample() {
     operationSymbol = r'\cdot';
-    int rows = generateSize();
-    int cols = generateSize();
-    int cols2 = generateSize();
-    matrixA = generateMatrix(rows: rows, columns: cols);
-    matrixB = generateMatrix(rows: cols, columns: cols2);
-  }
-
-  Matrix generateMatrix({int? rows, int? columns}) {
-    rows ??= generateSize();
-    columns ??= generateSize();
-
-    Matrix m = Matrix(rows: rows, columns: columns);
-
-    for (var i = 0; i < rows; i++) {
-      for (var j = 0; j < columns; j++) {
-        m[i][j] = generateFraction();
-      }
-    }
-
-    return m;
-  }
-
-  Fraction generateFraction() {
-    int num = random.nextInt(100) - 50;
-    return num.toFraction();
-  }
-
-  int generateSize() => random.nextInt(4) + 1;
-
-  void showError(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-    ));
+    int rows = ExerciseUtils.generateSize();
+    int cols = ExerciseUtils.generateSize();
+    int cols2 = ExerciseUtils.generateSize();
+    matrixA = ExerciseUtils.generateMatrix(rows: rows, columns: cols);
+    matrixB = ExerciseUtils.generateMatrix(rows: cols, columns: cols2);
   }
 }

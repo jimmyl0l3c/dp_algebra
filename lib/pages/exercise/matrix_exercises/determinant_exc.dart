@@ -1,4 +1,11 @@
+import 'dart:math';
+
+import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/pages/exercise/utils.dart';
+import 'package:dp_algebra/widgets/fraction_input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_math_fork/flutter_math.dart';
+import 'package:fraction/fraction.dart';
 
 class DeterminantExc extends StatefulWidget {
   const DeterminantExc({Key? key}) : super(key: key);
@@ -8,8 +15,111 @@ class DeterminantExc extends StatefulWidget {
 }
 
 class _DeterminantExcState extends State<DeterminantExc> {
+  Random random = Random();
+
+  Matrix determinant = Matrix(columns: 1, rows: 1);
+  Fraction solution = Fraction(0);
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 4.0,
+        vertical: 10.0,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            direction: Axis.horizontal,
+            children: [
+              const Text('Vygenerovat: '),
+              OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    determinant = generateDeterminant(2);
+                  });
+                },
+                child: const Text('2x2'),
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    determinant = generateDeterminant(3);
+                  });
+                },
+                child: const Text('3x3'),
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    determinant = generateDeterminant(4 + random.nextInt(3));
+                  });
+                },
+                child: const Text('> 3x3'),
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    determinant = generateRandomDeterminant();
+                  });
+                },
+                child: const Text('Náhodně'),
+              ),
+              const VerticalDivider(),
+              OutlinedButton(
+                onPressed: () {
+                  // TODO: replace this
+                  ExerciseUtils.showError(
+                      context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+                },
+                child: Text('Zkontrolovat'),
+              ),
+            ],
+          ),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            direction: Axis.horizontal,
+            children: [
+              Math.tex(
+                '${determinant.toTeX(isDeterminant: true)} =',
+                textScaleFactor: 1.4,
+              ),
+              SizedBox(
+                width: 100,
+                child: FractionInput(
+                  onChanged: (String value) {
+                    if (value.isEmpty) {
+                      solution = 0.toFraction();
+                    } else if (value.contains('.')) {
+                      double? dValue = double.tryParse(value);
+                      if (dValue == null) return;
+                      solution = dValue.toFraction();
+                    } else {
+                      if (value.startsWith('/')) value = '0$value';
+                      if (!value.isFraction) return;
+                      solution = value.toFraction();
+                    }
+                  },
+                  value:
+                      solution.toDouble() != 0.0 ? solution.toString() : null,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
+
+  bool isAnswerCorrect() => solution == determinant.determinant();
+
+  Matrix generateRandomDeterminant() {
+    int size = 1 + ExerciseUtils.generateSize();
+    return generateDeterminant(size);
+  }
+
+  Matrix generateDeterminant(int size) =>
+      ExerciseUtils.generateMatrix(rows: size, columns: size);
 }
