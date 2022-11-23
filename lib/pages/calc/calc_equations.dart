@@ -2,8 +2,8 @@ import 'package:dp_algebra/data/calc_data_controller.dart';
 import 'package:dp_algebra/matrices/equation_exceptions.dart';
 import 'package:dp_algebra/matrices/equation_matrix.dart';
 import 'package:dp_algebra/matrices/equation_solution.dart';
-import 'package:dp_algebra/matrices/matrix.dart';
 import 'package:dp_algebra/matrices/matrix_exceptions.dart';
+import 'package:dp_algebra/matrices/vector.dart';
 import 'package:dp_algebra/widgets/equation_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
@@ -40,7 +40,7 @@ class CalcEquations extends StatelessWidget {
             onPressed: () {
               EquationMatrix m = CalcDataController.getEquationMatrix();
               try {
-                Matrix solution = m.solveByInverse();
+                Vector solution = m.solveByInverse();
                 CalcDataController.addEquationSolution(EquationSolution(
                   equationMatrix: EquationMatrix.from(m),
                   solution: solution,
@@ -57,7 +57,7 @@ class CalcEquations extends StatelessWidget {
             onPressed: () {
               EquationMatrix m = CalcDataController.getEquationMatrix();
               try {
-                Matrix solution = m.solveByCramer();
+                Vector solution = m.solveByCramer();
                 CalcDataController.addEquationSolution(EquationSolution(
                   equationMatrix: EquationMatrix.from(m),
                   solution: solution,

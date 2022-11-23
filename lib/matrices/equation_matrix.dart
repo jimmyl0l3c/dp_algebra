@@ -14,6 +14,8 @@ class EquationMatrix extends Matrix {
   EquationMatrix.fromVectors(List<Vector> vectors, {bool vertical = false})
       : super.fromVectors(vectors, vertical: vertical);
 
+  EquationMatrix.fromMatrix(Matrix m) : super.from(m);
+
   bool isSolvableByCramer() {
     Matrix A = Matrix.from(this)..removeColumn(getColumns() - 1);
     return A.isSquare() && A.determinant() != 0.toFraction();
@@ -24,11 +26,11 @@ class EquationMatrix extends Matrix {
     return A.rank() == rank();
   }
 
-  Matrix solveByCramer() {
+  Vector solveByCramer() {
     Matrix A = Matrix.from(this);
     List<Fraction> yT = A.removeColumn(getColumns() - 1);
     Fraction detA = A.determinant();
-    Matrix solution = Matrix(columns: A.getColumns());
+    Vector solution = Vector(length: A.getColumns());
 
     if (detA == 0.toFraction()) throw EqNotSolvableByCramerException();
 
@@ -39,7 +41,7 @@ class EquationMatrix extends Matrix {
         Ai[j][i] = yT[j];
       }
 
-      solution[0][i] = Ai.determinant() / detA;
+      solution[i] = Ai.determinant() / detA;
     }
 
     return solution;
@@ -72,7 +74,7 @@ class EquationMatrix extends Matrix {
     return solution;
   }
 
-  Matrix solveByInverse() {
+  Vector solveByInverse() {
     Matrix A = Matrix.from(this);
     List<Fraction> yValues = A.removeColumn(getColumns() - 1);
 
@@ -83,7 +85,9 @@ class EquationMatrix extends Matrix {
 
     Matrix invA = A.inverse();
 
-    return (invA * yT).transposed();
+    Matrix solution = (invA * yT).transposed();
+
+    return Vector.fromList(solution[0]);
   }
 
   @override

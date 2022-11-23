@@ -1,10 +1,10 @@
 import 'package:dp_algebra/matrices/equation_matrix.dart';
-import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/matrices/vector.dart';
 import 'package:fraction/fraction.dart';
 
 class EquationSolution {
   final EquationMatrix equationMatrix;
-  final Matrix? solution;
+  final Vector? solution;
   final GeneralSolution? generalSolution;
   final Object? stepByStep;
 
