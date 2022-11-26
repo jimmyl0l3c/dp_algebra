@@ -1,4 +1,5 @@
 import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/fraction_input.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
@@ -44,7 +45,7 @@ class _MatrixInputState extends State<MatrixInput> {
             child: GridView.count(
               crossAxisCount: widget.matrix.getColumns(),
               shrinkWrap: true,
-              mainAxisSpacing: 4.0,
+              mainAxisSpacing: 0.0,
               clipBehavior: Clip.antiAlias,
               crossAxisSpacing: 4.0,
               children: [
@@ -74,21 +75,26 @@ class _MatrixInputState extends State<MatrixInput> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    widget.matrix.addRow();
-                  });
+              ButtonRow(
+                onPressed: (i) {
+                  if (i == 0) {
+                    setState(() {
+                      widget.matrix.addRow();
+                    });
+                  } else {
+                    setState(() {
+                      widget.matrix.addColumn();
+                    });
+                  }
                 },
-                child: const Text('+ Řádek'),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    widget.matrix.addColumn();
-                  });
-                },
-                child: const Text('+ Sloupec'),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                children: const [
+                  Text('+ Řádek'),
+                  Text('+ Sloupec'),
+                ],
               ),
             ],
           )

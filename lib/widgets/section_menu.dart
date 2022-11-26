@@ -20,26 +20,35 @@ class SectionMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final routeState = RouteStateScope.of(context);
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(
-        vertical: 16.0,
-        horizontal: 8.0,
-      ),
-      itemCount: sections.length,
-      itemBuilder: (context, i) {
-        Section section = sections[i];
-        return TextButton(
-          onPressed: section.path == null
-              ? null
-              : () {
-                  routeState.go(section.path!);
-                },
-          child: ListTile(
-            title: Text(section.title),
-            subtitle: section.subtitle == null ? null : Text(section.subtitle!),
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1000),
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(
+            vertical: 16.0,
+            horizontal: 16.0,
           ),
-        );
-      },
+          itemCount: sections.length,
+          itemBuilder: (context, i) {
+            Section section = sections[i];
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: ElevatedButton(
+                onPressed: section.path == null
+                    ? null
+                    : () {
+                        routeState.go(section.path!);
+                      },
+                child: ListTile(
+                  title: Text(section.title),
+                  subtitle:
+                      section.subtitle == null ? null : Text(section.subtitle!),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

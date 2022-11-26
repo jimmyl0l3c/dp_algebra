@@ -1,11 +1,34 @@
-class MatrixSizeMismatchException implements Exception {}
+class MatrixException implements Exception {
+  String errMessage() => 'MatrixException';
+}
 
-class MatrixMultiplySizeException implements Exception {}
+class MatrixSizeMismatchException implements MatrixException {
+  @override
+  String errMessage() => 'Matice musí mít stejnou velikost';
+}
 
-class MatrixIsNotSquareException implements Exception {}
+class MatrixMultiplySizeException implements MatrixException {
+  @override
+  String errMessage() =>
+      'Počet sloupců první matice musí být roven počtu řádků druhé';
+}
 
-class MatrixInverseImpossibleException implements Exception {}
+class MatrixIsNotSquareException implements MatrixException {
+  @override
+  String errMessage() => 'Matice musí být čtvercová';
+}
 
-class MatrixOutOfBoundsException implements Exception {}
+class MatrixInverseImpossibleException implements MatrixException {
+  @override
+  String errMessage() => 'Inverzní matice k zadané matici neexistuje';
+}
 
-class InvalidTypeException implements Exception {}
+class MatrixOutOfBoundsException implements MatrixException {
+  @override
+  String errMessage() => 'MatrixOutOfBoundsException';
+}
+
+class InvalidTypeException implements MatrixException {
+  @override
+  String errMessage() => 'InvalidTypeException';
+}
