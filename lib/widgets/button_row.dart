@@ -46,6 +46,9 @@ class ButtonRow extends StatelessWidget {
                         )),
                     backgroundColor:
                         MaterialStateProperty.resolveWith((states) {
+                      if (states.contains(MaterialState.disabled)) {
+                        return Colors.white10;
+                      }
                       if (states.contains(MaterialState.pressed)) {
                         return Colors.deepPurpleAccent[100];
                       }

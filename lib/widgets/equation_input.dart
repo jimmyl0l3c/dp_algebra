@@ -1,4 +1,5 @@
 import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/fraction_input.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
@@ -62,22 +63,27 @@ class _EquationInputState extends State<EquationInput> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    widget.matrix.addRow();
-                  });
+              ButtonRow(
+                onPressed: (i) {
+                  if (i == 0) {
+                    setState(() {
+                      widget.matrix.addRow();
+                    });
+                  } else {
+                    setState(() {
+                      widget.matrix.addColumn();
+                    });
+                  }
                 },
-                child: const Text('+ Rovnice'),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                children: const [
+                  Text('+ Rovnice'),
+                  Text('+ Neznámá'),
+                ],
               ),
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    widget.matrix.addColumn();
-                  });
-                },
-                child: const Text('+ Neznámá'),
-              )
             ],
           )
         ],
