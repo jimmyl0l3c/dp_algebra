@@ -259,6 +259,9 @@ class _MatrixBinOperationSelectionState
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.matrices.containsKey(_binaryLeft)) _binaryLeft = null;
+    if (!widget.matrices.containsKey(_binaryRight)) _binaryRight = null;
+
     _binaryLeft ??=
         widget.matrices.isNotEmpty ? widget.matrices.keys.first : null;
     _binaryRight ??= _binaryLeft;
@@ -278,19 +281,22 @@ class _MatrixBinOperationSelectionState
             width: 8.0,
           ),
           StyledDropdownButton<String>(
-              value: _binaryLeft,
-              items: [
-                for (var matrix in widget.matrices.entries)
-                  DropdownMenuItem(
-                    value: matrix.key,
-                    child: Text(matrix.key),
-                  ),
-              ],
-              onChanged: (String? val) {
-                setState(() {
-                  _binaryLeft = val;
-                });
-              }),
+            value: _binaryLeft,
+            items: [
+              for (var matrix in widget.matrices.entries)
+                DropdownMenuItem(
+                  value: matrix.key,
+                  child: Text(matrix.key),
+                ),
+            ],
+            onChanged: (String? val) {
+              setState(() {
+                _binaryLeft = val;
+              });
+            },
+            maxWidth: 60,
+            isExpanded: true,
+          ),
           const SizedBox(
             width: 8.0,
           ),
@@ -308,6 +314,8 @@ class _MatrixBinOperationSelectionState
                 _binaryOperation = val;
               });
             },
+            maxWidth: 60,
+            isExpanded: true,
           ),
           const SizedBox(
             width: 8.0,
@@ -326,6 +334,8 @@ class _MatrixBinOperationSelectionState
                 _binaryRight = val;
               });
             },
+            maxWidth: 60,
+            isExpanded: true,
           ),
           const SizedBox(
             width: 8.0,
