@@ -57,13 +57,16 @@ class _VectorInputState extends State<VectorInput> {
                 ),
             ],
           ),
-          OutlinedButton(
-            onPressed: () {
-              setState(() {
-                widget.vector.addEntry();
-              });
-            },
-            child: const Text('+ Prvek'),
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  widget.vector.addEntry();
+                });
+              },
+              child: const Text('+ Prvek'),
+            ),
           ),
         ],
       ),
