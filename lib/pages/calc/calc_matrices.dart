@@ -100,15 +100,13 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   const SizedBox(
                     width: 8.0,
                   ),
-                  SizedBox(
-                    width: 80,
-                    child: FractionInput(
-                      onChanged: (Fraction? value) {
-                        if (value == null) return;
-                        _scalarC = value;
-                      },
-                      value: _scalarC.toString(),
-                    ),
+                  FractionInput(
+                    maxWidth: 80,
+                    onChanged: (Fraction? value) {
+                      if (value == null) return;
+                      _scalarC = value;
+                    },
+                    value: _scalarC.toString(),
                   ),
                   const SizedBox(
                     width: 8.0,

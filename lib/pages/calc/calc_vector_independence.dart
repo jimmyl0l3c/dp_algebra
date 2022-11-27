@@ -19,9 +19,19 @@ class CalcVectorIndependence extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(
-              'Vektory',
-              style: Theme.of(context).textTheme.headline4!,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Vektory',
+                  style: Theme.of(context).textTheme.headline4!,
+                ),
+                const SizedBox(width: 8),
+                const ElevatedButton(
+                  onPressed: null,
+                  child: Text('+'),
+                ),
+              ],
             ),
             const SizedBox(height: 12),
             Column(
