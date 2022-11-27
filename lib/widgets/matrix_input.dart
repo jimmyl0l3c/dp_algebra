@@ -6,14 +6,14 @@ import 'package:fraction/fraction.dart';
 
 class MatrixInput extends StatefulWidget {
   final Matrix matrix;
-  final String name;
-  final VoidCallback deleteMatrix;
+  final String? name;
+  final VoidCallback? deleteMatrix;
 
   const MatrixInput({
     Key? key,
     required this.matrix,
     required this.name,
-    required this.deleteMatrix,
+    this.deleteMatrix,
   }) : super(key: key);
 
   @override
@@ -27,19 +27,21 @@ class _MatrixInputState extends State<MatrixInput> {
     return Card(
       child: Column(
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(widget.name),
-              IconButton(
-                onPressed: widget.deleteMatrix,
-                icon: const Icon(Icons.close),
-                iconSize: 12.0,
-                splashRadius: 15.0,
-                color: Colors.redAccent,
-              ),
-            ],
-          ),
+          if (widget.name != null || widget.deleteMatrix != null)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (widget.name != null) Text(widget.name!),
+                if (widget.deleteMatrix != null)
+                  IconButton(
+                    onPressed: widget.deleteMatrix,
+                    icon: const Icon(Icons.close),
+                    iconSize: 12.0,
+                    splashRadius: 15.0,
+                    color: Colors.redAccent,
+                  ),
+              ],
+            ),
           SizedBox(
             width: 60 * widget.matrix.getColumns().toDouble(),
             child: GridView.count(

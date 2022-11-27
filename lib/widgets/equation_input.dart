@@ -2,6 +2,7 @@ import 'package:dp_algebra/matrices/matrix.dart';
 import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/fraction_input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:fraction/fraction.dart';
 
 class EquationInput extends StatefulWidget {
@@ -17,14 +18,15 @@ class EquationInput extends StatefulWidget {
 }
 
 class _EquationInputState extends State<EquationInput> {
-  // TODO: add option to remove rows and columns
   @override
   Widget build(BuildContext context) {
-    int extraCols = widget.matrix.getColumns() * 2 - 1;
-    List<Widget> gridChildren = [];
+    List<List<Widget>> eqWidgets = [];
     for (var i = 0; i < widget.matrix.getRows(); i++) {
+      eqWidgets.add([]);
       for (var j = 0; j < widget.matrix.getColumns(); j++) {
-        gridChildren.add(FractionInput(
+        List<Widget> valueRow = [];
+        valueRow.add(FractionInput(
+          maxWidth: 60,
           onChanged: (Fraction? value) {
             if (value == null) return;
             widget.matrix.setValue(i, j, value);
@@ -34,54 +36,118 @@ class _EquationInputState extends State<EquationInput> {
               : null,
         ));
         if (j < widget.matrix.getColumns() - 1) {
-          gridChildren.add(Center(child: Text('x$j')));
+          valueRow.add(Padding(
+            padding: const EdgeInsets.only(left: 6.0),
+            child: PopupMenuButton<String>(
+              tooltip: widget.matrix.getColumns() > 2 ? 'Upravit neznámou' : '',
+              enabled: widget.matrix.getColumns() > 2,
+              onSelected: (value) {
+                if (value == 'delete' && widget.matrix.getColumns() > 2) {
+                  setState(() {
+                    widget.matrix.removeColumn(j);
+                  });
+                }
+              },
+              itemBuilder: (context) => const [
+                PopupMenuItem(value: 'none', child: Text('Zavřít')),
+                PopupMenuItem(
+                  value: 'delete',
+                  child: Text(
+                    'Odebrat',
+                    style: TextStyle(color: Colors.redAccent),
+                  ),
+                ),
+              ],
+              child: Math.tex(
+                'x_{$j}',
+                textScaleFactor: 1.4,
+                mathStyle: MathStyle.text,
+              ),
+            ),
+          ));
+        } else if (j == widget.matrix.getColumns() - 1) {
+          valueRow.add(Padding(
+            padding: const EdgeInsets.only(left: 6.0),
+            child: PopupMenuButton<String>(
+              tooltip: widget.matrix.getRows() > 1 ? 'Upravit rovnici' : '',
+              enabled: widget.matrix.getRows() > 1,
+              onSelected: (value) {
+                if (value == 'delete' && widget.matrix.getRows() > 1) {
+                  setState(() {
+                    widget.matrix.removeRow(i);
+                  });
+                }
+              },
+              itemBuilder: (context) => const [
+                PopupMenuItem(value: 'none', child: Text('Zavřít')),
+                PopupMenuItem(
+                  value: 'delete',
+                  child: Text(
+                    'Odebrat',
+                    style: TextStyle(color: Colors.redAccent),
+                  ),
+                ),
+              ],
+              child: Math.tex(
+                'y_{$i}',
+                textScaleFactor: 1.4,
+                mathStyle: MathStyle.text,
+              ),
+            ),
+          ));
         }
+        eqWidgets[i].add(Row(
+          mainAxisSize: MainAxisSize.min,
+          children: valueRow,
+        ));
         if (j < widget.matrix.getColumns() - 2) {
-          gridChildren.add(const Center(child: Text('+')));
+          eqWidgets[i].add(const Text('+'));
         }
         if (j == widget.matrix.getColumns() - 2) {
-          gridChildren.add(const Center(child: Text('=')));
+          eqWidgets[i].add(const Text('='));
         }
       }
-      gridChildren.add(Center(child: Text('y$i')));
     }
 
     return Card(
-      child: Column(
-        children: [
-          SizedBox(
-            width: 60 * (widget.matrix.getColumns().toDouble() + extraCols),
-            child: GridView.count(
-              crossAxisCount: widget.matrix.getColumns() + extraCols,
-              shrinkWrap: true,
-              mainAxisSpacing: 4.0,
-              clipBehavior: Clip.antiAlias,
-              crossAxisSpacing: 4.0,
-              children: gridChildren,
-            ),
-          ),
-          ButtonRow(
-            onPressed: (i) {
-              if (i == 0) {
-                setState(() {
-                  widget.matrix.addRow();
-                });
-              } else {
-                setState(() {
-                  widget.matrix.addColumn();
-                });
-              }
-            },
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16,
-            ),
-            children: const [
-              Text('+ Rovnice'),
-              Text('+ Neznámá'),
-            ],
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        child: Column(
+          children: [
+            for (var r = 0; r < widget.matrix.getRows(); r++)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Wrap(
+                  runSpacing: 4,
+                  spacing: 8,
+                  direction: Axis.horizontal,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: eqWidgets[r],
+                ),
+              ),
+            ButtonRow(
+              onPressed: (i) {
+                if (i == 0) {
+                  setState(() {
+                    widget.matrix.addRow();
+                  });
+                } else {
+                  setState(() {
+                    widget.matrix.addColumn();
+                  });
+                }
+              },
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
+              children: const [
+                Text('+ Rovnice'),
+                Text('+ Neznámá'),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

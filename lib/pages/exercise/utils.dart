@@ -29,7 +29,7 @@ class ExerciseUtils {
 
   static int generateSize() => random.nextInt(4) + 1;
 
-  // TODO: move this somewhere more general
+  // TODO: move this somewhere more general, add state option (error, correct, info)
   static void showError(BuildContext context, String message) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -21,6 +21,7 @@ ThemeData _algebraTheme() {
     outlinedButtonTheme: _algebraOutlinedButtonTheme(),
     toggleButtonsTheme: _algebraToggleButtonTheme(),
     inputDecorationTheme: _algebraInputTheme(),
+    snackBarTheme: _algebraSnackbarTheme(),
   );
 }
 
@@ -86,4 +87,12 @@ InputDecorationTheme _algebraInputTheme() => const InputDecorationTheme(
         vertical: 6,
       ),
       hintStyle: TextStyle(),
+    );
+
+SnackBarThemeData _algebraSnackbarTheme() => const SnackBarThemeData(
+      backgroundColor: Colors.white24,
+      contentTextStyle: TextStyle(
+        color: Colors.white,
+      ),
+      actionTextColor: Colors.deepPurple,
     );
