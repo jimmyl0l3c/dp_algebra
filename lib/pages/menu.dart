@@ -19,25 +19,34 @@ class Menu extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  routeState.go('/chapter');
-                },
-                child: const Text('Výuka'),
-              ),
-              const SizedBox(height: 8.0),
-              ElevatedButton(
-                onPressed: () {
-                  routeState.go('/exercise');
-                },
-                child: const Text('Procvičování'),
-              ),
-              const SizedBox(height: 8.0),
-              ElevatedButton(
+              SizedBox(
+                height: 40,
+                child: ElevatedButton(
                   onPressed: () {
-                    routeState.go('/calc');
+                    routeState.go('/chapter');
                   },
-                  child: const Text('Kalkulačka')),
+                  child: const Text('Výuka'),
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              SizedBox(
+                height: 40,
+                child: ElevatedButton(
+                  onPressed: () {
+                    routeState.go('/exercise');
+                  },
+                  child: const Text('Procvičování'),
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              SizedBox(
+                height: 40,
+                child: ElevatedButton(
+                    onPressed: () {
+                      routeState.go('/calc');
+                    },
+                    child: const Text('Kalkulačka')),
+              ),
             ],
           ),
         ),
