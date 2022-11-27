@@ -70,20 +70,20 @@ OutlinedButtonThemeData _algebraOutlinedButtonTheme() =>
 ToggleButtonsThemeData _algebraToggleButtonTheme() =>
     const ToggleButtonsThemeData();
 
-InputDecorationTheme _algebraInputTheme() => InputDecorationTheme(
-      border: const OutlineInputBorder(),
+InputDecorationTheme _algebraInputTheme() => const InputDecorationTheme(
+      border: OutlineInputBorder(),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.orange.withOpacity(.5)),
+        borderSide: BorderSide(color: Colors.orange),
       ),
-      focusedBorder: const OutlineInputBorder(
+      focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.yellow),
       ),
-      errorBorder: const OutlineInputBorder(
+      errorBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.redAccent),
       ),
-      contentPadding: const EdgeInsets.symmetric(
+      contentPadding: EdgeInsets.symmetric(
         horizontal: 8,
         vertical: 6,
       ),
-      hintStyle: const TextStyle(),
+      hintStyle: TextStyle(),
     );

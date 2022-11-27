@@ -286,7 +286,7 @@ class _MatrixBinOperationSelectionState
               for (var matrix in widget.matrices.entries)
                 DropdownMenuItem(
                   value: matrix.key,
-                  child: Text(matrix.key),
+                  child: Center(child: Text(matrix.key)),
                 ),
             ],
             onChanged: (String? val) {
@@ -306,7 +306,9 @@ class _MatrixBinOperationSelectionState
                 .map<DropdownMenuItem<String>>((String operation) {
               return DropdownMenuItem(
                 value: operation,
-                child: Text(operation),
+                child: Center(
+                  child: Text(operation),
+                ),
               );
             }).toList(),
             onChanged: (String? val) {
@@ -326,7 +328,7 @@ class _MatrixBinOperationSelectionState
               for (var matrix in widget.matrices.entries)
                 DropdownMenuItem(
                   value: matrix.key,
-                  child: Text(matrix.key),
+                  child: Center(child: Text(matrix.key)),
                 ),
             ],
             onChanged: (String? val) {
@@ -393,6 +395,9 @@ class _MatrixBinOperationSelectionState
             style: ButtonStyle(
               shape: MaterialStateProperty.all(const CircleBorder()),
               backgroundColor: MaterialStateProperty.resolveWith((states) {
+                if (states.contains(MaterialState.disabled)) {
+                  return Colors.white12;
+                }
                 if (states.contains(MaterialState.pressed)) {
                   return Colors.deepPurpleAccent[100];
                 }
@@ -403,14 +408,16 @@ class _MatrixBinOperationSelectionState
                 return Theme.of(context).colorScheme.primary;
               }),
             ),
-            onPressed: () {
-              if (_binaryLeft == _binaryRight) return;
-              setState(() {
-                String? tmp = _binaryLeft;
-                _binaryLeft = _binaryRight;
-                _binaryRight = tmp;
-              });
-            },
+            onPressed: (_binaryLeft == null && _binaryRight == null)
+                ? null
+                : () {
+                    if (_binaryLeft == _binaryRight) return;
+                    setState(() {
+                      String? tmp = _binaryLeft;
+                      _binaryLeft = _binaryRight;
+                      _binaryRight = tmp;
+                    });
+                  },
             child: Icon(
               Icons.autorenew_rounded,
               color: Theme.of(context).colorScheme.onPrimary,
