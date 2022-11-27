@@ -87,15 +87,12 @@ class _EquationExcState extends State<EquationExc> {
             direction: Axis.horizontal,
             children: [
               Math.tex(
-                '${equationMatrix.toTeX()} =',
+                '${equationMatrix.toTeX()}, ',
                 textScaleFactor: 1.4,
               ),
-              SizedBox(
-                width: 500,
-                child: VectorInput(
-                  vector: solution,
-                  name: 'x',
-                ),
+              VectorInput(
+                vector: solution,
+                name: 'x',
               ),
             ],
           ),

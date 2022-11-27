@@ -29,12 +29,9 @@ class CalcVectorIndependence extends StatelessWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 for (var i = 0; i < vectors.length; i++)
-                  SizedBox(
-                    width: 500,
-                    child: VectorInput(
-                      vector: vectors[i],
-                      name: 'v$i',
-                    ),
+                  VectorInput(
+                    vector: vectors[i],
+                    name: 'v$i',
                   ),
               ],
             ),

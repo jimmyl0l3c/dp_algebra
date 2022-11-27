@@ -92,7 +92,7 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
                 '${matrixA.toTeX()} $operationSymbol ${matrixB.toTeX()} =',
                 textScaleFactor: 1.4,
               ),
-              MatrixInput(matrix: solution, name: 'C', deleteMatrix: () {}),
+              MatrixInput(matrix: solution),
             ],
           ),
         ],

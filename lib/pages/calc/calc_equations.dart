@@ -101,9 +101,12 @@ class CalcEquations extends StatelessWidget {
 
                 List<Widget> solutions = [];
                 for (var solution in snapshot.data!.reversed) {
-                  solutions.add(Math.tex(
-                    solution.toTeX(),
-                    textScaleFactor: 1.4,
+                  solutions.add(Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Math.tex(
+                      solution.toTeX(),
+                      textScaleFactor: 1.4,
+                    ),
                   ));
                 }
 

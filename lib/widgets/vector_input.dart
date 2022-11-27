@@ -5,13 +5,13 @@ import 'package:fraction/fraction.dart';
 
 class VectorInput extends StatefulWidget {
   final Vector vector;
-  final String name;
+  final String? name;
   final VoidCallback? deleteMatrix;
 
   const VectorInput({
     Key? key,
     required this.vector,
-    required this.name,
+    this.name,
     this.deleteMatrix,
   }) : super(key: key);
 
@@ -24,29 +24,34 @@ class _VectorInputState extends State<VectorInput> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(widget.name),
-              if (widget.deleteMatrix != null)
-                IconButton(
-                  onPressed: widget.deleteMatrix,
-                  icon: const Icon(Icons.close),
-                  iconSize: 12.0,
-                  splashRadius: 15.0,
-                  color: Colors.redAccent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        child: Column(
+          children: [
+            if (widget.name != null || widget.deleteMatrix != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (widget.name != null) Text(widget.name!),
+                    if (widget.deleteMatrix != null)
+                      IconButton(
+                        onPressed: widget.deleteMatrix,
+                        icon: const Icon(Icons.close),
+                        iconSize: 12.0,
+                        splashRadius: 15.0,
+                        color: Colors.redAccent,
+                      ),
+                  ],
                 ),
-            ],
-          ),
-          Wrap(
-            direction: Axis.horizontal,
-            children: [
-              for (var i = 0; i < widget.vector.length(); i++)
-                SizedBox(
-                  width: 60,
-                  child: FractionInput(
+              ),
+            Wrap(
+              direction: Axis.horizontal,
+              children: [
+                for (var i = 0; i < widget.vector.length(); i++)
+                  FractionInput(
+                      maxWidth: 60,
                       onChanged: (Fraction? value) {
                         if (value == null) return;
                         widget.vector.setValue(i, value);
@@ -54,21 +59,21 @@ class _VectorInputState extends State<VectorInput> {
                       value: widget.vector[i].toDouble() != 0.0
                           ? widget.vector[i].toString()
                           : null),
-                ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  widget.vector.addEntry();
-                });
-              },
-              child: const Text('+ Prvek'),
+              ],
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    widget.vector.addEntry();
+                  });
+                },
+                child: const Text('+ Prvek'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

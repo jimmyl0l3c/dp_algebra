@@ -70,7 +70,7 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
                 '${matrix.toTeX()} =',
                 textScaleFactor: 1.4,
               ),
-              MatrixInput(matrix: solution, name: 'C', deleteMatrix: () {}),
+              MatrixInput(matrix: solution),
             ],
           ),
         ],
