@@ -14,82 +14,104 @@ class CalcEquations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          EquationInput(
-            matrix: CalcDataController.getEquationMatrix(),
-          ),
-          const Divider(),
-          const Text('Metody řešení'),
-          OutlinedButton(
-            onPressed: () {
-              EquationMatrix m = CalcDataController.getEquationMatrix();
-              try {
-                GeneralSolution solution = m.solveByGauss();
-                CalcDataController.addEquationSolution(EquationSolution(
-                  equationMatrix: EquationMatrix.from(m),
-                  generalSolution: solution,
-                ));
-              } on EquationsNotSolvableException {
-                showError(context, 'Soustava rovnic není řešitelná');
-              }
-            },
-            child: const Text('Gaussova eliminační metoda'),
-          ),
-          OutlinedButton(
-            onPressed: () {
-              EquationMatrix m = CalcDataController.getEquationMatrix();
-              try {
-                Vector solution = m.solveByInverse();
-                CalcDataController.addEquationSolution(EquationSolution(
-                  equationMatrix: EquationMatrix.from(m),
-                  solution: solution,
-                ));
-              } on MatrixInverseImpossibleException {
-                showError(context, 'Matice rovnice nemá inverzní matici');
-              } on MatrixIsNotSquareException {
-                showError(context, 'Matice rovnice musí být čtvercová');
-              }
-            },
-            child: const Text('Inverzní matice'),
-          ),
-          OutlinedButton(
-            onPressed: () {
-              EquationMatrix m = CalcDataController.getEquationMatrix();
-              try {
-                Vector solution = m.solveByCramer();
-                CalcDataController.addEquationSolution(EquationSolution(
-                  equationMatrix: EquationMatrix.from(m),
-                  solution: solution,
-                ));
-              } on MatrixIsNotSquareException {
-                showError(context, 'Matice rovnice musí být čtvercová');
-              } on EqNotSolvableByCramerException {
-                showError(
-                    context, 'Determinant matice rovnice nesmí být roven nula');
-              }
-            },
-            child: const Text('Cramerovo pravidlo'),
-          ),
-          const Divider(),
-          const Text('Výsledky:'),
-          StreamBuilder(
-            stream: CalcDataController.equationSolutionsStream,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) return Container();
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 8,
+        ),
+        child: Column(
+          children: [
+            EquationInput(
+              matrix: CalcDataController.getEquationMatrix(),
+            ),
+            const Divider(),
+            Text(
+              'Metody řešení',
+              style: Theme.of(context).textTheme.headline4!,
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  EquationMatrix m = CalcDataController.getEquationMatrix();
+                  try {
+                    GeneralSolution solution = m.solveByGauss();
+                    CalcDataController.addEquationSolution(EquationSolution(
+                      equationMatrix: EquationMatrix.from(m),
+                      generalSolution: solution,
+                    ));
+                  } on EquationException catch (e) {
+                    showError(context, e.errMessage());
+                  }
+                },
+                child: const Text('Gaussova eliminační metoda'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  EquationMatrix m = CalcDataController.getEquationMatrix();
+                  try {
+                    Vector solution = m.solveByInverse();
+                    CalcDataController.addEquationSolution(EquationSolution(
+                      equationMatrix: EquationMatrix.from(m),
+                      solution: solution,
+                    ));
+                  } on MatrixException catch (e) {
+                    showError(context, e.errMessage());
+                  } on EquationException catch (e) {
+                    showError(context, e.errMessage());
+                  }
+                },
+                child: const Text('Inverzní matice'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  EquationMatrix m = CalcDataController.getEquationMatrix();
+                  try {
+                    Vector solution = m.solveByCramer();
+                    CalcDataController.addEquationSolution(EquationSolution(
+                      equationMatrix: EquationMatrix.from(m),
+                      solution: solution,
+                    ));
+                  } on MatrixException catch (e) {
+                    showError(context, e.errMessage());
+                  } on EquationException catch (e) {
+                    showError(context, e.errMessage());
+                  }
+                },
+                child: const Text('Cramerovo pravidlo'),
+              ),
+            ),
+            const Divider(),
+            Text(
+              'Výsledky',
+              style: Theme.of(context).textTheme.headline4!,
+            ),
+            const SizedBox(height: 12),
+            StreamBuilder(
+              stream: CalcDataController.equationSolutionsStream,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return Container();
 
-              List<Widget> solutions = [];
-              for (var solution in snapshot.data!.reversed) {
-                solutions.add(Math.tex(
-                  solution.toTeX(),
-                  textScaleFactor: 1.4,
-                ));
-              }
+                List<Widget> solutions = [];
+                for (var solution in snapshot.data!.reversed) {
+                  solutions.add(Math.tex(
+                    solution.toTeX(),
+                    textScaleFactor: 1.4,
+                  ));
+                }
 
-              return Column(children: solutions);
-            },
-          )
-        ],
+                return Column(children: solutions);
+              },
+            )
+          ],
+        ),
       ),
     );
   }
