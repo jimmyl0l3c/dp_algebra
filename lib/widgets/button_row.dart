@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 
+class ButtonRowItem {
+  final Widget child;
+  final void Function()? onPressed;
+
+  ButtonRowItem({required this.child, this.onPressed});
+}
+
 class ButtonRow extends StatelessWidget {
-  final List<Widget> children;
-  final void Function(int)? onPressed;
+  final List<ButtonRowItem> children;
   final double? borderRadius;
   final EdgeInsetsGeometry? padding;
 
   const ButtonRow({
     Key? key,
     required this.children,
-    this.onPressed,
     this.borderRadius,
     this.padding,
   }) : super(key: key);
@@ -37,8 +42,7 @@ class ButtonRow extends StatelessWidget {
                       ))
                     : null,
                 child: TextButton(
-                  onPressed:
-                      onPressed != null ? () => onPressed!.call(i) : null,
+                  onPressed: children[i].onPressed,
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all(padding ??
                         const EdgeInsets.symmetric(
@@ -48,7 +52,7 @@ class ButtonRow extends StatelessWidget {
                     backgroundColor:
                         MaterialStateProperty.resolveWith((states) {
                       if (states.contains(MaterialState.disabled)) {
-                        return Colors.white10;
+                        return Colors.white12;
                       }
                       if (states.contains(MaterialState.pressed)) {
                         return Colors.deepPurpleAccent[100];
@@ -66,7 +70,7 @@ class ButtonRow extends StatelessWidget {
                     shape: MaterialStateProperty.all(
                         const RoundedRectangleBorder()),
                   ),
-                  child: children[i],
+                  child: children[i].child,
                 ),
               ),
             )

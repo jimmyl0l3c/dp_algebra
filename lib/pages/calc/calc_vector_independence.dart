@@ -24,9 +24,9 @@ class CalcVectorIndependence extends StatelessWidget {
               style: Theme.of(context).textTheme.headline4!,
             ),
             const SizedBox(height: 12),
-            Wrap(
-              direction: Axis.vertical,
-              crossAxisAlignment: WrapCrossAlignment.center,
+            Column(
+              // direction: Axis.vertical,
+              // crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 for (var i = 0; i < vectors.length; i++)
                   VectorInput(

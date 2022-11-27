@@ -42,36 +42,40 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
                   vertical: 8,
                   horizontal: 16,
                 ),
-                children: const [
-                  Text('Sčítání'),
-                  Text('Odčítání'),
-                  Text('Násobení'),
-                  Text('Náhodně'),
-                ],
-                onPressed: (i) {
-                  switch (i) {
-                    case 0:
+                children: [
+                  ButtonRowItem(
+                    child: const Text('Sčítání'),
+                    onPressed: () {
                       setState(() {
                         generateEntryWiseExample('+');
                       });
-                      break;
-                    case 1:
+                    },
+                  ),
+                  ButtonRowItem(
+                    child: const Text('Odčítání'),
+                    onPressed: () {
                       setState(() {
                         generateEntryWiseExample('-');
                       });
-                      break;
-                    case 2:
+                    },
+                  ),
+                  ButtonRowItem(
+                    child: const Text('Násobení'),
+                    onPressed: () {
                       setState(() {
                         generateMultiplyExample();
                       });
-                      break;
-                    default:
+                    },
+                  ),
+                  ButtonRowItem(
+                    child: const Text('Náhodně'),
+                    onPressed: () {
                       setState(() {
                         generateRandomExample();
                       });
-                      break;
-                  }
-                },
+                    },
+                  ),
+                ],
               ),
               const VerticalDivider(),
               ElevatedButton(

@@ -122,19 +122,21 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   ),
                   ButtonRow(
                     children: [
-                      for (var matrix in _matrices.entries) Text(matrix.key),
+                      for (var matrix in _matrices.entries)
+                        ButtonRowItem(
+                            child: Text(matrix.key),
+                            onPressed: () {
+                              Matrix? m = matrix.value;
+                              Matrix? solution = m * _scalarC;
+                              CalcDataController.addMatrixSolution(
+                                  MatrixSolution(
+                                leftOp: _scalarC,
+                                rightOp: Matrix.from(m),
+                                operation: MatrixOperation.multiply,
+                                solution: solution,
+                              ));
+                            }),
                     ],
-                    onPressed: (int index) {
-                      Matrix? m = _matrices[_matrices.keys.elementAt(index)];
-                      if (m == null) return;
-                      Matrix? solution = m * _scalarC;
-                      CalcDataController.addMatrixSolution(MatrixSolution(
-                        leftOp: _scalarC,
-                        rightOp: Matrix.from(m),
-                        operation: MatrixOperation.multiply,
-                        solution: solution,
-                      ));
-                    },
                   ),
                 ],
               ),
@@ -209,41 +211,45 @@ class MatrixOperationSelection extends StatelessWidget {
           ),
           if (!operation.binary)
             ButtonRow(
-              children: [for (var matrix in matrices.entries) Text(matrix.key)],
-              onPressed: (int index) {
-                Matrix? m = matrices[matrices.keys.elementAt(index)];
-                if (m == null) return;
-                dynamic solution;
-                try {
-                  switch (operation) {
-                    case MatrixOperation.add:
-                    case MatrixOperation.diff:
-                    case MatrixOperation.multiply:
-                      return;
-                    case MatrixOperation.det:
-                      solution = m.determinant();
-                      break;
-                    case MatrixOperation.inverse:
-                      solution = m.inverse();
-                      break;
-                    case MatrixOperation.transpose:
-                      solution = m.transposed();
-                      break;
-                    case MatrixOperation.rank:
-                      solution = m.rank();
-                      break;
-                  }
-                } on MatrixException catch (e) {
-                  ExerciseUtils.showError(context, e.errMessage());
-                  return;
-                }
+              children: [
+                for (var matrix in matrices.entries)
+                  ButtonRowItem(
+                    child: Text(matrix.key),
+                    onPressed: () {
+                      Matrix? m = matrix.value;
+                      dynamic solution;
+                      try {
+                        switch (operation) {
+                          case MatrixOperation.add:
+                          case MatrixOperation.diff:
+                          case MatrixOperation.multiply:
+                            return;
+                          case MatrixOperation.det:
+                            solution = m.determinant();
+                            break;
+                          case MatrixOperation.inverse:
+                            solution = m.inverse();
+                            break;
+                          case MatrixOperation.transpose:
+                            solution = m.transposed();
+                            break;
+                          case MatrixOperation.rank:
+                            solution = m.rank();
+                            break;
+                        }
+                      } on MatrixException catch (e) {
+                        ExerciseUtils.showError(context, e.errMessage());
+                        return;
+                      }
 
-                CalcDataController.addMatrixSolution(MatrixSolution(
-                  leftOp: Matrix.from(m),
-                  operation: operation,
-                  solution: solution,
-                ));
-              },
+                      CalcDataController.addMatrixSolution(MatrixSolution(
+                        leftOp: Matrix.from(m),
+                        operation: operation,
+                        solution: solution,
+                      ));
+                    },
+                  ),
+              ],
             ),
         ],
       ),

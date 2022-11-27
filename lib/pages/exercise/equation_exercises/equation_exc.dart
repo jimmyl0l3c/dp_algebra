@@ -42,22 +42,24 @@ class _EquationExcState extends State<EquationExc> {
                   vertical: 8,
                   horizontal: 16,
                 ),
-                children: const [
-                  Text('Se čtvercovou maticí'),
-                  Text('Náhodně'),
+                children: [
+                  ButtonRowItem(
+                      child: const Text('Se čtvercovou maticí'),
+                      onPressed: () {
+                        setState(() {
+                          equationMatrix = generateSquareMatrix(
+                              ExerciseUtils.generateSize());
+                        });
+                      }),
+                  ButtonRowItem(
+                    child: const Text('Náhodně'),
+                    onPressed: () {
+                      setState(() {
+                        equationMatrix = generateRandomMatrix();
+                      });
+                    },
+                  ),
                 ],
-                onPressed: (i) {
-                  if (i == 0) {
-                    setState(() {
-                      equationMatrix =
-                          generateSquareMatrix(ExerciseUtils.generateSize());
-                    });
-                  } else {
-                    setState(() {
-                      equationMatrix = generateRandomMatrix();
-                    });
-                  }
-                },
               ),
               const VerticalDivider(),
               ButtonRow(
@@ -65,20 +67,23 @@ class _EquationExcState extends State<EquationExc> {
                   vertical: 8,
                   horizontal: 16,
                 ),
-                children: const [
-                  Text('Zkontrolovat'),
-                  Text('Nemá řešení'),
+                children: [
+                  ButtonRowItem(
+                    child: const Text('Zkontrolovat'),
+                    onPressed: () {
+                      // TODO: replace this
+                      ExerciseUtils.showError(
+                          context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+                    },
+                  ),
+                  ButtonRowItem(
+                    child: const Text('Nemá řešení'),
+                    onPressed: () {
+                      ExerciseUtils.showError(context,
+                          !equationMatrix.isSolvable() ? 'Správně' : 'Špatně');
+                    },
+                  ),
                 ],
-                onPressed: (i) {
-                  if (i == 0) {
-                    // TODO: replace this
-                    ExerciseUtils.showError(
-                        context, isAnswerCorrect() ? 'Správně' : 'Špatně');
-                  } else {
-                    ExerciseUtils.showError(context,
-                        !equationMatrix.isSolvable() ? 'Správně' : 'Špatně');
-                  }
-                },
               ),
             ],
           ),

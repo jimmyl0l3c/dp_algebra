@@ -20,7 +20,9 @@ class Vector {
 
   void addEntry({Fraction? f}) => _entries.add(f ?? 0.toFraction());
 
-  void setValue(int i, Fraction value) => _entries[i] = value;
+  Fraction removeEntry(int index) => _entries.removeAt(index);
+
+  void setValue(int index, Fraction value) => _entries[index] = value;
 
   int length() => _entries.length;
 

@@ -68,24 +68,27 @@ class _MatrixInputState extends State<MatrixInput> {
               ),
             ),
             ButtonRow(
-              onPressed: (i) {
-                if (i == 0) {
-                  setState(() {
-                    widget.matrix.addRow();
-                  });
-                } else {
-                  setState(() {
-                    widget.matrix.addColumn();
-                  });
-                }
-              },
               padding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 16,
               ),
-              children: const [
-                Text('+ Řádek'),
-                Text('+ Sloupec'),
+              children: [
+                ButtonRowItem(
+                  child: const Text('+ Řádek'),
+                  onPressed: () {
+                    setState(() {
+                      widget.matrix.addRow();
+                    });
+                  },
+                ),
+                ButtonRowItem(
+                  child: const Text('+ Sloupec'),
+                  onPressed: () {
+                    setState(() {
+                      widget.matrix.addColumn();
+                    });
+                  },
+                ),
               ],
             )
           ],

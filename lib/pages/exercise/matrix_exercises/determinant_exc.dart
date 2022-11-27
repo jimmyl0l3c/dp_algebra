@@ -41,33 +41,41 @@ class _DeterminantExcState extends State<DeterminantExc> {
                   vertical: 8,
                   horizontal: 16,
                 ),
-                children: const [
-                  Text('2x2'),
-                  Text('3x3'),
-                  Text('> 3x3'),
-                  Text('Náhodně'),
-                ],
-                onPressed: (i) {
-                  switch (i) {
-                    case 0:
-                    case 1:
+                children: [
+                  ButtonRowItem(
+                    child: const Text('2x2'),
+                    onPressed: () {
                       setState(() {
-                        determinant = generateDeterminant(2 + i);
+                        determinant = generateDeterminant(2);
                       });
-                      break;
-                    case 2:
+                    },
+                  ),
+                  ButtonRowItem(
+                    child: const Text('3x3'),
+                    onPressed: () {
+                      setState(() {
+                        determinant = generateDeterminant(3);
+                      });
+                    },
+                  ),
+                  ButtonRowItem(
+                    child: const Text('> 3x3'),
+                    onPressed: () {
                       setState(() {
                         determinant =
                             generateDeterminant(4 + random.nextInt(3));
                       });
-                      break;
-                    default:
+                    },
+                  ),
+                  ButtonRowItem(
+                    child: const Text('Náhodně'),
+                    onPressed: () {
                       setState(() {
                         determinant = generateRandomDeterminant();
                       });
-                      break;
-                  }
-                },
+                    },
+                  ),
+                ],
               ),
               const VerticalDivider(),
               ElevatedButton(

@@ -1,4 +1,5 @@
 import 'package:dp_algebra/matrices/vector.dart';
+import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/fraction_input.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
@@ -48,33 +49,99 @@ class _VectorInputState extends State<VectorInput> {
               ),
             Wrap(
               direction: Axis.horizontal,
+              runSpacing: 4.0,
+              spacing: 2.0,
               children: [
                 for (var i = 0; i < widget.vector.length(); i++)
-                  FractionInput(
-                      maxWidth: 60,
-                      onChanged: (Fraction? value) {
-                        if (value == null) return;
-                        widget.vector.setValue(i, value);
-                      },
-                      value: widget.vector[i].toDouble() != 0.0
-                          ? widget.vector[i].toString()
-                          : null),
+                  _decorateVector(
+                      FractionInput(
+                          maxWidth: 60,
+                          onChanged: (Fraction? value) {
+                            if (value == null) return;
+                            widget.vector.setValue(i, value);
+                          },
+                          value: widget.vector[i].toDouble() != 0.0
+                              ? widget.vector[i].toString()
+                              : null),
+                      i,
+                      widget.vector.length()),
               ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8),
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    widget.vector.addEntry();
-                  });
-                },
-                child: const Text('+ Prvek'),
+              child: ButtonRow(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16.0,
+                  horizontal: 16.0,
+                ),
+                children: [
+                  ButtonRowItem(
+                    child: const Text('+ Prvek'),
+                    onPressed: () {
+                      setState(() {
+                        widget.vector.addEntry();
+                      });
+                    },
+                  ),
+                  ButtonRowItem(
+                    child: const Text('- Prvek'),
+                    onPressed: widget.vector.length() > 1
+                        ? () {
+                            setState(() {
+                              widget.vector
+                                  .removeEntry(widget.vector.length() - 1);
+                            });
+                          }
+                        : null,
+                  ),
+                ],
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _decorateVector(Widget child, int i, int length) {
+    const double padding = 6.0;
+    const double scaleX = 1.2;
+    const double scaleY = 3.0;
+
+    if (i == 0 || i == (length - 1)) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (i == 0 || length == 1)
+            Transform.scale(
+              scaleY: scaleY,
+              scaleX: scaleX,
+              origin: Offset.fromDirection(90, 1),
+              child: const Text(
+                '(',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          Padding(
+            padding: EdgeInsets.only(
+              left: i == 0 ? padding : 0.0,
+              right: i == (length - 1) ? padding : 0.0,
+            ),
+            child: child,
+          ),
+          if (i == (length - 1))
+            Transform.scale(
+              scaleY: scaleY,
+              scaleX: scaleX,
+              origin: Offset.fromDirection(90, 1),
+              child: const Text(
+                ')',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+        ],
+      );
+    }
+    return child;
   }
 }

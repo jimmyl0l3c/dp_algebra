@@ -46,19 +46,22 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
                   vertical: 8,
                   horizontal: 16,
                 ),
-                children: const [
-                  Text('Zkontrolovat'),
-                  Text('Nemá inverzní'),
+                children: [
+                  ButtonRowItem(
+                    child: const Text('Zkontrolovat'),
+                    onPressed: () {
+                      ExerciseUtils.showError(
+                          context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+                    },
+                  ),
+                  ButtonRowItem(
+                    child: const Text('Nemá inverzní'),
+                    onPressed: () {
+                      ExerciseUtils.showError(
+                          context, inverseExists() ? 'Špatně' : 'Správně');
+                    },
+                  ),
                 ],
-                onPressed: (i) {
-                  if (i == 0) {
-                    ExerciseUtils.showError(
-                        context, isAnswerCorrect() ? 'Správně' : 'Špatně');
-                  } else {
-                    ExerciseUtils.showError(
-                        context, inverseExists() ? 'Špatně' : 'Správně');
-                  }
-                },
               ),
             ],
           ),

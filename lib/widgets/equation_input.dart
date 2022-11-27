@@ -126,24 +126,25 @@ class _EquationInputState extends State<EquationInput> {
                 ),
               ),
             ButtonRow(
-              onPressed: (i) {
-                if (i == 0) {
-                  setState(() {
-                    widget.matrix.addRow();
-                  });
-                } else {
-                  setState(() {
-                    widget.matrix.addColumn();
-                  });
-                }
-              },
               padding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 16,
               ),
-              children: const [
-                Text('+ Rovnice'),
-                Text('+ Neznámá'),
+              children: [
+                ButtonRowItem(
+                    child: const Text('+ Rovnice'),
+                    onPressed: () {
+                      setState(() {
+                        widget.matrix.addRow();
+                      });
+                    }),
+                ButtonRowItem(
+                    child: const Text('+ Neznámá'),
+                    onPressed: () {
+                      setState(() {
+                        widget.matrix.addColumn();
+                      });
+                    }),
               ],
             )
           ],
