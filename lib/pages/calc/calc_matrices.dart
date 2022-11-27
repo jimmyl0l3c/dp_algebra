@@ -39,20 +39,14 @@ class _CalcMatricesState extends State<CalcMatrices> {
         ),
         child: Column(
           children: [
-            Wrap(
-              direction: Axis.horizontal,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (var matrix in _matrices.entries)
-                  MatrixInput(
-                    matrix: matrix.value,
-                    name: matrix.key,
-                    deleteMatrix: () {
-                      setState(() {
-                        _namePool.insert(0, matrix.key);
-                        _matrices.remove(matrix.key);
-                      });
-                    },
-                  ),
+                Text(
+                  'Matice',
+                  style: Theme.of(context).textTheme.headline4!,
+                ),
+                const SizedBox(width: 8),
                 ElevatedButton(
                   onPressed: _namePool.isNotEmpty
                       ? () {
@@ -65,6 +59,24 @@ class _CalcMatricesState extends State<CalcMatrices> {
                       : null,
                   child: const Text('+'),
                 ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              direction: Axis.horizontal,
+              alignment: WrapAlignment.center,
+              children: [
+                for (var matrix in _matrices.entries)
+                  MatrixInput(
+                    matrix: matrix.value,
+                    name: matrix.key,
+                    deleteMatrix: () {
+                      setState(() {
+                        _namePool.insert(0, matrix.key);
+                        _matrices.remove(matrix.key);
+                      });
+                    },
+                  ),
               ],
             ),
             const Divider(),
