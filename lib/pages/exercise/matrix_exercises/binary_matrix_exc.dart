@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:dp_algebra/matrices/matrix.dart';
 import 'package:dp_algebra/pages/exercise/utils.dart';
+import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/matrix_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
@@ -36,40 +37,44 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
             direction: Axis.horizontal,
             children: [
               const Text('Vygenerovat: '),
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    generateEntryWiseExample('+');
-                  });
+              ButtonRow(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
+                ),
+                children: const [
+                  Text('Sčítání'),
+                  Text('Odčítání'),
+                  Text('Násobení'),
+                  Text('Náhodně'),
+                ],
+                onPressed: (i) {
+                  switch (i) {
+                    case 0:
+                      setState(() {
+                        generateEntryWiseExample('+');
+                      });
+                      break;
+                    case 1:
+                      setState(() {
+                        generateEntryWiseExample('-');
+                      });
+                      break;
+                    case 2:
+                      setState(() {
+                        generateMultiplyExample();
+                      });
+                      break;
+                    default:
+                      setState(() {
+                        generateRandomExample();
+                      });
+                      break;
+                  }
                 },
-                child: const Text('Sčítání'),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    generateEntryWiseExample('-');
-                  });
-                },
-                child: const Text('Odčítání'),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    generateMultiplyExample();
-                  });
-                },
-                child: const Text('Násobení'),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    generateRandomExample();
-                  });
-                },
-                child: const Text('Náhodně'),
               ),
               const VerticalDivider(),
-              OutlinedButton(
+              ElevatedButton(
                 onPressed: () {
                   // TODO: replace this
                   ExerciseUtils.showError(

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:dp_algebra/matrices/matrix.dart';
 import 'package:dp_algebra/pages/exercise/utils.dart';
+import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/fraction_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
@@ -35,46 +36,47 @@ class _DeterminantExcState extends State<DeterminantExc> {
             direction: Axis.horizontal,
             children: [
               const Text('Vygenerovat: '),
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    determinant = generateDeterminant(2);
-                  });
+              ButtonRow(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
+                ),
+                children: const [
+                  Text('2x2'),
+                  Text('3x3'),
+                  Text('> 3x3'),
+                  Text('Náhodně'),
+                ],
+                onPressed: (i) {
+                  switch (i) {
+                    case 0:
+                    case 1:
+                      setState(() {
+                        determinant = generateDeterminant(2 + i);
+                      });
+                      break;
+                    case 2:
+                      setState(() {
+                        determinant =
+                            generateDeterminant(4 + random.nextInt(3));
+                      });
+                      break;
+                    default:
+                      setState(() {
+                        determinant = generateRandomDeterminant();
+                      });
+                      break;
+                  }
                 },
-                child: const Text('2x2'),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    determinant = generateDeterminant(3);
-                  });
-                },
-                child: const Text('3x3'),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    determinant = generateDeterminant(4 + random.nextInt(3));
-                  });
-                },
-                child: const Text('> 3x3'),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    determinant = generateRandomDeterminant();
-                  });
-                },
-                child: const Text('Náhodně'),
               ),
               const VerticalDivider(),
-              OutlinedButton(
+              ElevatedButton(
                 onPressed: () {
                   // TODO: replace this
                   ExerciseUtils.showError(
                       context, isAnswerCorrect() ? 'Správně' : 'Špatně');
                 },
-                child: Text('Zkontrolovat'),
+                child: const Text('Zkontrolovat'),
               ),
             ],
           ),

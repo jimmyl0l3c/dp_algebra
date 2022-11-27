@@ -20,6 +20,7 @@ class ButtonRow extends StatelessWidget {
       borderRadius: BorderRadius.circular(borderRadius ?? 8),
       clipBehavior: Clip.antiAlias,
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: children
             .asMap()
             .keys

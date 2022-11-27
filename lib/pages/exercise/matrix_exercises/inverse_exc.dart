@@ -1,5 +1,6 @@
 import 'package:dp_algebra/matrices/matrix.dart';
 import 'package:dp_algebra/pages/exercise/utils.dart';
+import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/matrix_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
@@ -31,7 +32,7 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
             direction: Axis.horizontal,
             children: [
               const Text('Vygenerovat: '),
-              OutlinedButton(
+              ElevatedButton(
                 onPressed: () {
                   setState(() {
                     matrix = generateSquareMatrix(ExerciseUtils.generateSize());
@@ -40,21 +41,24 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
                 child: const Text('Náhodně'),
               ),
               const VerticalDivider(),
-              OutlinedButton(
-                onPressed: () {
-                  // TODO: replace this
-                  ExerciseUtils.showError(
-                      context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+              ButtonRow(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
+                ),
+                children: const [
+                  Text('Zkontrolovat'),
+                  Text('Nemá inverzní'),
+                ],
+                onPressed: (i) {
+                  if (i == 0) {
+                    ExerciseUtils.showError(
+                        context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+                  } else {
+                    ExerciseUtils.showError(
+                        context, inverseExists() ? 'Špatně' : 'Správně');
+                  }
                 },
-                child: const Text('Zkontrolovat'),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  // TODO: replace this
-                  ExerciseUtils.showError(
-                      context, inverseExists() ? 'Špatně' : 'Správně');
-                },
-                child: const Text('Nemá inverzní'),
               ),
             ],
           ),

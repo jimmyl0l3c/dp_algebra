@@ -4,6 +4,7 @@ import 'package:dp_algebra/matrices/equation_matrix.dart';
 import 'package:dp_algebra/matrices/equation_solution.dart';
 import 'package:dp_algebra/matrices/vector.dart';
 import 'package:dp_algebra/pages/exercise/utils.dart';
+import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/vector_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
@@ -36,39 +37,48 @@ class _EquationExcState extends State<EquationExc> {
             direction: Axis.horizontal,
             children: [
               const Text('Vygenerovat: '),
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    equationMatrix =
-                        generateSquareMatrix(ExerciseUtils.generateSize());
-                  });
+              ButtonRow(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
+                ),
+                children: const [
+                  Text('Se čtvercovou maticí'),
+                  Text('Náhodně'),
+                ],
+                onPressed: (i) {
+                  if (i == 0) {
+                    setState(() {
+                      equationMatrix =
+                          generateSquareMatrix(ExerciseUtils.generateSize());
+                    });
+                  } else {
+                    setState(() {
+                      equationMatrix = generateRandomMatrix();
+                    });
+                  }
                 },
-                child: Text('Se čtvercovou maticí'),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  setState(() {
-                    equationMatrix = generateRandomMatrix();
-                  });
-                },
-                child: const Text('Náhodně'),
               ),
               const VerticalDivider(),
-              OutlinedButton(
-                onPressed: () {
-                  // TODO: replace this
-                  ExerciseUtils.showError(
-                      context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+              ButtonRow(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
+                ),
+                children: const [
+                  Text('Zkontrolovat'),
+                  Text('Nemá řešení'),
+                ],
+                onPressed: (i) {
+                  if (i == 0) {
+                    // TODO: replace this
+                    ExerciseUtils.showError(
+                        context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+                  } else {
+                    ExerciseUtils.showError(context,
+                        !equationMatrix.isSolvable() ? 'Správně' : 'Špatně');
+                  }
                 },
-                child: const Text('Zkontrolovat'),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  // TODO: replace this
-                  ExerciseUtils.showError(context,
-                      !equationMatrix.isSolvable() ? 'Správně' : 'Špatně');
-                },
-                child: const Text('Nemá řešení'),
               ),
             ],
           ),
