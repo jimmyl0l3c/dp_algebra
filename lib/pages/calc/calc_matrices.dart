@@ -91,18 +91,9 @@ class _CalcMatricesState extends State<CalcMatrices> {
                   SizedBox(
                     width: 80,
                     child: FractionInput(
-                      onChanged: (String value) {
-                        if (value.isEmpty) {
-                          _scalarC = Fraction(0);
-                        } else if (value.contains('.')) {
-                          double? dValue = double.tryParse(value);
-                          if (dValue == null) return;
-                          _scalarC = dValue.toFraction();
-                        } else {
-                          if (value.startsWith('/')) value = '0$value';
-                          if (!value.isFraction) return;
-                          _scalarC = value.toFraction();
-                        }
+                      onChanged: (Fraction? value) {
+                        if (value == null) return;
+                        _scalarC = value;
                       },
                       value: _scalarC.toString(),
                     ),

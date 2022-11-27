@@ -47,18 +47,9 @@ class _VectorInputState extends State<VectorInput> {
                 SizedBox(
                   width: 60,
                   child: FractionInput(
-                      onChanged: (String value) {
-                        if (value.isEmpty) {
-                          widget.vector.setValue(i, 0.toFraction());
-                        } else if (value.contains('.')) {
-                          double? dValue = double.tryParse(value);
-                          if (dValue == null) return;
-                          widget.vector.setValue(i, dValue.toFraction());
-                        } else {
-                          if (value.startsWith('/')) value = '0$value';
-                          if (!value.isFraction) return;
-                          widget.vector.setValue(i, value.toFraction());
-                        }
+                      onChanged: (Fraction? value) {
+                        if (value == null) return;
+                        widget.vector.setValue(i, value);
                       },
                       value: widget.vector[i].toDouble() != 0.0
                           ? widget.vector[i].toString()

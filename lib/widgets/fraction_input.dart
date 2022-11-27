@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:fraction/fraction.dart';
 
 class FractionInput extends StatelessWidget {
-  final ValueChanged<String> onChanged;
+  final ValueChanged<Fraction?> onChanged;
   final TextEditingController? controller;
 
   FractionInput({
@@ -16,7 +16,22 @@ class FractionInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onChanged: onChanged,
+      onChanged: (value) {
+        if (value.isEmpty) {
+          onChanged.call(Fraction(0));
+        } else if (value.contains('.')) {
+          double? dValue = double.tryParse(value);
+          if (dValue == null) {
+            onChanged.call(null);
+            return;
+          }
+          onChanged.call(dValue.toFraction());
+        } else {
+          if (value.startsWith('/')) value = '0$value';
+          if (!value.isFraction) return;
+          onChanged.call(value.toFraction());
+        }
+      },
       controller: controller,
       inputFormatters: [
         FilteringTextInputFormatter(

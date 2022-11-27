@@ -89,18 +89,9 @@ class _DeterminantExcState extends State<DeterminantExc> {
               SizedBox(
                 width: 100,
                 child: FractionInput(
-                  onChanged: (String value) {
-                    if (value.isEmpty) {
-                      solution = 0.toFraction();
-                    } else if (value.contains('.')) {
-                      double? dValue = double.tryParse(value);
-                      if (dValue == null) return;
-                      solution = dValue.toFraction();
-                    } else {
-                      if (value.startsWith('/')) value = '0$value';
-                      if (!value.isFraction) return;
-                      solution = value.toFraction();
-                    }
+                  onChanged: (Fraction? value) {
+                    if (value == null) return;
+                    solution = value;
                   },
                   value:
                       solution.toDouble() != 0.0 ? solution.toString() : null,

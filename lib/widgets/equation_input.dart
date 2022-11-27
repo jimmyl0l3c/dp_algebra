@@ -24,18 +24,9 @@ class _EquationInputState extends State<EquationInput> {
     for (var i = 0; i < widget.matrix.getRows(); i++) {
       for (var j = 0; j < widget.matrix.getColumns(); j++) {
         gridChildren.add(FractionInput(
-          onChanged: (String value) {
-            if (value.isEmpty) {
-              widget.matrix.setValue(i, j, 0.toFraction());
-            } else if (value.contains('.')) {
-              double? dValue = double.tryParse(value);
-              if (dValue == null) return;
-              widget.matrix.setValue(i, j, dValue.toFraction());
-            } else {
-              if (value.startsWith('/')) value = '0$value';
-              if (!value.isFraction) return;
-              widget.matrix.setValue(i, j, value.toFraction());
-            }
+          onChanged: (Fraction? value) {
+            if (value == null) return;
+            widget.matrix.setValue(i, j, value);
           },
           value: widget.matrix[i][j].toDouble() != 0.0
               ? widget.matrix[i][j].toString()
