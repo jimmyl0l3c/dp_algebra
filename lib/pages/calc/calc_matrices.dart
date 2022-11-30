@@ -90,8 +90,10 @@ class _CalcMatricesState extends State<CalcMatrices> {
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: Wrap(
                 direction: Axis.horizontal,
-                crossAxisAlignment: WrapCrossAlignment.center,
                 alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runAlignment: WrapAlignment.center,
+                runSpacing: 4.0,
                 children: [
                   const Text(
                     'Násobení matice skalárem:',
@@ -201,15 +203,26 @@ class MatrixOperationSelection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 2.0),
       child: Wrap(
         direction: Axis.horizontal,
-        crossAxisAlignment: WrapCrossAlignment.center,
         alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        runAlignment: WrapAlignment.center,
+        runSpacing: 4.0,
         children: [
-          SizedBox(
-            width: 200,
-            child: Text(
-              '${operation.description}:',
-              textAlign: TextAlign.end,
-            ),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              String content = '${operation.description}:';
+              if (constraints.maxWidth < 300) {
+                return Text(content);
+              } else {
+                return SizedBox(
+                  width: 200,
+                  child: Text(
+                    content,
+                    textAlign: TextAlign.end,
+                  ),
+                );
+              }
+            },
           ),
           const SizedBox(
             width: 8.0,
