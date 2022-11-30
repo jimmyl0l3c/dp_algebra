@@ -60,9 +60,16 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
           },
         ),
       ],
-      example: Math.tex(
-        '${matrixA.toTeX()} $operationSymbol ${matrixB.toTeX()} =',
-        textScaleFactor: 1.4,
+      example: Wrap(
+        direction: Axis.horizontal,
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        runAlignment: WrapAlignment.center,
+        runSpacing: 12.0,
+        children: Math.tex(
+          '${matrixA.toTeX()} $operationSymbol ${matrixB.toTeX()} =',
+          textScaleFactor: 1.4,
+        ).texBreak().parts,
       ),
       result: MatrixInput(matrix: solution),
       resolveButtons: [

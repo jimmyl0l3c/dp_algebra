@@ -23,7 +23,7 @@ class ExerciseUtils {
   }
 
   static Fraction generateFraction() {
-    int num = random.nextInt(100) - 50;
+    int num = random.nextInt(50) - 25;
     return num.toFraction();
   }
 

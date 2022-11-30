@@ -35,7 +35,7 @@ class ExercisePage extends StatelessWidget {
                   ButtonRow(
                     padding: const EdgeInsets.symmetric(
                       vertical: 8,
-                      horizontal: 16,
+                      horizontal: 12,
                     ),
                     children: generateButtons,
                   ),
@@ -44,17 +44,11 @@ class ExercisePage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: Wrap(
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                runAlignment: WrapAlignment.center,
-                runSpacing: 12.0,
-                children: [
-                  example,
-                  result,
-                ],
-              ),
+              child: example,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: result,
             ),
             ButtonRow(
               padding: const EdgeInsets.symmetric(
