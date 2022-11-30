@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/pages/exercise/exercise_page.dart';
 import 'package:dp_algebra/pages/exercise/utils.dart';
 import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/fraction_input.dart';
@@ -23,94 +24,62 @@ class _DeterminantExcState extends State<DeterminantExc> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 4.0,
-        vertical: 10.0,
+    return ExercisePage(
+      generateButtons: [
+        ButtonRowItem(
+          child: const Text('2x2'),
+          onPressed: () {
+            setState(() {
+              determinant = generateDeterminant(2);
+            });
+          },
+        ),
+        ButtonRowItem(
+          child: const Text('3x3'),
+          onPressed: () {
+            setState(() {
+              determinant = generateDeterminant(3);
+            });
+          },
+        ),
+        ButtonRowItem(
+          child: const Text('> 3x3'),
+          onPressed: () {
+            setState(() {
+              determinant = generateDeterminant(4 + random.nextInt(3));
+            });
+          },
+        ),
+        ButtonRowItem(
+          child: const Text('Náhodně'),
+          onPressed: () {
+            setState(() {
+              determinant = generateRandomDeterminant();
+            });
+          },
+        ),
+      ],
+      example: Math.tex(
+        '${determinant.toTeX(isDeterminant: true)} =',
+        textScaleFactor: 1.4,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            direction: Axis.horizontal,
-            children: [
-              const Text('Vygenerovat: '),
-              ButtonRow(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 16,
-                ),
-                children: [
-                  ButtonRowItem(
-                    child: const Text('2x2'),
-                    onPressed: () {
-                      setState(() {
-                        determinant = generateDeterminant(2);
-                      });
-                    },
-                  ),
-                  ButtonRowItem(
-                    child: const Text('3x3'),
-                    onPressed: () {
-                      setState(() {
-                        determinant = generateDeterminant(3);
-                      });
-                    },
-                  ),
-                  ButtonRowItem(
-                    child: const Text('> 3x3'),
-                    onPressed: () {
-                      setState(() {
-                        determinant =
-                            generateDeterminant(4 + random.nextInt(3));
-                      });
-                    },
-                  ),
-                  ButtonRowItem(
-                    child: const Text('Náhodně'),
-                    onPressed: () {
-                      setState(() {
-                        determinant = generateRandomDeterminant();
-                      });
-                    },
-                  ),
-                ],
-              ),
-              const VerticalDivider(),
-              ElevatedButton(
-                onPressed: () {
-                  // TODO: replace this
-                  ExerciseUtils.showError(
-                      context, isAnswerCorrect() ? 'Správně' : 'Špatně');
-                },
-                child: const Text('Zkontrolovat'),
-              ),
-            ],
-          ),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            direction: Axis.horizontal,
-            children: [
-              Math.tex(
-                '${determinant.toTeX(isDeterminant: true)} =',
-                textScaleFactor: 1.4,
-              ),
-              SizedBox(
-                width: 100,
-                child: FractionInput(
-                  onChanged: (Fraction? value) {
-                    if (value == null) return;
-                    solution = value;
-                  },
-                  value:
-                      solution.toDouble() != 0.0 ? solution.toString() : null,
-                ),
-              ),
-            ],
-          ),
-        ],
+      result: FractionInput(
+        maxWidth: 100,
+        onChanged: (Fraction? value) {
+          if (value == null) return;
+          solution = value;
+        },
+        value: solution.toDouble() != 0.0 ? solution.toString() : null,
       ),
+      resolveButtons: [
+        ButtonRowItem(
+            child: const Text('Zkontrolovat'),
+            onPressed: () {
+              // TODO: replace this
+              ExerciseUtils.showError(
+                  context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+            })
+      ],
     );
   }
 

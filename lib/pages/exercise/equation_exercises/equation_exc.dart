@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dp_algebra/matrices/equation_matrix.dart';
 import 'package:dp_algebra/matrices/equation_solution.dart';
 import 'package:dp_algebra/matrices/vector.dart';
+import 'package:dp_algebra/pages/exercise/exercise_page.dart';
 import 'package:dp_algebra/pages/exercise/utils.dart';
 import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/vector_input.dart';
@@ -24,85 +25,50 @@ class _EquationExcState extends State<EquationExc> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 4.0,
-        vertical: 10.0,
+    return ExercisePage(
+      generateButtons: [
+        ButtonRowItem(
+            child: const Text('Se čtvercovou maticí'),
+            onPressed: () {
+              setState(() {
+                equationMatrix =
+                    generateSquareMatrix(ExerciseUtils.generateSize());
+              });
+            }),
+        ButtonRowItem(
+          child: const Text('Náhodně'),
+          onPressed: () {
+            setState(() {
+              equationMatrix = generateRandomMatrix();
+            });
+          },
+        ),
+      ],
+      example: Math.tex(
+        '${equationMatrix.toTeX()}, ',
+        textScaleFactor: 1.4,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            direction: Axis.horizontal,
-            children: [
-              const Text('Vygenerovat: '),
-              ButtonRow(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 16,
-                ),
-                children: [
-                  ButtonRowItem(
-                      child: const Text('Se čtvercovou maticí'),
-                      onPressed: () {
-                        setState(() {
-                          equationMatrix = generateSquareMatrix(
-                              ExerciseUtils.generateSize());
-                        });
-                      }),
-                  ButtonRowItem(
-                    child: const Text('Náhodně'),
-                    onPressed: () {
-                      setState(() {
-                        equationMatrix = generateRandomMatrix();
-                      });
-                    },
-                  ),
-                ],
-              ),
-              const VerticalDivider(),
-              ButtonRow(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 16,
-                ),
-                children: [
-                  ButtonRowItem(
-                    child: const Text('Zkontrolovat'),
-                    onPressed: () {
-                      // TODO: replace this
-                      ExerciseUtils.showError(
-                          context, isAnswerCorrect() ? 'Správně' : 'Špatně');
-                    },
-                  ),
-                  ButtonRowItem(
-                    child: const Text('Nemá řešení'),
-                    onPressed: () {
-                      ExerciseUtils.showError(context,
-                          !equationMatrix.isSolvable() ? 'Správně' : 'Špatně');
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            direction: Axis.horizontal,
-            children: [
-              Math.tex(
-                '${equationMatrix.toTeX()}, ',
-                textScaleFactor: 1.4,
-              ),
-              VectorInput(
-                vector: solution,
-                name: 'x',
-              ),
-            ],
-          ),
-        ],
+      result: VectorInput(
+        vector: solution,
+        name: 'x',
       ),
+      resolveButtons: [
+        ButtonRowItem(
+          child: const Text('Zkontrolovat'),
+          onPressed: () {
+            // TODO: replace this
+            ExerciseUtils.showError(
+                context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+          },
+        ),
+        ButtonRowItem(
+          child: const Text('Nemá řešení'),
+          onPressed: () {
+            ExerciseUtils.showError(
+                context, !equationMatrix.isSolvable() ? 'Správně' : 'Špatně');
+          },
+        ),
+      ],
     );
   }
 

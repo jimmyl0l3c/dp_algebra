@@ -1,4 +1,5 @@
 import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/pages/exercise/exercise_page.dart';
 import 'package:dp_algebra/pages/exercise/utils.dart';
 import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/matrix_input.dart';
@@ -19,65 +20,37 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 4.0,
-        vertical: 10.0,
+    return ExercisePage(
+      generateButtons: [
+        ButtonRowItem(
+            child: const Text('Vygenerovat'),
+            onPressed: () {
+              setState(() {
+                matrix = generateSquareMatrix(ExerciseUtils.generateSize());
+              });
+            })
+      ],
+      example: Math.tex(
+        '${matrix.toTeX()} =',
+        textScaleFactor: 1.4,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            direction: Axis.horizontal,
-            children: [
-              const Text('Vygenerovat: '),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    matrix = generateSquareMatrix(ExerciseUtils.generateSize());
-                  });
-                },
-                child: const Text('Náhodně'),
-              ),
-              const VerticalDivider(),
-              ButtonRow(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 16,
-                ),
-                children: [
-                  ButtonRowItem(
-                    child: const Text('Zkontrolovat'),
-                    onPressed: () {
-                      ExerciseUtils.showError(
-                          context, isAnswerCorrect() ? 'Správně' : 'Špatně');
-                    },
-                  ),
-                  ButtonRowItem(
-                    child: const Text('Nemá inverzní'),
-                    onPressed: () {
-                      ExerciseUtils.showError(
-                          context, inverseExists() ? 'Špatně' : 'Správně');
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            direction: Axis.horizontal,
-            children: [
-              Math.tex(
-                '${matrix.toTeX()} =',
-                textScaleFactor: 1.4,
-              ),
-              MatrixInput(matrix: solution),
-            ],
-          ),
-        ],
-      ),
+      result: MatrixInput(matrix: solution),
+      resolveButtons: [
+        ButtonRowItem(
+          child: const Text('Zkontrolovat'),
+          onPressed: () {
+            ExerciseUtils.showError(
+                context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+          },
+        ),
+        ButtonRowItem(
+          child: const Text('Nemá inverzní'),
+          onPressed: () {
+            ExerciseUtils.showError(
+                context, inverseExists() ? 'Špatně' : 'Správně');
+          },
+        ),
+      ],
     );
   }
 

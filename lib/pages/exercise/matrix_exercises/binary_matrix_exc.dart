@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/pages/exercise/exercise_page.dart';
 import 'package:dp_algebra/pages/exercise/utils.dart';
 import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/matrix_input.dart';
@@ -24,83 +25,55 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 4.0,
-        vertical: 10.0,
+    return ExercisePage(
+      generateButtons: [
+        ButtonRowItem(
+          child: const Text('Sčítání'),
+          onPressed: () {
+            setState(() {
+              generateEntryWiseExample('+');
+            });
+          },
+        ),
+        ButtonRowItem(
+          child: const Text('Odčítání'),
+          onPressed: () {
+            setState(() {
+              generateEntryWiseExample('-');
+            });
+          },
+        ),
+        ButtonRowItem(
+          child: const Text('Násobení'),
+          onPressed: () {
+            setState(() {
+              generateMultiplyExample();
+            });
+          },
+        ),
+        ButtonRowItem(
+          child: const Text('Náhodně'),
+          onPressed: () {
+            setState(() {
+              generateRandomExample();
+            });
+          },
+        ),
+      ],
+      example: Math.tex(
+        '${matrixA.toTeX()} $operationSymbol ${matrixB.toTeX()} =',
+        textScaleFactor: 1.4,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            direction: Axis.horizontal,
-            children: [
-              const Text('Vygenerovat: '),
-              ButtonRow(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 16,
-                ),
-                children: [
-                  ButtonRowItem(
-                    child: const Text('Sčítání'),
-                    onPressed: () {
-                      setState(() {
-                        generateEntryWiseExample('+');
-                      });
-                    },
-                  ),
-                  ButtonRowItem(
-                    child: const Text('Odčítání'),
-                    onPressed: () {
-                      setState(() {
-                        generateEntryWiseExample('-');
-                      });
-                    },
-                  ),
-                  ButtonRowItem(
-                    child: const Text('Násobení'),
-                    onPressed: () {
-                      setState(() {
-                        generateMultiplyExample();
-                      });
-                    },
-                  ),
-                  ButtonRowItem(
-                    child: const Text('Náhodně'),
-                    onPressed: () {
-                      setState(() {
-                        generateRandomExample();
-                      });
-                    },
-                  ),
-                ],
-              ),
-              const VerticalDivider(),
-              ElevatedButton(
-                onPressed: () {
-                  // TODO: replace this
-                  ExerciseUtils.showError(
-                      context, isAnswerCorrect() ? 'Správně' : 'Špatně');
-                },
-                child: const Text('Zkontrolovat'),
-              ),
-            ],
-          ),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            direction: Axis.horizontal,
-            children: [
-              Math.tex(
-                '${matrixA.toTeX()} $operationSymbol ${matrixB.toTeX()} =',
-                textScaleFactor: 1.4,
-              ),
-              MatrixInput(matrix: solution),
-            ],
-          ),
-        ],
-      ),
+      result: MatrixInput(matrix: solution),
+      resolveButtons: [
+        ButtonRowItem(
+            child: const Text('Zkontrolovat'),
+            onPressed: () {
+              // TODO: replace this
+              ExerciseUtils.showError(
+                  context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+            })
+      ],
     );
   }
 

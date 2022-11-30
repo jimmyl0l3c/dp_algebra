@@ -88,15 +88,19 @@ class _CalcMatricesState extends State<CalcMatrices> {
             MatrixBinOperationSelection(matrices: _matrices),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Row(
+              child: Wrap(
+                direction: Axis.horizontal,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
                 children: [
-                  const SizedBox(
-                    width: 200,
-                    child: Text(
-                      'Násobení matice skalárem:',
-                      textAlign: TextAlign.end,
-                    ),
+                  const Text(
+                    'Násobení matice skalárem:',
+                    textAlign: TextAlign.end,
                   ),
+                  // const SizedBox(
+                  //   width: 200,
+                  //   child:
+                  // ),
                   const SizedBox(
                     width: 8.0,
                   ),
@@ -195,7 +199,10 @@ class MatrixOperationSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
-      child: Row(
+      child: Wrap(
+        direction: Axis.horizontal,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        alignment: WrapAlignment.center,
         children: [
           SizedBox(
             width: 200,
@@ -284,15 +291,19 @@ class _MatrixBinOperationSelectionState
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
+      child: Wrap(
+        direction: Axis.horizontal,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        alignment: WrapAlignment.center,
         children: [
-          const SizedBox(
-            width: 200,
-            child: Text(
-              'Binární operace:',
-              textAlign: TextAlign.end,
-            ),
+          const Text(
+            'Binární operace:',
+            textAlign: TextAlign.end,
           ),
+          // const SizedBox(
+          //   width: 200,
+          //   child:
+          // ),
           const SizedBox(
             width: 8.0,
           ),
