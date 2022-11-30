@@ -28,8 +28,11 @@ class ExercisePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
                 direction: Axis.horizontal,
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runAlignment: WrapAlignment.center,
+                runSpacing: 8.0,
                 children: [
                   const Text('Vygenerovat: '),
                   ButtonRow(
