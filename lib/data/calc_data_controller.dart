@@ -1,15 +1,11 @@
 import 'dart:async';
 
-import 'package:dp_algebra/matrices/equation_matrix.dart';
 import 'package:dp_algebra/matrices/equation_solution.dart';
 import 'package:dp_algebra/matrices/matrix_solution.dart';
 import 'package:dp_algebra/matrices/vector.dart';
 import 'package:dp_algebra/matrices/vector_solution.dart';
 
 class CalcDataController {
-  static final EquationMatrix _equationMatrix = EquationMatrix(columns: 3);
-  static final List<EquationSolution> _equationSolutions = [];
-
   static final List<Vector> _vectors = [Vector(length: 1), Vector(length: 1)];
 
   static final List<VectorSolution> _vectorSolutions = [];
@@ -32,11 +28,6 @@ class CalcDataController {
   static final Stream<List<VectorSolution>> vectorSolutionStream =
       _vectorSolutionsStreamController.stream.asBroadcastStream();
 
-  static void addEquationSolution(EquationSolution solution) {
-    _equationSolutions.add(solution);
-    _equationSolutionsStreamController.add(_equationSolutions);
-  }
-
   static void addVectorSolution(VectorSolution solution) {
     _vectorSolutions.add(solution);
     _vectorSolutionsStreamController.add(_vectorSolutions);
@@ -46,8 +37,6 @@ class CalcDataController {
     // _matrixSolutionStreamController.close();
     // _equationSolutionsStreamController.close();
   }
-
-  static EquationMatrix getEquationMatrix() => _equationMatrix;
 
   static List<Vector> getVectors() => _vectors;
 }

@@ -1,4 +1,6 @@
 import 'package:dp_algebra/app.dart';
+import 'package:dp_algebra/models/calc_state/calc_equation_model.dart';
+import 'package:dp_algebra/models/calc_state/calc_equation_solutions_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_matrix_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_matrix_solutions_model.dart';
 import 'package:flutter/material.dart';
@@ -17,4 +19,7 @@ void main() {
 void setup() {
   getIt.registerSingleton<CalcMatrixModel>(CalcMatrixModel());
   getIt.registerSingleton<CalcMatrixSolutionsModel>(CalcMatrixSolutionsModel());
+  getIt.registerSingleton<CalcEquationModel>(CalcEquationModel());
+  getIt.registerSingleton<CalcEquationSolutionsModel>(
+      CalcEquationSolutionsModel());
 }

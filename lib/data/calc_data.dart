@@ -14,7 +14,7 @@ class CalcData {
     ),
     SectionChapterModel(
       title: 'Soustavy lineárních rovnic',
-      pages: [SectionPageModel(title: '', page: const CalcEquations())],
+      pages: [SectionPageModel(title: '', page: CalcEquations())],
     ),
     SectionChapterModel(
       title: 'Vektorové prostory',

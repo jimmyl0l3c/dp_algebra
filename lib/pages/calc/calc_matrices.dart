@@ -73,7 +73,10 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
             ),
             const SizedBox(height: 12),
             for (var solution in solutions.reversed)
-              SolutionView(solution: solution),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: SolutionView(solution: solution),
+              ),
           ],
         ),
       ),

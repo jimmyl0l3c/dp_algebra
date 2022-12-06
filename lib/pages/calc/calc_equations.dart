@@ -1,18 +1,26 @@
-import 'package:dp_algebra/data/calc_data_controller.dart';
+import 'package:dp_algebra/main.dart';
 import 'package:dp_algebra/matrices/equation_exceptions.dart';
 import 'package:dp_algebra/matrices/equation_matrix.dart';
 import 'package:dp_algebra/matrices/equation_solution.dart';
 import 'package:dp_algebra/matrices/matrix_exceptions.dart';
 import 'package:dp_algebra/matrices/vector.dart';
+import 'package:dp_algebra/models/calc_state/calc_equation_model.dart';
+import 'package:dp_algebra/models/calc_state/calc_equation_solutions_model.dart';
 import 'package:dp_algebra/widgets/equation_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+import 'package:get_it_mixin/get_it_mixin.dart';
 
-class CalcEquations extends StatelessWidget {
-  const CalcEquations({Key? key}) : super(key: key);
+class CalcEquations extends StatelessWidget with GetItMixin {
+  CalcEquations({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    EquationMatrix equationMatrix =
+        watchX((CalcEquationModel x) => x.equationMatrix);
+    List<EquationSolution> solutions =
+        watchX((CalcEquationSolutionsModel x) => x.solutions);
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -22,7 +30,7 @@ class CalcEquations extends StatelessWidget {
         child: Column(
           children: [
             EquationInput(
-              matrix: CalcDataController.getEquationMatrix(),
+              matrix: equationMatrix,
             ),
             const Divider(),
             Text(
@@ -34,10 +42,11 @@ class CalcEquations extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: ElevatedButton(
                 onPressed: () {
-                  EquationMatrix m = CalcDataController.getEquationMatrix();
+                  EquationMatrix m = equationMatrix;
                   try {
                     GeneralSolution solution = m.solveByGauss();
-                    CalcDataController.addEquationSolution(EquationSolution(
+                    getIt<CalcEquationSolutionsModel>()
+                        .addSolution(EquationSolution(
                       equationMatrix: EquationMatrix.from(m),
                       generalSolution: solution,
                     ));
@@ -52,10 +61,11 @@ class CalcEquations extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: ElevatedButton(
                 onPressed: () {
-                  EquationMatrix m = CalcDataController.getEquationMatrix();
+                  EquationMatrix m = equationMatrix;
                   try {
                     Vector solution = m.solveByInverse();
-                    CalcDataController.addEquationSolution(EquationSolution(
+                    getIt<CalcEquationSolutionsModel>()
+                        .addSolution(EquationSolution(
                       equationMatrix: EquationMatrix.from(m),
                       solution: solution,
                     ));
@@ -72,10 +82,11 @@ class CalcEquations extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: ElevatedButton(
                 onPressed: () {
-                  EquationMatrix m = CalcDataController.getEquationMatrix();
+                  EquationMatrix m = equationMatrix;
                   try {
                     Vector solution = m.solveByCramer();
-                    CalcDataController.addEquationSolution(EquationSolution(
+                    getIt<CalcEquationSolutionsModel>()
+                        .addSolution(EquationSolution(
                       equationMatrix: EquationMatrix.from(m),
                       solution: solution,
                     ));
@@ -94,25 +105,14 @@ class CalcEquations extends StatelessWidget {
               style: Theme.of(context).textTheme.headline4!,
             ),
             const SizedBox(height: 12),
-            StreamBuilder(
-              stream: CalcDataController.equationSolutionsStream,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return Container();
-
-                List<Widget> solutions = [];
-                for (var solution in snapshot.data!.reversed) {
-                  solutions.add(Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Math.tex(
-                      solution.toTeX(),
-                      textScaleFactor: 1.4,
-                    ),
-                  ));
-                }
-
-                return Column(children: solutions);
-              },
-            )
+            for (var solution in solutions.reversed)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Math.tex(
+                  solution.toTeX(),
+                  textScaleFactor: 1.4,
+                ),
+              ),
           ],
         ),
       ),
