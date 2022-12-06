@@ -7,13 +7,13 @@ import 'package:fraction/fraction.dart';
 class VectorInput extends StatefulWidget {
   final Vector vector;
   final String? name;
-  final VoidCallback? deleteMatrix;
+  final VoidCallback? deleteVector;
 
   const VectorInput({
     Key? key,
     required this.vector,
     this.name,
-    this.deleteMatrix,
+    this.deleteVector,
   }) : super(key: key);
 
   @override
@@ -29,16 +29,16 @@ class _VectorInputState extends State<VectorInput> {
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
         child: Column(
           children: [
-            if (widget.name != null || widget.deleteMatrix != null)
+            if (widget.name != null || widget.deleteVector != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (widget.name != null) Text(widget.name!),
-                    if (widget.deleteMatrix != null)
+                    if (widget.deleteVector != null)
                       IconButton(
-                        onPressed: widget.deleteMatrix,
+                        onPressed: widget.deleteVector,
                         icon: const Icon(Icons.close),
                         iconSize: 12.0,
                         splashRadius: 15.0,

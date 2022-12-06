@@ -1,5 +1,4 @@
 import 'package:dp_algebra/data/calc_data.dart';
-import 'package:dp_algebra/data/calc_data_controller.dart';
 import 'package:dp_algebra/data/db_helper.dart';
 import 'package:dp_algebra/data/exercise_data.dart';
 import 'package:dp_algebra/models/db/learn_article.dart';
@@ -112,7 +111,6 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
       onPopPage: (route, dynamic result) {
         if (route.settings is Page) {
           if ((route.settings as Page).key == _calcChapterKey) {
-            CalcDataController.dispose();
             routeState.go('/calc');
           } else if ((route.settings as Page).key == _calcPageKey) {
             routeState.go('/calc/$sectionChapterId');

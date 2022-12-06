@@ -23,7 +23,7 @@ class CalcData {
       pages: [
         SectionPageModel(
           title: 'Lineární (ne)závislost vektorů',
-          page: const CalcVectorIndependence(),
+          page: CalcVectorIndependence(),
         ),
       ],
     ),
