@@ -1,5 +1,5 @@
 import 'package:dp_algebra/data/db_helper.dart';
-import 'package:dp_algebra/models/learn_chapter.dart';
+import 'package:dp_algebra/models/db/learn_chapter.dart';
 import 'package:dp_algebra/widgets/main_scaffold.dart';
 import 'package:dp_algebra/widgets/section_menu.dart';
 import 'package:flutter/material.dart';

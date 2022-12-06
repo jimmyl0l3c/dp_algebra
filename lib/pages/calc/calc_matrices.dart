@@ -1,8 +1,10 @@
-import 'package:dp_algebra/data/calc_data_controller.dart';
+import 'package:dp_algebra/main.dart';
 import 'package:dp_algebra/matrices/matrix.dart';
 import 'package:dp_algebra/matrices/matrix_exceptions.dart';
 import 'package:dp_algebra/matrices/matrix_operations.dart';
 import 'package:dp_algebra/matrices/matrix_solution.dart';
+import 'package:dp_algebra/models/calc_state/calc_matrix_model.dart';
+import 'package:dp_algebra/models/calc_state/calc_matrix_solutions_model.dart';
 import 'package:dp_algebra/pages/exercise/utils.dart';
 import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/fraction_input.dart';
@@ -11,26 +13,17 @@ import 'package:dp_algebra/widgets/matrix_solution_view.dart';
 import 'package:dp_algebra/widgets/styled_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
+import 'package:get_it_mixin/get_it_mixin.dart';
 
-class CalcMatrices extends StatefulWidget {
-  const CalcMatrices({Key? key}) : super(key: key);
-
-  @override
-  State<CalcMatrices> createState() => _CalcMatricesState();
-}
-
-class _CalcMatricesState extends State<CalcMatrices> {
-  late Map<String, Matrix> _matrices;
-  final List<String> _namePool = ['B', 'C', 'D', 'E', 'F', 'G'];
-
-  Fraction? _scalarC = Fraction(1);
-
-  _CalcMatricesState() {
-    _matrices = {'A': Matrix(columns: 2, rows: 2)};
-  }
+class CalcMatrices extends StatelessWidget with GetItMixin {
+  CalcMatrices({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    bool canAddMatrix = watchX((CalcMatrixModel x) => x.canAddMatrix);
+    List<MatrixSolution> solutions =
+        watchX((CalcMatrixSolutionsModel x) => x.solutions);
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -48,114 +41,30 @@ class _CalcMatricesState extends State<CalcMatrices> {
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton(
-                  onPressed: _namePool.isNotEmpty
-                      ? () {
-                          if (_namePool.isEmpty) return;
-                          setState(() {
-                            _matrices[_namePool.removeAt(0)] =
-                                Matrix(columns: 2, rows: 2);
-                          });
-                        }
-                      : null,
+                  onPressed:
+                      canAddMatrix ? getIt<CalcMatrixModel>().addMatrix : null,
                   child: const Text('+'),
                 ),
               ],
             ),
             const SizedBox(height: 8),
-            Wrap(
-              direction: Axis.horizontal,
-              alignment: WrapAlignment.center,
-              children: [
-                for (var matrix in _matrices.entries)
-                  MatrixInput(
-                    matrix: matrix.value,
-                    name: matrix.key,
-                    deleteMatrix: () {
-                      setState(() {
-                        _namePool.insert(0, matrix.key);
-                        _matrices.remove(matrix.key);
-                      });
-                    },
-                  ),
-              ],
-            ),
+            MatrixInputWrap(),
             const Divider(),
             Text(
               'Operace',
               style: Theme.of(context).textTheme.headline4!,
             ),
             const SizedBox(height: 12),
-            MatrixBinOperationSelection(matrices: _matrices),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Wrap(
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                runAlignment: WrapAlignment.center,
-                runSpacing: 4.0,
-                children: [
-                  const Text(
-                    'Násobení matice skalárem:',
-                    textAlign: TextAlign.end,
-                  ),
-                  // const SizedBox(
-                  //   width: 200,
-                  //   child:
-                  // ),
-                  const SizedBox(
-                    width: 8.0,
-                  ),
-                  FractionInput(
-                    maxWidth: 80,
-                    onChanged: (Fraction? value) {
-                      if (value == null) return;
-                      _scalarC = value;
-                    },
-                    value: _scalarC.toString(),
-                  ),
-                  const SizedBox(
-                    width: 8.0,
-                  ),
-                  const Icon(
-                    Icons.circle,
-                    size: 12.0,
-                  ),
-                  const SizedBox(
-                    width: 8.0,
-                  ),
-                  ButtonRow(
-                    children: [
-                      for (var matrix in _matrices.entries)
-                        ButtonRowItem(
-                            child: Text(matrix.key),
-                            onPressed: () {
-                              Matrix? m = matrix.value;
-                              Matrix? solution = m * _scalarC;
-                              CalcDataController.addMatrixSolution(
-                                  MatrixSolution(
-                                leftOp: _scalarC,
-                                rightOp: Matrix.from(m),
-                                operation: MatrixOperation.multiply,
-                                solution: solution,
-                              ));
-                            }),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            MatrixBinOperationSelection(),
+            MatrixMultiplyByScalar(),
             MatrixOperationSelection(
               operation: MatrixOperation.det,
-              matrices: _matrices,
             ),
             MatrixOperationSelection(
               operation: MatrixOperation.transpose,
-              matrices: _matrices,
             ),
             MatrixOperationSelection(
               operation: MatrixOperation.inverse,
-              matrices: _matrices,
             ),
             const Divider(),
             Text(
@@ -163,23 +72,8 @@ class _CalcMatricesState extends State<CalcMatrices> {
               style: Theme.of(context).textTheme.headline4!,
             ),
             const SizedBox(height: 12),
-            StreamBuilder(
-              stream: CalcDataController.matrixSolutionStream,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Container();
-                }
-
-                List<Widget> results = [];
-                for (var solution in snapshot.data!.reversed) {
-                  results.add(
-                      SolutionView(solution: solution, matrices: _matrices));
-                }
-                return Column(
-                  children: results,
-                );
-              },
-            )
+            for (var solution in solutions.reversed)
+              SolutionView(solution: solution),
           ],
         ),
       ),
@@ -187,18 +81,120 @@ class _CalcMatricesState extends State<CalcMatrices> {
   }
 }
 
-class MatrixOperationSelection extends StatelessWidget {
-  final MatrixOperation operation;
-  final Map<String, Matrix> matrices;
+class MatrixMultiplyByScalar extends StatefulWidget
+    with GetItStatefulWidgetMixin {
+  MatrixMultiplyByScalar({Key? key}) : super(key: key);
 
-  const MatrixOperationSelection({
+  @override
+  State<MatrixMultiplyByScalar> createState() => _MatrixMultiplyByScalarState();
+}
+
+class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
+    with GetItStateMixin {
+  Fraction? _scalarC = Fraction(1);
+
+  @override
+  Widget build(BuildContext context) {
+    Map<String, Matrix> matrices = watchX((CalcMatrixModel x) => x.matrices);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Wrap(
+        direction: Axis.horizontal,
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        runAlignment: WrapAlignment.center,
+        runSpacing: 4.0,
+        children: [
+          const Text(
+            'Násobení matice skalárem:',
+            textAlign: TextAlign.end,
+          ),
+          // const SizedBox(
+          //   width: 200,
+          //   child:
+          // ),
+          const SizedBox(
+            width: 8.0,
+          ),
+          FractionInput(
+            maxWidth: 80,
+            onChanged: (Fraction? value) {
+              if (value == null) return;
+              _scalarC = value;
+            },
+            value: _scalarC.toString(),
+          ),
+          const SizedBox(
+            width: 8.0,
+          ),
+          const Icon(
+            Icons.circle,
+            size: 12.0,
+          ),
+          const SizedBox(
+            width: 8.0,
+          ),
+          ButtonRow(
+            children: [
+              for (var matrix in matrices.entries)
+                ButtonRowItem(
+                    child: Text(matrix.key),
+                    onPressed: () {
+                      Matrix? m = matrix.value;
+                      Matrix? solution = m * _scalarC;
+                      getIt<CalcMatrixSolutionsModel>()
+                          .addSolution(MatrixSolution(
+                        leftOp: _scalarC,
+                        rightOp: Matrix.from(m),
+                        operation: MatrixOperation.multiply,
+                        solution: solution,
+                      ));
+                    }),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MatrixInputWrap extends StatelessWidget with GetItMixin {
+  MatrixInputWrap({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Map<String, Matrix> matrices = watchX((CalcMatrixModel x) => x.matrices);
+
+    return Wrap(
+      direction: Axis.horizontal,
+      alignment: WrapAlignment.center,
+      children: [
+        for (var matrix in matrices.entries)
+          MatrixInput(
+            matrix: matrix.value,
+            name: matrix.key,
+            deleteMatrix: () {
+              getIt<CalcMatrixModel>().removeMatrix(matrix.key);
+            },
+          ),
+      ],
+    );
+  }
+}
+
+class MatrixOperationSelection extends StatelessWidget with GetItMixin {
+  final MatrixOperation operation;
+
+  MatrixOperationSelection({
     Key? key,
     required this.operation,
-    required this.matrices,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Map<String, Matrix> matrices = watchX((CalcMatrixModel x) => x.matrices);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
       child: Wrap(
@@ -260,7 +256,8 @@ class MatrixOperationSelection extends StatelessWidget {
                         return;
                       }
 
-                      CalcDataController.addMatrixSolution(MatrixSolution(
+                      getIt<CalcMatrixSolutionsModel>()
+                          .addSolution(MatrixSolution(
                         leftOp: Matrix.from(m),
                         operation: operation,
                         solution: solution,
@@ -275,12 +272,10 @@ class MatrixOperationSelection extends StatelessWidget {
   }
 }
 
-class MatrixBinOperationSelection extends StatefulWidget {
-  final Map<String, Matrix> matrices;
-
-  const MatrixBinOperationSelection({
+class MatrixBinOperationSelection extends StatefulWidget
+    with GetItStatefulWidgetMixin {
+  MatrixBinOperationSelection({
     Key? key,
-    required this.matrices,
   }) : super(key: key);
 
   @override
@@ -289,17 +284,18 @@ class MatrixBinOperationSelection extends StatefulWidget {
 }
 
 class _MatrixBinOperationSelectionState
-    extends State<MatrixBinOperationSelection> {
+    extends State<MatrixBinOperationSelection> with GetItStateMixin {
   String? _binaryLeft, _binaryRight;
   String? _binaryOperation = '+';
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.matrices.containsKey(_binaryLeft)) _binaryLeft = null;
-    if (!widget.matrices.containsKey(_binaryRight)) _binaryRight = null;
+    Map<String, Matrix> matrices = watchX((CalcMatrixModel x) => x.matrices);
 
-    _binaryLeft ??=
-        widget.matrices.isNotEmpty ? widget.matrices.keys.first : null;
+    if (!matrices.containsKey(_binaryLeft)) _binaryLeft = null;
+    if (!matrices.containsKey(_binaryRight)) _binaryRight = null;
+
+    _binaryLeft ??= matrices.isNotEmpty ? matrices.keys.first : null;
     _binaryRight ??= _binaryLeft;
 
     return Padding(
@@ -323,7 +319,7 @@ class _MatrixBinOperationSelectionState
           StyledDropdownButton<String>(
             value: _binaryLeft,
             items: [
-              for (var matrix in widget.matrices.entries)
+              for (var matrix in matrices.entries)
                 DropdownMenuItem(
                   value: matrix.key,
                   child: Center(child: Text(matrix.key)),
@@ -365,7 +361,7 @@ class _MatrixBinOperationSelectionState
           StyledDropdownButton<String>(
             value: _binaryRight,
             items: [
-              for (var matrix in widget.matrices.entries)
+              for (var matrix in matrices.entries)
                 DropdownMenuItem(
                   value: matrix.key,
                   child: Center(child: Text(matrix.key)),
@@ -391,8 +387,8 @@ class _MatrixBinOperationSelectionState
                           'Zvolte matice, se kterými se má operace provést');
                       return;
                     }
-                    Matrix? a = widget.matrices[_binaryLeft];
-                    Matrix? b = widget.matrices[_binaryRight];
+                    Matrix? a = matrices[_binaryLeft];
+                    Matrix? b = matrices[_binaryRight];
                     if (a == null || b == null) {
                       ExerciseUtils.showError(
                           context, 'Zvolené matice neexistují');
@@ -422,7 +418,8 @@ class _MatrixBinOperationSelectionState
                       return;
                     }
                     Matrix leftOp = Matrix.from(a);
-                    CalcDataController.addMatrixSolution(MatrixSolution(
+                    getIt<CalcMatrixSolutionsModel>()
+                        .addSolution(MatrixSolution(
                       leftOp: leftOp,
                       rightOp: a == b ? leftOp : Matrix.from(b),
                       operation: operation,

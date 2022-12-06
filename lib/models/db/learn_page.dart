@@ -1,4 +1,4 @@
-import 'package:dp_algebra/models/learn_block.dart';
+import 'package:dp_algebra/models/db/learn_block.dart';
 
 class LPage {
   final int id;

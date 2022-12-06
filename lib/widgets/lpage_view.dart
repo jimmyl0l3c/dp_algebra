@@ -1,4 +1,4 @@
-import 'package:dp_algebra/models/learn_page.dart';
+import 'package:dp_algebra/models/db/learn_page.dart';
 import 'package:flutter/material.dart';
 
 class LPageView extends StatelessWidget {

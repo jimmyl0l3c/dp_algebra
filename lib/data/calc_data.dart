@@ -10,7 +10,7 @@ class CalcData {
       title: 'Operace s maticemi',
       subtitle:
           'Součet, rozdíl, součin, vlastnosti matic (hodnost, determinant)',
-      pages: [SectionPageModel(title: '', page: const CalcMatrices())],
+      pages: [SectionPageModel(title: '', page: CalcMatrices())],
     ),
     SectionChapterModel(
       title: 'Soustavy lineárních rovnic',

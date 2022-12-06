@@ -7,8 +7,6 @@ import 'package:dp_algebra/matrices/vector.dart';
 import 'package:dp_algebra/matrices/vector_solution.dart';
 
 class CalcDataController {
-  static final List<MatrixSolution> _matrixSolutions = [];
-
   static final EquationMatrix _equationMatrix = EquationMatrix(columns: 3);
   static final List<EquationSolution> _equationSolutions = [];
 
@@ -33,11 +31,6 @@ class CalcDataController {
       StreamController<List<VectorSolution>>();
   static final Stream<List<VectorSolution>> vectorSolutionStream =
       _vectorSolutionsStreamController.stream.asBroadcastStream();
-
-  static void addMatrixSolution(MatrixSolution solution) {
-    _matrixSolutions.add(solution);
-    _matrixSolutionStreamController.add(_matrixSolutions);
-  }
 
   static void addEquationSolution(EquationSolution solution) {
     _equationSolutions.add(solution);

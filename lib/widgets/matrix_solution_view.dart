@@ -1,16 +1,13 @@
-import 'package:dp_algebra/matrices/matrix.dart';
 import 'package:dp_algebra/matrices/matrix_solution.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
 class SolutionView extends StatelessWidget {
   final MatrixSolution solution;
-  final Map<String, Matrix> matrices;
 
   const SolutionView({
     Key? key,
     required this.solution,
-    required this.matrices,
   }) : super(key: key);
 
   @override
