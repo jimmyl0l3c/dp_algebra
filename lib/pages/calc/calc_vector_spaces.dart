@@ -1,15 +1,17 @@
 import 'package:dp_algebra/main.dart';
 import 'package:dp_algebra/matrices/equation_matrix.dart';
 import 'package:dp_algebra/matrices/vector.dart';
+import 'package:dp_algebra/matrices/vector_exceptions.dart';
 import 'package:dp_algebra/matrices/vector_solution.dart';
 import 'package:dp_algebra/models/calc_state/calc_vector_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_vector_solutions_model.dart';
+import 'package:dp_algebra/pages/exercise/utils.dart';
 import 'package:dp_algebra/widgets/vector_input.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
-class CalcVectorIndependence extends StatelessWidget with GetItMixin {
-  CalcVectorIndependence({Key? key}) : super(key: key);
+class CalcVectorSpaces extends StatelessWidget with GetItMixin {
+  CalcVectorSpaces({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,19 +42,12 @@ class CalcVectorIndependence extends StatelessWidget with GetItMixin {
               ],
             ),
             const SizedBox(height: 12),
-            Column(
-              // direction: Axis.vertical,
-              // crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                for (var i = 0; i < vectors.length; i++)
-                  VectorInput(
-                    vector: vectors[i],
-                    name: 'v$i',
-                    deleteVector: () =>
-                        getIt<CalcVectorModel>().removeVector(i),
-                  ),
-              ],
-            ),
+            for (var i = 0; i < vectors.length; i++)
+              VectorInput(
+                vector: vectors[i],
+                name: 'v$i',
+                deleteVector: () => getIt<CalcVectorModel>().removeVector(i),
+              ),
             const Divider(),
             Text(
               'Operace',
@@ -67,15 +62,20 @@ class CalcVectorIndependence extends StatelessWidget with GetItMixin {
                     : () {
                         List<Vector> eqVectors = List<Vector>.from(vectors)
                           ..add(Vector(length: vectors.first.length()));
-                        EquationMatrix m = EquationMatrix.fromVectors(
-                          eqVectors,
-                          vertical: true,
-                        );
-                        getIt<CalcVectorSolutionsModel>().addSolution(
+                        try {
+                          EquationMatrix m = EquationMatrix.fromVectors(
+                            eqVectors,
+                            vertical: true,
+                          );
+                          getIt<CalcVectorSolutionsModel>().addSolution(
                             VectorSolution(
                                 vectors: vectors,
                                 operation: VectorOperation.linearIndependence,
-                                solution: m.solveByGauss().isZeroVector()));
+                                solution: m.solveByGauss().isZeroVector()),
+                          );
+                        } on VectorException catch (e) {
+                          ExerciseUtils.showError(context, e.errMessage());
+                        }
                       },
                 child: const Text('Lineární nezávislost'),
               ),
