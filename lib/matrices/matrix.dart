@@ -56,6 +56,25 @@ class Matrix {
     }
   }
 
+  List<Vector> toVectors({bool vertical = false}) {
+    List<Vector> vectors = [];
+    if (vertical) {
+      for (var c = 0; c < getColumns(); c++) {
+        List<Fraction> column = [];
+        for (var r = 0; r < getRows(); r++) {
+          column.add(_matrix[r][c]);
+        }
+        vectors.add(Vector.fromList(column));
+      }
+    } else {
+      for (var row in _matrix) {
+        vectors.add(Vector.fromList(row));
+      }
+    }
+
+    return vectors;
+  }
+
   int getColumns() => _matrix.isNotEmpty ? _matrix.first.length : 0;
   int getRows() => _matrix.length;
 

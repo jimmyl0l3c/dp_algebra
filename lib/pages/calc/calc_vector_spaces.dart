@@ -113,32 +113,6 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                 ],
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 4.0),
-            //   child: ElevatedButton(
-            //     onPressed: vectors.isEmpty
-            //         ? null
-            //         : () {
-            //             List<Vector> eqVectors = List<Vector>.from(vectors)
-            //               ..add(Vector(length: vectors.first.length()));
-            //             try {
-            //               EquationMatrix m = EquationMatrix.fromVectors(
-            //                 eqVectors,
-            //                 vertical: true,
-            //               );
-            //               getIt<CalcVectorSolutionsModel>().addSolution(
-            //                 VectorSolution(
-            //                     vectors: vectors,
-            //                     operation: VectorOperation.linearIndependence,
-            //                     solution: m.solveByGauss().isZeroVector()),
-            //               );
-            //             } on VectorException catch (e) {
-            //               ExerciseUtils.showError(context, e.errMessage());
-            //             }
-            //           },
-            //     child: const Text('Lineární nezávislost'),
-            //   ),
-            // ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: Wrap(
@@ -164,9 +138,14 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                     child: CalcUtils.vectorSelectionString(baseSelection),
                   ),
                   const SizedBox(width: 8.0),
-                  const ElevatedButton(
-                    onPressed: null,
-                    child: Text('Vyhledat'),
+                  ElevatedButton(
+                    onPressed: () {
+                      var selectedVectors = vectors
+                          .whereIndexed((i, v) => baseSelection.contains(i))
+                          .toList();
+                      Vector.findBasis(selectedVectors);
+                    },
+                    child: const Text('Nalézt'),
                   ),
                 ],
               ),

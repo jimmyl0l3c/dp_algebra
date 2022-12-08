@@ -1,5 +1,6 @@
 import 'package:dp_algebra/matrices/equation_matrix.dart';
 import 'package:dp_algebra/matrices/extensions.dart';
+import 'package:dp_algebra/matrices/matrix.dart';
 import 'package:dp_algebra/matrices/matrix_exceptions.dart';
 import 'package:dp_algebra/matrices/vector_exceptions.dart';
 import 'package:fraction/fraction.dart';
@@ -37,6 +38,54 @@ class Vector {
       vertical: true,
     );
     return m.solveByGauss().isZeroVector();
+  }
+
+  static bool areSameSize(List<Vector> vectors) {
+    if (vectors.length < 2) return true;
+    int length = vectors.first.length();
+
+    for (var i = 1; i < vectors.length; i++) {
+      if (length != vectors[i].length()) return false;
+    }
+    return true;
+  }
+
+  static List<Vector> findBasis(List<Vector> vectors) {
+    if (!areSameSize(vectors)) throw VectorSizeMismatchException();
+
+    Matrix m = Matrix.fromVectors(vectors).triangular(); // reduce?
+    // TODO: check if it works correctly
+    return m.toVectors();
+  }
+
+  static Matrix getTransformMatrix(List<Vector> basisA, List<Vector> basisB) {
+    if (!areSameSize([...basisA, ...basisB])) {
+      throw VectorSizeMismatchException();
+    }
+
+    // TODO: basisA.len =?= basisB.len (is it necessary?)
+
+    if (!areLinearIndependent(basisA) || !areLinearIndependent(basisB)) {
+      // TODO: throw exception - not a basis
+    }
+
+    List<Vector> solutions = [];
+    for (var v2 in basisB) {
+      EquationMatrix m = EquationMatrix.fromVectors(
+        List.from(basisA)..add(v2),
+        vertical: true,
+      );
+      // TODO: solve via Gauss and add solution vector to solutions
+    }
+    // TODO: then check if it works correctly
+    return Matrix.fromVectors(solutions);
+  }
+
+  Vector transformCoords(Vector initialCoords, Matrix transformMatrix) {
+    // TODO: add size check
+
+    // TODO: implement
+    throw UnimplementedError();
   }
 
   Vector doEntryWiseOperation(
