@@ -1,3 +1,4 @@
+import 'package:dp_algebra/matrices/equation_matrix.dart';
 import 'package:dp_algebra/matrices/extensions.dart';
 import 'package:dp_algebra/matrices/matrix_exceptions.dart';
 import 'package:dp_algebra/matrices/vector_exceptions.dart';
@@ -27,6 +28,16 @@ class Vector {
   int length() => _entries.length;
 
   bool isSameSizeAs(Vector other) => length() == other.length();
+
+  bool isLinearIndependent(Vector other) => areLinearIndependent([this, other]);
+
+  static bool areLinearIndependent(List<Vector> vectors) {
+    EquationMatrix m = EquationMatrix.fromVectors(
+      vectors..add(Vector(length: vectors.first.length())),
+      vertical: true,
+    );
+    return m.solveByGauss().isZeroVector();
+  }
 
   Vector doEntryWiseOperation(
     Vector other,

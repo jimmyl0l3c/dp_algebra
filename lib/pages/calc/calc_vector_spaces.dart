@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/matrices/equation_matrix.dart';
 import 'package:dp_algebra/matrices/vector.dart';
 import 'package:dp_algebra/matrices/vector_exceptions.dart';
 import 'package:dp_algebra/matrices/vector_solution.dart';
@@ -96,21 +95,14 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                 .whereIndexed(
                                     (i, v) => independenceSelection.contains(i))
                                 .toList();
-                            List<Vector> eqVectors =
-                                List<Vector>.from(selectedVectors)
-                                  ..add(Vector(
-                                      length: selectedVectors.first.length()));
                             try {
-                              EquationMatrix m = EquationMatrix.fromVectors(
-                                eqVectors,
-                                vertical: true,
-                              );
                               getIt<CalcVectorSolutionsModel>().addSolution(
                                 VectorSolution(
-                                    vectors: selectedVectors,
-                                    operation:
-                                        VectorOperation.linearIndependence,
-                                    solution: m.solveByGauss().isZeroVector()),
+                                  vectors: selectedVectors,
+                                  operation: VectorOperation.linearIndependence,
+                                  solution: Vector.areLinearIndependent(
+                                      selectedVectors),
+                                ),
                               );
                             } on VectorException catch (e) {
                               ExerciseUtils.showError(context, e.errMessage());
