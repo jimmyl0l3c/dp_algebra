@@ -61,6 +61,9 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
               operation: MatrixOperation.det,
             ),
             MatrixOperationSelection(
+              operation: MatrixOperation.rank,
+            ),
+            MatrixOperationSelection(
               operation: MatrixOperation.transpose,
             ),
             MatrixOperationSelection(

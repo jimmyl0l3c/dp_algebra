@@ -34,7 +34,7 @@ enum MatrixOperation {
     description: 'Hodnost',
     symbol: 'h',
     prependSymbol: true,
-    enclose: true,
+    enclose: false, // should be true
     binary: false,
   );
 
