@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dp_algebra/main.dart';
+import 'package:dp_algebra/matrices/equation_exceptions.dart';
 import 'package:dp_algebra/matrices/vector.dart';
 import 'package:dp_algebra/matrices/vector_exceptions.dart';
 import 'package:dp_algebra/matrices/vector_solution.dart';
@@ -271,24 +272,11 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                   onPressed: transformA.isEmpty || transformB.isEmpty
                       ? null
                       : () {
-                          var basisA = vectors
-                              .whereIndexed((i, v) => transformA.contains(i))
-                              .toList();
-                          var basisB = vectors
-                              .whereIndexed((i, v) => transformB.contains(i))
-                              .toList();
-                          try {
-                            getIt<CalcVectorSolutionsModel>().addSolution(
-                              VectorSolution(
-                                vectors: basisA,
-                                otherVectors: basisB,
-                                operation: VectorOperation.transformMatrix,
-                                solution:
-                                    Vector.getTransformMatrix(basisA, basisB),
-                              ),
-                            );
-                          } on VectorException catch (e) {
-                            ExerciseUtils.showError(context, e.errMessage());
+                          var solution = _getTransformMatrix(
+                              context, vectors, transformA, transformB);
+                          if (solution != null) {
+                            getIt<CalcVectorSolutionsModel>()
+                                .addSolution(solution);
                           }
                         },
                   child: const Text('Transformační Matice'),
@@ -323,14 +311,61 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                 isExpanded: true,
               ),
               const SizedBox(width: 8.0),
-              const ElevatedButton(
-                onPressed: null,
-                child: Text('Transformovat'),
+              ElevatedButton(
+                onPressed: transformA.isEmpty ||
+                        transformB.isEmpty ||
+                        selectedCoordinateVector == null
+                    ? null
+                    : () {
+                        var transformMatrix = _getTransformMatrix(
+                            context, vectors, transformA, transformB);
+
+                        if (transformMatrix == null) return;
+
+                        var selectedVector = vectors[selectedCoordinateVector!];
+                        getIt<CalcVectorSolutionsModel>().addSolution(
+                          VectorSolution(
+                            vectors: transformMatrix.vectors,
+                            otherVectors: transformMatrix.otherVectors,
+                            inputVector: selectedVector,
+                            operation: VectorOperation.transformCoordinates,
+                            solution: selectedVector
+                                .transformCoords(transformMatrix.solution),
+                          ),
+                        );
+                      },
+                child: const Text('Transformovat'),
               ),
             ],
           ),
         ],
       ),
     );
+  }
+
+  VectorSolution? _getTransformMatrix(
+    BuildContext context,
+    List<Vector> vectors,
+    Set<int> transformA,
+    Set<int> transformB,
+  ) {
+    var basisA =
+        vectors.whereIndexed((i, v) => transformA.contains(i)).toList();
+    var basisB =
+        vectors.whereIndexed((i, v) => transformB.contains(i)).toList();
+    try {
+      return VectorSolution(
+        vectors: basisA,
+        otherVectors: basisB,
+        operation: VectorOperation.transformMatrix,
+        solution: Vector.getTransformMatrix(basisA, basisB),
+      );
+    } on VectorException catch (e) {
+      ExerciseUtils.showError(context, e.errMessage());
+    } on EquationException catch (e) {
+      ExerciseUtils.showError(context, e.errMessage());
+    }
+
+    return null;
   }
 }

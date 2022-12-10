@@ -4,6 +4,7 @@ import 'package:dp_algebra/matrices/vector.dart';
 class VectorSolution {
   final List<Vector> vectors;
   final List<Vector>? otherVectors;
+  final Vector? inputVector;
   final VectorOperation operation;
   final dynamic solution;
 
@@ -12,6 +13,7 @@ class VectorSolution {
   VectorSolution({
     required this.vectors,
     this.otherVectors,
+    this.inputVector,
     required this.operation,
     required this.solution,
     this.stepByStep,
@@ -73,6 +75,10 @@ enum VectorOperation {
   transformMatrix(
     description: 'Transformační matice',
     solutionType: Matrix,
+  ),
+  transformCoordinates(
+    description: 'Transformace souřadnic',
+    solutionType: Vector,
   );
 
   final String description;

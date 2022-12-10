@@ -73,18 +73,22 @@ class Vector {
 
     List<Vector> solutions = [];
     for (var v2 in basisB) {
-      EquationMatrix m = EquationMatrix.fromVectors(
+      var solution = EquationMatrix.fromVectors(
         List.from(basisA)..add(v2),
         vertical: true,
-      );
-      m.solveByGauss();
-      // TODO: solve via Gauss and add solution vector to solutions
+      ).solveByGauss();
+
+      if (solution.isSingleSolution()) {
+        solutions.add(solution.toVectorList().first);
+      } else {
+        // TODO: how to react to more than one solution?
+      }
     }
-    // TODO: then check if it works correctly
+
     return Matrix.fromVectors(solutions);
   }
 
-  Vector transformCoords(Vector initialCoords, Matrix transformMatrix) {
+  Vector transformCoords(Matrix transformMatrix) {
     // TODO: add size check
 
     // TODO: implement

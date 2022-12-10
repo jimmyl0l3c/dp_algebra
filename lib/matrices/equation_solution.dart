@@ -70,6 +70,46 @@ class GeneralSolution {
     return true;
   }
 
+  bool isSingleSolution() {
+    Fraction zero = 0.toFraction();
+    for (var i in _solution.keys) {
+      for (var j in _solution[i]!.keys) {
+        if (_solution[i]![j] != zero) return false;
+      }
+    }
+    return true;
+  }
+
+  List<Vector> toVectorList() {
+    List<Vector> vectors = [_mapToVector(_numSolution)];
+
+    if (!isSingleSolution()) {
+      for (var i = 0; i < _numSolution.length; i++) {
+        if (_solution.containsKey(i)) {
+          vectors.add(_mapToVector(_solution[i]!));
+        } else {
+          vectors.add(Vector(length: _numSolution.length));
+        }
+      }
+    }
+
+    return vectors;
+  }
+
+  Vector _mapToVector(Map<int, Fraction> map) {
+    List<Fraction> vectorValues = [];
+
+    for (var i = 0; i < _numSolution.length; i++) {
+      if (map.containsKey(i)) {
+        vectorValues.add(map[i]!);
+      } else {
+        vectorValues.add(Fraction(0));
+      }
+    }
+
+    return Vector.fromList(vectorValues);
+  }
+
   @override
   String toString() {
     StringBuffer buffer = StringBuffer('x = (');
