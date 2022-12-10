@@ -32,9 +32,11 @@ class Vector {
 
   bool isLinearIndependent(Vector other) => areLinearIndependent([this, other]);
 
+  bool isZeroVector() => _entries.every((element) => element == Fraction(0));
+
   static bool areLinearIndependent(List<Vector> vectors) {
     EquationMatrix m = EquationMatrix.fromVectors(
-      vectors..add(Vector(length: vectors.first.length())),
+      List.from(vectors)..add(Vector(length: vectors.first.length())),
       vertical: true,
     );
     return m.solveByGauss().isZeroVector();
@@ -53,9 +55,8 @@ class Vector {
   static List<Vector> findBasis(List<Vector> vectors) {
     if (!areSameSize(vectors)) throw VectorSizeMismatchException();
 
-    Matrix m = Matrix.fromVectors(vectors).triangular(); // reduce?
-    // TODO: check if it works correctly
-    return m.toVectors();
+    Matrix m = Matrix.fromVectors(vectors).triangular()..reduce();
+    return m.toVectors().where((v) => !v.isZeroVector()).toList();
   }
 
   static Matrix getTransformMatrix(List<Vector> basisA, List<Vector> basisB) {

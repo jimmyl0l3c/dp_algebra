@@ -11,6 +11,7 @@ import 'package:dp_algebra/widgets/styled_dropdown.dart';
 import 'package:dp_algebra/widgets/styled_popup.dart';
 import 'package:dp_algebra/widgets/vector_input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
 class CalcVectorSpaces extends StatelessWidget with GetItMixin {
@@ -139,12 +140,25 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                   ),
                   const SizedBox(width: 8.0),
                   ElevatedButton(
-                    onPressed: () {
-                      var selectedVectors = vectors
-                          .whereIndexed((i, v) => baseSelection.contains(i))
-                          .toList();
-                      Vector.findBasis(selectedVectors);
-                    },
+                    onPressed: baseSelection.isEmpty
+                        ? null
+                        : () {
+                            var selectedVectors = vectors
+                                .whereIndexed(
+                                    (i, v) => baseSelection.contains(i))
+                                .toList();
+                            try {
+                              getIt<CalcVectorSolutionsModel>().addSolution(
+                                VectorSolution(
+                                  vectors: selectedVectors,
+                                  operation: VectorOperation.findBasis,
+                                  solution: Vector.findBasis(selectedVectors),
+                                ),
+                              );
+                            } on VectorException catch (e) {
+                              ExerciseUtils.showError(context, e.errMessage());
+                            }
+                          },
                     child: const Text('Nalézt'),
                   ),
                 ],
@@ -158,8 +172,17 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
             ),
             const SizedBox(height: 12),
             for (var solution in solutions.reversed)
-              Text(
-                  '${solution.operation.description}: ${solution.solution ? 'Ano' : 'Ne'}')
+              Wrap(
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runAlignment: WrapAlignment.center,
+                runSpacing: 12.0,
+                children: Math.tex(
+                  solution.toTeX(),
+                  textScaleFactor: 1.4,
+                ).texBreak().parts,
+              )
           ],
         ),
       ),

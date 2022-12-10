@@ -44,13 +44,18 @@ class StyledPopupButton<T> extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
         // alignment: Alignment.center,
         itemBuilder: itemBuilder,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 8.0,
-            vertical: 16.0,
-          ),
-          child:
-              Text(child ?? (placeholder ?? '...')), // TODO: change empty value
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 16.0,
+              ),
+              child: Text(child ?? (placeholder ?? '...')),
+            ),
+            const Icon(Icons.arrow_drop_down),
+          ],
         ),
       ),
     );
