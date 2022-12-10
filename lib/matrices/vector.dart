@@ -30,11 +30,12 @@ class Vector {
 
   bool isSameSizeAs(Vector other) => length() == other.length();
 
-  bool isLinearIndependent(Vector other) => areLinearIndependent([this, other]);
+  bool isLinearlyIndependent(Vector other) =>
+      areLinearlyIndependent([this, other]);
 
   bool isZeroVector() => _entries.every((element) => element == Fraction(0));
 
-  static bool areLinearIndependent(List<Vector> vectors) {
+  static bool areLinearlyIndependent(List<Vector> vectors) {
     EquationMatrix m = EquationMatrix.fromVectors(
       List.from(vectors)..add(Vector(length: vectors.first.length())),
       vertical: true,
@@ -66,8 +67,8 @@ class Vector {
 
     // TODO: basisA.len =?= basisB.len (is it necessary?)
 
-    if (!areLinearIndependent(basisA) || !areLinearIndependent(basisB)) {
-      // TODO: throw exception - not a basis
+    if (!areLinearlyIndependent(basisA) || !areLinearlyIndependent(basisB)) {
+      throw VectorsLinearlyDependentException();
     }
 
     List<Vector> solutions = [];
@@ -76,6 +77,7 @@ class Vector {
         List.from(basisA)..add(v2),
         vertical: true,
       );
+      m.solveByGauss();
       // TODO: solve via Gauss and add solution vector to solutions
     }
     // TODO: then check if it works correctly

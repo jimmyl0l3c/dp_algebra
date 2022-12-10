@@ -1,3 +1,4 @@
+import 'package:dp_algebra/matrices/matrix.dart';
 import 'package:dp_algebra/matrices/vector.dart';
 
 class VectorSolution {
@@ -36,6 +37,9 @@ class VectorSolution {
       case List<Vector>:
         buffer.write(_vectorListToTeX(solution));
         break;
+      case Matrix:
+        buffer.write((solution as Matrix).toTeX());
+        break;
     }
 
     return buffer.toString();
@@ -65,6 +69,10 @@ enum VectorOperation {
   findBasis(
     description: 'Báze',
     solutionType: List<Vector>,
+  ),
+  transformMatrix(
+    description: 'Transformační matice',
+    solutionType: Matrix,
   );
 
   final String description;

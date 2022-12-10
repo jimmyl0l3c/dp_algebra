@@ -398,6 +398,8 @@ class Matrix {
   }
 
   String toTeX({bool isDeterminant = false}) {
+    if (_matrix.isEmpty) return '()';
+
     StringBuffer buffer = StringBuffer();
     int rows = getRows();
     int cols = getColumns();

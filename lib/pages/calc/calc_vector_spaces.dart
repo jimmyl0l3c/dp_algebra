@@ -101,7 +101,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                 VectorSolution(
                                   vectors: selectedVectors,
                                   operation: VectorOperation.linearIndependence,
-                                  solution: Vector.areLinearIndependent(
+                                  solution: Vector.areLinearlyIndependent(
                                       selectedVectors),
                                 ),
                               );
@@ -172,16 +172,19 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
             ),
             const SizedBox(height: 12),
             for (var solution in solutions.reversed)
-              Wrap(
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                runAlignment: WrapAlignment.center,
-                runSpacing: 12.0,
-                children: Math.tex(
-                  solution.toTeX(),
-                  textScaleFactor: 1.4,
-                ).texBreak().parts,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  runAlignment: WrapAlignment.center,
+                  runSpacing: 8.0,
+                  children: Math.tex(
+                    solution.toTeX(),
+                    textScaleFactor: 1.4,
+                  ).texBreak().parts,
+                ),
               )
           ],
         ),
@@ -216,67 +219,115 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Wrap(
-        direction: Axis.horizontal,
-        alignment: WrapAlignment.center,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        runAlignment: WrapAlignment.center,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('Transformace souřadnic:'),
-          const SizedBox(width: 8.0),
-          StyledPopupButton<int>(
-            onSelected: (value) => getIt<CalcVectorModel>()
-                .checkVector(VectorSelectionType.transformA, value),
-            itemBuilder: (context) => <PopupMenuItem<int>>[
-              for (var i = 0; i < vectors.length; i++)
-                CheckedPopupMenuItem<int>(
-                  value: i,
-                  checked: getIt<CalcVectorModel>()
-                      .isChecked(VectorSelectionType.transformA, i),
-                  child: Text('v$i'),
-                ),
-            ],
-            placeholder: 'Báze A',
-            child: CalcUtils.vectorSelectionString(transformA),
+          Text(
+            'Transformace souřadnic',
+            style: Theme.of(context).textTheme.headline5!,
           ),
-          const SizedBox(width: 8.0),
-          StyledPopupButton<int>(
-            onSelected: (value) => getIt<CalcVectorModel>()
-                .checkVector(VectorSelectionType.transformB, value),
-            itemBuilder: (context) => <PopupMenuItem<int>>[
-              for (var i = 0; i < vectors.length; i++)
-                CheckedPopupMenuItem<int>(
-                  value: i,
-                  checked: getIt<CalcVectorModel>()
-                      .isChecked(VectorSelectionType.transformB, i),
-                  child: Text('v$i'),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Wrap(
+              direction: Axis.horizontal,
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              runAlignment: WrapAlignment.center,
+              runSpacing: 4.0,
+              children: [
+                StyledPopupButton<int>(
+                  onSelected: (value) => getIt<CalcVectorModel>()
+                      .checkVector(VectorSelectionType.transformA, value),
+                  itemBuilder: (context) => <PopupMenuItem<int>>[
+                    for (var i = 0; i < vectors.length; i++)
+                      CheckedPopupMenuItem<int>(
+                        value: i,
+                        checked: getIt<CalcVectorModel>()
+                            .isChecked(VectorSelectionType.transformA, i),
+                        child: Text('v$i'),
+                      ),
+                  ],
+                  placeholder: 'Báze A',
+                  child: CalcUtils.vectorSelectionString(transformA),
                 ),
-            ],
-            placeholder: 'Báze B',
-            child: CalcUtils.vectorSelectionString(transformB),
-          ),
-          const SizedBox(width: 8.0),
-          StyledDropdownButton<int>(
-            value: selectedCoordinateVector,
-            items: [
-              for (var i = 0; i < vectors.length; i++)
-                DropdownMenuItem<int>(
-                  value: i,
-                  child: Text('v$i'),
+                const SizedBox(width: 8.0),
+                StyledPopupButton<int>(
+                  onSelected: (value) => getIt<CalcVectorModel>()
+                      .checkVector(VectorSelectionType.transformB, value),
+                  itemBuilder: (context) => <PopupMenuItem<int>>[
+                    for (var i = 0; i < vectors.length; i++)
+                      CheckedPopupMenuItem<int>(
+                        value: i,
+                        checked: getIt<CalcVectorModel>()
+                            .isChecked(VectorSelectionType.transformB, i),
+                        child: Text('v$i'),
+                      ),
+                  ],
+                  placeholder: 'Báze B',
+                  child: CalcUtils.vectorSelectionString(transformB),
                 ),
-            ],
-            onChanged: (i) {
-              setState(() {
-                selectedCoordinateVector = i;
-              });
-            },
-            maxWidth: 60,
-            isExpanded: true,
+                const SizedBox(width: 8.0),
+                ElevatedButton(
+                  onPressed: transformA.isEmpty || transformB.isEmpty
+                      ? null
+                      : () {
+                          var basisA = vectors
+                              .whereIndexed((i, v) => transformA.contains(i))
+                              .toList();
+                          var basisB = vectors
+                              .whereIndexed((i, v) => transformB.contains(i))
+                              .toList();
+                          try {
+                            getIt<CalcVectorSolutionsModel>().addSolution(
+                              VectorSolution(
+                                vectors: basisA,
+                                otherVectors: basisB,
+                                operation: VectorOperation.transformMatrix,
+                                solution:
+                                    Vector.getTransformMatrix(basisA, basisB),
+                              ),
+                            );
+                          } on VectorException catch (e) {
+                            ExerciseUtils.showError(context, e.errMessage());
+                          }
+                        },
+                  child: const Text('Transformační Matice'),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(width: 8.0),
-          const ElevatedButton(
-            onPressed: null,
-            child: Text('Vypočítat'),
+          Wrap(
+            direction: Axis.horizontal,
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            runAlignment: WrapAlignment.center,
+            runSpacing: 4.0,
+            children: [
+              const Text('Souřadnice: '),
+              const SizedBox(width: 8.0),
+              StyledDropdownButton<int>(
+                value: selectedCoordinateVector,
+                items: [
+                  for (var i = 0; i < vectors.length; i++)
+                    DropdownMenuItem<int>(
+                      value: i,
+                      child: Text('v$i'),
+                    ),
+                ],
+                onChanged: (i) {
+                  setState(() {
+                    selectedCoordinateVector = i;
+                  });
+                },
+                maxWidth: 60,
+                isExpanded: true,
+              ),
+              const SizedBox(width: 8.0),
+              const ElevatedButton(
+                onPressed: null,
+                child: Text('Transformovat'),
+              ),
+            ],
           ),
         ],
       ),

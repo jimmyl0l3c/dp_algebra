@@ -38,6 +38,12 @@ TextTheme _algebraTextTheme(TextTheme base) => base.copyWith(
         letterSpacing: .8,
         fontSize: 24,
       ),
+// calc lower headlines
+      headline5: base.headline4!.copyWith(
+        color: Colors.white,
+        letterSpacing: .8,
+        fontSize: 18,
+      ),
 // for widgets contents/paragraph
       bodyText1: base.bodyText1!.copyWith(),
 // for sub-widgets contents/paragraph
