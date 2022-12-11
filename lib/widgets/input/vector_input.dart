@@ -1,6 +1,6 @@
-import 'package:dp_algebra/matrices/vector.dart';
-import 'package:dp_algebra/widgets/button_row.dart';
-import 'package:dp_algebra/widgets/fraction_input.dart';
+import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/widgets/forms/button_row.dart';
+import 'package:dp_algebra/widgets/input/fraction_input.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 

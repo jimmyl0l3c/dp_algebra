@@ -1,7 +1,7 @@
-import 'package:dp_algebra/matrices/extensions.dart';
-import 'package:dp_algebra/matrices/matrix.dart';
-import 'package:dp_algebra/matrices/matrix_operations.dart';
-import 'package:dp_algebra/matrices/tex_parsable.dart';
+import 'package:dp_algebra/logic/general/extensions.dart';
+import 'package:dp_algebra/logic/general/tex_parsable.dart';
+import 'package:dp_algebra/logic/matrix/matrix.dart';
+import 'package:dp_algebra/logic/matrix/matrix_operations.dart';
 import 'package:fraction/fraction.dart';
 
 class MatrixSolution implements TexParsable {

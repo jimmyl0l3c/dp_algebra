@@ -1,4 +1,4 @@
-import 'package:dp_algebra/matrices/matrix_solution.dart';
+import 'package:dp_algebra/logic/matrix/matrix_solution.dart';
 import 'package:flutter/widgets.dart';
 
 class CalcMatrixSolutionsModel extends ChangeNotifier {

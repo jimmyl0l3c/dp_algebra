@@ -1,4 +1,4 @@
-import 'package:dp_algebra/matrices/vector_solution.dart';
+import 'package:dp_algebra/logic/vector/vector_solution.dart';
 import 'package:flutter/widgets.dart';
 
 class CalcVectorSolutionsModel extends ChangeNotifier {

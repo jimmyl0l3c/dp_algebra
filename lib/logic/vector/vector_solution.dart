@@ -1,6 +1,7 @@
-import 'package:dp_algebra/matrices/matrix.dart';
-import 'package:dp_algebra/matrices/tex_parsable.dart';
-import 'package:dp_algebra/matrices/vector.dart';
+import 'package:dp_algebra/logic/general/tex_parsable.dart';
+import 'package:dp_algebra/logic/matrix/matrix.dart';
+import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/logic/vector/vector_operations.dart';
 
 class VectorSolution implements TexParsable {
   final List<Vector> vectors;
@@ -69,31 +70,4 @@ class VectorSolution implements TexParsable {
     buffer.write(r'\big\}');
     return buffer.toString();
   }
-}
-
-enum VectorOperation {
-  linearIndependence(
-    description: 'Lineárně nezávislé',
-    solutionType: bool,
-  ),
-  findBasis(
-    description: 'Báze',
-    solutionType: List<Vector>,
-  ),
-  transformMatrix(
-    description: 'Transformační matice',
-    solutionType: Matrix,
-  ),
-  transformCoordinates(
-    description: 'Transformace souřadnic',
-    solutionType: Vector,
-  );
-
-  final String description;
-  final Type solutionType;
-
-  const VectorOperation({
-    required this.description,
-    required this.solutionType,
-  });
 }

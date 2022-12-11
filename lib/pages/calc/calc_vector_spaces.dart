@@ -1,17 +1,18 @@
 import 'package:collection/collection.dart';
+import 'package:dp_algebra/logic/equation_matrix/equation_exceptions.dart';
+import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/logic/vector/vector_exceptions.dart';
+import 'package:dp_algebra/logic/vector/vector_operations.dart';
+import 'package:dp_algebra/logic/vector/vector_solution.dart';
 import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/matrices/equation_exceptions.dart';
-import 'package:dp_algebra/matrices/vector.dart';
-import 'package:dp_algebra/matrices/vector_exceptions.dart';
-import 'package:dp_algebra/matrices/vector_solution.dart';
 import 'package:dp_algebra/models/calc_state/calc_vector_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_vector_solutions_model.dart';
-import 'package:dp_algebra/pages/calc/utils.dart';
-import 'package:dp_algebra/pages/exercise/utils.dart';
-import 'package:dp_algebra/widgets/solution_view.dart';
-import 'package:dp_algebra/widgets/styled_dropdown.dart';
-import 'package:dp_algebra/widgets/styled_popup.dart';
-import 'package:dp_algebra/widgets/vector_input.dart';
+import 'package:dp_algebra/utils/calc_utils.dart';
+import 'package:dp_algebra/utils/utils.dart';
+import 'package:dp_algebra/widgets/forms/styled_dropdown.dart';
+import 'package:dp_algebra/widgets/forms/styled_popup.dart';
+import 'package:dp_algebra/widgets/input/vector_input.dart';
+import 'package:dp_algebra/widgets/layout/solution_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
@@ -107,7 +108,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                 ),
                               );
                             } on VectorException catch (e) {
-                              ExerciseUtils.showError(context, e.errMessage());
+                              AlgebraUtils.showError(context, e.errMessage());
                             }
                           },
                     child: const Text('Vypočítat'),
@@ -157,7 +158,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                 ),
                               );
                             } on VectorException catch (e) {
-                              ExerciseUtils.showError(context, e.errMessage());
+                              AlgebraUtils.showError(context, e.errMessage());
                             }
                           },
                     child: const Text('Nalézt'),
@@ -322,7 +323,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                             ),
                           );
                         } on VectorException catch (e) {
-                          ExerciseUtils.showError(context, e.errMessage());
+                          AlgebraUtils.showError(context, e.errMessage());
                         }
                       },
                 child: const Text('Transformovat'),
@@ -352,9 +353,9 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
         solution: Vector.getTransformMatrix(basisA, basisB),
       );
     } on VectorException catch (e) {
-      ExerciseUtils.showError(context, e.errMessage());
+      AlgebraUtils.showError(context, e.errMessage());
     } on EquationException catch (e) {
-      ExerciseUtils.showError(context, e.errMessage());
+      AlgebraUtils.showError(context, e.errMessage());
     }
 
     return null;

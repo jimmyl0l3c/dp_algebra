@@ -1,4 +1,4 @@
-import 'package:dp_algebra/widgets/button_row.dart';
+import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:flutter/material.dart';
 
 class ExercisePage extends StatelessWidget {

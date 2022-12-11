@@ -1,16 +1,16 @@
+import 'package:dp_algebra/logic/matrix/matrix.dart';
+import 'package:dp_algebra/logic/matrix/matrix_exceptions.dart';
+import 'package:dp_algebra/logic/matrix/matrix_operations.dart';
+import 'package:dp_algebra/logic/matrix/matrix_solution.dart';
 import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/matrices/matrix.dart';
-import 'package:dp_algebra/matrices/matrix_exceptions.dart';
-import 'package:dp_algebra/matrices/matrix_operations.dart';
-import 'package:dp_algebra/matrices/matrix_solution.dart';
 import 'package:dp_algebra/models/calc_state/calc_matrix_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_matrix_solutions_model.dart';
-import 'package:dp_algebra/pages/exercise/utils.dart';
-import 'package:dp_algebra/widgets/button_row.dart';
-import 'package:dp_algebra/widgets/fraction_input.dart';
-import 'package:dp_algebra/widgets/matrix_input.dart';
-import 'package:dp_algebra/widgets/solution_view.dart';
-import 'package:dp_algebra/widgets/styled_dropdown.dart';
+import 'package:dp_algebra/utils/utils.dart';
+import 'package:dp_algebra/widgets/forms/button_row.dart';
+import 'package:dp_algebra/widgets/forms/styled_dropdown.dart';
+import 'package:dp_algebra/widgets/input/fraction_input.dart';
+import 'package:dp_algebra/widgets/input/matrix_input.dart';
+import 'package:dp_algebra/widgets/layout/solution_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
@@ -255,7 +255,7 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                             break;
                         }
                       } on MatrixException catch (e) {
-                        ExerciseUtils.showError(context, e.errMessage());
+                        AlgebraUtils.showError(context, e.errMessage());
                         return;
                       }
 
@@ -386,14 +386,14 @@ class _MatrixBinOperationSelectionState
                 ? null
                 : () {
                     if (_binaryLeft == null || _binaryRight == null) {
-                      ExerciseUtils.showError(context,
+                      AlgebraUtils.showError(context,
                           'Zvolte matice, se kterými se má operace provést');
                       return;
                     }
                     Matrix? a = matrices[_binaryLeft];
                     Matrix? b = matrices[_binaryRight];
                     if (a == null || b == null) {
-                      ExerciseUtils.showError(
+                      AlgebraUtils.showError(
                           context, 'Zvolené matice neexistují');
                       return;
                     }
@@ -417,7 +417,7 @@ class _MatrixBinOperationSelectionState
                           return;
                       }
                     } on MatrixException catch (e) {
-                      ExerciseUtils.showError(context, e.errMessage());
+                      AlgebraUtils.showError(context, e.errMessage());
                       return;
                     }
                     Matrix leftOp = Matrix.from(a);

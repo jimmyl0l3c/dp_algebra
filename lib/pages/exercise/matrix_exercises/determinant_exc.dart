@@ -1,10 +1,11 @@
 import 'dart:math';
 
-import 'package:dp_algebra/matrices/matrix.dart';
-import 'package:dp_algebra/pages/exercise/exercise_page.dart';
-import 'package:dp_algebra/pages/exercise/utils.dart';
-import 'package:dp_algebra/widgets/button_row.dart';
-import 'package:dp_algebra/widgets/fraction_input.dart';
+import 'package:dp_algebra/logic/matrix/matrix.dart';
+import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
+import 'package:dp_algebra/utils/exc_utils.dart';
+import 'package:dp_algebra/utils/utils.dart';
+import 'package:dp_algebra/widgets/forms/button_row.dart';
+import 'package:dp_algebra/widgets/input/fraction_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:fraction/fraction.dart';
@@ -76,7 +77,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
             child: const Text('Zkontrolovat'),
             onPressed: () {
               // TODO: replace this
-              ExerciseUtils.showError(
+              AlgebraUtils.showError(
                   context, isAnswerCorrect() ? 'Správně' : 'Špatně');
             })
       ],

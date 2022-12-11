@@ -1,4 +1,4 @@
-import 'package:dp_algebra/matrices/vector.dart';
+import 'package:dp_algebra/logic/vector/vector.dart';
 import 'package:flutter/widgets.dart';
 
 enum VectorSelectionType { base, transformA, transformB, independence }

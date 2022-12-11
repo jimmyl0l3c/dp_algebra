@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:dp_algebra/matrices/extensions.dart';
-import 'package:dp_algebra/matrices/matrix_exceptions.dart';
-import 'package:dp_algebra/matrices/vector.dart';
-import 'package:dp_algebra/matrices/vector_exceptions.dart';
+import 'package:dp_algebra/logic/general/extensions.dart';
+import 'package:dp_algebra/logic/matrix/matrix_exceptions.dart';
+import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/logic/vector/vector_exceptions.dart';
 import 'package:fraction/fraction.dart';
 
 class Matrix {

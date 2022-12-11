@@ -1,12 +1,13 @@
 import 'dart:math';
 
-import 'package:dp_algebra/matrices/equation_matrix.dart';
-import 'package:dp_algebra/matrices/equation_solution.dart';
-import 'package:dp_algebra/matrices/vector.dart';
-import 'package:dp_algebra/pages/exercise/exercise_page.dart';
-import 'package:dp_algebra/pages/exercise/utils.dart';
-import 'package:dp_algebra/widgets/button_row.dart';
-import 'package:dp_algebra/widgets/vector_input.dart';
+import 'package:dp_algebra/logic/equation_matrix/equation_matrix.dart';
+import 'package:dp_algebra/logic/equation_matrix/equation_solution.dart';
+import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
+import 'package:dp_algebra/utils/exc_utils.dart';
+import 'package:dp_algebra/utils/utils.dart';
+import 'package:dp_algebra/widgets/forms/button_row.dart';
+import 'package:dp_algebra/widgets/input/vector_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
@@ -57,14 +58,14 @@ class _EquationExcState extends State<EquationExc> {
           child: const Text('Zkontrolovat'),
           onPressed: () {
             // TODO: replace this
-            ExerciseUtils.showError(
+            AlgebraUtils.showError(
                 context, isAnswerCorrect() ? 'Správně' : 'Špatně');
           },
         ),
         ButtonRowItem(
           child: const Text('Nemá řešení'),
           onPressed: () {
-            ExerciseUtils.showError(
+            AlgebraUtils.showError(
                 context, !equationMatrix.isSolvable() ? 'Správně' : 'Špatně');
           },
         ),

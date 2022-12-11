@@ -1,7 +1,7 @@
 import 'package:dp_algebra/models/db/learn_article.dart';
 import 'package:dp_algebra/models/db/learn_page.dart';
+import 'package:dp_algebra/widgets/layout/main_scaffold.dart';
 import 'package:dp_algebra/widgets/lpage_view.dart';
-import 'package:dp_algebra/widgets/main_scaffold.dart';
 import 'package:flutter/material.dart';
 
 class LearnArticle extends StatefulWidget {

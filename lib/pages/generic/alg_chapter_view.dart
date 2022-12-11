@@ -1,7 +1,7 @@
 import 'package:dp_algebra/models/section_chapter.dart';
 import 'package:dp_algebra/models/section_page.dart';
-import 'package:dp_algebra/widgets/main_scaffold.dart';
-import 'package:dp_algebra/widgets/section_menu.dart';
+import 'package:dp_algebra/widgets/layout/main_scaffold.dart';
+import 'package:dp_algebra/widgets/layout/section_menu.dart';
 import 'package:flutter/material.dart';
 
 class AlgChapterView extends StatelessWidget {

@@ -1,8 +1,8 @@
-import 'package:dp_algebra/matrices/equation_exceptions.dart';
-import 'package:dp_algebra/matrices/equation_solution.dart';
-import 'package:dp_algebra/matrices/extensions.dart';
-import 'package:dp_algebra/matrices/matrix.dart';
-import 'package:dp_algebra/matrices/vector.dart';
+import 'package:dp_algebra/logic/equation_matrix/equation_exceptions.dart';
+import 'package:dp_algebra/logic/equation_matrix/equation_solution.dart';
+import 'package:dp_algebra/logic/general/extensions.dart';
+import 'package:dp_algebra/logic/matrix/matrix.dart';
+import 'package:dp_algebra/logic/vector/vector.dart';
 import 'package:fraction/fraction.dart';
 
 class EquationMatrix extends Matrix {
