@@ -30,6 +30,10 @@ class VectorSolution {
       buffer.write(', ${_vectorListToTeX(otherVectors!)}');
     }
 
+    if (inputVector != null) {
+      buffer.write(', ${inputVector!.toTeX()}');
+    }
+
     buffer.write('\\big)=');
 
     switch (operation.solutionType) {
@@ -41,6 +45,9 @@ class VectorSolution {
         break;
       case Matrix:
         buffer.write((solution as Matrix).toTeX());
+        break;
+      case Vector:
+        buffer.write((solution as Vector).toTeX());
         break;
     }
 

@@ -323,16 +323,20 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                         if (transformMatrix == null) return;
 
                         var selectedVector = vectors[selectedCoordinateVector!];
-                        getIt<CalcVectorSolutionsModel>().addSolution(
-                          VectorSolution(
-                            vectors: transformMatrix.vectors,
-                            otherVectors: transformMatrix.otherVectors,
-                            inputVector: selectedVector,
-                            operation: VectorOperation.transformCoordinates,
-                            solution: selectedVector
-                                .transformCoords(transformMatrix.solution),
-                          ),
-                        );
+                        try {
+                          getIt<CalcVectorSolutionsModel>().addSolution(
+                            VectorSolution(
+                              vectors: transformMatrix.vectors,
+                              otherVectors: transformMatrix.otherVectors,
+                              inputVector: selectedVector,
+                              operation: VectorOperation.transformCoordinates,
+                              solution: selectedVector
+                                  .transformCoords(transformMatrix.solution),
+                            ),
+                          );
+                        } on VectorException catch (e) {
+                          ExerciseUtils.showError(context, e.errMessage());
+                        }
                       },
                 child: const Text('Transformovat'),
               ),

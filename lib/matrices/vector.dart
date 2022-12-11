@@ -89,10 +89,21 @@ class Vector {
   }
 
   Vector transformCoords(Matrix transformMatrix) {
-    // TODO: add size check
+    if (!transformMatrix.isSquare()) {
+      throw VectorTransformMatrixNotSquareException();
+    }
+    if (length() != transformMatrix.getRows()) {
+      throw VectorTransformMatrixSizeMismatchException();
+    }
 
-    // TODO: implement
-    throw UnimplementedError();
+    Vector newCoords = Vector(length: length());
+    for (var i = 0; i < length(); i++) {
+      for (var j = 0; j < length(); j++) {
+        newCoords[i] += transformMatrix[i][j] * _entries[j];
+      }
+    }
+
+    return newCoords;
   }
 
   Vector doEntryWiseOperation(
