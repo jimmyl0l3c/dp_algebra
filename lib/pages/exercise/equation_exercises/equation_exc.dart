@@ -80,6 +80,10 @@ class _EquationExcState extends State<EquationExc> {
       return correctSolution == solution;
     } else {
       GeneralSolution correctGeneralSolution = equationMatrix.solveByGauss();
+      if (correctGeneralSolution.isSingleSolution()) {
+        return correctGeneralSolution.toVectorList().first == solution;
+      }
+
       // TODO: compare, make it possible to fill general solutions
     }
 

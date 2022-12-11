@@ -9,7 +9,7 @@ import 'package:dp_algebra/pages/exercise/utils.dart';
 import 'package:dp_algebra/widgets/button_row.dart';
 import 'package:dp_algebra/widgets/fraction_input.dart';
 import 'package:dp_algebra/widgets/matrix_input.dart';
-import 'package:dp_algebra/widgets/matrix_solution_view.dart';
+import 'package:dp_algebra/widgets/solution_view.dart';
 import 'package:dp_algebra/widgets/styled_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
@@ -76,10 +76,7 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
             ),
             const SizedBox(height: 12),
             for (var solution in solutions.reversed)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: SolutionView(solution: solution),
-              ),
+              SolutionView(solution: solution),
           ],
         ),
       ),

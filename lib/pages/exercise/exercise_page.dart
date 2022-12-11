@@ -17,50 +17,52 @@ class ExercisePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 4.0,
-        vertical: 12.0,
-      ),
-      child: Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: Wrap(
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                runAlignment: WrapAlignment.center,
-                runSpacing: 8.0,
-                children: [
-                  const Text('Vygenerovat: '),
-                  ButtonRow(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 12,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 4.0,
+          vertical: 12.0,
+        ),
+        child: Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  runAlignment: WrapAlignment.center,
+                  runSpacing: 8.0,
+                  children: [
+                    const Text('Vygenerovat: '),
+                    ButtonRow(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 12,
+                      ),
+                      children: generateButtons,
                     ),
-                    children: generateButtons,
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: example,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: result,
-            ),
-            ButtonRow(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 16,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: example,
               ),
-              children: resolveButtons,
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: result,
+              ),
+              ButtonRow(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
+                ),
+                children: resolveButtons,
+              ),
+            ],
+          ),
         ),
       ),
     );

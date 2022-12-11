@@ -1,9 +1,10 @@
 import 'package:dp_algebra/matrices/extensions.dart';
 import 'package:dp_algebra/matrices/matrix.dart';
 import 'package:dp_algebra/matrices/matrix_operations.dart';
+import 'package:dp_algebra/matrices/tex_parsable.dart';
 import 'package:fraction/fraction.dart';
 
-class MatrixSolution {
+class MatrixSolution implements TexParsable {
   final dynamic leftOp;
   final Matrix? rightOp;
   final MatrixOperation operation;

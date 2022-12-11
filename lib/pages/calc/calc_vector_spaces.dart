@@ -8,11 +8,11 @@ import 'package:dp_algebra/models/calc_state/calc_vector_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_vector_solutions_model.dart';
 import 'package:dp_algebra/pages/calc/utils.dart';
 import 'package:dp_algebra/pages/exercise/utils.dart';
+import 'package:dp_algebra/widgets/solution_view.dart';
 import 'package:dp_algebra/widgets/styled_dropdown.dart';
 import 'package:dp_algebra/widgets/styled_popup.dart';
 import 'package:dp_algebra/widgets/vector_input.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
 class CalcVectorSpaces extends StatelessWidget with GetItMixin {
@@ -173,20 +173,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
             ),
             const SizedBox(height: 12),
             for (var solution in solutions.reversed)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Wrap(
-                  direction: Axis.horizontal,
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  runAlignment: WrapAlignment.center,
-                  runSpacing: 8.0,
-                  children: Math.tex(
-                    solution.toTeX(),
-                    textScaleFactor: 1.4,
-                  ).texBreak().parts,
-                ),
-              )
+              SolutionView(solution: solution),
           ],
         ),
       ),

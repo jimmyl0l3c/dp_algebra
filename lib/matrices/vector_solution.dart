@@ -1,7 +1,8 @@
 import 'package:dp_algebra/matrices/matrix.dart';
+import 'package:dp_algebra/matrices/tex_parsable.dart';
 import 'package:dp_algebra/matrices/vector.dart';
 
-class VectorSolution {
+class VectorSolution implements TexParsable {
   final List<Vector> vectors;
   final List<Vector>? otherVectors;
   final Vector? inputVector;

@@ -1,8 +1,9 @@
 import 'package:dp_algebra/matrices/equation_matrix.dart';
+import 'package:dp_algebra/matrices/tex_parsable.dart';
 import 'package:dp_algebra/matrices/vector.dart';
 import 'package:fraction/fraction.dart';
 
-class EquationSolution {
+class EquationSolution implements TexParsable {
   final EquationMatrix equationMatrix;
   final Vector? solution;
   final GeneralSolution? generalSolution;

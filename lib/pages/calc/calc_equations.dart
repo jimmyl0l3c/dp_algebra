@@ -7,8 +7,8 @@ import 'package:dp_algebra/matrices/vector.dart';
 import 'package:dp_algebra/models/calc_state/calc_equation_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_equation_solutions_model.dart';
 import 'package:dp_algebra/widgets/equation_input.dart';
+import 'package:dp_algebra/widgets/solution_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
 class CalcEquations extends StatelessWidget with GetItMixin {
@@ -106,13 +106,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
             ),
             const SizedBox(height: 12),
             for (var solution in solutions.reversed)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Math.tex(
-                  solution.toTeX(),
-                  textScaleFactor: 1.4,
-                ),
-              ),
+              SolutionView(solution: solution),
           ],
         ),
       ),
