@@ -30,8 +30,11 @@ TextTheme _algebraTextTheme(TextTheme base) => base.copyWith(
       headline1: base.headline1!.copyWith(),
 // for widgets heading/title
       headline2: base.headline2!.copyWith(),
-// for sub-widgets heading/title
-      headline3: base.headline3!.copyWith(),
+// for sub-widgets heading/title - learn title
+      headline3: base.headline3!.copyWith(
+        fontSize: 24,
+        color: Colors.white,
+      ),
 // calc headlines
       headline4: base.headline4!.copyWith(
         color: Colors.white,
@@ -46,7 +49,7 @@ TextTheme _algebraTextTheme(TextTheme base) => base.copyWith(
       ),
 // for widgets contents/paragraph
       bodyText1: base.bodyText1!.copyWith(),
-// for sub-widgets contents/paragraph
+// for sub-widgets contents/paragraph - learn paragraph
       bodyText2: base.bodyText2!.copyWith(),
     );
 

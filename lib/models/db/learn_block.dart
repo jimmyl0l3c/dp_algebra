@@ -24,20 +24,39 @@ class LBlock {
         type = _getType(json["content"]),
         number = null,
         title = json["title"],
-        content = json["content"];
+        content = json["content"].substring(json["content"].indexOf(';') + 1);
 
   static BlockType _getType(String content) {
-    // TODO: implement logic
-    return BlockType.none;
+    switch (content.substring(0, content.indexOf(';'))) {
+      case 'def':
+        return BlockType.definition;
+      case 'lemma':
+        return BlockType.lemma;
+      case 'theorem':
+        return BlockType.theorem;
+      case 'consequence':
+        return BlockType.consequence;
+      case 'remark':
+        return BlockType.remark;
+      case 'img':
+        return BlockType.image;
+      case 'text':
+      default:
+        return BlockType.none;
+    }
   }
 }
 
 enum BlockType {
-  definition,
-  theorem,
-  lemma,
-  consequence,
-  remark,
+  definition(title: 'Definice'),
+  theorem(title: 'Věta'),
+  lemma(title: 'Lemma'),
+  consequence(title: 'Důsledek'),
+  remark(title: 'Poznámka'),
   image,
   none;
+
+  final String? title;
+
+  const BlockType({this.title});
 }

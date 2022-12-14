@@ -32,7 +32,7 @@ class DbHelper {
         if (value == null || value.first == null) return null;
         try {
           // TODO: remove this or log it properly
-          print(value);
+          //print(value);
           return LArticle.fromJson(value.first!);
         } on Error catch (err) {
           print(err);
