@@ -17,7 +17,7 @@ class LPageView extends StatelessWidget {
 
         bool isMath = false;
         bool isDisplayMath = false;
-        List<Widget> pieces = [];
+        List<List<Widget>> pieces = [[]];
         for (var segment in block.content
             .substring(block.content.indexOf(';') + 1)
             .split(r'$')) {
@@ -27,13 +27,17 @@ class LPageView extends StatelessWidget {
           }
 
           if (isMath) {
-            pieces.add(Math.tex(
+            if (isDisplayMath) pieces.add([]);
+
+            pieces[pieces.length - 1].add(Math.tex(
               segment,
               textScaleFactor: isDisplayMath ? 1.4 : 1.1,
-              mathStyle: MathStyle.text,
+              mathStyle: isDisplayMath ? MathStyle.display : MathStyle.text,
             ));
+
+            if (isDisplayMath) pieces.add([]);
           } else {
-            pieces.add(Text(
+            pieces[pieces.length - 1].add(Text(
               segment,
               style: Theme.of(context).textTheme.bodyText2,
             ));
@@ -42,29 +46,28 @@ class LPageView extends StatelessWidget {
           isMath = !isMath;
         }
 
-        Widget blockWrap = Wrap(
-          direction: Axis.horizontal,
-          alignment: WrapAlignment.start,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          runSpacing: 8.0,
-          children: pieces,
-        );
-
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: block.type.title != null
-              ? Column(
-                  children: [
-                    Text(
-                      block.type.title!,
-                      style: Theme.of(context).textTheme.headline3,
-                    ),
-                    blockWrap
-                  ],
-                )
-              : blockWrap,
+          child: Column(
+            children: [
+              if (block.type.title != null)
+                Text(
+                  block.type.title!,
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+              for (var row in pieces) _getBlockWrap(row)
+            ],
+          ),
         );
       },
     );
   }
+
+  Widget _getBlockWrap(List<Widget> elements) => Wrap(
+        direction: Axis.horizontal,
+        alignment: WrapAlignment.start,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        runSpacing: 8.0,
+        children: elements,
+      );
 }
