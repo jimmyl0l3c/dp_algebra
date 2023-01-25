@@ -65,7 +65,11 @@ class Vector {
       throw VectorSizeMismatchException();
     }
 
-    // TODO: basisA.len =?= basisB.len (is it necessary?)
+    if (basisA.length != basisB.length) {
+      // TODO: throw exception
+    }
+
+    // TODO: check if basis is basis (lin. independence)
 
     if (!areLinearlyIndependent(basisA) || !areLinearlyIndependent(basisB)) {
       throw VectorsLinearlyDependentException();
@@ -78,11 +82,7 @@ class Vector {
         vertical: true,
       ).solveByGauss();
 
-      if (solution.isSingleSolution()) {
-        solutions.add(solution.toVectorList().first);
-      } else {
-        // TODO: how to react to more than one solution?
-      }
+      solutions.add(solution.toVectorList().first);
     }
 
     return Matrix.fromVectors(solutions);
