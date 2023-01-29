@@ -1,5 +1,7 @@
+import 'package:dp_algebra/data/block_parser.dart';
 import 'package:dp_algebra/models/db/learn_block.dart';
 import 'package:dp_algebra/models/db/learn_page.dart';
+import 'package:dp_algebra/models/learn/block_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
@@ -10,40 +12,26 @@ class LPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (page.blocks.isEmpty) return const Text('Page is empty');
     return ListView.builder(
       itemCount: page.blocks.length,
       itemBuilder: (context, index) {
         LBlock block = page.blocks[index];
 
-        bool isMath = false;
-        bool isDisplayMath = false;
-        List<List<Widget>> pieces = [[]];
-        for (var segment in block.content
-            .substring(block.content.indexOf(';') + 1)
-            .split(r'$')) {
-          if (segment.isEmpty) {
-            isDisplayMath = !isDisplayMath;
-            continue;
+        List<LBlockContent> blockContent =
+            BlockParser.parseBlock(block.content);
+
+        List<List<Widget>> content = [];
+
+        for (var part in blockContent) {
+          if (part is LBlockParagraphContent) {
+            content.addAll(_getParagraphContent(part.content, context));
+          } else if (part is LBlockListContent) {
+            // TODO: change this to something that looks like a list, add enumerated
+            for (var row in part.content) {
+              content.addAll(_getParagraphContent(row.content, context));
+            }
           }
-
-          if (isMath) {
-            if (isDisplayMath) pieces.add([]);
-
-            pieces[pieces.length - 1].add(Math.tex(
-              segment,
-              textScaleFactor: isDisplayMath ? 1.4 : 1.1,
-              mathStyle: isDisplayMath ? MathStyle.display : MathStyle.text,
-            ));
-
-            if (isDisplayMath) pieces.add([]);
-          } else {
-            pieces[pieces.length - 1].add(Text(
-              segment,
-              style: Theme.of(context).textTheme.bodyText2,
-            ));
-          }
-
-          isMath = !isMath;
         }
 
         return Padding(
@@ -55,12 +43,47 @@ class LPageView extends StatelessWidget {
                   block.type.title!,
                   style: Theme.of(context).textTheme.headline3,
                 ),
-              for (var row in pieces) _getBlockWrap(row)
+              for (var row in content) _getBlockWrap(row)
             ],
           ),
         );
       },
     );
+  }
+
+  List<List<Widget>> _getParagraphContent(
+      List<LBlockSegment> paragraphContent, BuildContext context) {
+    List<List<Widget>> segments = [[]];
+
+    for (var segment in paragraphContent) {
+      if (segment.type == LBlockSegmentType.displayMath) segments.add([]);
+
+      switch (segment.type) {
+        case LBlockSegmentType.text:
+          segments[segments.length - 1].add(Text(
+            segment.content,
+            style: Theme.of(context).textTheme.bodyText2,
+          ));
+          break;
+        case LBlockSegmentType.inlineMath:
+        case LBlockSegmentType.displayMath:
+          segments[segments.length - 1].add(
+            Math.tex(
+              segment.content,
+              textScaleFactor:
+                  segment.type == LBlockSegmentType.displayMath ? 1.4 : 1.1,
+              mathStyle: segment.type == LBlockSegmentType.displayMath
+                  ? MathStyle.display
+                  : MathStyle.text,
+            ),
+          );
+          break;
+      }
+
+      if (segment.type == LBlockSegmentType.displayMath) segments.add([]);
+    }
+
+    return segments;
   }
 
   Widget _getBlockWrap(List<Widget> elements) => Wrap(
