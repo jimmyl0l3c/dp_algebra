@@ -1,4 +1,5 @@
 import 'package:dp_algebra/data/block_parser.dart';
+import 'package:dp_algebra/data/db_helper.dart';
 import 'package:dp_algebra/models/db/learn_block.dart';
 import 'package:dp_algebra/models/db/learn_page.dart';
 import 'package:dp_algebra/models/learn/block_content.dart';
@@ -88,10 +89,33 @@ class LPageView extends StatelessWidget {
           break;
         case LBlockSegmentType.reference:
           // TODO: replace with link to reference when references are implemented
-          segments[segments.length - 1].add(Text(
-            '[${segment.content}]',
-            style: Theme.of(context).textTheme.bodyText2,
-          ));
+          if ((segment as LBlockRefSegment).refType ==
+              LBlockReferenceType.literature) {
+            segments[segments.length - 1].add(
+              FutureBuilder(
+                future: DbHelper.findLiterature(segment.content),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting ||
+                      !snapshot.hasData ||
+                      snapshot.data == null) {
+                    return const Text('(...)');
+                  }
+
+                  return Text(
+                    snapshot.data!.getHarvardCitation(),
+                    style: Theme.of(context).textTheme.bodyText2,
+                  );
+                },
+              ),
+            );
+          } else {
+            segments[segments.length - 1].add(
+              Text(
+                '[${segment.content}]',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+            );
+          }
           break;
       }
 
