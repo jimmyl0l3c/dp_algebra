@@ -5,6 +5,13 @@ class LBlockSegment {
   LBlockSegment({required this.type, required this.content});
 }
 
+class LBlockRefSegment extends LBlockSegment {
+  final LBlockReferenceType refType;
+
+  LBlockRefSegment({required this.refType, required String content})
+      : super(type: LBlockSegmentType.reference, content: content);
+}
+
 class LBlockContent {
   final LBlockContentType type;
 
@@ -28,10 +35,17 @@ enum LBlockSegmentType {
   text,
   inlineMath,
   displayMath,
+  reference,
 }
 
 enum LBlockContentType {
   paragraph,
   list,
   enumeratedList,
+}
+
+enum LBlockReferenceType {
+  literature,
+  page,
+  theorem,
 }

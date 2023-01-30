@@ -68,11 +68,39 @@ class BlockParser {
     bool isMath = false;
     bool isDisplayMath = false;
     List<LBlockSegment> blockContent = [];
-    for (var segment in block.trim().split(r'$')) {
-      if (segment.isEmpty) {
+    for (var segment in block
+        .trim()
+        .splitWithDelim(RegExp(r'\${1,2}|\\(cite|ref){[a-z]+}'))) {
+      if (segment.isEmpty) continue;
+
+      if (segment.contains(r'$$')) {
+        isMath = !isMath;
         isDisplayMath = !isDisplayMath;
         continue;
+      } else if (segment.contains(r'$')) {
+        isMath = !isMath;
+        continue;
+      } else if (segment.contains(RegExp(r'\\(cite|ref){[a-z]+}'))) {
+        var refMatch = RegExp(r'\\(?<type>(cite|ref)){(?<ref>[a-z]+)}')
+            .firstMatch(segment);
+
+        if (refMatch != null) {
+          if (refMatch.namedGroup('type') == 'cite') {
+            blockContent.add(LBlockRefSegment(
+              refType: LBlockReferenceType.literature,
+              content: refMatch.namedGroup('ref') ?? 'unknown',
+            ));
+          } else if (refMatch.namedGroup('type') == 'ref') {
+            blockContent.add(LBlockRefSegment(
+              refType: LBlockReferenceType.page, // TODO: change this
+              content: refMatch.namedGroup('ref') ?? 'unknown',
+            ));
+          }
+        }
+        continue;
       }
+
+      if (segment.contains(r'$')) continue;
 
       blockContent.add(
         LBlockSegment(
@@ -84,8 +112,6 @@ class BlockParser {
           content: segment,
         ),
       );
-
-      isMath = !isMath;
     }
 
     return blockContent;

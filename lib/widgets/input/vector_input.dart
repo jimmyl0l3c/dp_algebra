@@ -21,7 +21,6 @@ class VectorInput extends StatefulWidget {
 }
 
 class _VectorInputState extends State<VectorInput> {
-  // TODO: add option to remove entries
   @override
   Widget build(BuildContext context) {
     return Card(

@@ -2,6 +2,7 @@ import 'package:dp_algebra/data/block_parser.dart';
 import 'package:dp_algebra/models/db/learn_block.dart';
 import 'package:dp_algebra/models/db/learn_page.dart';
 import 'package:dp_algebra/models/learn/block_content.dart';
+import 'package:dp_algebra/widgets/layout/bullet_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
@@ -27,10 +28,17 @@ class LPageView extends StatelessWidget {
           if (part is LBlockParagraphContent) {
             content.addAll(_getParagraphContent(part.content, context));
           } else if (part is LBlockListContent) {
-            // TODO: change this to something that looks like a list, add enumerated
+            List<List<Widget>> listContent = [];
             for (var row in part.content) {
-              content.addAll(_getParagraphContent(row.content, context));
+              listContent.add(_getParagraphContent(row.content, context).first);
             }
+
+            content.add([
+              BulletList(
+                items: listContent,
+                enumerated: part.type == LBlockContentType.enumeratedList,
+              )
+            ]);
           }
         }
 
@@ -77,6 +85,13 @@ class LPageView extends StatelessWidget {
                   : MathStyle.text,
             ),
           );
+          break;
+        case LBlockSegmentType.reference:
+          // TODO: replace with link to reference when references are implemented
+          segments[segments.length - 1].add(Text(
+            '[${segment.content}]',
+            style: Theme.of(context).textTheme.bodyText2,
+          ));
           break;
       }
 
