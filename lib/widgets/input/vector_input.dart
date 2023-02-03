@@ -53,17 +53,19 @@ class _VectorInputState extends State<VectorInput> {
               children: [
                 for (var i = 0; i < widget.vector.length(); i++)
                   _decorateVector(
-                      FractionInput(
-                          maxWidth: 60,
-                          onChanged: (Fraction? value) {
-                            if (value == null) return;
-                            widget.vector.setValue(i, value);
-                          },
-                          value: widget.vector[i].toDouble() != 0.0
-                              ? widget.vector[i].toString()
-                              : null),
-                      i,
-                      widget.vector.length()),
+                    FractionInput(
+                      maxWidth: 60,
+                      onChanged: (Fraction? value) {
+                        if (value == null) return;
+                        widget.vector.setValue(i, value);
+                      },
+                      value: widget.vector[i].toDouble() != 0.0
+                          ? widget.vector[i].toString()
+                          : null,
+                    ),
+                    i,
+                    widget.vector.length(),
+                  ),
               ],
             ),
             Padding(

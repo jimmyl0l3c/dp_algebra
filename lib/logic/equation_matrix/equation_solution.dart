@@ -1,6 +1,7 @@
 import 'package:dp_algebra/logic/equation_matrix/equation_matrix.dart';
 import 'package:dp_algebra/logic/general/tex_parsable.dart';
 import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/models/exc_state/variable_value.dart';
 import 'package:fraction/fraction.dart';
 
 class EquationSolution implements TexParsable {
@@ -16,6 +17,7 @@ class EquationSolution implements TexParsable {
     this.stepByStep,
   });
 
+  @override
   String toTeX() {
     StringBuffer buffer = StringBuffer();
 
@@ -44,6 +46,38 @@ class GeneralSolution {
       _numSolution[i] = 0.toFraction();
     }
   }
+
+  GeneralSolution.fromVariableMap(Map<int, SolutionVariable> solution,
+      {int? varCount}) {
+    int length = varCount ?? solution.length;
+
+    for (var i = 0; i < length; i++) {
+      _solution[i] = {i: 0.toFraction()};
+      _numSolution[i] = 0.toFraction();
+    }
+
+    for (var i = 0; i < length; i++) {
+      if (!solution.containsKey(i)) continue;
+
+      for (var variable in solution[i]!.variables) {
+        if (variable.variable == null) {
+          _numSolution.update(
+            i,
+            (value) => value += (variable.value ?? 0.toFraction()),
+          );
+        } else {
+          // TODO: check if out of bounds?
+          _solution[i]!.update(
+            variable.variable!,
+            (value) => value += (variable.value ?? 0.toFraction()),
+            ifAbsent: () => variable.value ?? 0.toFraction(),
+          );
+        }
+      }
+    }
+  }
+
+  int variableCount() => _solution.length;
 
   void updateSolution(variableNum, key, value) {
     if (!_solution.containsKey(variableNum)) return;
@@ -195,4 +229,38 @@ class GeneralSolution {
     buffer.write(r' \end{pmatrix}');
     return buffer.toString();
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! GeneralSolution) return false;
+    Fraction zero = Fraction(0);
+
+    if (variableCount() != other.variableCount()) return false;
+
+    for (var i = 0; i < variableCount(); i++) {
+      if (_numSolution[i] != other._numSolution[i]) return false;
+
+      for (var j = 0; j < variableCount(); j++) {
+        if (!_solution[i]!.containsKey(j)) {
+          if (other._solution[i]!.containsKey(j) &&
+              other._solution[i]![j] != zero) return false;
+          continue;
+        }
+
+        if (_solution[i]![j] == zero) {
+          if (other._solution[i]!.containsKey(j) &&
+              other._solution[i]![j] != zero) {
+            return false;
+          }
+        } else {
+          if (_solution[i]![j] != other._solution[i]![j]) return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => super.hashCode;
 }

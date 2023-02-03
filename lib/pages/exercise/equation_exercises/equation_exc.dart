@@ -2,12 +2,12 @@ import 'dart:math';
 
 import 'package:dp_algebra/logic/equation_matrix/equation_matrix.dart';
 import 'package:dp_algebra/logic/equation_matrix/equation_solution.dart';
-import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/models/exc_state/variable_value.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
-import 'package:dp_algebra/widgets/input/vector_input.dart';
+import 'package:dp_algebra/widgets/input/solution_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
@@ -22,7 +22,7 @@ class _EquationExcState extends State<EquationExc> {
   Random random = Random();
 
   EquationMatrix equationMatrix = EquationMatrix(columns: 2, rows: 1);
-  Vector solution = Vector(length: 1);
+  Map<int, SolutionVariable> solution = {};
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +34,7 @@ class _EquationExcState extends State<EquationExc> {
               setState(() {
                 equationMatrix =
                     generateSquareMatrix(ExerciseUtils.generateSize());
+                solution = {};
               });
             }),
         ButtonRowItem(
@@ -41,6 +42,7 @@ class _EquationExcState extends State<EquationExc> {
           onPressed: () {
             setState(() {
               equationMatrix = generateRandomMatrix();
+              solution = {};
             });
           },
         ),
@@ -49,9 +51,10 @@ class _EquationExcState extends State<EquationExc> {
         '${equationMatrix.toTeX()}, ',
         textScaleFactor: 1.4,
       ),
-      result: VectorInput(
-        vector: solution,
+      result: SolutionInput(
         name: 'x',
+        solution: solution,
+        variableCount: equationMatrix.getColumns() - 1,
       ),
       resolveButtons: [
         ButtonRowItem(
@@ -75,20 +78,18 @@ class _EquationExcState extends State<EquationExc> {
 
   bool isAnswerCorrect() {
     if (!equationMatrix.isSolvable()) return false;
+    GeneralSolution correctSolution = equationMatrix.solveByGauss();
 
-    if (equationMatrix.isSolvableByCramer()) {
-      Vector correctSolution = equationMatrix.solveByCramer();
-      return correctSolution == solution;
-    } else {
-      GeneralSolution correctGeneralSolution = equationMatrix.solveByGauss();
-      if (correctGeneralSolution.isSingleSolution()) {
-        return correctGeneralSolution.toVectorList().first == solution;
-      }
-
-      // TODO: compare, make it possible to fill general solutions
+    try {
+      GeneralSolution filledSolution = GeneralSolution.fromVariableMap(
+        solution,
+        varCount: equationMatrix.getColumns() - 1,
+      );
+      return correctSolution == filledSolution;
+    } on Error {
+      // TODO: at least log the error, ideally show to user
+      return false;
     }
-
-    return false;
   }
 
   EquationMatrix generateSquareMatrix(int size) =>
