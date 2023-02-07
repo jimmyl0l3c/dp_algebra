@@ -2,14 +2,17 @@ import 'dart:math';
 
 import 'package:dp_algebra/logic/general/extensions.dart';
 import 'package:dp_algebra/logic/matrix/matrix_exceptions.dart';
+import 'package:dp_algebra/logic/matrix/matrix_operations.dart';
+import 'package:dp_algebra/logic/step_models/general_op.dart';
+import 'package:dp_algebra/logic/step_models/matrix_binary_op.dart';
 import 'package:dp_algebra/logic/vector/vector.dart';
 import 'package:dp_algebra/logic/vector/vector_exceptions.dart';
 import 'package:fraction/fraction.dart';
 
 class Matrix {
   List<List<Fraction>> _matrix = List<List<Fraction>>.empty(growable: true);
-  Object?
-      _stepByStep; // TODO: implement: Object containing steps of last (or last n) operation(s)
+  List<CalcStep> _stepByStep =
+      []; // TODO: implement: Object containing steps of last (or last n) operation(s)
   late Fraction _defaultVal;
 
   Matrix({int columns = 1, int rows = 1, int defaultValue = 0}) {
@@ -27,7 +30,7 @@ class Matrix {
 
   Matrix.from(Matrix m)
       : _matrix = m._matrix.map((row) => List<Fraction>.from(row)).toList(),
-        _stepByStep = m._stepByStep,
+        _stepByStep = m._stepByStep, // TODO: do List.from(x)
         _defaultVal = m._defaultVal;
 
   Matrix.fromVectors(List<Vector> vectors, {bool vertical = false}) {
@@ -77,6 +80,8 @@ class Matrix {
 
   int getColumns() => _matrix.isNotEmpty ? _matrix.first.length : 0;
   int getRows() => _matrix.length;
+  List<CalcStep> getSteps() => _stepByStep; // TODO: List.from(_stepByStep) ?
+  void addStep(CalcStep step) => _stepByStep.add(step);
 
   void addColumn() {
     for (var row in _matrix) {
@@ -304,6 +309,8 @@ class Matrix {
   ) {
     if (!isSameSizeAs(other)) throw MatrixSizeMismatchException();
 
+    List<EntryToEntryOperation> steps = [];
+
     int rows = getRows();
     int cols = getColumns();
     Matrix output = Matrix(rows: rows, columns: cols);
@@ -311,8 +318,23 @@ class Matrix {
     for (var i = 0; i < rows; i++) {
       for (var j = 0; j < cols; j++) {
         output[i][j] = operation(_matrix[i][j], other[i][j]);
+
+        steps.add(EntryToEntryOperation(
+          row1: i,
+          col1: j,
+          operation: operationSymbol,
+          row2: i,
+          col2: j,
+        ));
       }
     }
+
+    output.addStep(MatrixBinaryOperation(
+      type: operationSymbol == '+' ? MatrixOperation.add : MatrixOperation.diff,
+      leftOperand: this,
+      matrix: other,
+      operations: steps,
+    ));
 
     return output;
   }
@@ -340,6 +362,7 @@ class Matrix {
 
   Matrix operator *(dynamic other) {
     if (other is Fraction) {
+      List<MatrixAtomicBinaryOperation> steps = [];
       int rows = getRows();
       int cols = getColumns();
       Matrix output = Matrix(rows: rows, columns: cols);
@@ -347,12 +370,28 @@ class Matrix {
       for (var i = 0; i < rows; i++) {
         for (var j = 0; j < cols; j++) {
           output[i][j] = _matrix[i][j] * other;
+
+          steps.add(MatrixAtomicBinaryOperation(
+            row1: i,
+            col1: j,
+            operation: '*',
+          ));
         }
       }
+
+      output.addStep(MatrixBinaryOperation(
+        type: MatrixOperation.multiply,
+        leftOperand: other,
+        matrix: this, // TODO: do Matrix.from ?
+        operations: steps,
+      ));
       return output;
     } else if (other is Matrix) {
       int thisCols = getColumns();
       if (thisCols != other.getRows()) throw MatrixMultiplySizeException();
+
+      List<EntryToEntryOperation> steps =
+          []; // TODO: replace entry to entry op with something usable for multiplication
 
       int rows = getRows();
       int cols = other.getColumns();
@@ -367,6 +406,13 @@ class Matrix {
           output[ra][cb] = x;
         }
       }
+
+      output.addStep(MatrixBinaryOperation(
+        type: MatrixOperation.multiply,
+        leftOperand: other,
+        matrix: this,
+        operations: steps,
+      ));
       return output;
     } else {
       throw InvalidTypeException();
