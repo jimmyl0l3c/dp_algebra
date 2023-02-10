@@ -13,6 +13,9 @@ class MatrixBinaryOperation extends CalcStep {
     required this.matrix,
     required this.operations,
   }) : super(type: type);
+
+  @override
+  int getInnerStepLength() => operations.length;
 }
 
 class MatrixAtomicBinaryOperation {

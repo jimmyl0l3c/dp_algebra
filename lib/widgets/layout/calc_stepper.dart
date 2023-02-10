@@ -52,7 +52,7 @@ class _CalcStepperState extends State<CalcStepper> {
                 var innerLength = widget.steps[mainStep].getInnerStepLength();
                 setState(() {
                   if (innerStep < innerLength - 1) {
-                    innerLength++;
+                    innerStep++;
                   } else if (innerStep == innerLength - 1 &&
                       mainStep < widget.steps.length - 1) {
                     mainStep++;
@@ -75,8 +75,27 @@ class _CalcStepperState extends State<CalcStepper> {
                   _stepToTeX(widget.steps[mainStep]),
                 ).texBreak().parts,
         ),
+        Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          runAlignment: WrapAlignment.center,
+          runSpacing: 12.0,
+          children: widget.steps.isEmpty ||
+                  widget.steps[mainStep].getInnerStepLength() == 0
+              ? []
+              : Math.tex(
+                  _stepToTeX(widget.steps[mainStep]),
+                ).texBreak().parts,
+        ),
       ],
     );
+  }
+
+  String _innerStepsToTeX(MatrixAtomicBinaryOperation op) {
+    StringBuffer buffer = StringBuffer();
+
+    return buffer.toString();
   }
 
   String _stepToTeX(CalcStep step) {
