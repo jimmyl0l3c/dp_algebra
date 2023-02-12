@@ -5,6 +5,7 @@ import 'package:dp_algebra/logic/matrix/matrix_exceptions.dart';
 import 'package:dp_algebra/logic/matrix/matrix_operations.dart';
 import 'package:dp_algebra/logic/step_models/general_op.dart';
 import 'package:dp_algebra/logic/step_models/matrix_binary_op.dart';
+import 'package:dp_algebra/logic/step_models/matrix_unary_op.dart';
 import 'package:dp_algebra/logic/vector/vector.dart';
 import 'package:dp_algebra/logic/vector/vector_exceptions.dart';
 import 'package:fraction/fraction.dart';
@@ -214,6 +215,7 @@ class Matrix {
     Fraction one = Fraction(1);
     Fraction nOne = Fraction(-1);
 
+    List<MatrixAtomicUnaryOperation> steps = [];
     for (var i = 0; i < (diagonal - 1); i++) {
       int? nonZero;
       // Find row with non-zero value
@@ -228,18 +230,28 @@ class Matrix {
 
       // Exchange rows if necessary
       if (nonZero != i) {
-        triangular.exchangeRows(i, nonZero);
-        if (isDeterminant) triangular.multiplyRowByN(nonZero, nOne);
+        steps.add(triangular.exchangeRows(i, nonZero));
+        if (isDeterminant) steps.add(triangular.multiplyRowByN(nonZero, nOne));
       }
 
       // Clear remaining rows
       for (var j = 0; j < (getRows() - i - 1); j++) {
         int row = i + 1 + j;
         if (triangular[row][i] == zero) continue;
-        triangular.addRowToRowNTimes(
-            i, row, triangular[row][i].negate() / triangular[i][i]);
+
+        steps.add(triangular.addRowToRowNTimes(
+          i,
+          row,
+          triangular[row][i].negate() / triangular[i][i],
+        ));
       }
     }
+
+    triangular.addStep(MatrixUnaryOperation(
+      type: MatrixOperation.det,
+      matrix: Matrix.from(this),
+      operations: steps,
+    ));
     return triangular;
   }
 
@@ -263,7 +275,8 @@ class Matrix {
     }
   }
 
-  void addRowToRowNTimes(int rowOrigin, int rowTarget, Fraction n) {
+  AddRowToRowNTimesOp addRowToRowNTimes(
+      int rowOrigin, int rowTarget, Fraction n) {
     if (rowOrigin < 0 ||
         rowTarget < 0 ||
         rowOrigin >= getRows() ||
@@ -275,9 +288,11 @@ class Matrix {
       _matrix[rowTarget][c] += n * _matrix[rowOrigin][c];
       _matrix[rowTarget][c] = _matrix[rowTarget][c].reduce();
     }
+
+    return AddRowToRowNTimesOp(row1: rowOrigin, row2: rowTarget, n: n);
   }
 
-  void multiplyRowByN(int row, Fraction n) {
+  MultiplyRowOp multiplyRowByN(int row, Fraction n) {
     if (row < 0 || row >= getRows()) {
       throw MatrixOutOfBoundsException();
     }
@@ -286,15 +301,19 @@ class Matrix {
       _matrix[row][c] *= n;
       _matrix[row][c] = _matrix[row][c].reduce();
     }
+
+    return MultiplyRowOp(row: row, n: n);
   }
 
-  void exchangeRows(int row1, int row2) {
+  ExchangeRowsOp exchangeRows(int row1, int row2) {
     if (row1 < 0 || row2 < 0 || row1 >= getRows() || row2 >= getRows()) {
       throw MatrixOutOfBoundsException();
     }
     var tmp = _matrix[row1];
     _matrix[row1] = _matrix[row2];
     _matrix[row2] = tmp;
+
+    return ExchangeRowsOp(row1: row1, row2: row2);
   }
 
   bool isSquare() => getRows() == getColumns();
