@@ -4,6 +4,8 @@ import 'package:dp_algebra/pages/exercise/equation_exercises/equation_exc.dart';
 import 'package:dp_algebra/pages/exercise/matrix_exercises/binary_matrix_exc.dart';
 import 'package:dp_algebra/pages/exercise/matrix_exercises/determinant_exc.dart';
 import 'package:dp_algebra/pages/exercise/matrix_exercises/inverse_exc.dart';
+import 'package:dp_algebra/pages/exercise/vector_exercises/basis_exc.dart';
+import 'package:dp_algebra/pages/exercise/vector_exercises/lin_independence_exc.dart';
 
 class ExerciseData {
   static List<SectionChapterModel> chapters = [
@@ -29,7 +31,16 @@ class ExerciseData {
       title: 'Vektorové prostory',
       subtitle:
           'Lineární (ne)závislost vektorů, nalezení báze, transformace souřadnic od báze k bázi, ...',
-      pages: [],
+      pages: [
+        SectionPageModel(
+          title: 'Lineární (ne)závislost vektorů',
+          page: const LinIndependenceExc(),
+        ),
+        SectionPageModel(
+          title: 'Nálezení báze',
+          page: const BasisExc(),
+        ),
+      ],
     ),
     SectionChapterModel(
       title: 'Soustavy lineárních rovnic',

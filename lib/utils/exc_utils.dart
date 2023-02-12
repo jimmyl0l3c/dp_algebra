@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:dp_algebra/logic/matrix/matrix.dart';
+import 'package:dp_algebra/logic/vector/vector.dart';
 import 'package:fraction/fraction.dart';
 
 class ExerciseUtils {
@@ -21,10 +22,23 @@ class ExerciseUtils {
     return m;
   }
 
+  static Vector generateVector({int? length}) {
+    length ??= generateSize();
+
+    Vector v = Vector(length: length);
+
+    for (var i = 0; i < length; i++) {
+      v[i] = generateFraction();
+    }
+
+    return v;
+  }
+
   static Fraction generateFraction() {
     int num = random.nextInt(50) - 25;
     return num.toFraction();
   }
 
-  static int generateSize() => random.nextInt(4) + 1;
+  static int generateSize({int max = 4, int min = 1}) =>
+      random.nextInt(max - min + 1) + min;
 }

@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 class ExercisePage extends StatelessWidget {
   final List<ButtonRowItem> generateButtons;
   final Widget example;
-  final Widget result;
+  final Widget? result;
   final List<ButtonRowItem> resolveButtons;
 
   const ExercisePage({
     Key? key,
     required this.generateButtons,
     required this.example,
-    required this.result,
+    this.result,
     required this.resolveButtons,
   }) : super(key: key);
 
@@ -50,10 +50,11 @@ class ExercisePage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: example,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: result,
-              ),
+              if (result != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: result,
+                ),
               ButtonRow(
                 padding: const EdgeInsets.symmetric(
                   vertical: 8,
