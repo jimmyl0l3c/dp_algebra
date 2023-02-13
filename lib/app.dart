@@ -41,11 +41,12 @@ class _AlgebraAppState extends State<AlgebraApp> {
     _routeState = RouteState(_routeParser);
 
     _routerDelegate = MainRouterDelegate(
-        routeState: _routeState,
-        builder: (context) => AlgebraNavigator(
-              navigatorKey: _navigatorKey,
-            ),
-        navigatorKey: _navigatorKey);
+      routeState: _routeState,
+      builder: (context) => AlgebraNavigator(
+        navigatorKey: _navigatorKey,
+      ),
+      navigatorKey: _navigatorKey,
+    );
 
     Backendless.setUrl('https://eu-api.backendless.com');
     Backendless.initApp(

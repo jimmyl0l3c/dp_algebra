@@ -12,6 +12,7 @@ import 'package:dp_algebra/pages/learn/learn_article.dart';
 import 'package:dp_algebra/pages/learn/learn_chapter.dart';
 import 'package:dp_algebra/pages/learn/learn_menu.dart';
 import 'package:dp_algebra/pages/menu.dart';
+import 'package:dp_algebra/pages/transition_page.dart';
 import 'package:dp_algebra/routing/route_state.dart';
 import 'package:flutter/material.dart';
 
@@ -128,13 +129,12 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
         return route.didPop(result);
       },
       pages: [
-        if (routeState.route.pathTemplate == '/')
-          MaterialPage(
-            key: _menuKey,
-            child: const Menu(),
-          )
-        else if (routeState.route.pathTemplate.startsWith('/calc'))
-          MaterialPage(
+        AlgebraTransitionPage(
+          key: _menuKey,
+          child: const Menu(),
+        ),
+        if (routeState.route.pathTemplate.startsWith('/calc'))
+          AlgebraTransitionPage(
             key: _calcKey,
             child: AlgMenuView(
               sectionTitle: 'Kalkulačka',
@@ -143,12 +143,12 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             ),
           )
         else if (routeState.route.pathTemplate.startsWith('/chapter'))
-          MaterialPage(
+          AlgebraTransitionPage(
             key: _chapterMenuKey,
             child: const LearnMenu(),
           )
         else if (routeState.route.pathTemplate.startsWith('/exercise'))
-          MaterialPage(
+          AlgebraTransitionPage(
             key: _exerciseKey,
             child: AlgMenuView(
               sectionTitle: 'Procvičování',
@@ -158,18 +158,18 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
           ),
 
         if (currentChapter != null)
-          MaterialPage(
+          AlgebraTransitionPage(
             key: _chapterKey,
             child: LearnChapter(chapter: currentChapter),
           ),
         if (currentArticle != null)
-          MaterialPage(
+          AlgebraTransitionPage(
             key: _articleKey,
             child: LearnArticle(article: currentArticle),
           ),
         // Add page to stack if /exercise/:exerciseChapterId
         if (exerciseChapter != null && sectionChapterId != null)
-          MaterialPage(
+          AlgebraTransitionPage(
             key: _exerciseChapterKey,
             child: AlgChapterView(
               sectionTitle: 'Procvičování',
@@ -178,7 +178,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             ),
           ),
         if (exerciseChapter != null && exercisePage != null)
-          MaterialPage(
+          AlgebraTransitionPage(
             key: _exercisePageKey,
             child: AlgPageView(
               sectionTitle: 'Procvičování',
@@ -188,7 +188,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
           ),
         // Add page to stack if /calc/:calcId
         if (calcChapter != null && sectionChapterId != null)
-          MaterialPage(
+          AlgebraTransitionPage(
             key: _calcChapterKey,
             child: AlgChapterView(
               sectionTitle: 'Kalkulačka',
@@ -197,7 +197,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             ),
           ),
         if (calcChapter != null && calcPage != null)
-          MaterialPage(
+          AlgebraTransitionPage(
             key: _calcPageKey,
             child: AlgPageView(
               sectionTitle: 'Kalkulačka',
