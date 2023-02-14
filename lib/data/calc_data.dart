@@ -13,16 +13,16 @@ class CalcData {
       pages: [SectionPageModel(title: '', page: CalcMatrices())],
     ),
     SectionChapterModel(
-      title: 'Soustavy lineárních rovnic',
-      pages: [SectionPageModel(title: '', page: CalcEquations())],
-    ),
-    SectionChapterModel(
       title: 'Vektorové prostory',
       subtitle:
           'Lineární (ne)závislost vektorů, nalezení báze, transformace souřadnic od báze k bázi, ...',
       pages: [
         SectionPageModel(title: '', page: CalcVectorSpaces()),
       ],
+    ),
+    SectionChapterModel(
+      title: 'Soustavy lineárních rovnic',
+      pages: [SectionPageModel(title: '', page: CalcEquations())],
     ),
   ];
 }
