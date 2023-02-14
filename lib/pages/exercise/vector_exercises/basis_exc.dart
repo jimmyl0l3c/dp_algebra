@@ -1,7 +1,9 @@
 import 'package:dp_algebra/logic/vector/vector.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
+import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
+import 'package:dp_algebra/widgets/input/vector_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
@@ -14,6 +16,7 @@ class BasisExc extends StatefulWidget {
 
 class _BasisExcState extends State<BasisExc> {
   List<Vector> vectors = [];
+  List<Vector> solution = [];
 
   @override
   Widget build(BuildContext context) {
@@ -50,17 +53,68 @@ class _BasisExcState extends State<BasisExc> {
       ),
       result: Column(
         children: [
-          // TODO: add vectors and option to add/remove them
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Řešení'),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    solution.add(Vector());
+                  });
+                },
+                child: const Text('+'),
+              ),
+            ],
+          ),
+          for (var v in solution)
+            VectorInput(
+              vector: v,
+              deleteVector: () {
+                setState(() {
+                  solution.remove(v);
+                });
+              },
+            ),
         ],
       ),
       resolveButtons: [
         ButtonRowItem(
           child: const Text('Zkontrolovat'),
+          onPressed: vectors.isEmpty
+              ? null
+              : () {
+                  AlgebraUtils.showError(
+                    context,
+                    _isAnswerCorrect() ? 'Správně' : 'Špatně',
+                  );
+                },
         ),
         ButtonRowItem(
           child: const Text('Neexistuje'),
+          onPressed: vectors.isEmpty
+              ? null
+              : () {
+                  List<Vector> correctSolution = Vector.findBasis(vectors);
+                  AlgebraUtils.showError(
+                    context,
+                    correctSolution.isEmpty ? 'Správně' : 'Špatně',
+                  );
+                },
         ),
       ],
     );
+  }
+
+  bool _isAnswerCorrect() {
+    List<Vector> correctSolution = Vector.findBasis(vectors);
+    if (solution.length != correctSolution.length) return false;
+
+    for (var vector in correctSolution) {
+      if (!solution.contains(vector)) return false;
+    }
+
+    return true;
   }
 }

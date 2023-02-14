@@ -57,10 +57,8 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
           onPressed: vectors.isEmpty
               ? null
               : () {
-                  if (isIndependent) {
-                    AlgebraUtils.showError(
-                        context, isIndependent ? 'Špatně' : 'Správně');
-                  }
+                  AlgebraUtils.showError(
+                      context, isIndependent ? 'Špatně' : 'Správně');
                 },
         ),
         ButtonRowItem(
@@ -68,10 +66,8 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
           onPressed: vectors.isEmpty
               ? null
               : () {
-                  if (isIndependent) {
-                    AlgebraUtils.showError(
-                        context, isIndependent ? 'Správně' : 'Špatně');
-                  }
+                  AlgebraUtils.showError(
+                      context, isIndependent ? 'Správně' : 'Špatně');
                 },
         ),
       ],

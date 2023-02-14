@@ -6,6 +6,7 @@ import 'package:dp_algebra/pages/exercise/matrix_exercises/determinant_exc.dart'
 import 'package:dp_algebra/pages/exercise/matrix_exercises/inverse_exc.dart';
 import 'package:dp_algebra/pages/exercise/vector_exercises/basis_exc.dart';
 import 'package:dp_algebra/pages/exercise/vector_exercises/lin_independence_exc.dart';
+import 'package:dp_algebra/pages/exercise/vector_exercises/transform_matrix_exc.dart';
 
 class ExerciseData {
   static List<SectionChapterModel> chapters = [
@@ -39,6 +40,10 @@ class ExerciseData {
         SectionPageModel(
           title: 'Nálezení báze',
           page: const BasisExc(),
+        ),
+        SectionPageModel(
+          title: 'Transformace souřadnic',
+          page: const TransformMatrixExc(),
         ),
       ],
     ),
