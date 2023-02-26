@@ -10,11 +10,14 @@ class Chapter(models.Model):
     order = models.BigIntegerField(db_index=True)
 
 
-class ChapterTranslations(models.Model):
+class ChapterTranslation(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=250)
+
+    class Meta:
+        db_table = 'articles_chapter_translations'
 
 
 class Article(models.Model):
@@ -23,11 +26,14 @@ class Article(models.Model):
     published_at = models.DateField()
 
 
-class ArticleTranslations(models.Model):
+class ArticleTranslation(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=250)
+
+    class Meta:
+        db_table = 'articles_article_translations'
 
 
 class Page(models.Model):
@@ -40,8 +46,10 @@ class Block(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
 
-class BlockTranslations(models.Model):
+class BlockTranslation(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
     content = models.TextField()
 
+    class Meta:
+        db_table = 'articles_block_translations'
