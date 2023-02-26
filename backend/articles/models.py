@@ -6,7 +6,7 @@ class Language(models.Model):
     name = models.CharField(max_length=150)
 
     def __str__(self):
-        return f'{self.code}'
+        return f'{self.id}_{self.code}'
 
 
 class Chapter(models.Model):
@@ -86,3 +86,7 @@ class BlockTranslation(models.Model):
 
     class Meta:
         db_table = 'articles_block_translations'
+
+
+# TODO: add literature sources
+# TODO: add term dictionary
