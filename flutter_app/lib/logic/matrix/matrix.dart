@@ -124,6 +124,7 @@ class Matrix {
     }
 
     Matrix triangularM = triangular(isDeterminant: true);
+    // List<MatrixAtomicUnaryOperation> steps = triangularM.getSteps();
     Fraction output = Fraction(1);
     for (var i = 0; i < triangularM.getRows(); i++) {
       output *= triangularM[i][i];
