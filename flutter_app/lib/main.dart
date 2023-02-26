@@ -1,4 +1,5 @@
 import 'package:dp_algebra/app.dart';
+import 'package:dp_algebra/data/db_service.dart';
 import 'package:dp_algebra/models/calc_state/calc_equation_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_equation_solutions_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_matrix_model.dart';
@@ -26,4 +27,6 @@ void setup() {
       CalcEquationSolutionsModel());
   getIt.registerSingleton<CalcVectorModel>(CalcVectorModel());
   getIt.registerSingleton<CalcVectorSolutionsModel>(CalcVectorSolutionsModel());
+
+  getIt.registerSingleton<DbService>(DbService());
 }
