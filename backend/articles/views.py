@@ -55,8 +55,14 @@ def article_view(request: HttpRequest, locale_id: int, article_id: int):
 
     if page_id:
         blocks = Block.objects.filter(
-            page__article=article_id, page=page_id, blocktranslation__language=locale_id
+            page__article=article_id,
+            page=page_id,
+            blocktranslation__language=locale_id,
+            type__blocktypetranslation__language=locale_id
         ).values(
+            block_type_visible=F('type__show_title'),
+            block_type_title=F('type__blocktypetranslation__title'),
+            block_title=F('blocktranslation__title'),
             block_content=F('blocktranslation__content')
         )
         page = list(blocks)

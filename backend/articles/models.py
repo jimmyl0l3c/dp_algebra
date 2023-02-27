@@ -13,7 +13,7 @@ class Chapter(models.Model):
     order = models.BigIntegerField(db_index=True)
 
     def __str__(self):
-        return f'Chapter {self.id} (order: {self.order})'
+        return f'Chapter: {self.id} ({self.order})'
 
     class Meta:
         ordering = ['order']
@@ -38,7 +38,7 @@ class Article(models.Model):
     published_at = models.DateField()
 
     def __str__(self):
-        return f'Chapter: {self.chapter}, Article: {self.id}, (order: {self.order})'
+        return f'{self.chapter}, Article: {self.id} ({self.order})'
 
     class Meta:
         ordering = ['order']
@@ -62,18 +62,36 @@ class Page(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Article: {self.article}, Page: {self.id}, (order: {self.order})'
+        return f'{self.article}, Page: {self.id} ({self.order})'
 
     class Meta:
         ordering = ['order']
 
 
+class BlockType(models.Model):
+    show_title = models.BooleanField(db_index=True)
+    enumerated = models.BooleanField(db_index=True)
+
+    def __str__(self):
+        return f'{self.id} ({self.enumerated})'
+
+
+class BlockTypeTranslation(models.Model):
+    block_type = models.ForeignKey(BlockType, on_delete=models.CASCADE)
+    language = models.ForeignKey(Language, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.block_type}/{self.language}: {self.title}'
+
+
 class Block(models.Model):
     order = models.BigIntegerField(db_index=True)
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
+    type = models.ForeignKey(BlockType, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Page: {self.page}, Block: {self.id}, (order: {self.order})'
+        return f'{self.page}, Block: {self.id} ({self.order})'
 
     class Meta:
         ordering = ['order']
@@ -82,6 +100,7 @@ class Block(models.Model):
 class BlockTranslation(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
+    title = models.CharField(max_length=150, blank=True)
     content = models.TextField()
 
     def __str__(self):
