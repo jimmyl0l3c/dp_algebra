@@ -2,6 +2,7 @@ import 'package:dp_algebra/models/db/learn_article.dart';
 import 'package:dp_algebra/models/db/learn_chapter.dart';
 import 'package:dp_algebra/widgets/layout/main_scaffold.dart';
 import 'package:dp_algebra/widgets/layout/section_menu.dart';
+import 'package:dp_algebra/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 class LearnChapter extends StatelessWidget {
@@ -18,7 +19,10 @@ class LearnChapter extends StatelessWidget {
         future: chapter,
         builder: (context, snapshot) {
           Widget? body;
+          String title = 'Načítání...';
+
           if (snapshot.hasData) {
+            title = snapshot.data!.title;
             List<LArticle> articles = snapshot.data!.articles;
             body = SectionMenu(
                 sections: articles
@@ -31,11 +35,16 @@ class LearnChapter extends StatelessWidget {
                     )
                     .toList());
           } else {
-            body = const Text('Loading...');
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              body = const Loading();
+            } else {
+              title = 'Error';
+              body = const Center(child: Text('Kapitola nenalezena'));
+            }
           }
 
           return MainScaffold(
-            title: snapshot.hasData ? snapshot.data!.title : 'Loading ...',
+            title: title,
             child: body,
           );
         });

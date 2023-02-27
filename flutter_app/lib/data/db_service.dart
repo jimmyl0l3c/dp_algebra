@@ -86,7 +86,7 @@ class DbService {
 
         // LChapter chapter = LChapter.fromJson(data);
         // chapter.articles = [LArticle.fromJson(data)];
-        return LArticle.fromJson(data);
+        return LArticle.fromJson(data); // TODO: also add to _chapters
       }
       return null;
     } on Error {

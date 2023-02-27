@@ -1,6 +1,7 @@
 import 'package:dp_algebra/models/db/learn_article.dart';
 import 'package:dp_algebra/models/db/learn_page.dart';
 import 'package:dp_algebra/widgets/layout/main_scaffold.dart';
+import 'package:dp_algebra/widgets/loading.dart';
 import 'package:dp_algebra/widgets/lpage_view.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ class _LearnArticleState extends State<LearnArticle> {
         future: widget.article,
         builder: (context, snapshot) {
           Widget? body;
-          String title = 'Loading...';
+          String title = 'Načítání...';
           Widget? forwardButton;
           Widget? backwardButton;
           Widget? floatingButton;
@@ -93,15 +94,15 @@ class _LearnArticleState extends State<LearnArticle> {
 
             body = Container(
               child: pages.isEmpty
-                  ? const Text('Article is empty')
+                  ? const Center(child: Text('Článek je prázdný'))
                   : LPageView(page: pages[currentPage]),
             );
           } else {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              body = const Text('Loading...');
+              body = const Loading();
             } else {
-              title = 'Not found';
-              body = const Text('Article not found');
+              title = 'Error';
+              body = const Center(child: Text('Článek nenalezen'));
             }
           }
 

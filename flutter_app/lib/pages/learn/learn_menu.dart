@@ -2,6 +2,7 @@ import 'package:dp_algebra/data/db_service.dart';
 import 'package:dp_algebra/models/db/learn_chapter.dart';
 import 'package:dp_algebra/widgets/layout/main_scaffold.dart';
 import 'package:dp_algebra/widgets/layout/section_menu.dart';
+import 'package:dp_algebra/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -19,7 +20,10 @@ class LearnMenu extends StatelessWidget {
           future: dbService.fetchChapters(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return const Text('Loading...');
+              if (snapshot.connectionState != ConnectionState.waiting) {
+                return const Center(child: Text('Chyba při načítání kapitol'));
+              }
+              return const Loading();
             }
 
             return SectionMenu(
