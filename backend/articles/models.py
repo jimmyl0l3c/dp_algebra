@@ -84,6 +84,9 @@ class BlockTranslation(models.Model):
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
     content = models.TextField()
 
+    def __str__(self):
+        return f'{self.block}/{self.language}'
+
     class Meta:
         db_table = 'articles_block_translations'
 
