@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 
 class LearnArticle extends StatefulWidget {
   final Future<LArticle?> article;
+  final int? currentPage;
 
   const LearnArticle({
     Key? key,
     required this.article,
+    this.currentPage,
   }) : super(key: key);
 
   @override
@@ -18,6 +20,12 @@ class LearnArticle extends StatefulWidget {
 
 class _LearnArticleState extends State<LearnArticle> {
   int currentPage = 0;
+
+  @override
+  void initState() {
+    currentPage = widget.currentPage ?? 0;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +42,6 @@ class _LearnArticleState extends State<LearnArticle> {
             title = snapshot.data!.title;
 
             List<LPage> pages = snapshot.data!.pages;
-            pages.sort(
-              (a, b) => a.order.compareTo(b.order),
-            );
 
             if (pages.length > currentPage + 1) {
               forwardButton = FloatingActionButton(

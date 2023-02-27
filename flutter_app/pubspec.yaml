@@ -40,7 +40,6 @@ dependencies:
   path_to_regexp: ^0.4.0
   fraction: ^4.1.2
   flutter_math_fork: ^0.6.3+1
-  backendless_sdk: ^7.2.6
   get_it: ^7.2.0
   get_it_mixin: ^3.1.4+2
   http: ^0.13.5

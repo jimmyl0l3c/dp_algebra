@@ -19,8 +19,7 @@ class LearnChapter extends StatelessWidget {
         builder: (context, snapshot) {
           Widget? body;
           if (snapshot.hasData) {
-            List<LArticle> articles = snapshot.data!.articles
-              ..sort((a, b) => a.order.compareTo(b.order));
+            List<LArticle> articles = snapshot.data!.articles;
             body = SectionMenu(
                 sections: articles
                     .map(

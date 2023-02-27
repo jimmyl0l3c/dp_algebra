@@ -1,11 +1,12 @@
 import 'package:dp_algebra/data/block_parser.dart';
-import 'package:dp_algebra/data/db_helper.dart';
+import 'package:dp_algebra/data/db_service.dart';
 import 'package:dp_algebra/models/db/learn_block.dart';
 import 'package:dp_algebra/models/db/learn_page.dart';
 import 'package:dp_algebra/models/learn/block_content.dart';
 import 'package:dp_algebra/widgets/layout/bullet_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+import 'package:get_it/get_it.dart';
 
 class LPageView extends StatelessWidget {
   final LPage page;
@@ -47,9 +48,9 @@ class LPageView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Column(
             children: [
-              if (block.type.title != null)
+              if (block.showTypeTitle)
                 Text(
-                  block.type.title!,
+                  block.typeTitle,
                   style: Theme.of(context).textTheme.headline3,
                 ),
               for (var row in content) _getBlockWrap(row)
@@ -62,6 +63,7 @@ class LPageView extends StatelessWidget {
 
   List<List<Widget>> _getParagraphContent(
       List<LBlockSegment> paragraphContent, BuildContext context) {
+    DbService dbService = GetIt.instance.get<DbService>();
     List<List<Widget>> segments = [[]];
 
     for (var segment in paragraphContent) {
@@ -93,7 +95,7 @@ class LPageView extends StatelessWidget {
               LBlockReferenceType.literature) {
             segments[segments.length - 1].add(
               FutureBuilder(
-                future: DbHelper.findLiterature(segment.content),
+                future: dbService.fetchLiterature(segment.content),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting ||
                       !snapshot.hasData ||

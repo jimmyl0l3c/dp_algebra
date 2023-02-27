@@ -1,5 +1,5 @@
 import 'package:dp_algebra/data/calc_data.dart';
-import 'package:dp_algebra/data/db_helper.dart';
+import 'package:dp_algebra/data/db_service.dart';
 import 'package:dp_algebra/data/exercise_data.dart';
 import 'package:dp_algebra/models/db/learn_article.dart';
 import 'package:dp_algebra/models/db/learn_chapter.dart';
@@ -15,6 +15,7 @@ import 'package:dp_algebra/pages/menu.dart';
 import 'package:dp_algebra/pages/transition_page.dart';
 import 'package:dp_algebra/routing/route_state.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class AlgebraNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -40,6 +41,8 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
   final _exerciseChapterKey = const ValueKey('Exercise chapter key');
   final _exercisePageKey = const ValueKey('Exercise page key');
 
+  final DbService _dbService = GetIt.instance.get<DbService>();
+
   @override
   Widget build(BuildContext context) {
     final routeState = RouteStateScope.of(context);
@@ -54,19 +57,18 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
       currentChapterId =
           int.tryParse(routeState.route.parameters['chapterId']!);
       currentChapter = currentChapterId != null
-          ? DbHelper.findChapter(currentChapterId)
+          ? _dbService.fetchChapter(currentChapterId)
           : null;
 
       if (pathTemplate.startsWith('/chapter/:chapterId/:articleId')) {
         currentArticleId =
             int.tryParse(routeState.route.parameters['articleId']!);
-        currentArticle = currentChapterId != null && currentArticleId != null
-            ? DbHelper.findArticle(currentChapterId, currentArticleId)
+        currentArticle = currentArticleId != null
+            ? _dbService.fetchArticle(currentArticleId)
             : null;
 
         if (pathTemplate.startsWith('/chapter/:chapterId/:articleId/:pageId')) {
           currentPageId = int.tryParse(routeState.route.parameters['pageId']!);
-          // TODO: obtain page
         }
       }
     }
@@ -165,7 +167,10 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
         if (currentArticle != null)
           AlgebraTransitionPage(
             key: _articleKey,
-            child: LearnArticle(article: currentArticle),
+            child: LearnArticle(
+              article: currentArticle,
+              currentPage: currentPageId,
+            ),
           ),
         // Add page to stack if /exercise/:exerciseChapterId
         if (exerciseChapter != null && sectionChapterId != null)
