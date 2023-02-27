@@ -2,7 +2,7 @@ from django.db.models import F, Count
 from django.http import HttpRequest, JsonResponse
 from django.views.decorators.http import require_http_methods
 
-from articles.models import Chapter, Article, Block, Page
+from articles.models import Chapter, Article, Block, Page, Literature
 
 
 @require_http_methods(["GET"])
@@ -69,3 +69,12 @@ def article_view(request: HttpRequest, locale_id: int, article_id: int):
     else:
         page = []
     return JsonResponse({**article.get(), 'page_blocks': page})
+
+
+@require_http_methods(["GET"])
+def get_literature_view(request: HttpRequest):
+    if 'ref_name' in request.GET:
+        lit = Literature.objects.filter(ref_name__iexact=request.GET['ref_name'])
+    else:
+        lit = Literature.objects.all()
+    return JsonResponse({'literature': list(lit.values())})

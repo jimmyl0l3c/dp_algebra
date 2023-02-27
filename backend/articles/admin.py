@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Language, Chapter, ChapterTranslation, Article, ArticleTranslation, Page, Block, BlockTranslation, \
-    BlockType, BlockTypeTranslation
+    BlockType, BlockTypeTranslation, Literature
 
 
 class InlineChapterTranslation(admin.TabularInline):
@@ -45,6 +45,7 @@ class BlockTypeAdmin(admin.ModelAdmin):
 
 admin.site.register(Language)
 admin.site.register(Page)
+admin.site.register(Literature)
 
 admin.site.site_header = 'Algebra - Administration'
 admin.site.site_title = 'Algebra'

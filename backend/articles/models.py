@@ -110,5 +110,12 @@ class BlockTranslation(models.Model):
         db_table = 'articles_block_translations'
 
 
-# TODO: add literature sources
+class Literature(models.Model):
+    ref_name = models.CharField(max_length=50, unique=True)
+    author = models.CharField(max_length=150)
+    year = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f'{self.ref_name}: {self.author}, {self.year}'
+
 # TODO: add term dictionary
