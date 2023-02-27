@@ -20,7 +20,6 @@ class DbService {
     _httpClient = http.Client();
   }
 
-  // TODO: test the service, change Model.fromJson to match the backend response
   Future<List<LChapter>> fetchChapters({bool forceRefresh = false}) async {
     List<LChapter> chapters = [];
 
