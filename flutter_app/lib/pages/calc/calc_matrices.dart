@@ -255,7 +255,7 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                             break;
                         }
                       } on MatrixException catch (e) {
-                        AlgebraUtils.showError(context, e.errMessage());
+                        AlgebraUtils.showMessage(context, e.errMessage());
                         return;
                       }
 
@@ -386,14 +386,14 @@ class _MatrixBinOperationSelectionState
                 ? null
                 : () {
                     if (_binaryLeft == null || _binaryRight == null) {
-                      AlgebraUtils.showError(context,
+                      AlgebraUtils.showMessage(context,
                           'Zvolte matice, se kterými se má operace provést');
                       return;
                     }
                     Matrix? a = matrices[_binaryLeft];
                     Matrix? b = matrices[_binaryRight];
                     if (a == null || b == null) {
-                      AlgebraUtils.showError(
+                      AlgebraUtils.showMessage(
                           context, 'Zvolené matice neexistují');
                       return;
                     }
@@ -417,7 +417,7 @@ class _MatrixBinOperationSelectionState
                           return;
                       }
                     } on MatrixException catch (e) {
-                      AlgebraUtils.showError(context, e.errMessage());
+                      AlgebraUtils.showMessage(context, e.errMessage());
                       return;
                     }
                     Matrix leftOp = Matrix.from(a);

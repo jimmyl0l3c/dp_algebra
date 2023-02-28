@@ -77,7 +77,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
             child: const Text('Zkontrolovat'),
             onPressed: () {
               // TODO: replace this
-              AlgebraUtils.showError(
+              AlgebraUtils.showMessage(
                   context, isAnswerCorrect() ? 'Správně' : 'Špatně');
             })
       ],

@@ -22,3 +22,8 @@ class VectorTransformMatrixSizeMismatchException implements VectorException {
   String errMessage() =>
       'Vektor souřadnic musí mít stejnou velikost jako matice přechodu';
 }
+
+class VectorBasisLengthMismatchException implements VectorException {
+  @override
+  String errMessage() => 'Báze nemají stejný počet vektorů';
+}

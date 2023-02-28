@@ -92,7 +92,7 @@ class BlockParser {
             ));
           } else if (refMatch.namedGroup('type') == 'ref') {
             blockContent.add(LBlockRefSegment(
-              refType: LBlockReferenceType.page, // TODO: change this
+              refType: LBlockReferenceType.page, // TODO: change this (8)
               content: refMatch.namedGroup('ref') ?? 'unknown',
             ));
           }

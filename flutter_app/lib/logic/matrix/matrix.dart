@@ -486,6 +486,5 @@ class Matrix {
   }
 
   @override
-  // TODO: implement hashCode
-  int get hashCode => super.hashCode;
+  int get hashCode => _matrix.hashCode;
 }

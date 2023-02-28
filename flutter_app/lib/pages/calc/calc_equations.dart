@@ -52,7 +52,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                       generalSolution: solution,
                     ));
                   } on EquationException catch (e) {
-                    AlgebraUtils.showError(context, e.errMessage());
+                    AlgebraUtils.showMessage(context, e.errMessage());
                   }
                 },
                 child: const Text('Gaussova eliminační metoda'),
@@ -71,9 +71,9 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                       solution: solution,
                     ));
                   } on MatrixException catch (e) {
-                    AlgebraUtils.showError(context, e.errMessage());
+                    AlgebraUtils.showMessage(context, e.errMessage());
                   } on EquationException catch (e) {
-                    AlgebraUtils.showError(context, e.errMessage());
+                    AlgebraUtils.showMessage(context, e.errMessage());
                   }
                 },
                 child: const Text('Inverzní matice'),
@@ -92,9 +92,9 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                       solution: solution,
                     ));
                   } on MatrixException catch (e) {
-                    AlgebraUtils.showError(context, e.errMessage());
+                    AlgebraUtils.showMessage(context, e.errMessage());
                   } on EquationException catch (e) {
-                    AlgebraUtils.showError(context, e.errMessage());
+                    AlgebraUtils.showMessage(context, e.errMessage());
                   }
                 },
                 child: const Text('Cramerovo pravidlo'),

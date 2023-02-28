@@ -66,10 +66,8 @@ class Vector {
     }
 
     if (basisA.length != basisB.length) {
-      // TODO: throw exception
+      throw VectorBasisLengthMismatchException();
     }
-
-    // TODO: check if basis is basis (lin. independence)
 
     if (!areLinearlyIndependent(basisA) || !areLinearlyIndependent(basisB)) {
       throw VectorsLinearlyDependentException();
@@ -179,8 +177,7 @@ class Vector {
   void operator []=(int i, Fraction f) => _entries[i] = f;
 
   @override
-  // TODO: implement hashCode
-  int get hashCode => super.hashCode;
+  int get hashCode => _entries.hashCode;
 
   List<Fraction> asList() => _entries;
 

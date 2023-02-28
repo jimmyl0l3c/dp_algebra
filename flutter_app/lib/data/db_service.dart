@@ -11,8 +11,8 @@ class DbService {
   late http.Client _httpClient;
 
   List<LChapter> _chapters = [];
-  bool _allChaptersAvailable =
-      false; // TODO: save data age, use it to determine, whether we need to update them
+  bool _allChaptersAvailable = false;
+  final List<LArticle> _articles = [];
 
   Map<String, LLiterature> _literature = {};
 
@@ -49,9 +49,11 @@ class DbService {
   }
 
   Future<LChapter?> fetchChapter(int id, {bool forceRefresh = false}) async {
-    LChapter? chapter = _chapters.firstWhereOrNull((c) => c.id == id);
-    if (!forceRefresh && chapter != null && chapter.articles.isNotEmpty) {
-      return chapter;
+    LChapter? cachedChapter = _chapters.firstWhereOrNull((c) => c.id == id);
+    if (!forceRefresh &&
+        cachedChapter != null &&
+        cachedChapter.articles.isNotEmpty) {
+      return cachedChapter;
     }
 
     Uri chapterUri = Uri.http(_apiUrl, '/api/learn/1/chapter/$id');
@@ -62,8 +64,8 @@ class DbService {
         final data = await json.decode(response.body);
         final loadedChapter = LChapter.fromJson(data);
 
-        if (chapter != null) {
-          chapter.articles = loadedChapter.articles;
+        if (cachedChapter != null) {
+          cachedChapter.articles = loadedChapter.articles;
         }
 
         return loadedChapter;
@@ -75,17 +77,24 @@ class DbService {
     }
   }
 
-  Future<LArticle?> fetchArticle(int id) async {
+  Future<LArticle?> fetchArticle(int id, {bool forceRefresh = false}) async {
+    LArticle? cachedArticle = _articles.firstWhereOrNull((a) => a.id == id);
+    if (!forceRefresh && cachedArticle != null) return cachedArticle;
+
     Uri articleUri = Uri.http(_apiUrl, '/api/learn/1/article/$id');
     try {
       final response = await _httpClient.get(articleUri);
 
       if (response.statusCode == 200) {
         final data = await json.decode(response.body);
+        LArticle article = LArticle.fromJson(data);
 
-        // LChapter chapter = LChapter.fromJson(data);
-        // chapter.articles = [LArticle.fromJson(data)];
-        return LArticle.fromJson(data); // TODO: also add to _chapters
+        if (cachedArticle != null) {
+          _articles.remove(cachedArticle);
+        }
+        _articles.add(article);
+
+        return article;
       }
       return null;
     } on Error {

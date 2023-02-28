@@ -57,7 +57,7 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
           onPressed: vectors.isEmpty
               ? null
               : () {
-                  AlgebraUtils.showError(
+                  AlgebraUtils.showMessage(
                       context, isIndependent ? 'Špatně' : 'Správně');
                 },
         ),
@@ -66,7 +66,7 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
           onPressed: vectors.isEmpty
               ? null
               : () {
-                  AlgebraUtils.showError(
+                  AlgebraUtils.showMessage(
                       context, isIndependent ? 'Správně' : 'Špatně');
                 },
         ),

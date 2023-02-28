@@ -108,7 +108,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                 ),
                               );
                             } on VectorException catch (e) {
-                              AlgebraUtils.showError(context, e.errMessage());
+                              AlgebraUtils.showMessage(context, e.errMessage());
                             }
                           },
                     child: const Text('Vypočítat'),
@@ -158,7 +158,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                 ),
                               );
                             } on VectorException catch (e) {
-                              AlgebraUtils.showError(context, e.errMessage());
+                              AlgebraUtils.showMessage(context, e.errMessage());
                             }
                           },
                     child: const Text('Nalézt'),
@@ -323,7 +323,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                             ),
                           );
                         } on VectorException catch (e) {
-                          AlgebraUtils.showError(context, e.errMessage());
+                          AlgebraUtils.showMessage(context, e.errMessage());
                         }
                       },
                 child: const Text('Transformovat'),
@@ -353,9 +353,9 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
         solution: Vector.getTransformMatrix(basisA, basisB),
       );
     } on VectorException catch (e) {
-      AlgebraUtils.showError(context, e.errMessage());
+      AlgebraUtils.showMessage(context, e.errMessage());
     } on EquationException catch (e) {
-      AlgebraUtils.showError(context, e.errMessage());
+      AlgebraUtils.showMessage(context, e.errMessage());
     }
 
     return null;

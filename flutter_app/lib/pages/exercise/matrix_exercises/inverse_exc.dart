@@ -40,14 +40,14 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
         ButtonRowItem(
           child: const Text('Zkontrolovat'),
           onPressed: () {
-            AlgebraUtils.showError(
+            AlgebraUtils.showMessage(
                 context, isAnswerCorrect() ? 'Správně' : 'Špatně');
           },
         ),
         ButtonRowItem(
           child: const Text('Nemá inverzní'),
           onPressed: () {
-            AlgebraUtils.showError(
+            AlgebraUtils.showMessage(
                 context, inverseExists() ? 'Špatně' : 'Správně');
           },
         ),

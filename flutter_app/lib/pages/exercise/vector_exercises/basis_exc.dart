@@ -85,7 +85,7 @@ class _BasisExcState extends State<BasisExc> {
           onPressed: vectors.isEmpty
               ? null
               : () {
-                  AlgebraUtils.showError(
+                  AlgebraUtils.showMessage(
                     context,
                     _isAnswerCorrect() ? 'Správně' : 'Špatně',
                   );
@@ -97,7 +97,7 @@ class _BasisExcState extends State<BasisExc> {
               ? null
               : () {
                   List<Vector> correctSolution = Vector.findBasis(vectors);
-                  AlgebraUtils.showError(
+                  AlgebraUtils.showMessage(
                     context,
                     correctSolution.isEmpty ? 'Správně' : 'Špatně',
                   );

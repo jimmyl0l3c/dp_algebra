@@ -61,14 +61,14 @@ class _EquationExcState extends State<EquationExc> {
           child: const Text('Zkontrolovat'),
           onPressed: () {
             // TODO: replace this
-            AlgebraUtils.showError(
+            AlgebraUtils.showMessage(
                 context, isAnswerCorrect() ? 'Správně' : 'Špatně');
           },
         ),
         ButtonRowItem(
           child: const Text('Nemá řešení'),
           onPressed: () {
-            AlgebraUtils.showError(
+            AlgebraUtils.showMessage(
                 context, !equationMatrix.isSolvable() ? 'Správně' : 'Špatně');
           },
         ),

@@ -50,7 +50,10 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
       example: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // TODO: change how it is shown
+          if (basisA.isNotEmpty && basisB.isNotEmpty)
+            const Text(
+                'Vytvořte transformační matici pro transformaci souřadnic od báze A k bázi B:'),
+          const SizedBox(height: 12),
           if (basisA.isNotEmpty) const Text('Basis A'),
           for (var v in basisA)
             Padding(
@@ -79,7 +82,7 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
               ? null
               : () {
                   Matrix solution = Vector.getTransformMatrix(basisA, basisB);
-                  AlgebraUtils.showError(
+                  AlgebraUtils.showMessage(
                     context,
                     solution == answer ? 'Správně' : 'Špatně',
                   );
