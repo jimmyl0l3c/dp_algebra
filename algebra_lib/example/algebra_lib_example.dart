@@ -7,4 +7,82 @@ void main() {
   var s3 = Multiply(left: s1, right: s2);
   print(s3.toTeX());
   print(s3.simplify().toTeX());
+
+  var v1 = Vector(
+    items: [
+      Multiply(
+        left: Scalar(value: 2.toFraction()),
+        right: Scalar(value: 3.toFraction()),
+      ),
+      Multiply(
+        left: Scalar(value: 7.toFraction()),
+        right: Scalar(value: 4.toFraction()),
+      ),
+    ],
+  );
+  var v2 = Vector(
+    items: [Scalar(value: 3.toFraction()), Scalar(value: 4.toFraction())],
+  );
+  print(v1.toTeX());
+  print(v1.simplify().toTeX());
+  print(v1.simplify().simplify().toTeX());
+  print(v1.simplify().simplify().simplify().toTeX());
+  print("\n");
+
+  var multiply1 = Multiply(left: s1, right: v1);
+  print(multiply1.toTeX());
+  print(multiply1.simplify().toTeX());
+  print(multiply1.simplify().simplify().toTeX());
+  print(multiply1.simplify().simplify().simplify().toTeX());
+  print(multiply1.simplify().simplify().simplify().simplify().toTeX());
+  print(
+      multiply1.simplify().simplify().simplify().simplify().simplify().toTeX());
+  print(multiply1.simplify().toTeX());
+  print("\n");
+
+  var m1 = Matrix(items: [
+    [Scalar(value: 2.toFraction()), Scalar(value: 3.toFraction())],
+    [Scalar(value: 4.toFraction()), Scalar(value: 5.toFraction())],
+  ]);
+  print(m1.toTeX());
+  var multiply2 = Multiply(left: s1, right: m1);
+  print(multiply2.toTeX());
+  print(multiply2.simplify().toTeX());
+  print(multiply2.simplify().simplify().toTeX());
+  print(multiply2.simplify().simplify().simplify().toTeX());
+  print(multiply2.simplify().simplify().simplify().simplify().toTeX());
+  print(
+      multiply2.simplify().simplify().simplify().simplify().simplify().toTeX());
+  print(multiply2.simplify().toTeX());
+  print("\n");
+
+  var m2 = Matrix(items: [
+    [Scalar(value: 6.toFraction()), Scalar(value: 7.toFraction())],
+    [Scalar(value: 9.toFraction()), Scalar(value: 8.toFraction())],
+  ]);
+  var multiply3 = Multiply(left: m1, right: m2);
+  print(multiply3.toTeX());
+  print(multiply3.simplify().toTeX());
+  print(multiply3.simplify().simplify().toTeX());
+  print(multiply3.simplify().simplify().simplify().toTeX());
+  print(multiply3.simplify().simplify().simplify().simplify().toTeX());
+  print(
+      multiply3.simplify().simplify().simplify().simplify().simplify().toTeX());
+  print(multiply3
+      .simplify()
+      .simplify()
+      .simplify()
+      .simplify()
+      .simplify()
+      .simplify()
+      .toTeX());
+  print(multiply3
+      .simplify()
+      .simplify()
+      .simplify()
+      .simplify()
+      .simplify()
+      .simplify()
+      .simplify()
+      .toTeX());
 }
