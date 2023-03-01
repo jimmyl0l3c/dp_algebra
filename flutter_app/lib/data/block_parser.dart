@@ -7,7 +7,8 @@ class BlockParser {
     LBlockContentType currentType = LBlockContentType.paragraph;
 
     for (var segment in block.splitWithDelim(
-      RegExp(r'(\\begin{|\\end{)(enumerate}|itemize)}'),
+      RegExp(
+          r'(\\begin{|\\end{)(enumerate}|itemize)}'), // TODO: check if there is extra closing bracket or not
     )) {
       segment = segment.trim();
       if (segment.isEmpty) continue;
