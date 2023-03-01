@@ -1,0 +1,1 @@
+class UndefinedOperationException implements Exception {}
