@@ -1,5 +1,4 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:algebra_lib/src/expressions/addition.dart';
 
 class Multiply implements Expression {
   final Expression left;

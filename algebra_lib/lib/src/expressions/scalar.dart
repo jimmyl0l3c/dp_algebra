@@ -1,4 +1,4 @@
-import 'package:algebra_lib/src/interfaces/expression.dart';
+import 'package:algebra_lib/algebra_lib.dart';
 import 'package:fraction/fraction.dart';
 
 class Scalar implements Expression {
