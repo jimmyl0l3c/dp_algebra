@@ -71,5 +71,5 @@ class Subtraction implements Expression {
   }
 
   @override
-  String toTeX() => '${left.toTeX()} + ${right.toTeX()}';
+  String toTeX() => '${left.toTeX()} - ${right.toTeX()}';
 }
