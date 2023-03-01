@@ -5,6 +5,10 @@ class Vector implements Expression {
 
   Vector({required this.items});
 
+  int length() => items.length;
+
+  Expression operator [](int i) => items[i];
+
   @override
   Expression simplify() {
     for (var i = 0; i < items.length; i++) {

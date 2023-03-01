@@ -1,5 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:algebra_lib/src/expressions/matrix.dart';
+import 'package:algebra_lib/src/expressions/addition.dart';
 
 class Multiply implements Expression {
   final Expression left;
@@ -50,7 +50,56 @@ class Multiply implements Expression {
     }
 
     if (left is Matrix && right is Matrix) {
-      // TODO: implement
+      Matrix leftMatrix = left as Matrix;
+      Matrix rightMatrix = right as Matrix;
+
+      int leftCols = leftMatrix.columns();
+      int rightRows = rightMatrix.rows();
+
+      if (leftCols != rightRows) throw MatrixMultiplySizeException();
+
+      int leftRows = leftMatrix.rows();
+      int rightCols = rightMatrix.columns();
+
+      if (leftRows == 1 && rightCols == 1) {
+        Expression item = Multiply(
+          left: leftMatrix.items.first.first,
+          right: rightMatrix.items.first.first,
+        );
+
+        for (var i = 1; i < leftCols; i++) {
+          item = Addition(
+            left: item,
+            right: Multiply(
+              left: leftMatrix.items.first[i],
+              right: rightMatrix.items[i].first,
+            ),
+          );
+        }
+
+        return item;
+      } else {
+        List<List<Expression>> multipliedMatrices = [];
+
+        for (var ra = 0; ra < leftRows; ra++) {
+          List<Expression> outputRow = [];
+          for (var cb = 0; cb < rightCols; cb++) {
+            outputRow.add(
+              Multiply(
+                left: Matrix(
+                  items: [leftMatrix.items[ra]],
+                ),
+                right: Matrix(
+                  items: rightMatrix.items.map((row) => [row[cb]]).toList(),
+                ),
+              ),
+            );
+          }
+          multipliedMatrices.add(outputRow);
+        }
+
+        return Matrix(items: multipliedMatrices);
+      }
     }
 
     throw UndefinedOperationException();

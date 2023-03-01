@@ -5,6 +5,11 @@ class Matrix implements Expression {
 
   Matrix({required this.items});
 
+  int rows() => items.length;
+  int columns() => items.isNotEmpty ? items.first.length : 0;
+
+  List<Expression> operator [](int i) => items[i];
+
   @override
   Expression simplify() {
     for (var r = 0; r < items.length; r++) {
