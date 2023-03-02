@@ -85,4 +85,16 @@ void main() {
       .simplify()
       .simplify()
       .toTeX());
+
+  var m3 = Matrix(items: [
+    [Scalar(value: 6.toFraction()), Scalar(value: 7.toFraction())],
+    [Scalar(value: 9.toFraction()), Scalar(value: 8.toFraction())],
+    [Scalar(value: 1.toFraction()), Scalar(value: 2.toFraction())],
+    [Scalar(value: 3.toFraction()), Scalar(value: 5.toFraction())],
+  ]);
+  print(m3.toTeX());
+  var exchange = ExchangeRows(matrix: m3, row1: 1, row2: 3);
+  print(exchange.toTeX());
+  print(exchange.simplify().toTeX());
+  print(exchange.simplify().toTeX());
 }
