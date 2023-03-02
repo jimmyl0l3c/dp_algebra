@@ -22,6 +22,7 @@ class Multiply implements Expression {
       return Scalar(value: (left as Scalar).value * (right as Scalar).value);
     }
 
+    // TODO: also multiply from right
     if (left is Scalar && right is Vector) {
       List<Expression> multipliedVector = [];
 
