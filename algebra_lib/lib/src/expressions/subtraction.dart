@@ -1,7 +1,6 @@
 import 'package:algebra_lib/algebra_lib.dart';
 
 class Subtraction implements Expression {
-  // TODO: duplicate of Addition (except the operation)
   final Expression left;
   final Expression right;
 
@@ -47,15 +46,15 @@ class Subtraction implements Expression {
       Matrix leftMatrix = left as Matrix;
       Matrix rightMatrix = right as Matrix;
 
-      if (leftMatrix.rows() != rightMatrix.rows() ||
-          leftMatrix.columns() != rightMatrix.columns()) {
+      if (leftMatrix.rowsCount() != rightMatrix.rowsCount() ||
+          leftMatrix.columnCount() != rightMatrix.columnCount()) {
         throw MatrixSizeMismatchException;
       }
 
-      for (var r = 0; r < leftMatrix.rows(); r++) {
+      for (var r = 0; r < leftMatrix.rowsCount(); r++) {
         List<Expression> matrixRow = [];
 
-        for (var c = 0; c < leftMatrix.columns(); c++) {
+        for (var c = 0; c < leftMatrix.columnCount(); c++) {
           matrixRow.add(Subtraction(
             left: leftMatrix[r][c],
             right: rightMatrix[r][c],
@@ -64,12 +63,12 @@ class Subtraction implements Expression {
         addedMatrix.add(matrixRow);
       }
 
-      return Matrix(items: addedMatrix);
+      return Matrix(rows: addedMatrix);
     }
 
     throw UndefinedOperationException();
   }
 
   @override
-  String toTeX() => '${left.toTeX()} - ${right.toTeX()}';
+  String toTeX() => '(${left.toTeX()} - ${right.toTeX()})';
 }

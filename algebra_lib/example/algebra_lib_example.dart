@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:algebra_lib/src/expressions/add_row_to_row_n_times.dart';
 import 'package:fraction/fraction.dart';
 
 void main() {
@@ -40,7 +41,7 @@ void main() {
   print(multiply1.simplify().toTeX());
   print("\n");
 
-  var m1 = Matrix(items: [
+  var m1 = Matrix(rows: [
     [Scalar(value: 2.toFraction()), Scalar(value: 3.toFraction())],
     [Scalar(value: 4.toFraction()), Scalar(value: 5.toFraction())],
   ]);
@@ -56,7 +57,7 @@ void main() {
   print(multiply2.simplify().toTeX());
   print("\n");
 
-  var m2 = Matrix(items: [
+  var m2 = Matrix(rows: [
     [Scalar(value: 6.toFraction()), Scalar(value: 7.toFraction())],
     [Scalar(value: 9.toFraction()), Scalar(value: 8.toFraction())],
   ]);
@@ -86,7 +87,7 @@ void main() {
       .simplify()
       .toTeX());
 
-  var m3 = Matrix(items: [
+  var m3 = Matrix(rows: [
     [Scalar(value: 6.toFraction()), Scalar(value: 7.toFraction())],
     [Scalar(value: 9.toFraction()), Scalar(value: 8.toFraction())],
     [Scalar(value: 1.toFraction()), Scalar(value: 2.toFraction())],
@@ -97,4 +98,14 @@ void main() {
   print(exchange.toTeX());
   print(exchange.simplify().toTeX());
   print(exchange.simplify().toTeX());
+
+  var addRow2Row = AddRowToRowNTimes(
+    matrix: m3,
+    origin: 2,
+    target: 0,
+    n: Scalar(value: Fraction(-2)),
+  );
+  print(addRow2Row.simplify().toTeX());
+  print(addRow2Row.simplify().simplify().toTeX());
+  print(addRow2Row.simplify().simplify().simplify().toTeX());
 }

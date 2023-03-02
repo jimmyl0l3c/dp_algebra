@@ -5,3 +5,5 @@ class MatrixMultiplySizeException implements Exception {}
 class VectorSizeMismatchException implements Exception {}
 
 class MatrixSizeMismatchException implements Exception {}
+
+class MatrixRowSizeMismatchException implements Exception {}

@@ -36,7 +36,7 @@ class Multiply implements Expression {
     if (left is Scalar && right is Matrix) {
       List<List<Expression>> multipliedMatrix = [];
 
-      for (var row in (right as Matrix).items) {
+      for (var row in (right as Matrix).rows) {
         List<Expression> multipliedRow = [];
 
         for (var col in row) {
@@ -46,33 +46,33 @@ class Multiply implements Expression {
         multipliedMatrix.add(multipliedRow);
       }
 
-      return Matrix(items: multipliedMatrix);
+      return Matrix(rows: multipliedMatrix);
     }
 
     if (left is Matrix && right is Matrix) {
       Matrix leftMatrix = left as Matrix;
       Matrix rightMatrix = right as Matrix;
 
-      int leftCols = leftMatrix.columns();
-      int rightRows = rightMatrix.rows();
+      int leftCols = leftMatrix.columnCount();
+      int rightRows = rightMatrix.rowsCount();
 
       if (leftCols != rightRows) throw MatrixMultiplySizeException();
 
-      int leftRows = leftMatrix.rows();
-      int rightCols = rightMatrix.columns();
+      int leftRows = leftMatrix.rowsCount();
+      int rightCols = rightMatrix.columnCount();
 
       if (leftRows == 1 && rightCols == 1) {
         Expression item = Multiply(
-          left: leftMatrix.items.first.first,
-          right: rightMatrix.items.first.first,
+          left: leftMatrix.rows.first.first,
+          right: rightMatrix.rows.first.first,
         );
 
         for (var i = 1; i < leftCols; i++) {
           item = Addition(
             left: item,
             right: Multiply(
-              left: leftMatrix.items.first[i],
-              right: rightMatrix.items[i].first,
+              left: leftMatrix.rows.first[i],
+              right: rightMatrix.rows[i].first,
             ),
           );
         }
@@ -87,10 +87,10 @@ class Multiply implements Expression {
             outputRow.add(
               Multiply(
                 left: Matrix(
-                  items: [leftMatrix.items[ra]],
+                  rows: [leftMatrix.rows[ra]],
                 ),
                 right: Matrix(
-                  items: rightMatrix.items.map((row) => [row[cb]]).toList(),
+                  rows: rightMatrix.rows.map((row) => [row[cb]]).toList(),
                 ),
               ),
             );
@@ -98,7 +98,7 @@ class Multiply implements Expression {
           multipliedMatrices.add(outputRow);
         }
 
-        return Matrix(items: multipliedMatrices);
+        return Matrix(rows: multipliedMatrices);
       }
     }
 
@@ -106,5 +106,5 @@ class Multiply implements Expression {
   }
 
   @override
-  String toTeX() => '${left.toTeX()} \\cdot ${right.toTeX()}';
+  String toTeX() => '(${left.toTeX()} \\cdot ${right.toTeX()})';
 }

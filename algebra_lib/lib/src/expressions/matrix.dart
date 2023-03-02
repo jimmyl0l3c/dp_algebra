@@ -1,25 +1,32 @@
 import 'package:algebra_lib/algebra_lib.dart';
 
 class Matrix implements Expression {
-  final List<List<Expression>> items; // TODO: rename, rows?
+  final List<List<Expression>> rows;
 
-  Matrix({required this.items}); // TODO: check size, throw exception
+  Matrix({required this.rows}) {
+    int? length;
+    for (var row in rows) {
+      length ??= row.length;
 
-  int rows() => items.length;
-  int columns() => items.isNotEmpty ? items.first.length : 0;
+      if (row.length != length) throw MatrixRowSizeMismatchException();
+    }
+  }
 
-  List<Expression> operator [](int i) => items[i];
+  int rowsCount() => rows.length;
+  int columnCount() => rows.isNotEmpty ? rows.first.length : 0;
+
+  List<Expression> operator [](int i) => rows[i];
 
   @override
   Expression simplify() {
-    for (var r = 0; r < items.length; r++) {
-      for (var c = 0; c < items.length; c++) {
-        if (items[r][c] is! Scalar) {
+    for (var r = 0; r < rows.length; r++) {
+      for (var c = 0; c < rows.length; c++) {
+        if (rows[r][c] is! Scalar) {
           List<List<Expression>> simplifiedItems =
-              items.map((row) => List<Expression>.from(row)).toList();
-          simplifiedItems[r][c] = items[r][c].simplify();
+              rows.map((row) => List<Expression>.from(row)).toList();
+          simplifiedItems[r][c] = rows[r][c].simplify();
 
-          return Matrix(items: simplifiedItems);
+          return Matrix(rows: simplifiedItems);
         }
       }
     }
@@ -28,15 +35,15 @@ class Matrix implements Expression {
 
   @override
   String toTeX() {
-    if (items.isEmpty) return '()';
+    if (this.rows.isEmpty) return '()';
 
     StringBuffer buffer = StringBuffer(r'\begin{pmatrix} ');
-    int rows = items.length;
-    int cols = items.first.length;
+    int rows = rowsCount();
+    int cols = columnCount();
 
     for (var r = 0; r < rows; r++) {
       for (var c = 0; c < cols; c++) {
-        buffer.write(items[r][c].toTeX());
+        buffer.write(this.rows[r][c].toTeX());
 
         if (c != (cols - 1)) buffer.write(' & ');
       }
