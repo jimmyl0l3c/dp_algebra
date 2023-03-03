@@ -9,6 +9,7 @@ export 'src/expressions/addition.dart';
 export 'src/expressions/exchange_rows.dart';
 export 'src/expressions/matrix.dart';
 export 'src/expressions/multiply.dart';
+export 'src/expressions/multiply_row_by_n.dart';
 export 'src/expressions/scalar.dart';
 export 'src/expressions/subtraction.dart';
 export 'src/expressions/vector.dart';

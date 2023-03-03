@@ -19,8 +19,8 @@ class Matrix implements Expression {
 
   @override
   Expression simplify() {
-    for (var r = 0; r < rows.length; r++) {
-      for (var c = 0; c < rows.length; c++) {
+    for (var r = 0; r < rowsCount(); r++) {
+      for (var c = 0; c < columnCount(); c++) {
         if (rows[r][c] is! Scalar) {
           List<List<Expression>> simplifiedItems =
               rows.map((row) => List<Expression>.from(row)).toList();

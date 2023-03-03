@@ -1,5 +1,6 @@
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:algebra_lib/src/expressions/add_row_to_row_n_times.dart';
+import 'package:algebra_lib/src/expressions/multiply_row_by_n.dart';
 import 'package:fraction/fraction.dart';
 
 void main() {
@@ -108,4 +109,12 @@ void main() {
   print(addRow2Row.simplify().toTeX());
   print(addRow2Row.simplify().simplify().toTeX());
   print(addRow2Row.simplify().simplify().simplify().toTeX());
+
+  var multiplyRow = MultiplyRowByN(
+    matrix: m3,
+    n: Scalar(value: Fraction(-3)),
+    row: 1,
+  );
+  print(multiplyRow.simplify().toTeX());
+  print(multiplyRow.simplify().simplify().toTeX());
 }
