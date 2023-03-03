@@ -7,3 +7,5 @@ class VectorSizeMismatchException implements Exception {}
 class MatrixSizeMismatchException implements Exception {}
 
 class MatrixRowSizeMismatchException implements Exception {}
+
+class DeterminantNotSquareException implements Exception {}

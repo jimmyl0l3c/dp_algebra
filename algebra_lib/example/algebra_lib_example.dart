@@ -1,5 +1,4 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:algebra_lib/src/expressions/add_row_to_row_n_times.dart';
 import 'package:fraction/fraction.dart';
 
 void main() {
@@ -128,8 +127,33 @@ void main() {
   print("\n");
   var triangular = Triangular(matrix: m3);
   print(triangular.toTeX());
-  for (var i = 0; i < 80; i++) {
+  for (var i = 0; i < 54; i++) {
     print(simplifyNTimes(triangular, i).toTeX());
+  }
+
+  var m4 = Matrix(rows: [
+    [
+      Scalar(value: 0.toFraction()),
+      Scalar(value: 7.toFraction()),
+      Scalar(value: 3.toFraction())
+    ],
+    [
+      Scalar(value: 3.toFraction()),
+      Scalar(value: 8.toFraction()),
+      Scalar(value: 2.toFraction())
+    ],
+    [
+      Scalar(value: 1.toFraction()),
+      Scalar(value: 8.toFraction()),
+      Scalar(value: 13.toFraction())
+    ],
+  ]);
+
+  print("\n");
+  var triangularDet = TriangularDet(matrix: m4);
+  print(triangularDet.toTeX());
+  for (var i = 0; i < 40; i++) {
+    print(simplifyNTimes(triangularDet, i).toTeX());
   }
 }
 
