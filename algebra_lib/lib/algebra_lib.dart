@@ -7,6 +7,7 @@ export 'src/algebra_lib_base.dart';
 export 'src/exceptions.dart';
 export 'src/expressions/add_row_to_row_n_times.dart';
 export 'src/expressions/addition.dart';
+export 'src/expressions/determinant.dart';
 export 'src/expressions/divide.dart';
 export 'src/expressions/exchange_rows.dart';
 export 'src/expressions/matrix.dart';

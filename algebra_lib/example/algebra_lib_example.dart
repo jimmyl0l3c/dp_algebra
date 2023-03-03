@@ -127,9 +127,7 @@ void main() {
   print("\n");
   var triangular = Triangular(matrix: m3);
   print(triangular.toTeX());
-  for (var i = 0; i < 54; i++) {
-    print(simplifyNTimes(triangular, i).toTeX());
-  }
+  printNSimplifications(triangular, 54);
 
   var m4 = Matrix(rows: [
     [
@@ -150,10 +148,18 @@ void main() {
   ]);
 
   print("\n");
-  var triangularDet = TriangularDet(matrix: m4);
+  var triangularDet = TriangularDet(det: m4);
   print(triangularDet.toTeX());
-  for (var i = 0; i < 40; i++) {
-    print(simplifyNTimes(triangularDet, i).toTeX());
+  printNSimplifications(triangularDet, 40);
+
+  print("\n");
+  var det = Determinant(det: m4);
+  printNSimplifications(det, 40);
+}
+
+void printNSimplifications(Expression expression, int n) {
+  for (var i = 0; i < n; i++) {
+    print(simplifyNTimes(expression, i).toTeX());
   }
 }
 

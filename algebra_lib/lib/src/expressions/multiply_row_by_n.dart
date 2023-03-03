@@ -24,17 +24,17 @@ class MultiplyRowByN implements Expression {
 
   @override
   Expression simplify() {
-    if (n is Matrix || n is Vector) {
-      throw UndefinedOperationException();
-    }
-
-    if (n is! Scalar) {
-      return MultiplyRowByN(
-        matrix: matrix,
-        n: n.simplify(),
-        row: row,
-      );
-    }
+    // if (n is Matrix || n is Vector) {
+    //   throw UndefinedOperationException();
+    // }
+    //
+    // if (n is! Scalar) {
+    //   return MultiplyRowByN(
+    //     matrix: matrix,
+    //     n: n.simplify(),
+    //     row: row,
+    //   );
+    // }
 
     if (matrix is Vector || matrix is Scalar) {
       throw UndefinedOperationException();

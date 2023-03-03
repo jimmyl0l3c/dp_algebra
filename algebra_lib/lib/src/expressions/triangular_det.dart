@@ -4,33 +4,33 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:fraction/fraction.dart';
 
 class TriangularDet implements Expression {
-  final Expression matrix;
+  final Expression det;
 
-  TriangularDet({required this.matrix}) {
-    if (matrix is Vector || matrix is Scalar) {
+  TriangularDet({required this.det}) {
+    if (det is Vector || det is Scalar) {
       throw UndefinedOperationException();
     }
   }
 
   @override
   Expression simplify() {
-    if (matrix is Vector || matrix is Scalar) {
+    if (det is Vector || det is Scalar) {
       throw UndefinedOperationException();
     }
 
-    if (matrix is! Matrix) {
-      return TriangularDet(matrix: matrix.simplify());
+    if (det is! Matrix) {
+      return TriangularDet(det: det.simplify());
     }
 
-    Matrix m = matrix.simplify() as Matrix;
+    Matrix m = det.simplify() as Matrix;
 
     if (m.rowsCount() != m.columnCount()) {
       throw DeterminantNotSquareException();
     }
 
     // If the matrix contains non-computed expressions, return simplified
-    if (m != matrix) {
-      return TriangularDet(matrix: m);
+    if (m != det) {
+      return TriangularDet(det: m);
     }
 
     int rows = m.rowsCount();
@@ -59,7 +59,7 @@ class TriangularDet implements Expression {
       // Exchange rows if necessary
       if (nonZero != i) {
         return TriangularDet(
-          matrix: ExchangeRows(
+          det: ExchangeRows(
             matrix: MultiplyRowByN(matrix: m, n: nOne, row: i),
             row1: i,
             row2: nonZero,
@@ -73,7 +73,7 @@ class TriangularDet implements Expression {
         if (m[row][i] == zero) continue;
 
         return TriangularDet(
-          matrix: AddRowToRowNTimes(
+          det: AddRowToRowNTimes(
             matrix: m,
             origin: i,
             target: row,
@@ -90,5 +90,5 @@ class TriangularDet implements Expression {
   }
 
   @override
-  String toTeX() => 'triang|${matrix.toTeX()}|';
+  String toTeX() => 'triang|${det.toTeX()}|';
 }

@@ -22,12 +22,21 @@ class Multiply implements Expression {
       return Scalar(value: (left as Scalar).value * (right as Scalar).value);
     }
 
-    // TODO: also multiply from right
     if (left is Scalar && right is Vector) {
       List<Expression> multipliedVector = [];
 
       for (var item in (right as Vector).items) {
         multipliedVector.add(Multiply(left: left, right: item));
+      }
+
+      return Vector(items: multipliedVector);
+    }
+
+    if (left is Vector && right is Scalar) {
+      List<Expression> multipliedVector = [];
+
+      for (var item in (left as Vector).items) {
+        multipliedVector.add(Multiply(left: item, right: right));
       }
 
       return Vector(items: multipliedVector);
@@ -41,6 +50,22 @@ class Multiply implements Expression {
 
         for (var col in row) {
           multipliedRow.add(Multiply(left: left, right: col));
+        }
+
+        multipliedMatrix.add(multipliedRow);
+      }
+
+      return Matrix(rows: multipliedMatrix);
+    }
+
+    if (left is Matrix && right is Scalar) {
+      List<List<Expression>> multipliedMatrix = [];
+
+      for (var row in (left as Matrix).rows) {
+        List<Expression> multipliedRow = [];
+
+        for (var col in row) {
+          multipliedRow.add(Multiply(left: col, right: right));
         }
 
         multipliedMatrix.add(multipliedRow);
