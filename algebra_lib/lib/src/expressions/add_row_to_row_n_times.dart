@@ -34,18 +34,18 @@ class AddRowToRowNTimes implements Expression {
 
   @override
   Expression simplify() {
-    if (n is Matrix || n is Vector) {
-      throw UndefinedOperationException();
-    }
-
-    if (n is! Scalar) {
-      return AddRowToRowNTimes(
-        matrix: matrix,
-        origin: origin,
-        target: target,
-        n: n.simplify(),
-      );
-    }
+    // if (n is Matrix || n is Vector) {
+    //   throw UndefinedOperationException();
+    // }
+    //
+    // if (n is! Scalar) {
+    //   return AddRowToRowNTimes(
+    //     matrix: matrix,
+    //     origin: origin,
+    //     target: target,
+    //     n: n.simplify(),
+    //   );
+    // }
 
     if (matrix is Vector || matrix is Scalar) {
       throw UndefinedOperationException();
@@ -92,6 +92,6 @@ class AddRowToRowNTimes implements Expression {
   @override
   String toTeX() {
     // TODO: implement toTeX
-    throw UnimplementedError();
+    return '(Add $origin to $target, ${n.toTeX()} times, ${matrix.toTeX()})';
   }
 }

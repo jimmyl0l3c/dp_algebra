@@ -53,5 +53,5 @@ class ExchangeRows implements Expression {
   }
 
   @override
-  String toTeX() => matrix.toTeX();
+  String toTeX() => '(Exchange $row1 with $row2 ${matrix.toTeX()})';
 }

@@ -9,6 +9,19 @@ class Scalar implements Expression {
   @override
   Expression simplify() => this;
 
+  // TODO: add toTeX() extension to Fraction
   @override
   String toTeX() => value.reduce().toString();
+
+  @override
+  bool operator ==(Object other) {
+    if (other is Scalar) {
+      return value == other.value;
+    }
+
+    return false;
+  }
+
+  @override
+  int get hashCode => value.hashCode;
 }

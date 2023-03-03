@@ -69,7 +69,7 @@ class MultiplyRowByN implements Expression {
 
   @override
   String toTeX() {
+    return '(Multiply $row, ${n.toTeX()} times, ${matrix.toTeX()})';
     // TODO: implement toTeX
-    throw UnimplementedError();
   }
 }

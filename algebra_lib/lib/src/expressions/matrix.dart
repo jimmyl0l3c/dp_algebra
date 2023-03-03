@@ -1,5 +1,6 @@
 import 'package:algebra_lib/algebra_lib.dart';
 
+// TODO: override equality
 class Matrix implements Expression {
   final List<List<Expression>> rows;
 
@@ -53,4 +54,23 @@ class Matrix implements Expression {
     buffer.write(r' \end{pmatrix}');
     return buffer.toString();
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is Matrix) {
+      for (var r = 0; r < rowsCount(); r++) {
+        for (var c = 0; c < columnCount(); c++) {
+          if (this[r][c] != other[r][c]) return false;
+        }
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => rows.hashCode;
 }

@@ -1,6 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:algebra_lib/src/expressions/add_row_to_row_n_times.dart';
-import 'package:algebra_lib/src/expressions/multiply_row_by_n.dart';
 import 'package:fraction/fraction.dart';
 
 void main() {
@@ -117,4 +116,27 @@ void main() {
   );
   print(multiplyRow.simplify().toTeX());
   print(multiplyRow.simplify().simplify().toTeX());
+
+  var divide = Divide(
+    numerator: Multiply(left: Scalar(value: Fraction(-1)), right: s1),
+    denominator: s2,
+  );
+  print(divide.toTeX());
+  print(divide.simplify().toTeX());
+  print(divide.simplify().simplify().toTeX());
+
+  print("\n");
+  var triangular = Triangular(matrix: m3);
+  print(triangular.toTeX());
+  for (var i = 0; i < 80; i++) {
+    print(simplifyNTimes(triangular, i).toTeX());
+  }
+}
+
+Expression simplifyNTimes(Expression expression, int n) {
+  Expression exp = expression;
+  for (var i = 0; i < n; i++) {
+    exp = exp.simplify();
+  }
+  return exp;
 }
