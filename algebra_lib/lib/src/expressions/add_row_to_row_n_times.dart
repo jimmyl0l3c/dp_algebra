@@ -1,7 +1,7 @@
 import 'package:algebra_lib/algebra_lib.dart';
 
 class AddRowToRowNTimes implements Expression {
-  final Matrix matrix;
+  final Expression matrix;
   final int origin;
   final int target;
   final Expression n;
@@ -12,12 +12,19 @@ class AddRowToRowNTimes implements Expression {
     required this.target,
     required this.n,
   }) {
-    if (origin < 0 || origin >= matrix.rowsCount()) {
-      throw IndexError.withLength(origin, matrix.rowsCount());
+    if (matrix is Vector || matrix is Scalar) {
+      throw UndefinedOperationException();
     }
 
-    if (target < 0 || target >= matrix.rowsCount()) {
-      throw IndexError.withLength(target, matrix.rowsCount());
+    if (matrix is Matrix) {
+      Matrix m = matrix as Matrix;
+      if (origin < 0 || origin >= m.rowsCount()) {
+        throw IndexError.withLength(origin, m.rowsCount());
+      }
+
+      if (target < 0 || target >= m.rowsCount()) {
+        throw IndexError.withLength(target, m.rowsCount());
+      }
     }
 
     if (n is Matrix || n is Vector) {
@@ -40,16 +47,39 @@ class AddRowToRowNTimes implements Expression {
       );
     }
 
+    if (matrix is Vector || matrix is Scalar) {
+      throw UndefinedOperationException();
+    }
+
+    if (matrix is! Matrix) {
+      return AddRowToRowNTimes(
+        matrix: matrix.simplify(),
+        origin: origin,
+        target: target,
+        n: n,
+      );
+    }
+
+    Matrix m = matrix as Matrix;
+
+    if (origin < 0 || origin >= m.rowsCount()) {
+      throw IndexError.withLength(origin, m.rowsCount());
+    }
+
+    if (target < 0 || target >= m.rowsCount()) {
+      throw IndexError.withLength(target, m.rowsCount());
+    }
+
     var simplifiedMatrix =
-        matrix.rows.map((row) => List<Expression>.from(row)).toList();
+        m.rows.map((row) => List<Expression>.from(row)).toList();
 
     List<Expression> simplifiedRow = [];
-    for (var i = 0; i < matrix.columnCount(); i++) {
+    for (var i = 0; i < m.columnCount(); i++) {
       simplifiedRow.add(Addition(
-        left: matrix[target][i],
+        left: m[target][i],
         right: Multiply(
           left: n,
-          right: matrix[origin][i],
+          right: m[origin][i],
         ),
       ));
     }
