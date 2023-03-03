@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:algebra_lib/src/expressions/add_row_to_row_n_times.dart';
 import 'package:fraction/fraction.dart';
 
 class Triangular implements Expression {
