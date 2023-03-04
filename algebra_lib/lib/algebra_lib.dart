@@ -16,6 +16,7 @@ export 'src/expressions/matrix_specific/determinant.dart';
 export 'src/expressions/matrix_specific/exchange_rows.dart';
 export 'src/expressions/matrix_specific/minor.dart';
 export 'src/expressions/matrix_specific/multiply_row_by_n.dart';
+export 'src/expressions/matrix_specific/reduce.dart';
 export 'src/expressions/matrix_specific/transpose.dart';
 export 'src/expressions/matrix_specific/triangular.dart';
 export 'src/expressions/matrix_specific/triangular_det.dart';

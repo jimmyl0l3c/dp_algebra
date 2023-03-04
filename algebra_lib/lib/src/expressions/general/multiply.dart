@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:fraction/fraction.dart';
 
 class Multiply implements Expression {
   final Expression left;
@@ -8,6 +9,15 @@ class Multiply implements Expression {
 
   @override
   Expression simplify() {
+    // If left or right is zero, return zero
+    Scalar zero = Scalar(value: Fraction(0));
+    if (left is Scalar && left == zero) {
+      return zero;
+    }
+    if (right is Scalar && right == zero) {
+      return zero;
+    }
+
     // If left can be simplified, do it
     if (left is! Vector && left is! Matrix && left is! Scalar) {
       return Multiply(left: left.simplify(), right: right);

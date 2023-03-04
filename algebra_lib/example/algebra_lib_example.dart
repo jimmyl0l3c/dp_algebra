@@ -162,8 +162,11 @@ void main() {
   print(transpose.simplify().toTeX());
 
   print("\n");
-  var inverse = Inverse(exp: m4);
+  // var inverse = Inverse(exp: m4);
   // printNSimplifications(inverse, 114, addNewLine: true);
+
+  // var reduced = Reduce(exp: m4);
+  // printNSimplifications(reduced, 70, addNewLine: true);
 }
 
 void printNSimplifications(Expression expression, int n,
