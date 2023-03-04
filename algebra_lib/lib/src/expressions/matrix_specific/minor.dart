@@ -27,13 +27,12 @@ class Minor implements Expression {
     }
 
     List<List<Expression>> minorRows = [];
-    int n = m.rowsCount() - 1;
 
     //  Skip row and column
-    for (var r = 0; r < n; r++) {
+    for (var r = 0; r < m.rowsCount(); r++) {
       if (r == row) continue;
       List<Expression> minorRow = [];
-      for (var c = 0; c < n; c++) {
+      for (var c = 0; c < m.rowsCount(); c++) {
         if (c == column) continue;
         minorRow.add(m[r][c]);
       }

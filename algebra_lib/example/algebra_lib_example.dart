@@ -165,7 +165,7 @@ void main() {
   // TODO: test inverse (and by that, test minor and alg supplement)
   print("\n");
   var inverse = Inverse(exp: m4);
-  printNSimplifications(inverse, 40, addNewLine: true);
+  printNSimplifications(inverse, 60, addNewLine: true);
 }
 
 void printNSimplifications(Expression expression, int n,
