@@ -37,4 +37,33 @@ class Vector implements Expression {
     buffer.write(r' \end{pmatrix}');
     return buffer.toString();
   }
+
+  @override
+  String toString() {
+    StringBuffer buffer = StringBuffer('(');
+
+    for (var i = 0; i < items.length; i++) {
+      buffer.write(items[i]);
+
+      if (i != (items.length - 1)) buffer.write(', ');
+    }
+
+    buffer.write(')');
+    return buffer.toString();
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is Vector) {
+      for (var i = 0; i < length(); i++) {
+        if (this[i] != other[i]) return false;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => items.hashCode;
 }

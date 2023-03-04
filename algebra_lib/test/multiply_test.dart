@@ -1,47 +1,90 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:fraction/fraction.dart';
 import 'package:test/test.dart';
 
+import 'utils/exp_simplifier.dart';
+import 'utils/scalar_provider.dart';
+
 void main() {
+  // TODO: test error states
   group('Multiply', () {
-    final scalarByScalarParams = [
-      [
-        Scalar(value: Fraction(2)),
-        Scalar(value: Fraction(3)),
-        Scalar(value: Fraction(6)),
-      ],
-      [
-        Scalar(value: Fraction(-4)),
-        Scalar(value: Fraction(5)),
-        Scalar(value: Fraction(-20)),
-      ],
-      [
-        Scalar(value: Fraction(7)),
-        Scalar(value: Fraction(-1)),
-        Scalar(value: Fraction(-7)),
-      ],
-      [
-        Scalar(value: Fraction(-2)),
-        Scalar(value: Fraction(-9)),
-        Scalar(value: Fraction(18)),
-      ],
+    final testVectors = [
+      Vector(items: [
+        ScalarProvider.get(1),
+        ScalarProvider.get(2),
+        ScalarProvider.get(3),
+      ]),
+      Vector(items: [
+        ScalarProvider.get(4),
+        ScalarProvider.get(5),
+        ScalarProvider.get(6),
+        ScalarProvider.get(7),
+      ]),
     ];
 
     setUp(() {});
 
+    final scalarByScalarParams = [
+      [ScalarProvider.get(2), ScalarProvider.get(3), ScalarProvider.get(6)],
+      [ScalarProvider.get(-4), ScalarProvider.get(5), ScalarProvider.get(-20)],
+      [ScalarProvider.get(7), ScalarProvider.get(-1), ScalarProvider.get(-7)],
+      [ScalarProvider.get(-2), ScalarProvider.get(-9), ScalarProvider.get(18)],
+    ];
     for (var params in scalarByScalarParams) {
       test('Scalars: ${params[0]} * (${params[1]})', () {
         Expression multiply = Multiply(left: params[0], right: params[1]);
 
-        while (multiply is! Scalar) {
-          if (multiply is Vector || multiply is Matrix) {
-            // TODO: fail
-          }
-          multiply = multiply.simplify();
-        }
+        var result = ExpSimplifier.simplifyCompletely(multiply);
 
-        expect(multiply, params[2]);
+        expect(result, params[2]);
       }, tags: ['scalar', 'multiply']);
+    }
+
+    final vectorByScalarParams = [
+      [
+        ScalarProvider.get(2),
+        testVectors[0],
+        Vector(items: [
+          ScalarProvider.get(2),
+          ScalarProvider.get(4),
+          ScalarProvider.get(6),
+        ]),
+      ],
+      [
+        ScalarProvider.get(-4),
+        testVectors[0],
+        Vector(items: [
+          ScalarProvider.get(-4),
+          ScalarProvider.get(-8),
+          ScalarProvider.get(-12),
+        ]),
+      ],
+      [
+        testVectors[0],
+        ScalarProvider.get(3),
+        Vector(items: [
+          ScalarProvider.get(3),
+          ScalarProvider.get(6),
+          ScalarProvider.get(9),
+        ]),
+      ],
+      [
+        testVectors[0],
+        ScalarProvider.get(-1),
+        Vector(items: [
+          ScalarProvider.get(-1),
+          ScalarProvider.get(-2),
+          ScalarProvider.get(-3),
+        ]),
+      ],
+    ];
+    for (var params in vectorByScalarParams) {
+      test('Vector by scalar: ${params[0]} * (${params[1]})', () {
+        Expression multiply = Multiply(left: params[0], right: params[1]);
+
+        var result = ExpSimplifier.simplifyCompletely(multiply);
+
+        expect(result, params[2]);
+      }, tags: ['scalar', 'vector', 'multiply']);
     }
   });
 }
