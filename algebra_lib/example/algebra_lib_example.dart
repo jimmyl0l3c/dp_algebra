@@ -1,5 +1,4 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:algebra_lib/src/expressions/matrix_specific/transpose.dart';
 import 'package:fraction/fraction.dart';
 
 void main() {
@@ -162,10 +161,9 @@ void main() {
   print(transpose.toTeX());
   print(transpose.simplify().toTeX());
 
-  // TODO: test inverse (and by that, test minor and alg supplement)
   print("\n");
   var inverse = Inverse(exp: m4);
-  printNSimplifications(inverse, 60, addNewLine: true);
+  // printNSimplifications(inverse, 114, addNewLine: true);
 }
 
 void printNSimplifications(Expression expression, int n,
