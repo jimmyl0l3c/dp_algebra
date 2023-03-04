@@ -12,7 +12,6 @@ tags:
   exchange_rows: {add_tags: [matrix]}
   multiply_row_by_n: {add_tags: [matrix, multiply]}
 
-  transpose: {add_tags: [matrix]}
   triangular: {add_tags: [add_row_to_row_n_times, exchange_rows, divide]}
   triangular_det: {add_tags: [add_row_to_row_n_times, exchange_rows, multiply_row_by_n, divide]}
 
@@ -20,4 +19,5 @@ tags:
   minor: {add_tags: [determinant]}
   alg_supplement: {add_tags: [minor]}
 
+  transpose: {add_tags: [matrix]}
   inverse: {add_tags: [alg_supplement]}

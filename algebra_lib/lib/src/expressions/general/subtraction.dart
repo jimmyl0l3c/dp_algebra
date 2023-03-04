@@ -46,12 +46,12 @@ class Subtraction implements Expression {
       Matrix leftMatrix = left as Matrix;
       Matrix rightMatrix = right as Matrix;
 
-      if (leftMatrix.rowsCount() != rightMatrix.rowsCount() ||
+      if (leftMatrix.rowCount() != rightMatrix.rowCount() ||
           leftMatrix.columnCount() != rightMatrix.columnCount()) {
         throw MatrixSizeMismatchException;
       }
 
-      for (var r = 0; r < leftMatrix.rowsCount(); r++) {
+      for (var r = 0; r < leftMatrix.rowCount(); r++) {
         List<Expression> matrixRow = [];
 
         for (var c = 0; c < leftMatrix.columnCount(); c++) {

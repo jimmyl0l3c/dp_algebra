@@ -13,14 +13,14 @@ class Matrix implements Expression {
     }
   }
 
-  int rowsCount() => rows.length;
+  int rowCount() => rows.length;
   int columnCount() => rows.isNotEmpty ? rows.first.length : 0;
 
   List<Expression> operator [](int i) => rows[i];
 
   @override
   Expression simplify() {
-    for (var r = 0; r < rowsCount(); r++) {
+    for (var r = 0; r < rowCount(); r++) {
       for (var c = 0; c < columnCount(); c++) {
         if (rows[r][c] is! Scalar) {
           List<List<Expression>> simplifiedItems =
@@ -39,7 +39,7 @@ class Matrix implements Expression {
     if (this.rows.isEmpty) return '()';
 
     StringBuffer buffer = StringBuffer(r'\begin{pmatrix} ');
-    int rows = rowsCount();
+    int rows = rowCount();
     int cols = columnCount();
 
     for (var r = 0; r < rows; r++) {
@@ -58,7 +58,7 @@ class Matrix implements Expression {
   @override
   bool operator ==(Object other) {
     if (other is Matrix) {
-      for (var r = 0; r < rowsCount(); r++) {
+      for (var r = 0; r < rowCount(); r++) {
         for (var c = 0; c < columnCount(); c++) {
           if (this[r][c] != other[r][c]) return false;
         }

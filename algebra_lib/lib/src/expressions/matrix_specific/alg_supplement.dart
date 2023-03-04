@@ -33,7 +33,7 @@ class AlgSupplement implements Expression {
     }
 
     Matrix m = matrix as Matrix;
-    if (m.rowsCount() != m.columnCount()) {
+    if (m.rowCount() != m.columnCount()) {
       throw DeterminantNotSquareException();
     }
 

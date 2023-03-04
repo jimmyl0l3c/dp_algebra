@@ -24,7 +24,7 @@ class Transpose implements Expression {
 
     for (var r = 0; r < m.columnCount(); r++) {
       List<Expression> row = [];
-      for (var c = 0; c < m.rowsCount(); c++) {
+      for (var c = 0; c < m.rowCount(); c++) {
         row.add(m[c][r]);
       }
       transposedMatrix.add(row);

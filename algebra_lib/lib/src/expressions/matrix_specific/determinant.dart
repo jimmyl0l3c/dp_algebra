@@ -23,7 +23,7 @@ class Determinant implements Expression {
       }
 
       Expression out = simplifiedTriangular[0][0];
-      for (var i = 1; i < simplifiedTriangular.rowsCount(); i++) {
+      for (var i = 1; i < simplifiedTriangular.rowCount(); i++) {
         out = Multiply(left: out, right: simplifiedTriangular[i][i]);
       }
       return out;
@@ -35,7 +35,7 @@ class Determinant implements Expression {
 
     Matrix determinant = det.simplify() as Matrix;
 
-    if (determinant.rowsCount() != determinant.columnCount()) {
+    if (determinant.rowCount() != determinant.columnCount()) {
       throw DeterminantNotSquareException();
     }
 
@@ -44,8 +44,8 @@ class Determinant implements Expression {
       return Determinant(det: determinant);
     }
 
-    if (determinant.rowsCount() == 1) return determinant[0][0];
-    if (determinant.rowsCount() == 2) {
+    if (determinant.rowCount() == 1) return determinant[0][0];
+    if (determinant.rowCount() == 2) {
       return Subtraction(
         left: Multiply(
           left: determinant[0][0],

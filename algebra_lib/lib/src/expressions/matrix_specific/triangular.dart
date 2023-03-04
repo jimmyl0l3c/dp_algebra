@@ -29,7 +29,7 @@ class Triangular implements Expression {
       return Triangular(matrix: m);
     }
 
-    int rows = m.rowsCount();
+    int rows = m.rowCount();
     int columns = m.columnCount();
     int diagonal = min(rows, columns);
 

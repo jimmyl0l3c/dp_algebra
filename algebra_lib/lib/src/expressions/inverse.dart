@@ -1,23 +1,26 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:fraction/fraction.dart';
 
 class Inverse implements Expression {
   final Expression exp;
 
   Inverse({required this.exp}) {
-    if (exp is Vector || exp is Scalar) {
+    if (exp is Vector) {
       throw UndefinedOperationException();
     }
   }
 
   @override
   Expression simplify() {
-    if (exp is Vector || exp is Scalar) {
+    if (exp is Vector) {
       throw UndefinedOperationException();
     }
 
-    if (exp is! Matrix) {
+    if (exp is! Matrix && exp is! Scalar) {
       return Inverse(exp: exp.simplify());
+    }
+
+    if (exp is Scalar) {
+      return Scalar(value: (exp as Scalar).value.inverse());
     }
 
     // TODO: check if det == 0
@@ -25,9 +28,9 @@ class Inverse implements Expression {
     Matrix matrix = (exp as Matrix);
     List<List<Expression>> inverseMatrix = [];
 
-    for (var r = 0; r < matrix.rowsCount(); r++) {
+    for (var r = 0; r < matrix.rowCount(); r++) {
       List<Expression> inverseRow = [];
-      for (var c = 0; c < matrix.rowsCount(); c++) {
+      for (var c = 0; c < matrix.rowCount(); c++) {
         inverseRow.add(AlgSupplement(matrix: matrix, row: c, column: r));
       }
 
@@ -35,11 +38,7 @@ class Inverse implements Expression {
     }
 
     return Multiply(
-      left: Divide(
-        // TODO: or implement inverse for Scalar?
-        numerator: Scalar(value: Fraction(1)),
-        denominator: Determinant(det: matrix),
-      ),
+      left: Inverse(exp: Determinant(det: matrix)),
       right: Matrix(rows: inverseMatrix),
     );
   }

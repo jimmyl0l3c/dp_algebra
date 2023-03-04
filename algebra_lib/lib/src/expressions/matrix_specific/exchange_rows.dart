@@ -16,12 +16,12 @@ class ExchangeRows implements Expression {
 
     if (matrix is Matrix) {
       Matrix m = matrix as Matrix;
-      if (row1 < 0 || row1 >= m.rowsCount()) {
-        throw IndexError.withLength(row1, m.rowsCount());
+      if (row1 < 0 || row1 >= m.rowCount()) {
+        throw IndexError.withLength(row1, m.rowCount());
       }
 
-      if (row2 < 0 || row2 >= m.rowsCount()) {
-        throw IndexError.withLength(row2, m.rowsCount());
+      if (row2 < 0 || row2 >= m.rowCount()) {
+        throw IndexError.withLength(row2, m.rowCount());
       }
     }
   }

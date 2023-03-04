@@ -79,11 +79,11 @@ class Multiply implements Expression {
       Matrix rightMatrix = right as Matrix;
 
       int leftCols = leftMatrix.columnCount();
-      int rightRows = rightMatrix.rowsCount();
+      int rightRows = rightMatrix.rowCount();
 
       if (leftCols != rightRows) throw MatrixMultiplySizeException();
 
-      int leftRows = leftMatrix.rowsCount();
+      int leftRows = leftMatrix.rowCount();
       int rightCols = rightMatrix.columnCount();
 
       if (leftRows == 1 && rightCols == 1) {

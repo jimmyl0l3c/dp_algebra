@@ -22,17 +22,17 @@ class Minor implements Expression {
     }
 
     Matrix m = matrix as Matrix;
-    if (m.rowsCount() != m.columnCount()) {
+    if (m.rowCount() != m.columnCount()) {
       throw DeterminantNotSquareException();
     }
 
     List<List<Expression>> minorRows = [];
 
     //  Skip row and column
-    for (var r = 0; r < m.rowsCount(); r++) {
+    for (var r = 0; r < m.rowCount(); r++) {
       if (r == row) continue;
       List<Expression> minorRow = [];
-      for (var c = 0; c < m.rowsCount(); c++) {
+      for (var c = 0; c < m.rowCount(); c++) {
         if (c == column) continue;
         minorRow.add(m[r][c]);
       }

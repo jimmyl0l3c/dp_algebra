@@ -24,7 +24,7 @@ class TriangularDet implements Expression {
 
     Matrix m = det.simplify() as Matrix;
 
-    if (m.rowsCount() != m.columnCount()) {
+    if (m.rowCount() != m.columnCount()) {
       throw DeterminantNotSquareException();
     }
 
@@ -33,7 +33,7 @@ class TriangularDet implements Expression {
       return TriangularDet(det: m);
     }
 
-    int rows = m.rowsCount();
+    int rows = m.rowCount();
     int columns = m.columnCount();
     int diagonal = min(rows, columns);
 

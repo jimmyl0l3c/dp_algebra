@@ -12,8 +12,8 @@ class MultiplyRowByN implements Expression {
 
     if (matrix is Matrix) {
       Matrix m = matrix as Matrix;
-      if (row < 0 || row >= m.rowsCount()) {
-        throw IndexError.withLength(row, m.rowsCount());
+      if (row < 0 || row >= m.rowCount()) {
+        throw IndexError.withLength(row, m.rowCount());
       }
     }
 
@@ -50,8 +50,8 @@ class MultiplyRowByN implements Expression {
 
     Matrix m = matrix as Matrix;
 
-    if (row < 0 || row >= m.rowsCount()) {
-      throw IndexError.withLength(row, m.rowsCount());
+    if (row < 0 || row >= m.rowCount()) {
+      throw IndexError.withLength(row, m.rowCount());
     }
 
     var simplifiedMatrix =

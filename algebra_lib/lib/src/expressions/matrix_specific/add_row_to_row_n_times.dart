@@ -18,12 +18,12 @@ class AddRowToRowNTimes implements Expression {
 
     if (matrix is Matrix) {
       Matrix m = matrix as Matrix;
-      if (origin < 0 || origin >= m.rowsCount()) {
-        throw IndexError.withLength(origin, m.rowsCount());
+      if (origin < 0 || origin >= m.rowCount()) {
+        throw IndexError.withLength(origin, m.rowCount());
       }
 
-      if (target < 0 || target >= m.rowsCount()) {
-        throw IndexError.withLength(target, m.rowsCount());
+      if (target < 0 || target >= m.rowCount()) {
+        throw IndexError.withLength(target, m.rowCount());
       }
     }
 
@@ -62,12 +62,12 @@ class AddRowToRowNTimes implements Expression {
 
     Matrix m = matrix as Matrix;
 
-    if (origin < 0 || origin >= m.rowsCount()) {
-      throw IndexError.withLength(origin, m.rowsCount());
+    if (origin < 0 || origin >= m.rowCount()) {
+      throw IndexError.withLength(origin, m.rowCount());
     }
 
-    if (target < 0 || target >= m.rowsCount()) {
-      throw IndexError.withLength(target, m.rowsCount());
+    if (target < 0 || target >= m.rowCount()) {
+      throw IndexError.withLength(target, m.rowCount());
     }
 
     var simplifiedMatrix =
