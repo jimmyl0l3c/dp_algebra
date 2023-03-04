@@ -37,8 +37,8 @@ class TriangularDet implements Expression {
     int columns = m.columnCount();
     int diagonal = min(rows, columns);
 
-    Scalar zero = Scalar(value: Fraction(0));
-    Scalar one = Scalar(value: Fraction(1));
+    Scalar zero = Scalar.zero();
+    Scalar one = Scalar.one();
     Scalar nOne = Scalar(value: Fraction(-1));
 
     for (var i = 0; i < diagonal; i++) {

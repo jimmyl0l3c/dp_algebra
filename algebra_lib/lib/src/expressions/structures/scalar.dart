@@ -6,6 +6,9 @@ class Scalar implements Expression {
 
   Scalar({required this.value});
 
+  Scalar.zero() : value = Fraction(0);
+  Scalar.one() : value = Fraction(1);
+
   @override
   Expression simplify() => this;
 
