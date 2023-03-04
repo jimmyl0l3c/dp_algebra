@@ -43,7 +43,6 @@ class Minor implements Expression {
     return Determinant(det: Matrix(rows: minorRows));
   }
 
-  // TODO: implement toTeX
   @override
-  String toTeX() => 'minor(r: $row, c: $column, ${matrix.toTeX()})';
+  String toTeX() => '\\mathcal{M}_{$row,$column}${matrix.toTeX()}';
 }

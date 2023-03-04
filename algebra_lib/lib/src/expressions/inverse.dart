@@ -45,8 +45,5 @@ class Inverse implements Expression {
   }
 
   @override
-  String toTeX() {
-    // TODO: implement toTeX
-    throw UnimplementedError();
-  }
+  String toTeX() => '${exp.toTeX()}^{-1}';
 }

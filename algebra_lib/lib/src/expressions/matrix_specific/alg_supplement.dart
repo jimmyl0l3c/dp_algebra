@@ -44,7 +44,6 @@ class AlgSupplement implements Expression {
     );
   }
 
-  // TODO: implement toTeX
   @override
-  String toTeX() => 'algSupplement(r: $row, c: $column, ${matrix.toTeX()})';
+  String toTeX() => '\\mathcal{A}_{$row,$column}${matrix.toTeX()}';
 }

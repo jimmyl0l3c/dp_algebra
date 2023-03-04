@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:algebra_lib/src/expressions/matrix_specific/transpose.dart';
 import 'package:fraction/fraction.dart';
 
 void main() {
@@ -156,12 +157,24 @@ void main() {
   var det = Determinant(det: m4);
   printNSimplifications(det, 40);
 
+  print("\n");
+  var transpose = Transpose(matrix: m3);
+  print(transpose.toTeX());
+  print(transpose.simplify().toTeX());
+
   // TODO: test inverse (and by that, test minor and alg supplement)
+  print("\n");
+  var inverse = Inverse(exp: m4);
+  printNSimplifications(inverse, 40, addNewLine: true);
 }
 
-void printNSimplifications(Expression expression, int n) {
+void printNSimplifications(Expression expression, int n,
+    {bool addNewLine = false}) {
   for (var i = 0; i < n; i++) {
     print(simplifyNTimes(expression, i).toTeX());
+    if (addNewLine) {
+      print("");
+    }
   }
 }
 
