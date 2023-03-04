@@ -7,7 +7,8 @@ import 'package:dp_algebra/models/db/learn_literature.dart';
 import 'package:http/http.dart' as http;
 
 class DbService {
-  final String _apiUrl = '127.0.0.1:8000';
+  // final String _apiUrl = '127.0.0.1:8000';
+  final String _apiUrl = 's01.joska.dev';
   late http.Client _httpClient;
 
   List<LChapter> _chapters = [];
@@ -25,7 +26,8 @@ class DbService {
 
     if (!forceRefresh && _allChaptersAvailable) return _chapters;
 
-    Uri chaptersUri = Uri.http(_apiUrl, '/api/learn/1/chapter/');
+    // Uri chaptersUri = Uri.http(_apiUrl, '/api/learn/1/chapter/');
+    Uri chaptersUri = Uri.https(_apiUrl, '/api/learn/1/chapter/');
     try {
       final response = await _httpClient.get(chaptersUri);
 
