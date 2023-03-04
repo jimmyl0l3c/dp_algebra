@@ -155,6 +155,8 @@ void main() {
   print("\n");
   var det = Determinant(det: m4);
   printNSimplifications(det, 40);
+
+  // TODO: test inverse (and by that, test minor and alg supplement)
 }
 
 void printNSimplifications(Expression expression, int n) {

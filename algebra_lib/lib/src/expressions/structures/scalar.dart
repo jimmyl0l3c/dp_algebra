@@ -14,6 +14,9 @@ class Scalar implements Expression {
   String toTeX() => value.reduce().toString();
 
   @override
+  String toString() => value.reduce().toString();
+
+  @override
   bool operator ==(Object other) {
     if (other is Scalar) {
       return value == other.value;
