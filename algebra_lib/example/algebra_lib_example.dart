@@ -165,8 +165,12 @@ void main() {
   // var inverse = Inverse(exp: m4);
   // printNSimplifications(inverse, 114, addNewLine: true);
 
-  // var reduced = Reduce(exp: m4);
+  // var reduced = Reduce(exp: m3);
   // printNSimplifications(reduced, 70, addNewLine: true);
+  // print(simplifyNTimes(reduced, 70).toTeX());
+
+  // var rank = Rank(matrix: m3);
+  // printNSimplifications(rank, 60);
 }
 
 void printNSimplifications(Expression expression, int n,
