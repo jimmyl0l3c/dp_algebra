@@ -1,16 +1,18 @@
+import 'package:algebra_lib/algebra_lib.dart' as alg;
 import 'package:dp_algebra/logic/matrix/matrix.dart';
 import 'package:dp_algebra/logic/matrix/matrix_exceptions.dart';
 import 'package:dp_algebra/logic/matrix/matrix_operations.dart';
-import 'package:dp_algebra/logic/matrix/matrix_solution.dart';
 import 'package:dp_algebra/main.dart';
+import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_matrix_model.dart';
-import 'package:dp_algebra/models/calc_state/calc_matrix_solutions_model.dart';
+import 'package:dp_algebra/models/calc_state_n/calc_matrix_solutions_model.dart';
+import 'package:dp_algebra/utils/temp_util.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:dp_algebra/widgets/forms/styled_dropdown.dart';
 import 'package:dp_algebra/widgets/input/fraction_input.dart';
 import 'package:dp_algebra/widgets/input/matrix_input.dart';
-import 'package:dp_algebra/widgets/layout/solution_view.dart';
+import 'package:dp_algebra/widgets/layout/solution_view_n.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
@@ -21,8 +23,8 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
   @override
   Widget build(BuildContext context) {
     bool canAddMatrix = watchX((CalcMatrixModel x) => x.canAddMatrix);
-    List<MatrixSolution> solutions =
-        watchX((CalcMatrixSolutionsModel x) => x.solutions);
+    List<CalcResult> newSolutions =
+        watchX((CalcMatrixSolutionsModel2 x) => x.solutions);
 
     return SingleChildScrollView(
       child: Padding(
@@ -75,8 +77,8 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
               style: Theme.of(context).textTheme.headline4!,
             ),
             const SizedBox(height: 12),
-            for (var solution in solutions.reversed)
-              SolutionView(solution: solution),
+            for (var solution in newSolutions.reversed)
+              SolutionView2(solution: solution),
           ],
         ),
       ),
@@ -94,7 +96,7 @@ class MatrixMultiplyByScalar extends StatefulWidget
 
 class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
     with GetItStateMixin {
-  Fraction? _scalarC = Fraction(1);
+  Fraction _scalarC = Fraction(1);
 
   @override
   Widget build(BuildContext context) {
@@ -145,14 +147,15 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
                     child: Text(matrix.key),
                     onPressed: () {
                       Matrix? m = matrix.value;
-                      Matrix? solution = m * _scalarC;
-                      getIt<CalcMatrixSolutionsModel>()
-                          .addSolution(MatrixSolution(
-                        leftOp: _scalarC,
-                        rightOp: Matrix.from(m),
-                        operation: MatrixOperation.multiply,
-                        solution: solution,
-                      ));
+
+                      alg.Expression exp = alg.Multiply(
+                        left: alg.Scalar(value: _scalarC),
+                        right: TempUtil.matrixExpFromMatrix(m),
+                      );
+
+                      getIt<CalcMatrixSolutionsModel2>().addSolution(
+                        CalcResult.calculate(exp),
+                      );
                     }),
             ],
           ),
@@ -234,7 +237,8 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                     child: Text(matrix.key),
                     onPressed: () {
                       Matrix? m = matrix.value;
-                      dynamic solution;
+                      alg.Expression expM = TempUtil.matrixExpFromMatrix(m);
+                      alg.Expression? exp;
                       try {
                         switch (operation) {
                           case MatrixOperation.add:
@@ -242,29 +246,30 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                           case MatrixOperation.multiply:
                             return;
                           case MatrixOperation.det:
-                            solution = m.determinant();
+                            exp = alg.Determinant(det: expM);
                             break;
                           case MatrixOperation.inverse:
-                            solution = m.inverse();
+                            exp = alg.Inverse(exp: expM);
                             break;
                           case MatrixOperation.transpose:
-                            solution = m.transposed();
+                            exp = alg.Transpose(matrix: expM);
                             break;
                           case MatrixOperation.rank:
-                            solution = m.rank();
+                            exp = alg.Rank(matrix: expM);
                             break;
                         }
                       } on MatrixException catch (e) {
                         AlgebraUtils.showMessage(context, e.errMessage());
                         return;
+                      } on Exception catch (e) {
+                        // TODO: replace with better solution after migration
+                        AlgebraUtils.showMessage(context, e.toString());
+                        return;
                       }
 
-                      getIt<CalcMatrixSolutionsModel>()
-                          .addSolution(MatrixSolution(
-                        leftOp: Matrix.from(m),
-                        operation: operation,
-                        solution: solution,
-                      ));
+                      getIt<CalcMatrixSolutionsModel2>().addSolution(
+                        CalcResult.calculate(exp),
+                      );
                     },
                   ),
               ],
@@ -397,21 +402,24 @@ class _MatrixBinOperationSelectionState
                           context, 'Zvolené matice neexistují');
                       return;
                     }
-                    Matrix? solution;
-                    MatrixOperation? operation;
+
+                    alg.Expression expLeftM = TempUtil.matrixExpFromMatrix(a);
+                    alg.Expression expRightM = TempUtil.matrixExpFromMatrix(b);
+                    alg.Expression? exp;
+
                     try {
                       switch (_binaryOperation) {
                         case '+':
-                          operation = MatrixOperation.add;
-                          solution = a + b;
+                          exp = alg.Addition(left: expLeftM, right: expRightM);
                           break;
                         case '-':
-                          operation = MatrixOperation.diff;
-                          solution = a - b;
+                          exp = alg.Subtraction(
+                            left: expLeftM,
+                            right: expRightM,
+                          );
                           break;
                         case '*':
-                          operation = MatrixOperation.multiply;
-                          solution = a * b;
+                          exp = alg.Multiply(left: expLeftM, right: expRightM);
                           break;
                         default:
                           return;
@@ -419,15 +427,15 @@ class _MatrixBinOperationSelectionState
                     } on MatrixException catch (e) {
                       AlgebraUtils.showMessage(context, e.errMessage());
                       return;
+                    } on Exception catch (e) {
+                      // TODO: replace with better solution after migration
+                      AlgebraUtils.showMessage(context, e.toString());
+                      return;
                     }
-                    Matrix leftOp = Matrix.from(a);
-                    getIt<CalcMatrixSolutionsModel>()
-                        .addSolution(MatrixSolution(
-                      leftOp: leftOp,
-                      rightOp: a == b ? leftOp : Matrix.from(b),
-                      operation: operation,
-                      solution: solution,
-                    ));
+
+                    getIt<CalcMatrixSolutionsModel2>().addSolution(
+                      CalcResult.calculate(exp),
+                    );
                   },
             child: const Text('='),
           ),
