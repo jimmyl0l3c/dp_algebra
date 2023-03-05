@@ -62,5 +62,5 @@ class Determinant implements Expression {
   }
 
   @override
-  String toTeX() => 'det\\begin{vmatrix} ${det.toTeX()} \\end{vmatrix}';
+  String toTeX() => '\\text{det}\\begin{vmatrix} ${det.toTeX()} \\end{vmatrix}';
 }

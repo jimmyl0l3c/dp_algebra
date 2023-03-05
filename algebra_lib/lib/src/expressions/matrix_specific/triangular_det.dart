@@ -90,5 +90,5 @@ class TriangularDet implements Expression {
   }
 
   @override
-  String toTeX() => 'triang|${det.toTeX()}|';
+  String toTeX() => 'triang\\begin{vmatrix}${det.toTeX()}\\end{vmatrix}';
 }

@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:algebra_lib/src/utils/tex_utils.dart';
 
 class MultiplyRowByN implements Expression {
   final Expression matrix;
@@ -69,7 +70,9 @@ class MultiplyRowByN implements Expression {
 
   @override
   String toTeX() {
-    return '(Multiply $row, ${n.toTeX()} times, ${matrix.toTeX()})';
-    // TODO: implement toTeX
+    return TexUtils.rowTransformToTeX(
+      matrix,
+      'r_{$row} \\cdot ${n.toTeX()}',
+    );
   }
 }

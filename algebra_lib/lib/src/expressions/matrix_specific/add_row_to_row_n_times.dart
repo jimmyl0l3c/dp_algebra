@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:algebra_lib/src/utils/tex_utils.dart';
 
 class AddRowToRowNTimes implements Expression {
   final Expression matrix;
@@ -91,7 +92,9 @@ class AddRowToRowNTimes implements Expression {
 
   @override
   String toTeX() {
-    // TODO: implement toTeX
-    return '(Add $origin to $target, ${n.toTeX()} times, ${matrix.toTeX()})';
+    return TexUtils.rowTransformToTeX(
+      matrix,
+      'r_{${target + 1}}+${n.toTeX()} \\cdot r_{${origin + 1}}',
+    );
   }
 }

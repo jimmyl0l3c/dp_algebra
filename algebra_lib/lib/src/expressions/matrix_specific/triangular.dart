@@ -86,5 +86,5 @@ class Triangular implements Expression {
   }
 
   @override
-  String toTeX() => 'triang(${matrix.toTeX()})';
+  String toTeX() => 'triang${matrix.toTeX()}';
 }

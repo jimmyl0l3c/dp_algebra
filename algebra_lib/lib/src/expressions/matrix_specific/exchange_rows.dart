@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:algebra_lib/src/utils/tex_utils.dart';
 
 class ExchangeRows implements Expression {
   final Expression matrix;
@@ -53,5 +54,10 @@ class ExchangeRows implements Expression {
   }
 
   @override
-  String toTeX() => '(Exchange $row1 with $row2 ${matrix.toTeX()})';
+  String toTeX() {
+    return TexUtils.rowTransformToTeX(
+      matrix,
+      'r_{$row1} \\leftrightarrow r_{$row2}',
+    );
+  }
 }
