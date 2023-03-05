@@ -97,16 +97,16 @@ class Multiply implements Expression {
 
       if (leftRows == 1 && rightCols == 1) {
         Expression item = Multiply(
-          left: leftMatrix.rows.first.first,
-          right: rightMatrix.rows.first.first,
+          left: leftMatrix[0][0],
+          right: rightMatrix[0][0],
         );
 
         for (var i = 1; i < leftCols; i++) {
           item = Addition(
             left: item,
             right: Multiply(
-              left: leftMatrix.rows.first[i],
-              right: rightMatrix.rows[i].first,
+              left: leftMatrix[0][i],
+              right: rightMatrix[i][0],
             ),
           );
         }
@@ -121,7 +121,7 @@ class Multiply implements Expression {
             outputRow.add(
               Multiply(
                 left: Matrix(
-                  rows: [leftMatrix.rows[ra]],
+                  rows: [leftMatrix[ra]],
                 ),
                 right: Matrix(
                   rows: rightMatrix.rows.map((row) => [row[cb]]).toList(),
