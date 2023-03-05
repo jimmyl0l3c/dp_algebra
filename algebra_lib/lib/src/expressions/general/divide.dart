@@ -24,6 +24,10 @@ class Divide implements Expression {
       throw UndefinedOperationException();
     }
 
+    if (denominator is Scalar && denominator == Scalar.one()) {
+      return numerator;
+    }
+
     if (numerator is! Scalar) {
       return Divide(numerator: numerator.simplify(), denominator: denominator);
     }
