@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:algebra_lib/src/expressions/equation_specific/solve_with_inverse.dart';
 import 'package:fraction/fraction.dart';
 
 void main() {
@@ -171,6 +172,18 @@ void main() {
 
   // var rank = Rank(matrix: m3);
   // printNSimplifications(rank, 60);
+
+  // var eqM = Matrix(rows: [
+  //   [Scalar(value: 1.toFraction()), Scalar(value: 2.toFraction())],
+  //   [Scalar(value: 4.toFraction()), Scalar(value: 5.toFraction())]
+  // ]);
+  // var vY = Vector(items: [
+  //   Scalar(value: 3.toFraction()),
+  //   Scalar(value: 6.toFraction()),
+  // ]);
+  // var eqSolution = SolveWithInverse(matrix: eqM, vectorY: vY);
+  // print(eqSolution.toTeX());
+  // printNSimplifications(eqSolution, 50);
 }
 
 void printNSimplifications(Expression expression, int n,
