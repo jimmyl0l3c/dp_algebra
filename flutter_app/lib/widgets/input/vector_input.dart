@@ -1,4 +1,4 @@
-import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/logic/vector/vector_model.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:dp_algebra/widgets/input/fraction_input.dart';
 import 'package:dp_algebra/widgets/input/input_utils.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 
 class VectorInput extends StatefulWidget {
-  final Vector vector;
+  final VectorModel vector;
   final String? name;
   final VoidCallback? deleteVector;
 

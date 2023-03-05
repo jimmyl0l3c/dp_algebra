@@ -1,4 +1,6 @@
-import 'package:dp_algebra/logic/matrix/matrix.dart';
+import 'package:algebra_lib/algebra_lib.dart';
+import 'package:dp_algebra/logic/matrix/matrix_model.dart';
+import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
 import 'package:dp_algebra/utils/utils.dart';
@@ -6,7 +8,6 @@ import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:dp_algebra/widgets/input/matrix_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'package:fraction/fraction.dart';
 
 class InverseMatrixExc extends StatefulWidget {
   const InverseMatrixExc({Key? key}) : super(key: key);
@@ -16,8 +17,10 @@ class InverseMatrixExc extends StatefulWidget {
 }
 
 class _InverseMatrixExcState extends State<InverseMatrixExc> {
-  Matrix matrix = Matrix(columns: 1, rows: 1);
-  Matrix solution = Matrix(columns: 1, rows: 1);
+  MatrixModel matrix = MatrixModel(columns: 1, rows: 1);
+  MatrixModel solution = MatrixModel(columns: 1, rows: 1);
+
+  CalcResult? correctSolution;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
             child: const Text('Vygenerovat'),
             onPressed: () {
               setState(() {
-                matrix = generateSquareMatrix(ExerciseUtils.generateSize());
+                generateSquareMatrix(ExerciseUtils.generateSize());
               });
             })
       ],
@@ -57,20 +60,18 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
 
   bool inverseExists() {
     if (!matrix.isSquare()) return false;
-    if (matrix.determinant() == Fraction(0)) return false;
+    if (correctSolution == null) return false;
     return true;
   }
 
-  bool isAnswerCorrect() {
-    Matrix? correctSolution;
+  bool isAnswerCorrect() => solution.toMatrix() == correctSolution?.result;
+
+  void generateSquareMatrix(int size) {
+    matrix = ExerciseUtils.generateMatrix(rows: size, columns: size);
     try {
-      correctSolution = matrix.inverse();
-      return correctSolution == solution;
+      correctSolution = CalcResult.calculate(Inverse(exp: matrix.toMatrix()));
     } on Exception {
-      return false;
+      correctSolution = null;
     }
   }
-
-  Matrix generateSquareMatrix(int size) =>
-      ExerciseUtils.generateMatrix(rows: size, columns: size);
 }

@@ -1,5 +1,5 @@
-import 'package:dp_algebra/logic/matrix/matrix.dart';
-import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/logic/matrix/matrix_model.dart';
+import 'package:dp_algebra/logic/vector/vector_model.dart';
 
 enum VectorOperation {
   linearIndependence(
@@ -8,15 +8,15 @@ enum VectorOperation {
   ),
   findBasis(
     description: 'Báze',
-    solutionType: List<Vector>,
+    solutionType: List<VectorModel>,
   ),
   transformMatrix(
     description: 'Transformační matice',
-    solutionType: Matrix,
+    solutionType: MatrixModel,
   ),
   transformCoordinates(
     description: 'Transformace souřadnic',
-    solutionType: Vector,
+    solutionType: VectorModel,
   );
 
   final String description;

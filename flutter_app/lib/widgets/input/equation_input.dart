@@ -1,4 +1,4 @@
-import 'package:dp_algebra/logic/matrix/matrix.dart';
+import 'package:dp_algebra/logic/matrix/matrix_model.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:dp_algebra/widgets/input/fraction_input.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:fraction/fraction.dart';
 
 class EquationInput extends StatefulWidget {
-  final Matrix matrix;
+  final MatrixModel matrix;
 
   const EquationInput({
     Key? key,

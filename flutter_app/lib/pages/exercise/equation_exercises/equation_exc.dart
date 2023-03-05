@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:dp_algebra/logic/equation_matrix/equation_matrix.dart';
-import 'package:dp_algebra/logic/equation_matrix/equation_solution.dart';
 import 'package:dp_algebra/models/exc_state/variable_value.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
@@ -68,8 +67,9 @@ class _EquationExcState extends State<EquationExc> {
         ButtonRowItem(
           child: const Text('Nemá řešení'),
           onPressed: () {
-            AlgebraUtils.showMessage(
-                context, !equationMatrix.isSolvable() ? 'Správně' : 'Špatně');
+            // TODO: implement
+            // AlgebraUtils.showMessage(
+            //     context, !equationMatrix.isSolvable() ? 'Správně' : 'Špatně');
           },
         ),
       ],
@@ -77,19 +77,21 @@ class _EquationExcState extends State<EquationExc> {
   }
 
   bool isAnswerCorrect() {
-    if (!equationMatrix.isSolvable()) return false;
-    GeneralSolution correctSolution = equationMatrix.solveByGauss();
+    // TODO: implement
+    // if (!equationMatrix.isSolvable()) return false;
+    // GeneralSolution correctSolution = equationMatrix.solveByGauss();
 
     try {
-      GeneralSolution filledSolution = GeneralSolution.fromVariableMap(
-        solution,
-        varCount: equationMatrix.getColumns() - 1,
-      );
-      return correctSolution == filledSolution;
+      // GeneralSolution filledSolution = GeneralSolution.fromVariableMap(
+      //   solution,
+      //   varCount: equationMatrix.getColumns() - 1,
+      // );
+      // return correctSolution == filledSolution;
     } on Error {
       // TODO: at least log the error, ideally show to user
       return false;
     }
+    return false;
   }
 
   EquationMatrix generateSquareMatrix(int size) =>

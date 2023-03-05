@@ -1,17 +1,17 @@
 import 'dart:math';
 
-import 'package:dp_algebra/logic/matrix/matrix.dart';
-import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/logic/matrix/matrix_model.dart';
+import 'package:dp_algebra/logic/vector/vector_model.dart';
 import 'package:fraction/fraction.dart';
 
 class ExerciseUtils {
   static Random random = Random();
 
-  static Matrix generateMatrix({int? rows, int? columns}) {
+  static MatrixModel generateMatrix({int? rows, int? columns}) {
     rows ??= generateSize();
     columns ??= generateSize();
 
-    Matrix m = Matrix(rows: rows, columns: columns);
+    MatrixModel m = MatrixModel(rows: rows, columns: columns);
 
     for (var i = 0; i < rows; i++) {
       for (var j = 0; j < columns; j++) {
@@ -22,10 +22,10 @@ class ExerciseUtils {
     return m;
   }
 
-  static Vector generateVector({int? length}) {
+  static VectorModel generateVector({int? length}) {
     length ??= generateSize();
 
-    Vector v = Vector(length: length);
+    VectorModel v = VectorModel(length: length);
 
     for (var i = 0; i < length; i++) {
       v[i] = generateFraction();

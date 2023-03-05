@@ -1,18 +1,18 @@
-import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/logic/vector/vector_model.dart';
 import 'package:flutter/widgets.dart';
 
 enum VectorSelectionType { base, transformA, transformB, independence }
 
 class CalcVectorModel extends ChangeNotifier {
-  final vectors = ValueNotifier<List<Vector>>([Vector(length: 1)]);
+  final vectors = ValueNotifier<List<VectorModel>>([VectorModel(length: 1)]);
 
   final vectorSelectionIndependence = ValueNotifier<Set<int>>({});
   final vectorSelectionBase = ValueNotifier<Set<int>>({});
   final vectorSelectionTransformA = ValueNotifier<Set<int>>({});
   final vectorSelectionTransformB = ValueNotifier<Set<int>>({});
 
-  void addVector({Vector? vector}) {
-    vectors.value.add(vector ?? Vector(length: 1));
+  void addVector({VectorModel? vector}) {
+    vectors.value.add(vector ?? VectorModel(length: 1));
     vectors.notifyListeners();
   }
 

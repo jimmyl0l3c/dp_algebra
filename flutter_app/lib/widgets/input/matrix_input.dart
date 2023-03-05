@@ -1,11 +1,11 @@
-import 'package:dp_algebra/logic/matrix/matrix.dart';
+import 'package:dp_algebra/logic/matrix/matrix_model.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:dp_algebra/widgets/input/fraction_input.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 
 class MatrixInput extends StatefulWidget {
-  final Matrix matrix;
+  final MatrixModel matrix;
   final String? name;
   final VoidCallback? deleteMatrix;
 

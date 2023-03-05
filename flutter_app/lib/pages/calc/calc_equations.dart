@@ -1,14 +1,12 @@
 import 'package:dp_algebra/logic/equation_matrix/equation_exceptions.dart';
 import 'package:dp_algebra/logic/equation_matrix/equation_matrix.dart';
-import 'package:dp_algebra/logic/equation_matrix/equation_solution.dart';
 import 'package:dp_algebra/logic/matrix/matrix_exceptions.dart';
-import 'package:dp_algebra/logic/vector/vector.dart';
-import 'package:dp_algebra/main.dart';
+import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_equation_model.dart';
-import 'package:dp_algebra/models/calc_state/calc_equation_solutions_model.dart';
+import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/input/equation_input.dart';
-import 'package:dp_algebra/widgets/layout/solution_view.dart';
+import 'package:dp_algebra/widgets/layout/solution_view_n.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
@@ -19,8 +17,8 @@ class CalcEquations extends StatelessWidget with GetItMixin {
   Widget build(BuildContext context) {
     EquationMatrix equationMatrix =
         watchX((CalcEquationModel x) => x.equationMatrix);
-    List<EquationSolution> solutions =
-        watchX((CalcEquationSolutionsModel x) => x.solutions);
+    List<CalcResult> solutions =
+        watchX((CalcSolutionsModel x) => x.equationSolutions);
 
     return SingleChildScrollView(
       child: Padding(
@@ -45,12 +43,13 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                 onPressed: () {
                   EquationMatrix m = equationMatrix;
                   try {
-                    GeneralSolution solution = m.solveByGauss();
-                    getIt<CalcEquationSolutionsModel>()
-                        .addSolution(EquationSolution(
-                      equationMatrix: EquationMatrix.from(m),
-                      generalSolution: solution,
-                    ));
+                    // TODO: implement
+                    // GeneralSolution solution = m.solveByGauss();
+                    // getIt<CalcEquationSolutionsModel>()
+                    //     .addSolution(EquationSolution(
+                    //   equationMatrix: EquationMatrix.from(m),
+                    //   generalSolution: solution,
+                    // ));
                   } on EquationException catch (e) {
                     AlgebraUtils.showMessage(context, e.errMessage());
                   }
@@ -64,12 +63,13 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                 onPressed: () {
                   EquationMatrix m = equationMatrix;
                   try {
-                    Vector solution = m.solveByInverse();
-                    getIt<CalcEquationSolutionsModel>()
-                        .addSolution(EquationSolution(
-                      equationMatrix: EquationMatrix.from(m),
-                      solution: solution,
-                    ));
+                    // TODO: implement
+                    // VectorModel solution = m.solveByInverse();
+                    // getIt<CalcEquationSolutionsModel>()
+                    //     .addSolution(EquationSolution(
+                    //   equationMatrix: EquationMatrix.from(m),
+                    //   solution: solution,
+                    // ));
                   } on MatrixException catch (e) {
                     AlgebraUtils.showMessage(context, e.errMessage());
                   } on EquationException catch (e) {
@@ -85,12 +85,13 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                 onPressed: () {
                   EquationMatrix m = equationMatrix;
                   try {
-                    Vector solution = m.solveByCramer();
-                    getIt<CalcEquationSolutionsModel>()
-                        .addSolution(EquationSolution(
-                      equationMatrix: EquationMatrix.from(m),
-                      solution: solution,
-                    ));
+                    // TODO: implement
+                    // VectorModel solution = m.solveByCramer();
+                    // getIt<CalcEquationSolutionsModel>()
+                    //     .addSolution(EquationSolution(
+                    //   equationMatrix: EquationMatrix.from(m),
+                    //   solution: solution,
+                    // ));
                   } on MatrixException catch (e) {
                     AlgebraUtils.showMessage(context, e.errMessage());
                   } on EquationException catch (e) {
@@ -107,7 +108,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
             ),
             const SizedBox(height: 12),
             for (var solution in solutions.reversed)
-              SolutionView(solution: solution),
+              SolutionView2(solution: solution),
           ],
         ),
       ),

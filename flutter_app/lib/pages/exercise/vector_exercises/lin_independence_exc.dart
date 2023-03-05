@@ -1,4 +1,4 @@
-import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/logic/vector/vector_model.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
 import 'package:dp_algebra/utils/utils.dart';
@@ -14,7 +14,7 @@ class LinIndependenceExc extends StatefulWidget {
 }
 
 class _LinIndependenceExcState extends State<LinIndependenceExc> {
-  List<Vector> vectors = [];
+  List<VectorModel> vectors = [];
   bool isIndependent = false;
 
   @override
@@ -34,7 +34,9 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
                   i++) {
                 vectors.add(ExerciseUtils.generateVector(length: length));
               }
-              isIndependent = Vector.areLinearlyIndependent(vectors);
+
+              // TODO: implement
+              // isIndependent = VectorModel.areLinearlyIndependent(vectors);
             });
           },
         ),

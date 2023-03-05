@@ -1,12 +1,12 @@
 import 'package:dp_algebra/logic/equation_matrix/equation_matrix.dart';
 import 'package:dp_algebra/logic/general/tex_parsable.dart';
-import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/logic/vector/vector_model.dart';
 import 'package:dp_algebra/models/exc_state/variable_value.dart';
 import 'package:fraction/fraction.dart';
 
 class EquationSolution implements TexParsable {
   final EquationMatrix equationMatrix;
-  final Vector? solution;
+  final VectorModel? solution;
   final GeneralSolution? generalSolution;
   final Object? stepByStep;
 
@@ -115,15 +115,15 @@ class GeneralSolution {
     return true;
   }
 
-  List<Vector> toVectorList() {
-    List<Vector> vectors = [_mapToVector(_numSolution)];
+  List<VectorModel> toVectorList() {
+    List<VectorModel> vectors = [_mapToVector(_numSolution)];
 
     if (!isSingleSolution()) {
       for (var i = 0; i < _numSolution.length; i++) {
         if (_solution.containsKey(i)) {
           vectors.add(_mapToVector(_solution[i]!));
         } else {
-          vectors.add(Vector(length: _numSolution.length));
+          vectors.add(VectorModel(length: _numSolution.length));
         }
       }
     }
@@ -131,7 +131,7 @@ class GeneralSolution {
     return vectors;
   }
 
-  Vector _mapToVector(Map<int, Fraction> map) {
+  VectorModel _mapToVector(Map<int, Fraction> map) {
     List<Fraction> vectorValues = [];
 
     for (var i = 0; i < _numSolution.length; i++) {
@@ -142,7 +142,7 @@ class GeneralSolution {
       }
     }
 
-    return Vector.fromList(vectorValues);
+    return VectorModel.fromList(vectorValues);
   }
 
   @override

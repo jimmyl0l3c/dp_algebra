@@ -1,18 +1,19 @@
-import 'package:dp_algebra/logic/matrix/matrix.dart';
+import 'package:dp_algebra/logic/matrix/matrix_model.dart';
 import 'package:flutter/widgets.dart';
 
 class CalcMatrixModel extends ChangeNotifier {
-  final matrices = ValueNotifier<Map<String, Matrix>>({'A': Matrix()});
+  final matrices =
+      ValueNotifier<Map<String, MatrixModel>>({'A': MatrixModel()});
   final canAddMatrix = ValueNotifier<bool>(true);
 
   final List<String> _availableNames = ['B', 'C', 'D', 'E', 'F', 'G'];
 
-  String? addMatrix({Matrix? matrix}) {
+  String? addMatrix({MatrixModel? matrix}) {
     if (_availableNames.isEmpty) return null;
 
     String name = _availableNames.removeAt(0);
 
-    matrices.value[name] = matrix ?? Matrix();
+    matrices.value[name] = matrix ?? MatrixModel();
     matrices.notifyListeners();
 
     canAddMatrix.value = _availableNames.isNotEmpty;

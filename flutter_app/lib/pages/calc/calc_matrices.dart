@@ -1,11 +1,12 @@
 import 'package:algebra_lib/algebra_lib.dart' as alg;
-import 'package:dp_algebra/logic/matrix/matrix.dart';
 import 'package:dp_algebra/logic/matrix/matrix_exceptions.dart';
+import 'package:dp_algebra/logic/matrix/matrix_model.dart';
 import 'package:dp_algebra/logic/matrix/matrix_operations.dart';
 import 'package:dp_algebra/main.dart';
+import 'package:dp_algebra/models/calc_category.dart';
 import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_matrix_model.dart';
-import 'package:dp_algebra/models/calc_state_n/calc_matrix_solutions_model.dart';
+import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
 import 'package:dp_algebra/utils/temp_util.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
@@ -23,8 +24,8 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
   @override
   Widget build(BuildContext context) {
     bool canAddMatrix = watchX((CalcMatrixModel x) => x.canAddMatrix);
-    List<CalcResult> newSolutions =
-        watchX((CalcMatrixSolutionsModel2 x) => x.solutions);
+    List<CalcResult> solutions =
+        watchX((CalcSolutionsModel x) => x.matrixSolutions);
 
     return SingleChildScrollView(
       child: Padding(
@@ -77,7 +78,7 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
               style: Theme.of(context).textTheme.headline4!,
             ),
             const SizedBox(height: 12),
-            for (var solution in newSolutions.reversed)
+            for (var solution in solutions.reversed)
               SolutionView2(solution: solution),
           ],
         ),
@@ -100,7 +101,8 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
 
   @override
   Widget build(BuildContext context) {
-    Map<String, Matrix> matrices = watchX((CalcMatrixModel x) => x.matrices);
+    Map<String, MatrixModel> matrices =
+        watchX((CalcMatrixModel x) => x.matrices);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -146,15 +148,16 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
                 ButtonRowItem(
                     child: Text(matrix.key),
                     onPressed: () {
-                      Matrix? m = matrix.value;
+                      MatrixModel? m = matrix.value;
 
                       alg.Expression exp = alg.Multiply(
                         left: alg.Scalar(value: _scalarC),
                         right: TempUtil.matrixExpFromMatrix(m),
                       );
 
-                      getIt<CalcMatrixSolutionsModel2>().addSolution(
+                      getIt<CalcSolutionsModel>().addSolution(
                         CalcResult.calculate(exp),
+                        CalcCategory.matrixOperation,
                       );
                     }),
             ],
@@ -170,7 +173,8 @@ class MatrixInputWrap extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, Matrix> matrices = watchX((CalcMatrixModel x) => x.matrices);
+    Map<String, MatrixModel> matrices =
+        watchX((CalcMatrixModel x) => x.matrices);
 
     return Wrap(
       direction: Axis.horizontal,
@@ -199,7 +203,8 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, Matrix> matrices = watchX((CalcMatrixModel x) => x.matrices);
+    Map<String, MatrixModel> matrices =
+        watchX((CalcMatrixModel x) => x.matrices);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
@@ -236,7 +241,7 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                   ButtonRowItem(
                     child: Text(matrix.key),
                     onPressed: () {
-                      Matrix? m = matrix.value;
+                      MatrixModel? m = matrix.value;
                       alg.Expression expM = TempUtil.matrixExpFromMatrix(m);
                       alg.Expression? exp;
                       try {
@@ -267,8 +272,9 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                         return;
                       }
 
-                      getIt<CalcMatrixSolutionsModel2>().addSolution(
+                      getIt<CalcSolutionsModel>().addSolution(
                         CalcResult.calculate(exp),
+                        CalcCategory.matrixOperation,
                       );
                     },
                   ),
@@ -298,7 +304,8 @@ class _MatrixBinOperationSelectionState
 
   @override
   Widget build(BuildContext context) {
-    Map<String, Matrix> matrices = watchX((CalcMatrixModel x) => x.matrices);
+    Map<String, MatrixModel> matrices =
+        watchX((CalcMatrixModel x) => x.matrices);
 
     if (!matrices.containsKey(_binaryLeft)) _binaryLeft = null;
     if (!matrices.containsKey(_binaryRight)) _binaryRight = null;
@@ -395,8 +402,8 @@ class _MatrixBinOperationSelectionState
                           'Zvolte matice, se kterými se má operace provést');
                       return;
                     }
-                    Matrix? a = matrices[_binaryLeft];
-                    Matrix? b = matrices[_binaryRight];
+                    MatrixModel? a = matrices[_binaryLeft];
+                    MatrixModel? b = matrices[_binaryRight];
                     if (a == null || b == null) {
                       AlgebraUtils.showMessage(
                           context, 'Zvolené matice neexistují');
@@ -433,8 +440,9 @@ class _MatrixBinOperationSelectionState
                       return;
                     }
 
-                    getIt<CalcMatrixSolutionsModel2>().addSolution(
+                    getIt<CalcSolutionsModel>().addSolution(
                       CalcResult.calculate(exp),
+                      CalcCategory.matrixOperation,
                     );
                   },
             child: const Text('='),

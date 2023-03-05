@@ -1,8 +1,7 @@
-import 'package:dp_algebra/logic/matrix/matrix.dart';
-import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/logic/matrix/matrix_model.dart';
+import 'package:dp_algebra/logic/vector/vector_model.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
-import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:dp_algebra/widgets/input/matrix_input.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +15,10 @@ class TransformMatrixExc extends StatefulWidget {
 }
 
 class _TransformMatrixExcState extends State<TransformMatrixExc> {
-  List<Vector> basisA = [];
-  List<Vector> basisB = [];
+  List<VectorModel> basisA = [];
+  List<VectorModel> basisB = [];
 
-  Matrix answer = Matrix();
+  MatrixModel answer = MatrixModel();
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +80,13 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
           onPressed: basisA.isEmpty || basisB.isEmpty
               ? null
               : () {
-                  Matrix solution = Vector.getTransformMatrix(basisA, basisB);
-                  AlgebraUtils.showMessage(
-                    context,
-                    solution == answer ? 'Správně' : 'Špatně',
-                  );
+                  // TODO: implement
+                  // MatrixModel solution =
+                  //     VectorModel.getTransformMatrix(basisA, basisB);
+                  // AlgebraUtils.showMessage(
+                  //   context,
+                  //   solution == answer ? 'Správně' : 'Špatně',
+                  // );
                 },
         ),
       ],

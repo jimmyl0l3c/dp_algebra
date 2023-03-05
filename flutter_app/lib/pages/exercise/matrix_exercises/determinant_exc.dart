@@ -1,6 +1,8 @@
 import 'dart:math';
 
-import 'package:dp_algebra/logic/matrix/matrix.dart';
+import 'package:algebra_lib/algebra_lib.dart';
+import 'package:dp_algebra/logic/matrix/matrix_model.dart';
+import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
 import 'package:dp_algebra/utils/utils.dart';
@@ -20,7 +22,8 @@ class DeterminantExc extends StatefulWidget {
 class _DeterminantExcState extends State<DeterminantExc> {
   Random random = Random();
 
-  Matrix determinant = Matrix(columns: 1, rows: 1);
+  MatrixModel determinant = MatrixModel(columns: 1, rows: 1);
+  CalcResult? correctSolution;
   Fraction solution = Fraction(0);
 
   @override
@@ -31,7 +34,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
           child: const Text('2x2'),
           onPressed: () {
             setState(() {
-              determinant = generateDeterminant(2);
+              generateDeterminant(2);
             });
           },
         ),
@@ -39,7 +42,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
           child: const Text('3x3'),
           onPressed: () {
             setState(() {
-              determinant = generateDeterminant(3);
+              generateDeterminant(3);
             });
           },
         ),
@@ -47,7 +50,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
           child: const Text('> 3x3'),
           onPressed: () {
             setState(() {
-              determinant = generateDeterminant(4 + random.nextInt(3));
+              generateDeterminant(4 + random.nextInt(3));
             });
           },
         ),
@@ -55,7 +58,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
           child: const Text('Náhodně'),
           onPressed: () {
             setState(() {
-              determinant = generateRandomDeterminant();
+              generateRandomDeterminant();
             });
           },
         ),
@@ -84,13 +87,17 @@ class _DeterminantExcState extends State<DeterminantExc> {
     );
   }
 
-  bool isAnswerCorrect() => solution == determinant.determinant();
+  bool isAnswerCorrect() => Scalar(value: solution) == correctSolution?.result;
 
-  Matrix generateRandomDeterminant() {
+  void generateRandomDeterminant() {
     int size = 1 + ExerciseUtils.generateSize();
     return generateDeterminant(size);
   }
 
-  Matrix generateDeterminant(int size) =>
-      ExerciseUtils.generateMatrix(rows: size, columns: size);
+  void generateDeterminant(int size) {
+    determinant = ExerciseUtils.generateMatrix(rows: size, columns: size);
+    correctSolution = CalcResult.calculate(
+      Determinant(det: determinant.toMatrix()),
+    );
+  }
 }

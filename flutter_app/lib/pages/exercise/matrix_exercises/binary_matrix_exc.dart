@@ -1,6 +1,8 @@
 import 'dart:math';
 
-import 'package:dp_algebra/logic/matrix/matrix.dart';
+import 'package:algebra_lib/algebra_lib.dart';
+import 'package:dp_algebra/logic/matrix/matrix_model.dart';
+import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
 import 'package:dp_algebra/utils/utils.dart';
@@ -19,9 +21,11 @@ class BinaryMatrixExc extends StatefulWidget {
 class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
   Random random = Random();
 
-  Matrix matrixA = Matrix(columns: 1, rows: 1);
-  Matrix matrixB = Matrix(columns: 1, rows: 1);
-  Matrix solution = Matrix(columns: 1, rows: 1);
+  MatrixModel matrixA = MatrixModel(columns: 1, rows: 1);
+  MatrixModel matrixB = MatrixModel(columns: 1, rows: 1);
+  CalcResult? correctSolution;
+
+  MatrixModel solution = MatrixModel(columns: 1, rows: 1);
   String operationSymbol = '+';
 
   @override
@@ -85,18 +89,7 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
     );
   }
 
-  bool isAnswerCorrect() {
-    Matrix? correctSolution;
-    if (operationSymbol == '+') {
-      correctSolution = matrixA + matrixB;
-    } else if (operationSymbol == '-') {
-      correctSolution = matrixA - matrixB;
-    } else if (operationSymbol == r'\cdot') {
-      correctSolution = matrixA * matrixB;
-    }
-
-    return correctSolution != null && correctSolution == solution;
-  }
+  bool isAnswerCorrect() => correctSolution?.result == solution.toMatrix();
 
   void generateRandomExample() {
     List<String> operations = ['+', '-', '*'];
@@ -114,6 +107,22 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
     int cols = ExerciseUtils.generateSize();
     matrixA = ExerciseUtils.generateMatrix(rows: rows, columns: cols);
     matrixB = ExerciseUtils.generateMatrix(rows: rows, columns: cols);
+
+    if (operationSymbol == '+') {
+      correctSolution = CalcResult.calculate(
+        Addition(
+          left: matrixA.toMatrix(),
+          right: matrixB.toMatrix(),
+        ),
+      );
+    } else if (operationSymbol == '-') {
+      correctSolution = CalcResult.calculate(
+        Subtraction(
+          left: matrixA.toMatrix(),
+          right: matrixB.toMatrix(),
+        ),
+      );
+    }
   }
 
   void generateMultiplyExample() {
@@ -123,5 +132,12 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
     int cols2 = ExerciseUtils.generateSize();
     matrixA = ExerciseUtils.generateMatrix(rows: rows, columns: cols);
     matrixB = ExerciseUtils.generateMatrix(rows: cols, columns: cols2);
+
+    correctSolution = CalcResult.calculate(
+      Multiply(
+        left: matrixA.toMatrix(),
+        right: matrixB.toMatrix(),
+      ),
+    );
   }
 }

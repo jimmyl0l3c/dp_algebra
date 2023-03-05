@@ -1,4 +1,4 @@
-import 'package:dp_algebra/logic/vector/vector.dart';
+import 'package:dp_algebra/logic/vector/vector_model.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
 import 'package:dp_algebra/utils/utils.dart';
@@ -15,8 +15,8 @@ class BasisExc extends StatefulWidget {
 }
 
 class _BasisExcState extends State<BasisExc> {
-  List<Vector> vectors = [];
-  List<Vector> solution = [];
+  List<VectorModel> vectors = [];
+  List<VectorModel> solution = [];
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class _BasisExcState extends State<BasisExc> {
               ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    solution.add(Vector());
+                    solution.add(VectorModel());
                   });
                 },
                 child: const Text('+'),
@@ -96,11 +96,13 @@ class _BasisExcState extends State<BasisExc> {
           onPressed: vectors.isEmpty
               ? null
               : () {
-                  List<Vector> correctSolution = Vector.findBasis(vectors);
-                  AlgebraUtils.showMessage(
-                    context,
-                    correctSolution.isEmpty ? 'Správně' : 'Špatně',
-                  );
+                  // TODO: implement
+                  // List<VectorModel> correctSolution =
+                  //     VectorModel.findBasis(vectors);
+                  // AlgebraUtils.showMessage(
+                  //   context,
+                  //   correctSolution.isEmpty ? 'Správně' : 'Špatně',
+                  // );
                 },
         ),
       ],
@@ -108,12 +110,13 @@ class _BasisExcState extends State<BasisExc> {
   }
 
   bool _isAnswerCorrect() {
-    List<Vector> correctSolution = Vector.findBasis(vectors);
-    if (solution.length != correctSolution.length) return false;
-
-    for (var vector in correctSolution) {
-      if (!solution.contains(vector)) return false;
-    }
+    // TODO: implement
+    // List<VectorModel> correctSolution = VectorModel.findBasis(vectors);
+    // if (solution.length != correctSolution.length) return false;
+    //
+    // for (var vector in correctSolution) {
+    //   if (!solution.contains(vector)) return false;
+    // }
 
     return true;
   }
