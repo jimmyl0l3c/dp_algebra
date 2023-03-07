@@ -1,6 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
 
-// TODO: override equality
 class Matrix implements Expression {
   final List<List<Expression>> rows;
 
@@ -63,10 +62,8 @@ class Matrix implements Expression {
           if (this[r][c] != other[r][c]) return false;
         }
       }
-
       return true;
     }
-
     return false;
   }
 

@@ -1,6 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
 
-// TODO: override equality
 class Vector implements Expression {
   final List<Expression> items;
 
