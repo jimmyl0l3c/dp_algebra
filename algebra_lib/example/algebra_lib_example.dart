@@ -1,5 +1,4 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:algebra_lib/src/expressions/equation_specific/solve_with_inverse.dart';
 import 'package:fraction/fraction.dart';
 
 void main() {
@@ -184,6 +183,25 @@ void main() {
   // var eqSolution = SolveWithInverse(matrix: eqM, vectorY: vY);
   // print(eqSolution.toTeX());
   // printNSimplifications(eqSolution, 50);
+  var basis = FindBasis(
+      matrix: Matrix.fromVectors([
+    Vector(items: [
+      Scalar(value: Fraction(1)),
+      Scalar(value: Fraction(2)),
+      Scalar(value: Fraction(3)),
+    ]),
+    Vector(items: [
+      Scalar(value: Fraction(4)),
+      Scalar(value: Fraction(5)),
+      Scalar(value: Fraction(6)),
+    ]),
+    Vector(items: [
+      Scalar(value: Fraction(7)),
+      Scalar(value: Fraction(3)),
+      Scalar(value: Fraction(2)),
+    ]),
+  ]));
+  printNSimplifications(basis, 85);
 }
 
 void printNSimplifications(Expression expression, int n,

@@ -17,6 +17,27 @@ class Matrix implements Expression {
 
   List<Expression> operator [](int i) => rows[i];
 
+  factory Matrix.fromVectors(List<Vector> vectors, {bool vertical = false}) {
+    if (vectors.isNotEmpty &&
+        vectors.any((v) => v.length() != vectors.first.length())) {
+      throw VectorSizeMismatchException();
+    }
+
+    if (vertical) {
+      List<List<Expression>> matrixRows = [];
+      for (var r = 0; r < vectors.first.length(); r++) {
+        List<Expression> matrixRow = [];
+        for (var c = 0; c < vectors.length; c++) {
+          matrixRow.add(vectors[c][r]);
+        }
+        matrixRows.add(matrixRow);
+      }
+      return Matrix(rows: matrixRows);
+    }
+
+    return Matrix(rows: vectors.map((v) => v.items).toList());
+  }
+
   @override
   Expression simplify() {
     for (var r = 0; r < rowCount(); r++) {

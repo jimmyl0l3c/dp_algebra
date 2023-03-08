@@ -24,5 +24,6 @@ export 'src/expressions/matrix_specific/triangular_det.dart';
 export 'src/expressions/structures/matrix.dart';
 export 'src/expressions/structures/scalar.dart';
 export 'src/expressions/structures/vector.dart';
+export 'src/expressions/vector_specific/find_basis.dart';
 export 'src/interfaces/expression.dart';
 export 'src/interfaces/tex_parseable.dart';
