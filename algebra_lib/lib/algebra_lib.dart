@@ -5,6 +5,7 @@ library algebra_lib;
 
 export 'src/algebra_lib_base.dart';
 export 'src/exceptions.dart';
+export 'src/expressions/equation_specific/solve_with_inverse.dart';
 export 'src/expressions/general/addition.dart';
 export 'src/expressions/general/divide.dart';
 export 'src/expressions/general/multiply.dart';

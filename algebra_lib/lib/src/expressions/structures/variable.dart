@@ -1,19 +1,19 @@
 import 'package:algebra_lib/algebra_lib.dart';
 
-class ParametrizedScalar implements Expression {
+class Variable implements Expression {
   final Expression n;
   final int param;
 
-  ParametrizedScalar({required this.n, required this.param});
+  Variable({required this.n, required this.param});
 
   @override
   Expression simplify() {
-    if (n is Vector || n is Matrix || n is ParametrizedScalar) {
+    if (n is Vector || n is Matrix || n is Variable) {
       throw UndefinedOperationException();
     }
 
     if (n is! Scalar) {
-      return ParametrizedScalar(n: n.simplify(), param: param);
+      return Variable(n: n.simplify(), param: param);
     }
 
     return this;

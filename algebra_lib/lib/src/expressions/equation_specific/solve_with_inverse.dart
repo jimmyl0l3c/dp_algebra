@@ -5,34 +5,36 @@ class SolveWithInverse implements Expression {
   final Expression vectorY;
 
   SolveWithInverse({required this.matrix, required this.vectorY}) {
-    if (matrix is Scalar) {
+    if (matrix is Scalar || matrix is Vector) {
+      throw UndefinedOperationException();
+    }
+    if (vectorY is Scalar || vectorY is Matrix) {
       throw UndefinedOperationException();
     }
   }
 
   @override
   Expression simplify() {
-    if (matrix is Scalar) {
+    if (matrix is Scalar || matrix is Vector) {
+      throw UndefinedOperationException();
+    }
+    if (vectorY is Scalar || vectorY is Matrix) {
       throw UndefinedOperationException();
     }
 
     // If left can be simplified, do it
-    if (matrix is! Vector && matrix is! Matrix) {
+    if (matrix is! Matrix) {
       return SolveWithInverse(matrix: matrix.simplify(), vectorY: vectorY);
     }
 
     // If left can be simplified, do it
-    if (vectorY is! Vector && vectorY is! Matrix && vectorY is! Scalar) {
+    if (vectorY is! Vector) {
       return SolveWithInverse(matrix: matrix, vectorY: vectorY.simplify());
     }
 
-    Matrix m = matrix is Vector
-        ? Matrix(rows: [(matrix as Vector).items])
-        : matrix as Matrix;
+    Matrix m = matrix as Matrix;
 
-    Matrix y = vectorY is Vector
-        ? Matrix(rows: [(vectorY as Vector).items])
-        : vectorY as Matrix;
+    Matrix y = Matrix(rows: [(vectorY as Vector).items]);
 
     return Transpose(
       matrix: Multiply(left: Inverse(exp: m), right: Transpose(matrix: y)),
