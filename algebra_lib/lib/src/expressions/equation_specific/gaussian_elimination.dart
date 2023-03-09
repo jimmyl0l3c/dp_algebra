@@ -21,6 +21,7 @@ class GaussianElimination implements Expression {
         return GaussianElimination(matrix: simplifiedMatrix);
       }
 
+      // TODO: optimize this
       Scalar zero = Scalar.zero();
       List<Expression> numSolution = [];
       Map<int, Map<int, Expression>> solution = {};

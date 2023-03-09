@@ -1,15 +1,13 @@
 import 'package:algebra_lib/algebra_lib.dart';
 
 class Boolean implements Expression {
-  @override
-  Expression simplify() {
-    // TODO: implement simplify
-    throw UnimplementedError();
-  }
+  final bool value;
+
+  Boolean(this.value);
 
   @override
-  String toTeX() {
-    // TODO: implement toTeX
-    throw UnimplementedError();
-  }
+  Expression simplify() => this;
+
+  @override
+  String toTeX() => value ? "Pravda" : "Nepravda";
 }
