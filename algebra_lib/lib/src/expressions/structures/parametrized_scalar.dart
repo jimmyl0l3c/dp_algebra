@@ -38,7 +38,6 @@ class ParametrizedScalar implements Expression {
 
       buffer.write(tex);
     }
-    values.map((e) => e.toTeX()).join(" ");
     return buffer.toString();
   }
 }
