@@ -238,6 +238,24 @@ void main() {
     ]),
   ]);
   printNSimplifications(independent, 60);
+
+  var cramer = SolveWithCramer(
+    matrix: Matrix.fromVectors([
+      Vector(items: [
+        Scalar(value: Fraction(1)),
+        Scalar(value: Fraction(2)),
+      ]),
+      Vector(items: [
+        Scalar(value: Fraction(4)),
+        Scalar(value: Fraction(5)),
+      ]),
+    ]),
+    vectorY: Vector(items: [
+      Scalar(value: Fraction(3)),
+      Scalar(value: Fraction(6)),
+    ]),
+  );
+  printNSimplifications(cramer, 20);
 }
 
 void printNSimplifications(Expression expression, int n,

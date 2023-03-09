@@ -44,7 +44,7 @@ class SolveWithInverse implements Expression {
   @override
   String toTeX() {
     StringBuffer buffer = StringBuffer();
-    buffer.write(r'\left( \begin{matrix} ');
+    buffer.write(r'solveWithInverse \left( \begin{matrix} ');
 
     buffer.write(matrix.toTeX());
 
