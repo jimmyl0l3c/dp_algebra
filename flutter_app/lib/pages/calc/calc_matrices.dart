@@ -152,7 +152,7 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
 
                       Expression exp = Multiply(
                         left: Scalar(value: _scalarC),
-                        right: TempUtil.matrixExpFromMatrix(m),
+                        right: TempUtil.matrixFromMatrixModel(m),
                       );
 
                       getIt<CalcSolutionsModel>().addSolution(
@@ -242,7 +242,7 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                     child: Text(matrix.key),
                     onPressed: () {
                       MatrixModel? m = matrix.value;
-                      Expression expM = TempUtil.matrixExpFromMatrix(m);
+                      Expression expM = TempUtil.matrixFromMatrixModel(m);
                       Expression? exp;
                       try {
                         switch (operation) {
@@ -410,8 +410,8 @@ class _MatrixBinOperationSelectionState
                       return;
                     }
 
-                    Expression expLeftM = TempUtil.matrixExpFromMatrix(a);
-                    Expression expRightM = TempUtil.matrixExpFromMatrix(b);
+                    Expression expLeftM = TempUtil.matrixFromMatrixModel(a);
+                    Expression expRightM = TempUtil.matrixFromMatrixModel(b);
                     Expression? exp;
 
                     try {

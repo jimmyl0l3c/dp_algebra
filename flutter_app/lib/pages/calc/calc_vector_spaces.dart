@@ -1,12 +1,15 @@
+import 'package:algebra_lib/algebra_lib.dart';
 import 'package:collection/collection.dart';
 import 'package:dp_algebra/logic/equation_matrix/equation_exceptions.dart';
 import 'package:dp_algebra/logic/vector/vector_exceptions.dart';
 import 'package:dp_algebra/logic/vector/vector_model.dart';
 import 'package:dp_algebra/main.dart';
+import 'package:dp_algebra/models/calc_category.dart';
 import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_vector_model.dart';
 import 'package:dp_algebra/utils/calc_utils.dart';
+import 'package:dp_algebra/utils/temp_util.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/forms/styled_dropdown.dart';
 import 'package:dp_algebra/widgets/forms/styled_popup.dart';
@@ -99,15 +102,17 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                     (i, v) => independenceSelection.contains(i))
                                 .toList();
                             try {
-                              // TODO: implement
-                              // getIt<CalcVectorSolutionsModel>().addSolution(
-                              //   VectorSolution(
-                              //     vectors: selectedVectors,
-                              //     operation: VectorOperation.linearIndependence,
-                              //     solution: VectorModel.areLinearlyIndependent(
-                              //         selectedVectors),
-                              //   ),
-                              // );
+                              getIt<CalcSolutionsModel>().addSolution(
+                                CalcResult.calculate(
+                                  AreVectorsLinearlyIndependent(
+                                    vectors: selectedVectors
+                                        .map((e) =>
+                                            TempUtil.vectorFromVectorModel(e))
+                                        .toList(),
+                                  ),
+                                ),
+                                CalcCategory.vectorSpace,
+                              );
                             } on VectorException catch (e) {
                               AlgebraUtils.showMessage(context, e.errMessage());
                             }
@@ -151,15 +156,19 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                     (i, v) => baseSelection.contains(i))
                                 .toList();
                             try {
-                              // TODO: implement
-                              // getIt<CalcVectorSolutionsModel>().addSolution(
-                              //   VectorSolution(
-                              //     vectors: selectedVectors,
-                              //     operation: VectorOperation.findBasis,
-                              //     solution:
-                              //         VectorModel.findBasis(selectedVectors),
-                              //   ),
-                              // );
+                              getIt<CalcSolutionsModel>().addSolution(
+                                CalcResult.calculate(
+                                  FindBasis(
+                                    matrix: Matrix.fromVectors(
+                                      selectedVectors
+                                          .map((e) =>
+                                              TempUtil.vectorFromVectorModel(e))
+                                          .toList(),
+                                    ),
+                                  ),
+                                ),
+                                CalcCategory.vectorSpace,
+                              );
                             } on VectorException catch (e) {
                               AlgebraUtils.showMessage(context, e.errMessage());
                             }
@@ -263,13 +272,19 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                   onPressed: transformA.isEmpty || transformB.isEmpty
                       ? null
                       : () {
-                          //TODO: implement
-                          // var solution = _getTransformMatrix(
-                          //     context, vectors, transformA, transformB);
-                          // if (solution != null) {
-                          //   getIt<CalcVectorSolutionsModel>()
-                          //       .addSolution(solution);
-                          // }
+                          var solution = _getTransformMatrix(
+                            context,
+                            vectors,
+                            transformA,
+                            transformB,
+                          );
+
+                          if (solution != null) {
+                            getIt<CalcSolutionsModel>().addSolution(
+                              solution,
+                              CalcCategory.vectorSpace,
+                            );
+                          }
                         },
                   child: const Text('Transformační Matice'),
                 ),
@@ -310,24 +325,26 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                     ? null
                     : () {
                         var transformMatrix = _getTransformMatrix(
-                            context, vectors, transformA, transformB);
+                          context,
+                          vectors,
+                          transformA,
+                          transformB,
+                        );
 
-                        // TODO: implement
-                        // if (transformMatrix == null) return;
+                        if (transformMatrix == null) return;
 
                         var selectedVector = vectors[selectedCoordinateVector!];
                         try {
-                          // TODO: implement
-                          // getIt<CalcVectorSolutionsModel>().addSolution(
-                          //   VectorSolution(
-                          //     vectors: transformMatrix.vectors,
-                          //     otherVectors: transformMatrix.otherVectors,
-                          //     inputVector: selectedVector,
-                          //     operation: VectorOperation.transformCoordinates,
-                          //     solution: selectedVector
-                          //         .transformCoords(transformMatrix.solution),
-                          //   ),
-                          // );
+                          getIt<CalcSolutionsModel>().addSolution(
+                            CalcResult.calculate(
+                              TransformCoords(
+                                transformMatrix: transformMatrix.result,
+                                coords: TempUtil.vectorFromVectorModel(
+                                    selectedVector),
+                              ),
+                            ),
+                            CalcCategory.vectorSpace,
+                          );
                         } on VectorException catch (e) {
                           AlgebraUtils.showMessage(context, e.errMessage());
                         }
@@ -341,7 +358,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
     );
   }
 
-  void _getTransformMatrix(
+  CalcResult? _getTransformMatrix(
     BuildContext context,
     List<VectorModel> vectors,
     Set<int> transformA,
@@ -352,17 +369,19 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
     var basisB =
         vectors.whereIndexed((i, v) => transformB.contains(i)).toList();
     try {
-      // TODO: implement
-      // return VectorSolution(
-      //   vectors: basisA,
-      //   otherVectors: basisB,
-      //   operation: VectorOperation.transformMatrix,
-      //   solution: VectorModel.getTransformMatrix(basisA, basisB),
-      // );
+      return CalcResult.calculate(TransformMatrix(
+        basisA: Matrix.fromVectors(
+          basisA.map((e) => TempUtil.vectorFromVectorModel(e)).toList(),
+        ),
+        basisB: Matrix.fromVectors(
+          basisB.map((e) => TempUtil.vectorFromVectorModel(e)).toList(),
+        ),
+      ));
     } on VectorException catch (e) {
       AlgebraUtils.showMessage(context, e.errMessage());
     } on EquationException catch (e) {
       AlgebraUtils.showMessage(context, e.errMessage());
     }
+    return null;
   }
 }

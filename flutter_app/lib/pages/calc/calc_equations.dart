@@ -49,7 +49,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                   try {
                     getIt<CalcSolutionsModel>().addSolution(
                       CalcResult.calculate(GaussianElimination(
-                        matrix: TempUtil.matrixExpFromMatrix(m),
+                        matrix: TempUtil.matrixFromMatrixModel(m),
                       )),
                       CalcCategory.equation,
                     );
@@ -66,7 +66,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                 onPressed: () {
                   EquationMatrix m = equationMatrix;
                   try {
-                    Matrix expMatrix = TempUtil.matrixExpFromMatrix(m);
+                    Matrix expMatrix = TempUtil.matrixFromMatrixModel(m);
                     List<Expression> vectorY = [];
                     int lastCol = expMatrix.columnCount() - 1;
                     for (var r = 0; r < expMatrix.rowCount(); r++) {
@@ -75,7 +75,9 @@ class CalcEquations extends StatelessWidget with GetItMixin {
 
                     getIt<CalcSolutionsModel>().addSolution(
                       CalcResult.calculate(SolveWithInverse(
-                          matrix: expMatrix, vectorY: Vector(items: vectorY))),
+                        matrix: expMatrix,
+                        vectorY: Vector(items: vectorY),
+                      )),
                       CalcCategory.equation,
                     );
                   } on MatrixException catch (e) {
@@ -93,7 +95,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                 onPressed: () {
                   EquationMatrix m = equationMatrix;
                   try {
-                    Matrix expMatrix = TempUtil.matrixExpFromMatrix(m);
+                    Matrix expMatrix = TempUtil.matrixFromMatrixModel(m);
                     List<Expression> vectorY = [];
                     int lastCol = expMatrix.columnCount() - 1;
                     for (var r = 0; r < expMatrix.rowCount(); r++) {
