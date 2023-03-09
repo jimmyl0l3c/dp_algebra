@@ -1,5 +1,4 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:algebra_lib/src/expressions/structures/variable.dart';
 
 class GaussianElimination implements Expression {
   final Expression matrix;
@@ -24,25 +23,49 @@ class GaussianElimination implements Expression {
 
       Scalar zero = Scalar.zero();
       List<Expression> numSolution = [];
+      Map<int, Map<int, Expression>> solution = {};
+      for (var i = 0; i < simplifiedMatrix.columnCount() - 1; i++) {
+        solution[i] = {i: Scalar.one()};
+        numSolution.add(Scalar.zero());
+      }
+
       for (var r = 0; r < simplifiedMatrix.rowCount(); r++) {
         for (var c = 0; c < simplifiedMatrix.columnCount(); c++) {
           if (simplifiedMatrix[r][c] != zero) {
             for (var i = c + 1; i < simplifiedMatrix.columnCount(); i++) {
               if (i == simplifiedMatrix.columnCount() - 1) {
                 // Right side
-                numSolution.add(simplifiedMatrix[r][i]);
-              } else {}
+                numSolution[c] = simplifiedMatrix[r][i];
+              } else if (simplifiedMatrix[r][i] != zero) {
+                solution[c]?[i] = simplifiedMatrix[r][i];
+              }
             }
+            solution[c]?.remove(c);
             break;
-          }
-
-          if (c == simplifiedMatrix.columnCount() - 1) {
-            numSolution.add(Scalar.zero());
           }
         }
       }
-      // TODO: implement GeneralSolution, use ParametrizedScalar with Variable
-      return Vector(items: numSolution);
+
+      List<Expression> solutionVector = [];
+      for (var i = 0; i < simplifiedMatrix.columnCount() - 1; i++) {
+        if (solution[i] == null || solution[i]!.isEmpty) {
+          solutionVector.add(numSolution[i]);
+        } else {
+          List<Expression> parametrizedScalar = [];
+          if (numSolution[i] != zero) {
+            parametrizedScalar.add(numSolution[i]);
+          }
+          solution[i]?.forEach(
+            (key, value) => parametrizedScalar.add(Variable(
+              n: value,
+              param: key,
+            )),
+          );
+
+          solutionVector.add(ParametrizedScalar(values: parametrizedScalar));
+        }
+      }
+      return Vector(items: solutionVector);
     }
 
     return GaussianElimination(
@@ -51,8 +74,5 @@ class GaussianElimination implements Expression {
   }
 
   @override
-  String toTeX() {
-    // TODO: implement toTeX
-    throw UnimplementedError();
-  }
+  String toTeX() => 'gaussianElimination(${matrix.toTeX()})';
 }

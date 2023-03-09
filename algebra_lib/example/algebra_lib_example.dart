@@ -202,6 +202,25 @@ void main() {
     ]),
   ]));
   printNSimplifications(basis, 85);
+
+  print("\n");
+  var generalEq = GaussianElimination(
+    matrix: Matrix.fromVectors([
+      Vector(items: [
+        Scalar(value: Fraction(1)),
+        Scalar(value: Fraction(2)),
+        Scalar(value: Fraction(3)),
+        Scalar(value: Fraction(4)),
+      ]),
+      Vector(items: [
+        Scalar(value: Fraction(0)),
+        Scalar(value: Fraction(1)),
+        Scalar(value: Fraction(7)),
+        Scalar(value: Fraction(3)),
+      ]),
+    ]),
+  );
+  printNSimplifications(generalEq, 85);
 }
 
 void printNSimplifications(Expression expression, int n,

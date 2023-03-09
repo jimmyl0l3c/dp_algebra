@@ -12,7 +12,9 @@ class Vector implements Expression {
   @override
   Expression simplify() {
     for (var i = 0; i < items.length; i++) {
-      if (items[i] is! Scalar) {
+      if (items[i] is! Scalar &&
+          items[i] is! ParametrizedScalar &&
+          items[i] is! Variable) {
         return Vector(
           items: List.from(items)
             ..removeAt(i)

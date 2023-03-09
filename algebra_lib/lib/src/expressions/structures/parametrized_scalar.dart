@@ -1,6 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:algebra_lib/src/expressions/structures/boolean.dart';
-import 'package:algebra_lib/src/expressions/structures/variable.dart';
 
 class ParametrizedScalar implements Expression {
   final List<Expression> values;

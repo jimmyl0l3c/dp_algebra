@@ -1,7 +1,7 @@
 import 'package:algebra_lib/algebra_lib.dart';
 
 class VectorIndependence implements Expression {
-  final List<Vector> vectors;
+  final List<Expression> vectors;
 
   VectorIndependence({required this.vectors});
 
