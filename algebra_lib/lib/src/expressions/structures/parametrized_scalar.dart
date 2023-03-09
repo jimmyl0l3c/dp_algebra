@@ -1,5 +1,4 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:algebra_lib/src/expressions/structures/boolean.dart';
 
 class ParametrizedScalar implements Expression {
   final List<Expression> values;
@@ -28,5 +27,18 @@ class ParametrizedScalar implements Expression {
   }
 
   @override
-  String toTeX() => values.map((e) => e.toTeX()).join(" ");
+  String toTeX() {
+    StringBuffer buffer = StringBuffer();
+    for (var i = 0; i < values.length; i++) {
+      String tex = values[i].toTeX();
+
+      if (i > 0 && !tex.startsWith('-')) {
+        buffer.write('+');
+      }
+
+      buffer.write(tex);
+    }
+    values.map((e) => e.toTeX()).join(" ");
+    return buffer.toString();
+  }
 }

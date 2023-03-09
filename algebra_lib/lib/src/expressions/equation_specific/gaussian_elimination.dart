@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:fraction/fraction.dart';
 
 class GaussianElimination implements Expression {
   final Expression matrix;
@@ -38,7 +39,10 @@ class GaussianElimination implements Expression {
                 // Right side
                 numSolution[c] = simplifiedMatrix[r][i];
               } else if (simplifiedMatrix[r][i] != zero) {
-                solution[c]?[i] = simplifiedMatrix[r][i];
+                solution[c]?[i] = Scalar(
+                  value:
+                      (simplifiedMatrix[r][i] as Scalar).value * Fraction(-1),
+                );
               }
             }
             solution[c]?.remove(c);
