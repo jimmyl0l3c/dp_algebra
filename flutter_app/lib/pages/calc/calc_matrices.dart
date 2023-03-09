@@ -1,4 +1,4 @@
-import 'package:algebra_lib/algebra_lib.dart' as alg;
+import 'package:algebra_lib/algebra_lib.dart';
 import 'package:dp_algebra/logic/matrix/matrix_exceptions.dart';
 import 'package:dp_algebra/logic/matrix/matrix_model.dart';
 import 'package:dp_algebra/logic/matrix/matrix_operations.dart';
@@ -150,8 +150,8 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
                     onPressed: () {
                       MatrixModel? m = matrix.value;
 
-                      alg.Expression exp = alg.Multiply(
-                        left: alg.Scalar(value: _scalarC),
+                      Expression exp = Multiply(
+                        left: Scalar(value: _scalarC),
                         right: TempUtil.matrixExpFromMatrix(m),
                       );
 
@@ -242,8 +242,8 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                     child: Text(matrix.key),
                     onPressed: () {
                       MatrixModel? m = matrix.value;
-                      alg.Expression expM = TempUtil.matrixExpFromMatrix(m);
-                      alg.Expression? exp;
+                      Expression expM = TempUtil.matrixExpFromMatrix(m);
+                      Expression? exp;
                       try {
                         switch (operation) {
                           case MatrixOperation.add:
@@ -251,16 +251,16 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                           case MatrixOperation.multiply:
                             return;
                           case MatrixOperation.det:
-                            exp = alg.Determinant(det: expM);
+                            exp = Determinant(det: expM);
                             break;
                           case MatrixOperation.inverse:
-                            exp = alg.Inverse(exp: expM);
+                            exp = Inverse(exp: expM);
                             break;
                           case MatrixOperation.transpose:
-                            exp = alg.Transpose(matrix: expM);
+                            exp = Transpose(matrix: expM);
                             break;
                           case MatrixOperation.rank:
-                            exp = alg.Rank(matrix: expM);
+                            exp = Rank(matrix: expM);
                             break;
                         }
                       } on MatrixException catch (e) {
@@ -410,23 +410,23 @@ class _MatrixBinOperationSelectionState
                       return;
                     }
 
-                    alg.Expression expLeftM = TempUtil.matrixExpFromMatrix(a);
-                    alg.Expression expRightM = TempUtil.matrixExpFromMatrix(b);
-                    alg.Expression? exp;
+                    Expression expLeftM = TempUtil.matrixExpFromMatrix(a);
+                    Expression expRightM = TempUtil.matrixExpFromMatrix(b);
+                    Expression? exp;
 
                     try {
                       switch (_binaryOperation) {
                         case '+':
-                          exp = alg.Addition(left: expLeftM, right: expRightM);
+                          exp = Addition(left: expLeftM, right: expRightM);
                           break;
                         case '-':
-                          exp = alg.Subtraction(
+                          exp = Subtraction(
                             left: expLeftM,
                             right: expRightM,
                           );
                           break;
                         case '*':
-                          exp = alg.Multiply(left: expLeftM, right: expRightM);
+                          exp = Multiply(left: expLeftM, right: expRightM);
                           break;
                         default:
                           return;

@@ -1,9 +1,13 @@
+import 'package:algebra_lib/algebra_lib.dart';
 import 'package:dp_algebra/logic/equation_matrix/equation_exceptions.dart';
 import 'package:dp_algebra/logic/equation_matrix/equation_matrix.dart';
 import 'package:dp_algebra/logic/matrix/matrix_exceptions.dart';
+import 'package:dp_algebra/main.dart';
+import 'package:dp_algebra/models/calc_category.dart';
 import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_equation_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
+import 'package:dp_algebra/utils/temp_util.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/input/equation_input.dart';
 import 'package:dp_algebra/widgets/layout/solution_view.dart';
@@ -43,13 +47,12 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                 onPressed: () {
                   EquationMatrix m = equationMatrix;
                   try {
-                    // TODO: implement
-                    // GeneralSolution solution = m.solveByGauss();
-                    // getIt<CalcEquationSolutionsModel>()
-                    //     .addSolution(EquationSolution(
-                    //   equationMatrix: EquationMatrix.from(m),
-                    //   generalSolution: solution,
-                    // ));
+                    getIt<CalcSolutionsModel>().addSolution(
+                      CalcResult.calculate(GaussianElimination(
+                        matrix: TempUtil.matrixExpFromMatrix(m),
+                      )),
+                      CalcCategory.equation,
+                    );
                   } on EquationException catch (e) {
                     AlgebraUtils.showMessage(context, e.errMessage());
                   }
@@ -63,13 +66,18 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                 onPressed: () {
                   EquationMatrix m = equationMatrix;
                   try {
-                    // TODO: implement
-                    // VectorModel solution = m.solveByInverse();
-                    // getIt<CalcEquationSolutionsModel>()
-                    //     .addSolution(EquationSolution(
-                    //   equationMatrix: EquationMatrix.from(m),
-                    //   solution: solution,
-                    // ));
+                    Matrix expMatrix = TempUtil.matrixExpFromMatrix(m);
+                    List<Expression> vectorY = [];
+                    int lastCol = expMatrix.columnCount() - 1;
+                    for (var r = 0; r < expMatrix.rowCount(); r++) {
+                      vectorY.add(expMatrix.rows[r].removeAt(lastCol));
+                    }
+
+                    getIt<CalcSolutionsModel>().addSolution(
+                      CalcResult.calculate(SolveWithInverse(
+                          matrix: expMatrix, vectorY: Vector(items: vectorY))),
+                      CalcCategory.equation,
+                    );
                   } on MatrixException catch (e) {
                     AlgebraUtils.showMessage(context, e.errMessage());
                   } on EquationException catch (e) {
@@ -85,13 +93,18 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                 onPressed: () {
                   EquationMatrix m = equationMatrix;
                   try {
-                    // TODO: implement
-                    // VectorModel solution = m.solveByCramer();
-                    // getIt<CalcEquationSolutionsModel>()
-                    //     .addSolution(EquationSolution(
-                    //   equationMatrix: EquationMatrix.from(m),
-                    //   solution: solution,
-                    // ));
+                    Matrix expMatrix = TempUtil.matrixExpFromMatrix(m);
+                    List<Expression> vectorY = [];
+                    int lastCol = expMatrix.columnCount() - 1;
+                    for (var r = 0; r < expMatrix.rowCount(); r++) {
+                      vectorY.add(expMatrix.rows[r].removeAt(lastCol));
+                    }
+
+                    getIt<CalcSolutionsModel>().addSolution(
+                      CalcResult.calculate(SolveWithCramer(
+                          matrix: expMatrix, vectorY: Vector(items: vectorY))),
+                      CalcCategory.equation,
+                    );
                   } on MatrixException catch (e) {
                     AlgebraUtils.showMessage(context, e.errMessage());
                   } on EquationException catch (e) {
