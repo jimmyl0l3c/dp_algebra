@@ -27,8 +27,5 @@ class TransformMatrix implements Expression {
   }
 
   @override
-  String toTeX() {
-    // TODO: implement toTeX
-    throw UnimplementedError();
-  }
+  String toTeX() => 'transformMatrix(${basisA.toTeX()}, ${basisB.toTeX()})';
 }

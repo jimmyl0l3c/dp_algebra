@@ -16,13 +16,27 @@ class TransformCoords implements Expression {
 
   @override
   Expression simplify() {
-    // TODO: implement simplify
-    throw UnimplementedError();
+    if (coords is Matrix || coords is Scalar) {
+      throw UndefinedOperationException();
+    }
+
+    if (coords is! Vector) {
+      return TransformCoords(
+        transformMatrix: transformMatrix,
+        coords: coords.simplify(),
+      );
+    }
+
+    Vector vectorCoords = coords as Vector;
+    return Multiply(
+      left: transformMatrix,
+      right: Transpose(
+        matrix: Matrix(rows: [vectorCoords.items]),
+      ),
+    );
   }
 
   @override
-  String toTeX() {
-    // TODO: implement toTeX
-    throw UnimplementedError();
-  }
+  String toTeX() =>
+      'tramsformCoords(${transformMatrix.toTeX()}, ${coords.toTeX()})';
 }
