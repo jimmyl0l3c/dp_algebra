@@ -1,9 +1,9 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/logic/matrix/matrix_exceptions.dart';
 import 'package:dp_algebra/logic/matrix/matrix_model.dart';
 import 'package:dp_algebra/logic/matrix/matrix_operations.dart';
 import 'package:dp_algebra/main.dart';
 import 'package:dp_algebra/models/calc_category.dart';
+import 'package:dp_algebra/models/calc_expression_exception.dart';
 import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_matrix_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
@@ -259,19 +259,14 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                             exp = Rank(matrix: expM);
                             break;
                         }
-                      } on MatrixException catch (e) {
-                        AlgebraUtils.showMessage(context, e.errMessage());
-                        return;
-                      } on Exception catch (e) {
-                        // TODO: replace with better solution after migration
-                        AlgebraUtils.showMessage(context, e.toString());
-                        return;
-                      }
 
-                      getIt<CalcSolutionsModel>().addSolution(
-                        CalcResult.calculate(exp),
-                        CalcCategory.matrixOperation,
-                      );
+                        getIt<CalcSolutionsModel>().addSolution(
+                          CalcResult.calculate(exp),
+                          CalcCategory.matrixOperation,
+                        );
+                      } on CalcExpressionException catch (e) {
+                        AlgebraUtils.showMessage(context, e.friendlyMessage);
+                      }
                     },
                   ),
               ],
@@ -427,19 +422,14 @@ class _MatrixBinOperationSelectionState
                         default:
                           return;
                       }
-                    } on MatrixException catch (e) {
-                      AlgebraUtils.showMessage(context, e.errMessage());
-                      return;
-                    } on Exception catch (e) {
-                      // TODO: replace with better solution after migration
-                      AlgebraUtils.showMessage(context, e.toString());
-                      return;
-                    }
 
-                    getIt<CalcSolutionsModel>().addSolution(
-                      CalcResult.calculate(exp),
-                      CalcCategory.matrixOperation,
-                    );
+                      getIt<CalcSolutionsModel>().addSolution(
+                        CalcResult.calculate(exp),
+                        CalcCategory.matrixOperation,
+                      );
+                    } on CalcExpressionException catch (e) {
+                      AlgebraUtils.showMessage(context, e.friendlyMessage);
+                    }
                   },
             child: const Text('='),
           ),

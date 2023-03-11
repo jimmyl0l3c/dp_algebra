@@ -1,10 +1,9 @@
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:collection/collection.dart';
-import 'package:dp_algebra/logic/equation_matrix/equation_exceptions.dart';
-import 'package:dp_algebra/logic/vector/vector_exceptions.dart';
 import 'package:dp_algebra/logic/vector/vector_model.dart';
 import 'package:dp_algebra/main.dart';
 import 'package:dp_algebra/models/calc_category.dart';
+import 'package:dp_algebra/models/calc_expression_exception.dart';
 import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_vector_model.dart';
@@ -111,8 +110,11 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                 ),
                                 CalcCategory.vectorSpace,
                               );
-                            } on VectorException catch (e) {
-                              AlgebraUtils.showMessage(context, e.errMessage());
+                            } on CalcExpressionException catch (e) {
+                              AlgebraUtils.showMessage(
+                                context,
+                                e.friendlyMessage,
+                              );
                             }
                           },
                     child: const Text('Vypočítat'),
@@ -166,8 +168,11 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                 ),
                                 CalcCategory.vectorSpace,
                               );
-                            } on VectorException catch (e) {
-                              AlgebraUtils.showMessage(context, e.errMessage());
+                            } on CalcExpressionException catch (e) {
+                              AlgebraUtils.showMessage(
+                                context,
+                                e.friendlyMessage,
+                              );
                             }
                           },
                     child: const Text('Nalézt'),
@@ -341,8 +346,8 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                             ),
                             CalcCategory.vectorSpace,
                           );
-                        } on VectorException catch (e) {
-                          AlgebraUtils.showMessage(context, e.errMessage());
+                        } on CalcExpressionException catch (e) {
+                          AlgebraUtils.showMessage(context, e.friendlyMessage);
                         }
                       },
                 child: const Text('Transformovat'),
@@ -373,10 +378,8 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
           basisB.map((e) => e.toVector()).toList(),
         ),
       ));
-    } on VectorException catch (e) {
-      AlgebraUtils.showMessage(context, e.errMessage());
-    } on EquationException catch (e) {
-      AlgebraUtils.showMessage(context, e.errMessage());
+    } on CalcExpressionException catch (e) {
+      AlgebraUtils.showMessage(context, e.friendlyMessage);
     }
     return null;
   }

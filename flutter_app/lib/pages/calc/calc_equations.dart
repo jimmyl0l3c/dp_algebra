@@ -1,9 +1,8 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/logic/equation_matrix/equation_exceptions.dart';
 import 'package:dp_algebra/logic/equation_matrix/equation_matrix.dart';
-import 'package:dp_algebra/logic/matrix/matrix_exceptions.dart';
 import 'package:dp_algebra/main.dart';
 import 'package:dp_algebra/models/calc_category.dart';
+import 'package:dp_algebra/models/calc_expression_exception.dart';
 import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_equation_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
@@ -52,8 +51,8 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                       )),
                       CalcCategory.equation,
                     );
-                  } on EquationException catch (e) {
-                    AlgebraUtils.showMessage(context, e.errMessage());
+                  } on CalcExpressionException catch (e) {
+                    AlgebraUtils.showMessage(context, e.friendlyMessage);
                   }
                 },
                 child: const Text('Gaussova eliminační metoda'),
@@ -79,10 +78,8 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                       )),
                       CalcCategory.equation,
                     );
-                  } on MatrixException catch (e) {
-                    AlgebraUtils.showMessage(context, e.errMessage());
-                  } on EquationException catch (e) {
-                    AlgebraUtils.showMessage(context, e.errMessage());
+                  } on CalcExpressionException catch (e) {
+                    AlgebraUtils.showMessage(context, e.friendlyMessage);
                   }
                 },
                 child: const Text('Inverzní matice'),
@@ -106,10 +103,8 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                           matrix: expMatrix, vectorY: Vector(items: vectorY))),
                       CalcCategory.equation,
                     );
-                  } on MatrixException catch (e) {
-                    AlgebraUtils.showMessage(context, e.errMessage());
-                  } on EquationException catch (e) {
-                    AlgebraUtils.showMessage(context, e.errMessage());
+                  } on CalcExpressionException catch (e) {
+                    AlgebraUtils.showMessage(context, e.friendlyMessage);
                   }
                 },
                 child: const Text('Cramerovo pravidlo'),

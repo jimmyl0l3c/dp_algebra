@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:dp_algebra/models/calc_expression_exception.dart';
 
 class CalcResult {
   final Expression calculation;
@@ -12,13 +13,37 @@ class CalcResult {
   });
 
   factory CalcResult.calculate(Expression calculation) {
-    var steps = CalcResult._getCalculationSteps(calculation);
+    try {
+      var steps = CalcResult._getCalculationSteps(calculation);
 
-    return CalcResult(
-      calculation: calculation,
-      result: steps.last,
-      steps: steps,
-    );
+      return CalcResult(
+        calculation: calculation,
+        result: steps.last,
+        steps: steps,
+      );
+    } on ExpressionException catch (e) {
+      String message = e.runtimeType.toString();
+
+      if (e is MatrixSizeMismatchException) {
+        message = "Matice musí mít stejné rozměry";
+      } else if (e is VectorSizeMismatchException) {
+        message = "Vektory musí mít stejnou velikost";
+      } else if (e is MatrixMultiplySizeException) {
+        message = "Počet sloupců první matice musí být roven počtu řádků druhé";
+      } else if (e is DeterminantNotSquareException) {
+        message = "Matice musí být čtvercová";
+      }
+
+      if (calculation is Inverse && e is DivisionByZeroException) {
+        message = "Inverzní matice k zadané matici neexistuje";
+      }
+
+      // TODO: implement
+      throw CalcExpressionException(
+        friendlyMessage: message,
+        cause: e,
+      );
+    }
   }
 
   static List<Expression> _getCalculationSteps(Expression calculation) {
