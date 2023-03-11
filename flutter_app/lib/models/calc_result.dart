@@ -34,8 +34,13 @@ class CalcResult {
         message = "Matice musí být čtvercová";
       }
 
-      if (calculation is Inverse && e is DivisionByZeroException) {
-        message = "Inverzní matice k zadané matici neexistuje";
+      if (e is DivisionByZeroException) {
+        if (calculation is Inverse) {
+          message = "Inverzní matice k zadané matici neexistuje";
+        } else if (calculation is SolveWithCramer ||
+            calculation is SolveWithInverse) {
+          message = "Determinant matice rovnice nesmí být roven nule";
+        }
       }
 
       // TODO: implement
