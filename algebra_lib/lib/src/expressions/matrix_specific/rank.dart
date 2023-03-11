@@ -50,5 +50,5 @@ class Rank implements Expression {
   }
 
   @override
-  String toTeX() => 'h${matrix.toTeX()}';
+  String toTeX() => 'h(${matrix.toTeX()})';
 }

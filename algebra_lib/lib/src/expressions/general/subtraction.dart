@@ -48,7 +48,7 @@ class Subtraction implements Expression {
 
       if (leftMatrix.rowCount() != rightMatrix.rowCount() ||
           leftMatrix.columnCount() != rightMatrix.columnCount()) {
-        throw MatrixSizeMismatchException;
+        throw MatrixSizeMismatchException();
       }
 
       for (var r = 0; r < leftMatrix.rowCount(); r++) {

@@ -1,11 +1,15 @@
-class UndefinedOperationException implements Exception {}
+class ExpressionException implements Exception {}
 
-class MatrixMultiplySizeException implements Exception {}
+class UndefinedOperationException implements ExpressionException {}
 
-class VectorSizeMismatchException implements Exception {}
+class MatrixMultiplySizeException implements ExpressionException {}
 
-class MatrixSizeMismatchException implements Exception {}
+class VectorSizeMismatchException implements ExpressionException {}
 
-class MatrixRowSizeMismatchException implements Exception {}
+class MatrixSizeMismatchException implements ExpressionException {}
 
-class DeterminantNotSquareException implements Exception {}
+class MatrixRowSizeMismatchException implements ExpressionException {}
+
+class DeterminantNotSquareException implements ExpressionException {}
+
+class DivisionByZeroException implements ExpressionException {}

@@ -28,6 +28,10 @@ class Divide implements Expression {
       return numerator;
     }
 
+    if (denominator is Scalar && denominator == Scalar.zero()) {
+      throw DivisionByZeroException();
+    }
+
     if (numerator is! Scalar) {
       return Divide(numerator: numerator.simplify(), denominator: denominator);
     }

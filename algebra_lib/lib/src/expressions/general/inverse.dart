@@ -20,6 +20,10 @@ class Inverse implements Expression {
     }
 
     if (exp is Scalar) {
+      if (exp == Scalar.zero()) {
+        throw DivisionByZeroException();
+      }
+
       return Scalar(value: (exp as Scalar).value.inverse());
     }
 
