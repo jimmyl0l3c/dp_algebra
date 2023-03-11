@@ -7,7 +7,6 @@ import 'package:dp_algebra/models/calc_category.dart';
 import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_matrix_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
-import 'package:dp_algebra/utils/temp_util.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:dp_algebra/widgets/forms/styled_dropdown.dart';
@@ -148,11 +147,9 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
                 ButtonRowItem(
                     child: Text(matrix.key),
                     onPressed: () {
-                      MatrixModel? m = matrix.value;
-
                       Expression exp = Multiply(
                         left: Scalar(value: _scalarC),
-                        right: TempUtil.matrixFromMatrixModel(m),
+                        right: matrix.value.toMatrix(),
                       );
 
                       getIt<CalcSolutionsModel>().addSolution(
@@ -241,8 +238,7 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                   ButtonRowItem(
                     child: Text(matrix.key),
                     onPressed: () {
-                      MatrixModel? m = matrix.value;
-                      Expression expM = TempUtil.matrixFromMatrixModel(m);
+                      Expression expM = matrix.value.toMatrix();
                       Expression? exp;
                       try {
                         switch (operation) {
@@ -410,8 +406,8 @@ class _MatrixBinOperationSelectionState
                       return;
                     }
 
-                    Expression expLeftM = TempUtil.matrixFromMatrixModel(a);
-                    Expression expRightM = TempUtil.matrixFromMatrixModel(b);
+                    Expression expLeftM = a.toMatrix();
+                    Expression expRightM = b.toMatrix();
                     Expression? exp;
 
                     try {

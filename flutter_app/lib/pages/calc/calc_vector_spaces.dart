@@ -9,7 +9,6 @@ import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_vector_model.dart';
 import 'package:dp_algebra/utils/calc_utils.dart';
-import 'package:dp_algebra/utils/temp_util.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/forms/styled_dropdown.dart';
 import 'package:dp_algebra/widgets/forms/styled_popup.dart';
@@ -106,8 +105,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                 CalcResult.calculate(
                                   AreVectorsLinearlyIndependent(
                                     vectors: selectedVectors
-                                        .map((e) =>
-                                            TempUtil.vectorFromVectorModel(e))
+                                        .map((e) => e.toVector())
                                         .toList(),
                                   ),
                                 ),
@@ -161,8 +159,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                   FindBasis(
                                     matrix: Matrix.fromVectors(
                                       selectedVectors
-                                          .map((e) =>
-                                              TempUtil.vectorFromVectorModel(e))
+                                          .map((e) => e.toVector())
                                           .toList(),
                                     ),
                                   ),
@@ -339,8 +336,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                             CalcResult.calculate(
                               TransformCoords(
                                 transformMatrix: transformMatrix.result,
-                                coords: TempUtil.vectorFromVectorModel(
-                                    selectedVector),
+                                coords: selectedVector.toVector(),
                               ),
                             ),
                             CalcCategory.vectorSpace,
@@ -371,10 +367,10 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
     try {
       return CalcResult.calculate(TransformMatrix(
         basisA: Matrix.fromVectors(
-          basisA.map((e) => TempUtil.vectorFromVectorModel(e)).toList(),
+          basisA.map((e) => e.toVector()).toList(),
         ),
         basisB: Matrix.fromVectors(
-          basisB.map((e) => TempUtil.vectorFromVectorModel(e)).toList(),
+          basisB.map((e) => e.toVector()).toList(),
         ),
       ));
     } on VectorException catch (e) {

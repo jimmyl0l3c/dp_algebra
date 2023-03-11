@@ -7,7 +7,6 @@ import 'package:dp_algebra/models/calc_category.dart';
 import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_equation_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
-import 'package:dp_algebra/utils/temp_util.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/input/equation_input.dart';
 import 'package:dp_algebra/widgets/layout/solution_view.dart';
@@ -49,7 +48,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                   try {
                     getIt<CalcSolutionsModel>().addSolution(
                       CalcResult.calculate(GaussianElimination(
-                        matrix: TempUtil.matrixFromMatrixModel(m),
+                        matrix: m.toMatrix(),
                       )),
                       CalcCategory.equation,
                     );
@@ -66,7 +65,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                 onPressed: () {
                   EquationMatrix m = equationMatrix;
                   try {
-                    Matrix expMatrix = TempUtil.matrixFromMatrixModel(m);
+                    Matrix expMatrix = m.toMatrix();
                     List<Expression> vectorY = [];
                     int lastCol = expMatrix.columnCount() - 1;
                     for (var r = 0; r < expMatrix.rowCount(); r++) {
@@ -95,7 +94,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                 onPressed: () {
                   EquationMatrix m = equationMatrix;
                   try {
-                    Matrix expMatrix = TempUtil.matrixFromMatrixModel(m);
+                    Matrix expMatrix = m.toMatrix();
                     List<Expression> vectorY = [];
                     int lastCol = expMatrix.columnCount() - 1;
                     for (var r = 0; r < expMatrix.rowCount(); r++) {

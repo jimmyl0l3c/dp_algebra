@@ -1,3 +1,4 @@
+import 'package:algebra_lib/algebra_lib.dart';
 import 'package:dp_algebra/logic/general/extensions.dart';
 import 'package:fraction/fraction.dart';
 
@@ -85,4 +86,7 @@ class VectorModel {
     buffer.write(r' \end{pmatrix}');
     return buffer.toString();
   }
+
+  Vector toVector() =>
+      Vector(items: _entries.map((e) => Scalar(value: e)).toList());
 }
