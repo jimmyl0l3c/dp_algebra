@@ -46,5 +46,6 @@ class Divide implements Expression {
   }
 
   @override
-  String toTeX() => '\\frac{${numerator.toTeX()}}{${denominator.toTeX()}}';
+  String toTeX({Set<TexFlags>? flags}) =>
+      '\\frac{${numerator.toTeX()}}{${denominator.toTeX()}}';
 }

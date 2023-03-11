@@ -91,7 +91,7 @@ class AddRowToRowNTimes implements Expression {
   }
 
   @override
-  String toTeX() {
+  String toTeX({Set<TexFlags>? flags}) {
     return TexUtils.rowTransformToTeX(
       matrix,
       'r_{${target + 1}}+${n.toTeX()} \\cdot r_{${origin + 1}}',

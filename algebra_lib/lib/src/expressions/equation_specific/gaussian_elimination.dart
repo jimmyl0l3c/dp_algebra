@@ -79,5 +79,6 @@ class GaussianElimination implements Expression {
   }
 
   @override
-  String toTeX() => 'gaussianElimination(${matrix.toTeX()})';
+  String toTeX({Set<TexFlags>? flags}) =>
+      'gaussianElimination\\begin{pmatrix}${matrix.toTeX()}\\end{pmatrix}';
 }

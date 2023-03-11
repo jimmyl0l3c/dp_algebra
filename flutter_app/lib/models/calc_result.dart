@@ -40,10 +40,11 @@ class CalcResult {
         } else if (calculation is SolveWithCramer ||
             calculation is SolveWithInverse) {
           message = "Determinant matice rovnice nesmí být roven nule";
+        } else {
+          message = "Nelze dělit nulou";
         }
       }
 
-      // TODO: implement
       throw CalcExpressionException(
         friendlyMessage: message,
         cause: e,

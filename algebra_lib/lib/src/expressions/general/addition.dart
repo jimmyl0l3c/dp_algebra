@@ -70,5 +70,15 @@ class Addition implements Expression {
   }
 
   @override
-  String toTeX() => '(${left.toTeX()} + ${right.toTeX()})';
+  String toTeX({Set<TexFlags>? flags}) {
+    StringBuffer buffer = StringBuffer();
+
+    buffer.write('\\begin{pmatrix} ${left.toTeX()} ');
+    if (right is! Scalar || !(right as Scalar).value.isNegative) {
+      buffer.write('+');
+    }
+    buffer.write(' ${right.toTeX()} \\end{pmatrix}');
+
+    return buffer.toString();
+  }
 }

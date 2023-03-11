@@ -50,7 +50,7 @@ class SolveWithCramer implements Expression {
   }
 
   @override
-  String toTeX() {
+  String toTeX({Set<TexFlags>? flags}) {
     StringBuffer buffer = StringBuffer();
     buffer.write(r'cramer \left( \begin{matrix} ');
 

@@ -86,5 +86,8 @@ class Triangular implements Expression {
   }
 
   @override
-  String toTeX() => 'triang${matrix.toTeX()}';
+  String toTeX({Set<TexFlags>? flags}) =>
+      'triang\\begin{pmatrix}${matrix.toTeX(flags: {
+            TexFlags.dontEnclose,
+          })}\\end{pmatrix}';
 }

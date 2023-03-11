@@ -43,5 +43,6 @@ class TransformMatrix implements Expression {
   }
 
   @override
-  String toTeX() => 'transformMatrix(${basisA.toTeX()}, ${basisB.toTeX()})';
+  String toTeX({Set<TexFlags>? flags}) =>
+      'transformMatrix(${basisA.toTeX()}, ${basisB.toTeX()})';
 }

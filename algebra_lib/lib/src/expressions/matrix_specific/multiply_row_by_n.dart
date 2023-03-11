@@ -69,7 +69,7 @@ class MultiplyRowByN implements Expression {
   }
 
   @override
-  String toTeX() {
+  String toTeX({Set<TexFlags>? flags}) {
     return TexUtils.rowTransformToTeX(
       matrix,
       'r_{$row} \\cdot ${n.toTeX()}',

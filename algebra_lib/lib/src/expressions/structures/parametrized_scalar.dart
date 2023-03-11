@@ -27,7 +27,7 @@ class ParametrizedScalar implements Expression {
   }
 
   @override
-  String toTeX() {
+  String toTeX({Set<TexFlags>? flags}) {
     StringBuffer buffer = StringBuffer();
     for (var i = 0; i < values.length; i++) {
       String tex = values[i].toTeX();

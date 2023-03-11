@@ -62,5 +62,8 @@ class Determinant implements Expression {
   }
 
   @override
-  String toTeX() => '\\text{det}\\begin{vmatrix} ${det.toTeX()} \\end{vmatrix}';
+  String toTeX({Set<TexFlags>? flags}) =>
+      '\\text{det}\\begin{vmatrix} ${det.toTeX(flags: {
+            TexFlags.dontEnclose,
+          })} \\end{vmatrix}';
 }

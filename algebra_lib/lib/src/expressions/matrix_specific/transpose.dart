@@ -34,5 +34,5 @@ class Transpose implements Expression {
   }
 
   @override
-  String toTeX() => '${matrix.toTeX()}^{T}';
+  String toTeX({Set<TexFlags>? flags}) => '${matrix.toTeX()}^{T}';
 }

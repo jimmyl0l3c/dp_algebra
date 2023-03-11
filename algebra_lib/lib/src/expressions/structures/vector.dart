@@ -26,7 +26,7 @@ class Vector implements Expression {
   }
 
   @override
-  String toTeX() {
+  String toTeX({Set<TexFlags>? flags}) {
     StringBuffer buffer = StringBuffer(r'\begin{pmatrix} ');
 
     for (var i = 0; i < items.length; i++) {

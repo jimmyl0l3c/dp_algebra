@@ -45,5 +45,6 @@ class AlgSupplement implements Expression {
   }
 
   @override
-  String toTeX() => '\\mathcal{A}_{$row,$column}${matrix.toTeX()}';
+  String toTeX({Set<TexFlags>? flags}) =>
+      '\\mathcal{A}_{$row,$column}${matrix.toTeX()}';
 }

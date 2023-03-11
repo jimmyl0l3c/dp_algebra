@@ -72,5 +72,8 @@ class Reduce implements Expression {
   }
 
   @override
-  String toTeX() => 'reduce ${exp.toTeX()}';
+  String toTeX({Set<TexFlags>? flags}) =>
+      'reduce\\begin{pmatrix}${exp.toTeX(flags: {
+            TexFlags.dontEnclose,
+          })}\\end{pmatrix}';
 }

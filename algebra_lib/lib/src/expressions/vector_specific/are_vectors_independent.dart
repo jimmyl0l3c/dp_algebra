@@ -42,7 +42,7 @@ class AreVectorsLinearlyIndependent implements Expression {
   }
 
   @override
-  String toTeX() {
+  String toTeX({Set<TexFlags>? flags}) {
     StringBuffer buffer = StringBuffer(r"linIndependent \begin{Bmatrix}");
     for (var i = 0; i < vectors.length; i++) {
       buffer.write(vectors[i].toTeX());

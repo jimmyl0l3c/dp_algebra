@@ -1,4 +1,4 @@
-import 'package:algebra_lib/src/interfaces/tex_parseable.dart';
+import 'package:algebra_lib/algebra_lib.dart';
 
 class Expression implements TexParseable {
   Expression simplify() {
@@ -6,7 +6,7 @@ class Expression implements TexParseable {
   }
 
   @override
-  String toTeX() {
+  String toTeX({Set<TexFlags>? flags}) {
     throw UnimplementedError();
   }
 }

@@ -47,5 +47,5 @@ class FindBasis implements Expression {
   }
 
   @override
-  String toTeX() => 'basis(${matrix.toTeX()})';
+  String toTeX({Set<TexFlags>? flags}) => 'basis(${matrix.toTeX()})';
 }

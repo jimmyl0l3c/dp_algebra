@@ -37,3 +37,4 @@ export 'src/expressions/vector_specific/transform_coords.dart';
 export 'src/expressions/vector_specific/transform_matrix.dart';
 export 'src/interfaces/expression.dart';
 export 'src/interfaces/tex_parseable.dart';
+export 'src/tex_flags.dart';

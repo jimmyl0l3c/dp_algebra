@@ -43,5 +43,6 @@ class Minor implements Expression {
   }
 
   @override
-  String toTeX() => '\\mathcal{M}_{$row,$column}${matrix.toTeX()}';
+  String toTeX({Set<TexFlags>? flags}) =>
+      '\\mathcal{M}_{$row,$column}${matrix.toTeX()}';
 }

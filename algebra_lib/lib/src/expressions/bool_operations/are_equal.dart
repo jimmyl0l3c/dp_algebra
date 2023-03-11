@@ -20,5 +20,5 @@ class AreEqual implements Expression {
   }
 
   @override
-  String toTeX() => '${left.toTeX()} == ${right.toTeX()}';
+  String toTeX({Set<TexFlags>? flags}) => '${left.toTeX()} == ${right.toTeX()}';
 }

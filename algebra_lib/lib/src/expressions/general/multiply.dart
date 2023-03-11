@@ -140,5 +140,26 @@ class Multiply implements Expression {
   }
 
   @override
-  String toTeX() => '(${left.toTeX()} \\cdot ${right.toTeX()})';
+  String toTeX({Set<TexFlags>? flags}) {
+    StringBuffer buffer = StringBuffer();
+    if (left is Scalar && (left as Scalar).value.isNegative) {
+      buffer.write('(');
+    }
+    buffer.write(left.toTeX());
+    if (left is Scalar && (left as Scalar).value.isNegative) {
+      buffer.write(')');
+    }
+
+    buffer.write(r'\cdot ');
+
+    if (right is Scalar && (right as Scalar).value.isNegative) {
+      buffer.write('(');
+    }
+    buffer.write(right.toTeX());
+    if (right is Scalar && (right as Scalar).value.isNegative) {
+      buffer.write(')');
+    }
+
+    return buffer.toString();
+  }
 }

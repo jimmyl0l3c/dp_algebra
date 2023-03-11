@@ -48,5 +48,5 @@ class Inverse implements Expression {
   }
 
   @override
-  String toTeX() => '${exp.toTeX()}^{-1}';
+  String toTeX({Set<TexFlags>? flags}) => '${exp.toTeX()}^{-1}';
 }

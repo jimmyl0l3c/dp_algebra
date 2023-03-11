@@ -9,5 +9,5 @@ class Boolean implements Expression {
   Expression simplify() => this;
 
   @override
-  String toTeX() => value ? "Pravda" : "Nepravda";
+  String toTeX({Set<TexFlags>? flags}) => value ? "Pravda" : "Nepravda";
 }

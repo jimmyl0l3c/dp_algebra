@@ -54,7 +54,7 @@ class ExchangeRows implements Expression {
   }
 
   @override
-  String toTeX() {
+  String toTeX({Set<TexFlags>? flags}) {
     return TexUtils.rowTransformToTeX(
       matrix,
       'r_{$row1} \\leftrightarrow r_{$row2}',

@@ -20,7 +20,7 @@ class Variable implements Expression {
   }
 
   @override
-  String toTeX() {
+  String toTeX({Set<TexFlags>? flags}) {
     StringBuffer buffer = StringBuffer();
     if (n != Scalar.one()) {
       buffer.write(n.toTeX());

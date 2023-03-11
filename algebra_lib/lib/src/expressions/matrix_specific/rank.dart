@@ -50,5 +50,8 @@ class Rank implements Expression {
   }
 
   @override
-  String toTeX() => 'h(${matrix.toTeX()})';
+  String toTeX({Set<TexFlags>? flags}) =>
+      'h\\begin{pmatrix}${matrix.toTeX(flags: {
+            TexFlags.dontEnclose,
+          })}\\end{pmatrix}';
 }

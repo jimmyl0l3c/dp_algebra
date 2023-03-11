@@ -14,7 +14,7 @@ class Scalar implements Expression {
 
   // TODO: add toTeX() extension to Fraction
   @override
-  String toTeX() => value.reduce().toString();
+  String toTeX({Set<TexFlags>? flags}) => value.reduce().toString();
 
   @override
   String toString() => value.reduce().toString();

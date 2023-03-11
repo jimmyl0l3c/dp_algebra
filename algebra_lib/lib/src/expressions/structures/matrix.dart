@@ -55,10 +55,17 @@ class Matrix implements Expression {
   }
 
   @override
-  String toTeX() {
+  String toTeX({Set<TexFlags>? flags}) {
     if (this.rows.isEmpty) return '()';
 
-    StringBuffer buffer = StringBuffer(r'\begin{pmatrix} ');
+    StringBuffer buffer = StringBuffer();
+
+    if (flags != null && flags.contains(TexFlags.dontEnclose)) {
+      buffer.write(r'\begin{matrix}');
+    } else {
+      buffer.write(r'\begin{pmatrix}');
+    }
+
     int rows = rowCount();
     int cols = columnCount();
 
@@ -71,7 +78,11 @@ class Matrix implements Expression {
       if (r != (rows - 1)) buffer.write(r' \\ ');
     }
 
-    buffer.write(r' \end{pmatrix}');
+    if (flags != null && flags.contains(TexFlags.dontEnclose)) {
+      buffer.write(r'\end{matrix}');
+    } else {
+      buffer.write(r'\end{pmatrix}');
+    }
     return buffer.toString();
   }
 

@@ -37,6 +37,6 @@ class TransformCoords implements Expression {
   }
 
   @override
-  String toTeX() =>
+  String toTeX({Set<TexFlags>? flags}) =>
       'tramsformCoords(${transformMatrix.toTeX()}, ${coords.toTeX()})';
 }

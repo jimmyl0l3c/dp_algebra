@@ -90,5 +90,8 @@ class TriangularDet implements Expression {
   }
 
   @override
-  String toTeX() => 'triang\\begin{vmatrix}${det.toTeX()}\\end{vmatrix}';
+  String toTeX({Set<TexFlags>? flags}) =>
+      'triang\\begin{vmatrix}${det.toTeX(flags: {
+            TexFlags.dontEnclose,
+          })}\\end{vmatrix}';
 }
