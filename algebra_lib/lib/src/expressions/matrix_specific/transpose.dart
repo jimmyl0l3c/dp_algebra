@@ -34,5 +34,8 @@ class Transpose implements Expression {
   }
 
   @override
-  String toTeX({Set<TexFlags>? flags}) => '${matrix.toTeX()}^{T}';
+  String toTeX({Set<TexFlags>? flags}) =>
+      '\\begin{pmatrix}${matrix.toTeX(flags: {
+            TexFlags.dontEnclose,
+          })}\\end{pmatrix}^{T}';
 }

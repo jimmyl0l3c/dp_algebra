@@ -16,6 +16,12 @@ class _CalcStepperState extends State<CalcStepper> {
   int step = 0;
 
   @override
+  void initState() {
+    step = 0;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -76,6 +82,7 @@ class _CalcStepperState extends State<CalcStepper> {
   }
 
   String _stepToTeX(Expression step) {
+    print(step.toTeX()); // TODO: debug only, remove
     return step.toTeX();
     // StringBuffer buffer = StringBuffer();
     //
