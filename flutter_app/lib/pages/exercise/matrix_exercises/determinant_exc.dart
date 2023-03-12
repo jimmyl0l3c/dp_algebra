@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/logic/matrix/matrix_model.dart';
 import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
@@ -22,9 +21,16 @@ class DeterminantExc extends StatefulWidget {
 class _DeterminantExcState extends State<DeterminantExc> {
   Random random = Random();
 
-  MatrixModel determinant = MatrixModel(columns: 1, rows: 1);
-  CalcResult? correctSolution;
+  late Expression exercise;
+  late CalcResult correctSolution;
+
   Fraction solution = Fraction(0);
+
+  @override
+  void initState() {
+    super.initState();
+    generateDeterminant(2);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +70,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
         ),
       ],
       example: Math.tex(
-        '${determinant.toTeX(isDeterminant: true)} =',
+        '${exercise.toTeX()} =',
         textScaleFactor: 1.4,
       ),
       result: FractionInput(
@@ -87,7 +93,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
     );
   }
 
-  bool isAnswerCorrect() => Scalar(value: solution) == correctSolution?.result;
+  bool isAnswerCorrect() => Scalar(value: solution) == correctSolution.result;
 
   void generateRandomDeterminant() {
     int size = 1 + ExerciseUtils.generateSize();
@@ -95,9 +101,11 @@ class _DeterminantExcState extends State<DeterminantExc> {
   }
 
   void generateDeterminant(int size) {
-    determinant = ExerciseUtils.generateMatrix(rows: size, columns: size);
-    correctSolution = CalcResult.calculate(
-      Determinant(det: determinant.toMatrix()),
-    );
+    var determinant = ExerciseUtils.generateMatrix(
+      rows: size,
+      columns: size,
+    ).toMatrix();
+    exercise = Determinant(det: determinant);
+    correctSolution = CalcResult.calculate(exercise);
   }
 }

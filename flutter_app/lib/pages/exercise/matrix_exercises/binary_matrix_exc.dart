@@ -21,12 +21,16 @@ class BinaryMatrixExc extends StatefulWidget {
 class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
   Random random = Random();
 
-  MatrixModel matrixA = MatrixModel(columns: 1, rows: 1);
-  MatrixModel matrixB = MatrixModel(columns: 1, rows: 1);
-  CalcResult? correctSolution;
+  late Expression exercise;
+  late CalcResult correctSolution;
 
   MatrixModel solution = MatrixModel(columns: 1, rows: 1);
-  String operationSymbol = '+';
+
+  @override
+  void initState() {
+    super.initState();
+    generateRandomExample();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,24 +76,26 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
         runAlignment: WrapAlignment.center,
         runSpacing: 12.0,
         children: Math.tex(
-          '${matrixA.toTeX()} $operationSymbol ${matrixB.toTeX()} =',
+          '${exercise.toTeX(flags: {TexFlags.dontEnclose})} =',
           textScaleFactor: 1.4,
         ).texBreak().parts,
       ),
       result: MatrixInput(matrix: solution),
       resolveButtons: [
         ButtonRowItem(
-            child: const Text('Zkontrolovat'),
-            onPressed: () {
-              // TODO: replace this
-              AlgebraUtils.showMessage(
-                  context, isAnswerCorrect() ? 'Správně' : 'Špatně');
-            })
+          child: const Text('Zkontrolovat'),
+          onPressed: () {
+            // TODO: replace this
+            AlgebraUtils.showMessage(
+                context, isAnswerCorrect() ? 'Správně' : 'Špatně');
+          },
+        ),
       ],
+      solution: correctSolution,
     );
   }
 
-  bool isAnswerCorrect() => correctSolution?.result == solution.toMatrix();
+  bool isAnswerCorrect() => correctSolution.result == solution.toMatrix();
 
   void generateRandomExample() {
     List<String> operations = ['+', '-', '*'];
@@ -102,42 +108,44 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
   }
 
   void generateEntryWiseExample(String operation) {
-    operationSymbol = operation;
     int rows = ExerciseUtils.generateSize();
     int cols = ExerciseUtils.generateSize();
-    matrixA = ExerciseUtils.generateMatrix(rows: rows, columns: cols);
-    matrixB = ExerciseUtils.generateMatrix(rows: rows, columns: cols);
 
-    if (operationSymbol == '+') {
-      correctSolution = CalcResult.calculate(
-        Addition(
-          left: matrixA.toMatrix(),
-          right: matrixB.toMatrix(),
-        ),
-      );
-    } else if (operationSymbol == '-') {
-      correctSolution = CalcResult.calculate(
-        Subtraction(
-          left: matrixA.toMatrix(),
-          right: matrixB.toMatrix(),
-        ),
-      );
+    var matrixA = ExerciseUtils.generateMatrix(
+      rows: rows,
+      columns: cols,
+    ).toMatrix();
+    var matrixB = ExerciseUtils.generateMatrix(
+      rows: rows,
+      columns: cols,
+    ).toMatrix();
+
+    if (operation == '+') {
+      exercise = Addition(left: matrixA, right: matrixB);
+    } else if (operation == '-') {
+      exercise = Subtraction(left: matrixA, right: matrixB);
     }
+    correctSolution = CalcResult.calculate(exercise);
   }
 
   void generateMultiplyExample() {
-    operationSymbol = r'\cdot';
     int rows = ExerciseUtils.generateSize();
     int cols = ExerciseUtils.generateSize();
     int cols2 = ExerciseUtils.generateSize();
-    matrixA = ExerciseUtils.generateMatrix(rows: rows, columns: cols);
-    matrixB = ExerciseUtils.generateMatrix(rows: cols, columns: cols2);
 
-    correctSolution = CalcResult.calculate(
-      Multiply(
-        left: matrixA.toMatrix(),
-        right: matrixB.toMatrix(),
-      ),
+    var matrixA = ExerciseUtils.generateMatrix(
+      rows: rows,
+      columns: cols,
+    ).toMatrix();
+    var matrixB = ExerciseUtils.generateMatrix(
+      rows: cols,
+      columns: cols2,
+    ).toMatrix();
+
+    exercise = Multiply(
+      left: matrixA,
+      right: matrixB,
     );
+    correctSolution = CalcResult.calculate(exercise);
   }
 }

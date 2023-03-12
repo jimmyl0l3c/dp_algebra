@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:collection/collection.dart';
 
 class Matrix implements Expression {
   final List<List<Expression>> rows;
@@ -36,6 +37,15 @@ class Matrix implements Expression {
     }
 
     return Matrix(rows: vectors.map((v) => v.items).toList());
+  }
+
+  factory Matrix.toEquationMatrix(Matrix matrix, Vector vectorY) {
+    List<List<Expression>> matrixRows = matrix.rows.mapIndexed((i, r) {
+      List<Expression> row = List.from(r)..add(vectorY[i]);
+      return row;
+    }).toList();
+
+    return Matrix(rows: matrixRows);
   }
 
   @override

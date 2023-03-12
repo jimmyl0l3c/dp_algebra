@@ -22,6 +22,12 @@ class ExerciseUtils {
     return m;
   }
 
+  static MatrixModel generateSquareMatrix(int size) =>
+      ExerciseUtils.generateMatrix(
+        rows: size,
+        columns: size,
+      );
+
   static VectorModel generateVector({int? length}) {
     length ??= generateSize();
 
@@ -35,7 +41,7 @@ class ExerciseUtils {
   }
 
   static Fraction generateFraction() {
-    int num = random.nextInt(50) - 25;
+    int num = random.nextInt(30) - 15;
     return num.toFraction();
   }
 

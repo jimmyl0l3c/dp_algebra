@@ -47,6 +47,7 @@ class GeneralSolution {
     }
   }
 
+  // TODO: migrate to expressions
   GeneralSolution.fromVariableMap(Map<int, SolutionVariable> solution,
       {int? varCount}) {
     int length = varCount ?? solution.length;

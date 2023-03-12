@@ -73,11 +73,17 @@ class Addition implements Expression {
   String toTeX({Set<TexFlags>? flags}) {
     StringBuffer buffer = StringBuffer();
 
-    buffer.write('\\begin{pmatrix} ${left.toTeX()} ');
+    if (flags == null || !flags.contains(TexFlags.dontEnclose)) {
+      buffer.write(r'\begin{pmatrix}');
+    }
+    buffer.write('${left.toTeX()} ');
     if (right is! Scalar || !(right as Scalar).value.isNegative) {
       buffer.write('+');
     }
-    buffer.write(' ${right.toTeX()} \\end{pmatrix}');
+    buffer.write(' ${right.toTeX()}');
+    if (flags == null || !flags.contains(TexFlags.dontEnclose)) {
+      buffer.write(r'\end{pmatrix}');
+    }
 
     return buffer.toString();
   }

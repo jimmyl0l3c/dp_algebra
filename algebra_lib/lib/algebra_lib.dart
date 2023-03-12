@@ -7,6 +7,7 @@ export 'src/algebra_lib_base.dart';
 export 'src/exceptions.dart';
 export 'src/expressions/bool_operations/are_equal.dart';
 export 'src/expressions/equation_specific/gaussian_elimination.dart';
+export 'src/expressions/equation_specific/is_solvable.dart';
 export 'src/expressions/equation_specific/solve_with_cramer.dart';
 export 'src/expressions/equation_specific/solve_with_inverse.dart';
 export 'src/expressions/general/addition.dart';

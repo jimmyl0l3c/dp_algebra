@@ -17,10 +17,16 @@ class InverseMatrixExc extends StatefulWidget {
 }
 
 class _InverseMatrixExcState extends State<InverseMatrixExc> {
-  MatrixModel matrix = MatrixModel(columns: 1, rows: 1);
   MatrixModel solution = MatrixModel(columns: 1, rows: 1);
 
+  late Expression exercise;
   CalcResult? correctSolution;
+
+  @override
+  void initState() {
+    super.initState();
+    generateSquareMatrix(3);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +36,12 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
             child: const Text('Vygenerovat'),
             onPressed: () {
               setState(() {
-                generateSquareMatrix(ExerciseUtils.generateSize());
+                generateSquareMatrix(ExerciseUtils.generateSize(min: 2));
               });
             })
       ],
       example: Math.tex(
-        '${matrix.toTeX()} =',
+        '${exercise.toTeX()} =',
         textScaleFactor: 1.4,
       ),
       result: MatrixInput(matrix: solution),
@@ -58,19 +64,17 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
     );
   }
 
-  bool inverseExists() {
-    if (!matrix.isSquare()) return false;
-    if (correctSolution == null) return false;
-    return true;
-  }
+  bool inverseExists() => correctSolution != null;
 
   bool isAnswerCorrect() => solution.toMatrix() == correctSolution?.result;
 
   void generateSquareMatrix(int size) {
-    matrix = ExerciseUtils.generateMatrix(rows: size, columns: size);
+    var matrix = ExerciseUtils.generateSquareMatrix(size).toMatrix();
+    exercise = Inverse(exp: matrix);
+
     try {
-      correctSolution = CalcResult.calculate(Inverse(exp: matrix.toMatrix()));
-    } on Exception {
+      correctSolution = CalcResult.calculate(exercise);
+    } on ExpressionException {
       correctSolution = null;
     }
   }

@@ -1,3 +1,4 @@
+import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,7 @@ class ExercisePage extends StatelessWidget {
   final Widget example;
   final Widget? result;
   final List<ButtonRowItem> resolveButtons;
+  final CalcResult? solution;
 
   const ExercisePage({
     Key? key,
@@ -13,6 +15,7 @@ class ExercisePage extends StatelessWidget {
     required this.example,
     this.result,
     required this.resolveButtons,
+    this.solution,
   }) : super(key: key);
 
   @override
@@ -62,6 +65,7 @@ class ExercisePage extends StatelessWidget {
                 ),
                 children: resolveButtons,
               ),
+              // if (solution != null) ExerciseSolution(solution: solution!),
             ],
           ),
         ),
