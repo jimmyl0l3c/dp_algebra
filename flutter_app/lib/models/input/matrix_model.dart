@@ -1,7 +1,6 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/logic/general/extensions.dart';
-import 'package:dp_algebra/logic/vector/vector_exceptions.dart' as legacy;
-import 'package:dp_algebra/logic/vector/vector_model.dart';
+import 'package:dp_algebra/models/input/vector_model.dart';
+import 'package:dp_algebra/utils/extensions.dart';
 import 'package:fraction/fraction.dart';
 
 class MatrixModel {
@@ -28,7 +27,7 @@ class MatrixModel {
   MatrixModel.fromVectors(List<VectorModel> vectors, {bool vertical = false}) {
     if (vectors.isNotEmpty &&
         vectors.any((v) => v.length() != vectors.first.length())) {
-      throw legacy.VectorSizeMismatchException();
+      throw VectorSizeMismatchException();
     }
 
     _defaultVal = 0.toFraction();

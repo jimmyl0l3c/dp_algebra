@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:dp_algebra/logic/matrix/matrix_model.dart';
-import 'package:dp_algebra/logic/vector/vector_model.dart';
+import 'package:dp_algebra/models/input/matrix_model.dart';
+import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:fraction/fraction.dart';
 
 class ExerciseUtils {

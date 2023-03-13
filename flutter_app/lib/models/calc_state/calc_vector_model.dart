@@ -1,4 +1,4 @@
-import 'package:dp_algebra/logic/vector/vector_model.dart';
+import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:flutter/widgets.dart';
 
 enum VectorSelectionType { base, transformA, transformB, independence }

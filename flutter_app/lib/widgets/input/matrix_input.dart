@@ -1,4 +1,4 @@
-import 'package:dp_algebra/logic/matrix/matrix_model.dart';
+import 'package:dp_algebra/models/input/matrix_model.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:dp_algebra/widgets/input/fraction_input.dart';
 import 'package:flutter/material.dart';

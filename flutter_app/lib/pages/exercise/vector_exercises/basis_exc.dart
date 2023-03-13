@@ -1,4 +1,4 @@
-import 'package:dp_algebra/logic/vector/vector_model.dart';
+import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
 import 'package:dp_algebra/utils/utils.dart';

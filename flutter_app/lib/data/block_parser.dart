@@ -1,5 +1,5 @@
-import 'package:dp_algebra/logic/general/extensions.dart';
 import 'package:dp_algebra/models/learn/block_content.dart';
+import 'package:dp_algebra/utils/extensions.dart';
 
 class BlockParser {
   static List<LBlockContent> parseBlock(String block) {

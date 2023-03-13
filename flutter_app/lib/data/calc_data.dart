@@ -1,5 +1,5 @@
-import 'package:dp_algebra/models/section_chapter.dart';
-import 'package:dp_algebra/models/section_page.dart';
+import 'package:dp_algebra/models/app_pages/section_chapter.dart';
+import 'package:dp_algebra/models/app_pages/section_page.dart';
 import 'package:dp_algebra/pages/calc/calc_equations.dart';
 import 'package:dp_algebra/pages/calc/calc_matrices.dart';
 import 'package:dp_algebra/pages/calc/calc_vector_spaces.dart';

@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/logic/matrix/matrix_model.dart';
-import 'package:dp_algebra/models/calc_result.dart';
+import 'package:dp_algebra/models/calc/calc_result.dart';
+import 'package:dp_algebra/models/input/matrix_model.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
 import 'package:dp_algebra/utils/utils.dart';

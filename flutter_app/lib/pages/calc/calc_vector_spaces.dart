@@ -1,12 +1,12 @@
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:collection/collection.dart';
-import 'package:dp_algebra/logic/vector/vector_model.dart';
 import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/models/calc_category.dart';
-import 'package:dp_algebra/models/calc_expression_exception.dart';
-import 'package:dp_algebra/models/calc_result.dart';
+import 'package:dp_algebra/models/calc/calc_category.dart';
+import 'package:dp_algebra/models/calc/calc_expression_exception.dart';
+import 'package:dp_algebra/models/calc/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_vector_model.dart';
+import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:dp_algebra/utils/calc_utils.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/forms/styled_dropdown.dart';

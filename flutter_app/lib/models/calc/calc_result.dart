@@ -1,6 +1,6 @@
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/models/calc_expression_exception.dart';
+import 'package:dp_algebra/models/calc/calc_expression_exception.dart';
 
 class CalcResult {
   final Expression calculation;
@@ -45,6 +45,8 @@ class CalcResult {
           message = "Nelze dělit nulou";
         }
       }
+
+      // TODO: handle new exceptions (basis size mismatch, ...)
 
       throw CalcExpressionException(
         friendlyMessage: message,

@@ -1,4 +1,4 @@
-import 'package:dp_algebra/logic/matrix/matrix_model.dart';
+import 'package:dp_algebra/models/input/matrix_model.dart';
 import 'package:flutter/widgets.dart';
 
 class CalcMatrixModel extends ChangeNotifier {

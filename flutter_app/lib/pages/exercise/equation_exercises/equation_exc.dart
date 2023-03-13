@@ -1,9 +1,8 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/logic/equation_matrix/equation_matrix.dart';
 import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/models/calc_result.dart';
+import 'package:dp_algebra/models/calc/calc_result.dart';
 import 'package:dp_algebra/models/exc_state/variable_value.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
@@ -25,8 +24,8 @@ class _EquationExcState extends State<EquationExc> {
 
   late Expression exercise;
   CalcResult? correctSolution;
+  int variableCount = 0;
 
-  EquationMatrix equationMatrix = EquationMatrix(columns: 2, rows: 1);
   Map<int, SolutionVariable> solution = {};
 
   @override
@@ -64,7 +63,7 @@ class _EquationExcState extends State<EquationExc> {
       result: SolutionInput(
         name: 'x',
         solution: solution,
-        variableCount: equationMatrix.getColumns() - 1,
+        variableCount: variableCount,
       ),
       resolveButtons: [
         ButtonRowItem(
@@ -135,6 +134,7 @@ class _EquationExcState extends State<EquationExc> {
   }
 
   void setExercise(Matrix matrix, Vector vectorY) {
+    variableCount = matrix.columnCount();
     var isSolvable = CalcResult.calculate(
       IsSolvable(matrix: matrix, vectorY: vectorY),
     );

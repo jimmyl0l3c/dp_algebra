@@ -1,4 +1,4 @@
-import 'package:dp_algebra/models/calc_result.dart';
+import 'package:dp_algebra/models/calc/calc_result.dart';
 import 'package:dp_algebra/widgets/layout/calc_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';

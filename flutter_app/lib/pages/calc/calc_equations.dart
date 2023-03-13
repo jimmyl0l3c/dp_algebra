@@ -1,11 +1,11 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/logic/equation_matrix/equation_matrix.dart';
 import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/models/calc_category.dart';
-import 'package:dp_algebra/models/calc_expression_exception.dart';
-import 'package:dp_algebra/models/calc_result.dart';
+import 'package:dp_algebra/models/calc/calc_category.dart';
+import 'package:dp_algebra/models/calc/calc_expression_exception.dart';
+import 'package:dp_algebra/models/calc/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_equation_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
+import 'package:dp_algebra/models/input/matrix_model.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/input/equation_input.dart';
 import 'package:dp_algebra/widgets/layout/solution_view.dart';
@@ -17,7 +17,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
-    EquationMatrix equationMatrix =
+    MatrixModel equationMatrix =
         watchX((CalcEquationModel x) => x.equationMatrix);
     List<CalcResult> solutions =
         watchX((CalcSolutionsModel x) => x.equationSolutions);
@@ -43,7 +43,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: ElevatedButton(
                 onPressed: () {
-                  EquationMatrix m = equationMatrix;
+                  MatrixModel m = equationMatrix;
                   try {
                     getIt<CalcSolutionsModel>().addSolution(
                       CalcResult.calculate(GaussianElimination(
@@ -62,7 +62,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: ElevatedButton(
                 onPressed: () {
-                  EquationMatrix m = equationMatrix;
+                  MatrixModel m = equationMatrix;
                   try {
                     Matrix expMatrix = m.toMatrix();
                     List<Expression> vectorY = [];
@@ -89,7 +89,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: ElevatedButton(
                 onPressed: () {
-                  EquationMatrix m = equationMatrix;
+                  MatrixModel m = equationMatrix;
                   try {
                     Matrix expMatrix = m.toMatrix();
                     List<Expression> vectorY = [];

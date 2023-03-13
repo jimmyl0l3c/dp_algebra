@@ -1,5 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/logic/general/extensions.dart';
+import 'package:dp_algebra/utils/extensions.dart';
 import 'package:fraction/fraction.dart';
 
 class VectorModel {

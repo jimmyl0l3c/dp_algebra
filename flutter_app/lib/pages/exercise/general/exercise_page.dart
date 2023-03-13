@@ -1,4 +1,4 @@
-import 'package:dp_algebra/models/calc_result.dart';
+import 'package:dp_algebra/models/calc/calc_result.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:dp_algebra/models/section_page.dart';
+import 'package:dp_algebra/models/app_pages/section_page.dart';
 
 class SectionChapterModel {
   String title;

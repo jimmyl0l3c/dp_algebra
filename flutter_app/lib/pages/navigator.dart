@@ -1,10 +1,10 @@
 import 'package:dp_algebra/data/calc_data.dart';
 import 'package:dp_algebra/data/db_service.dart';
 import 'package:dp_algebra/data/exercise_data.dart';
+import 'package:dp_algebra/models/app_pages/section_chapter.dart';
+import 'package:dp_algebra/models/app_pages/section_page.dart';
 import 'package:dp_algebra/models/db/learn_article.dart';
 import 'package:dp_algebra/models/db/learn_chapter.dart';
-import 'package:dp_algebra/models/section_chapter.dart';
-import 'package:dp_algebra/models/section_page.dart';
 import 'package:dp_algebra/pages/generic/alg_chapter_view.dart';
 import 'package:dp_algebra/pages/generic/alg_menu_view.dart';
 import 'package:dp_algebra/pages/generic/alg_page_view.dart';

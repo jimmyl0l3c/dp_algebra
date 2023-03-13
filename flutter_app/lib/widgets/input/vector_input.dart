@@ -1,4 +1,4 @@
-import 'package:dp_algebra/logic/vector/vector_model.dart';
+import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:dp_algebra/widgets/input/fraction_input.dart';
 import 'package:dp_algebra/widgets/input/input_utils.dart';

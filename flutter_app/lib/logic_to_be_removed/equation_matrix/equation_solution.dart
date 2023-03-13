@@ -1,10 +1,10 @@
-import 'package:dp_algebra/logic/equation_matrix/equation_matrix.dart';
-import 'package:dp_algebra/logic/general/tex_parsable.dart';
-import 'package:dp_algebra/logic/vector/vector_model.dart';
+import 'package:dp_algebra/logic_to_be_removed/equation_matrix/equation_matrix.dart';
 import 'package:dp_algebra/models/exc_state/variable_value.dart';
+import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:fraction/fraction.dart';
 
-class EquationSolution implements TexParsable {
+// TODO: remove this
+class EquationSolution {
   final EquationMatrix equationMatrix;
   final VectorModel? solution;
   final GeneralSolution? generalSolution;

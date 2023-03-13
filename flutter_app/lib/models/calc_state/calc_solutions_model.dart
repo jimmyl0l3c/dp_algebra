@@ -1,5 +1,5 @@
-import 'package:dp_algebra/models/calc_category.dart';
-import 'package:dp_algebra/models/calc_result.dart';
+import 'package:dp_algebra/models/calc/calc_category.dart';
+import 'package:dp_algebra/models/calc/calc_result.dart';
 import 'package:flutter/widgets.dart';
 
 class CalcSolutionsModel extends ChangeNotifier {

@@ -1,12 +1,12 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/logic/matrix/matrix_model.dart';
-import 'package:dp_algebra/logic/matrix/matrix_operations.dart';
 import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/models/calc_category.dart';
-import 'package:dp_algebra/models/calc_expression_exception.dart';
-import 'package:dp_algebra/models/calc_result.dart';
+import 'package:dp_algebra/models/calc/calc_category.dart';
+import 'package:dp_algebra/models/calc/calc_expression_exception.dart';
+import 'package:dp_algebra/models/calc/calc_result.dart';
 import 'package:dp_algebra/models/calc_state/calc_matrix_model.dart';
 import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
+import 'package:dp_algebra/models/input/matrix_model.dart';
+import 'package:dp_algebra/models/input/matrix_operations.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:dp_algebra/widgets/forms/styled_dropdown.dart';

@@ -1,7 +1,8 @@
-import 'package:dp_algebra/logic/general/extensions.dart';
-import 'package:dp_algebra/logic/matrix/matrix_model.dart';
-import 'package:dp_algebra/logic/vector/vector_model.dart';
+import 'package:dp_algebra/models/input/matrix_model.dart';
+import 'package:dp_algebra/models/input/vector_model.dart';
+import 'package:dp_algebra/utils/extensions.dart';
 
+// TODO: remove this
 class EquationMatrix extends MatrixModel {
   EquationMatrix({int columns = 1, int rows = 1, int defaultValue = 0})
       : super(columns: columns, rows: rows, defaultValue: defaultValue);
