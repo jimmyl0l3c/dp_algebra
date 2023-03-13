@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:dp_algebra/logic/equation_matrix/equation_matrix.dart';
+import 'package:dp_algebra/main.dart';
 import 'package:dp_algebra/models/calc_result.dart';
 import 'package:dp_algebra/models/exc_state/variable_value.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
@@ -95,8 +96,9 @@ class _EquationExcState extends State<EquationExc> {
       //   varCount: equationMatrix.getColumns() - 1,
       // );
       // return correctSolution == filledSolution;
-    } on Error {
-      // TODO: at least log the error, ideally show to user
+    } on Error catch (e) {
+      // TODO: ideally show to user
+      logger.e(e.toString());
       return false;
     }
     return false;

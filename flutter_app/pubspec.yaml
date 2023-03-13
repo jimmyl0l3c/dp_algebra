@@ -46,6 +46,7 @@ dependencies:
 
   algebra_lib:
     path: ../algebra_lib
+  logger: ^1.3.0
 
 dev_dependencies:
   flutter_test:

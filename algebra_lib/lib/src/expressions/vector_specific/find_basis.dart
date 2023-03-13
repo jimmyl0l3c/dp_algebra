@@ -7,6 +7,7 @@ class FindBasis implements Expression {
     if (matrix is Vector || matrix is Scalar) {
       throw UndefinedOperationException();
     }
+    // TODO: make factory constructor that has List<Vector> as input
   }
 
   @override

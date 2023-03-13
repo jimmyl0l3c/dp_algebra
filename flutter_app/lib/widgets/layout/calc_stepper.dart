@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:dp_algebra/main.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
@@ -32,22 +33,42 @@ class _CalcStepperState extends State<CalcStepper> {
           ),
           children: [
             ButtonRowItem(
+              child: const Text('<<'),
+              onPressed: () {
+                if (step == 0) return;
+                setState(() {
+                  step = 0;
+                });
+              },
+            ),
+            ButtonRowItem(
               child: const Text('<'),
               onPressed: () {
-                setState(() {
-                  if (step > 0) {
+                if (step > 0) {
+                  setState(() {
                     step--;
-                  }
-                });
+                  });
+                }
               },
             ),
             ButtonRowItem(
               child: const Text('>'),
               onPressed: () {
-                setState(() {
-                  if (step < widget.steps.length - 1) {
+                if (step < widget.steps.length - 1) {
+                  setState(() {
                     step++;
-                  }
+                  });
+                }
+              },
+            ),
+            ButtonRowItem(
+              child: const Text('>>'),
+              onPressed: () {
+                int newStep = widget.steps.length - 1;
+
+                if (step == newStep) return;
+                setState(() {
+                  step = newStep;
                 });
               },
             ),
@@ -82,7 +103,7 @@ class _CalcStepperState extends State<CalcStepper> {
   }
 
   String _stepToTeX(Expression step) {
-    print(step.toTeX()); // TODO: debug only, remove
+    logger.d(step.toTeX());
     return step.toTeX();
     // StringBuffer buffer = StringBuffer();
     //

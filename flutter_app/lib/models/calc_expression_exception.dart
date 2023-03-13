@@ -1,6 +1,6 @@
 class CalcExpressionException implements Exception {
   final String friendlyMessage;
-  final Exception cause;
+  final Exception? cause;
 
   CalcExpressionException({
     required this.friendlyMessage,
