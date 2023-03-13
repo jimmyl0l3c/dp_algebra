@@ -33,4 +33,20 @@ class ExpressionSet implements Expression {
     buffer.write(r'\}');
     return buffer.toString();
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! ExpressionSet) return false;
+    if (other.length() != length()) return false;
+
+    for (var item in items) {
+      if (!other.items.contains(item)) return false;
+    }
+
+    return true;
+  }
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => items.hashCode;
 }
