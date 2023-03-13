@@ -33,7 +33,7 @@ class _CalcStepperState extends State<CalcStepper> {
           ),
           children: [
             ButtonRowItem(
-              child: const Text('<<'),
+              child: const Icon(Icons.first_page),
               onPressed: () {
                 if (step == 0) return;
                 setState(() {
@@ -42,7 +42,7 @@ class _CalcStepperState extends State<CalcStepper> {
               },
             ),
             ButtonRowItem(
-              child: const Text('<'),
+              child: const Icon(Icons.navigate_before),
               onPressed: () {
                 if (step > 0) {
                   setState(() {
@@ -52,7 +52,7 @@ class _CalcStepperState extends State<CalcStepper> {
               },
             ),
             ButtonRowItem(
-              child: const Text('>'),
+              child: const Icon(Icons.navigate_next),
               onPressed: () {
                 if (step < widget.steps.length - 1) {
                   setState(() {
@@ -62,7 +62,7 @@ class _CalcStepperState extends State<CalcStepper> {
               },
             ),
             ButtonRowItem(
-              child: const Text('>>'),
+              child: const Icon(Icons.last_page),
               onPressed: () {
                 int newStep = widget.steps.length - 1;
 
@@ -74,6 +74,7 @@ class _CalcStepperState extends State<CalcStepper> {
             ),
           ],
         ),
+        const SizedBox(height: 8),
         Wrap(
           direction: Axis.horizontal,
           alignment: WrapAlignment.center,
@@ -82,7 +83,11 @@ class _CalcStepperState extends State<CalcStepper> {
           runSpacing: 12.0,
           children: widget.steps.isEmpty
               ? []
-              : Math.tex(_stepToTeX(widget.steps[step])).texBreak().parts,
+              : Math.tex(
+                  _stepToTeX(widget.steps[step]),
+                  mathStyle: MathStyle.display,
+                  textScaleFactor: 1.2,
+                ).texBreak().parts,
         ),
         // TODO: add hint (what operation is being done)
         // Wrap(
@@ -103,7 +108,7 @@ class _CalcStepperState extends State<CalcStepper> {
   }
 
   String _stepToTeX(Expression step) {
-    logger.d(step.toTeX());
+    logger.d('Calculation step: ${step.toTeX()}');
     return step.toTeX();
     // StringBuffer buffer = StringBuffer();
     //

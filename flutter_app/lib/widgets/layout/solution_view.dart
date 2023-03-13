@@ -28,6 +28,7 @@ class SolutionView extends StatelessWidget {
               textScaleFactor: 1.4,
             ).texBreak().parts,
           ),
+          const SizedBox(height: 8),
           CalcStepper(steps: solution.steps),
         ],
       ),
