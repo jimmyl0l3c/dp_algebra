@@ -28,8 +28,8 @@ class FindBasis implements Expression {
           basis.add(row);
         }
       }
-      // TODO: return as some expression that is list of vectors?
-      return Matrix(rows: basis);
+
+      return ExpressionSet(items: basis.map((v) => Vector(items: v)).toSet());
     }
 
     if (matrix is! Matrix) {

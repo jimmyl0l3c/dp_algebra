@@ -1,32 +1,77 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:algebra_lib/src/utils/exp_utils.dart';
 
 class TransformMatrix implements Expression {
   final Expression basisA;
   final Expression basisB;
 
   TransformMatrix({required this.basisA, required this.basisB}) {
-    if (basisA is Vector ||
-        basisA is Scalar ||
-        basisB is Vector ||
-        basisB is Scalar) {
+    if (basisA is! ExpressionSet || basisB is! ExpressionSet) {
       throw UndefinedOperationException();
+    }
+
+    ExpressionSet bA = basisA as ExpressionSet;
+    ExpressionSet bB = basisB as ExpressionSet;
+
+    int? length;
+    for (var vector in bA.items) {
+      if (vector is! Vector) {
+        throw UndefinedOperationException();
+      }
+
+      length ??= vector.length();
+      if (length != vector.length()) {
+        throw VectorSizeMismatchException();
+      }
+    }
+
+    for (var vector in bB.items) {
+      if (vector is! Vector) {
+        throw UndefinedOperationException();
+      }
+
+      length ??= vector.length();
+      if (length != vector.length()) {
+        throw VectorSizeMismatchException();
+      }
+    }
+
+    if (bA.length() != bB.length()) {
+      throw BasisSizeMismatchException();
+    }
+
+    var independenceBasisA = ExpUtils.simplifyAsMuchAsPossible(
+      AreVectorsLinearlyIndependent(
+        vectors: bA.items.toList(),
+      ),
+    );
+    if (independenceBasisA is Boolean && !independenceBasisA.value) {
+      throw VectorsNotIndependentException();
+    }
+
+    var independenceBasisB = ExpUtils.simplifyAsMuchAsPossible(
+      AreVectorsLinearlyIndependent(
+        vectors: bB.items.toList(),
+      ),
+    );
+    if (independenceBasisB is Boolean && !independenceBasisB.value) {
+      throw VectorsNotIndependentException();
     }
   }
 
   @override
   Expression simplify() {
-    if (basisA is Vector ||
-        basisA is Scalar ||
-        basisB is Vector ||
-        basisB is Scalar) {
-      throw UndefinedOperationException();
+    List<Expression> solutionVectors = [];
+    for (var v2 in (basisB as ExpressionSet).items) {
+      solutionVectors.add(
+        GaussianElimination(
+          matrix: Matrix.fromVectors(
+            ((basisA as ExpressionSet).items.toList()..add(v2)) as List<Vector>,
+            vertical: true,
+          ),
+        ),
+      );
     }
-
-    // TODO: check if all vectors of Union(basisA, basisB) are same length
-
-    // TODO: check if basisA.length == basisB.length
-
-    // TODO: check if basis is basis (lin. independence)
 
     // List<Vector> solutions = [];
     // for (var v2 in basisB) {

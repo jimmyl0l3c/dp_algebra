@@ -13,3 +13,7 @@ class MatrixRowSizeMismatchException implements ExpressionException {}
 class DeterminantNotSquareException implements ExpressionException {}
 
 class DivisionByZeroException implements ExpressionException {}
+
+class BasisSizeMismatchException implements ExpressionException {}
+
+class VectorsNotIndependentException implements ExpressionException {}

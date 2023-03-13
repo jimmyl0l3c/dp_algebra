@@ -27,6 +27,7 @@ export 'src/expressions/matrix_specific/transpose.dart';
 export 'src/expressions/matrix_specific/triangular.dart';
 export 'src/expressions/matrix_specific/triangular_det.dart';
 export 'src/expressions/structures/boolean.dart';
+export 'src/expressions/structures/expression_set.dart';
 export 'src/expressions/structures/matrix.dart';
 export 'src/expressions/structures/parametrized_scalar.dart';
 export 'src/expressions/structures/scalar.dart';
