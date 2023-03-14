@@ -188,7 +188,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
             ),
             const SizedBox(height: 12),
             for (var solution in solutions.reversed)
-              SolutionView(solution: solution),
+              SolutionView2(solution: solution),
           ],
         ),
       ),

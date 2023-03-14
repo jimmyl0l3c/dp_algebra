@@ -20,6 +20,12 @@ class MatrixModel {
     }
   }
 
+  MatrixModel.fromMatrix(Matrix m)
+      : _matrix = m.rows
+            .map((row) => row.map((e) => (e as Scalar).value).toList())
+            .toList(),
+        _defaultVal = 0.toFraction();
+
   MatrixModel.from(MatrixModel m)
       : _matrix = m._matrix.map((row) => List<Fraction>.from(row)).toList(),
         _defaultVal = m._defaultVal;
