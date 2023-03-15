@@ -78,24 +78,15 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
             ),
             const SizedBox(height: 12),
             ListView.separated(
-              itemBuilder: (context, index) => SolutionView2(
+              itemBuilder: (context, index) => SolutionView(
+                key: ValueKey(solutions[index]),
                 solution: solutions[index],
                 onSelected: (option) {
-                  switch (option) {
-                    case SolutionOptions.close:
-                      break;
-                    case SolutionOptions.remove:
-                      getIt<CalcSolutionsModel>()
-                          .removeSolution(CalcCategory.matrixOperation, index);
-                      break;
-                    case SolutionOptions.addToMatrix:
-                      var m = solutions[index].result;
-                      if (m is Matrix) {
-                        getIt<CalcMatrixModel>().addMatrix(
-                            matrix: MatrixModel.fromMatrix(
-                                solutions[index].result as Matrix));
-                      }
-                      break;
+                  if (option == SolutionOptions.remove) {
+                    getIt<CalcSolutionsModel>().removeSolution(
+                      CalcCategory.matrixOperation,
+                      index,
+                    );
                   }
                 },
               ),

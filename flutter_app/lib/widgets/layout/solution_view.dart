@@ -1,21 +1,27 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:dp_algebra/main.dart';
 import 'package:dp_algebra/models/calc/calc_result.dart';
+import 'package:dp_algebra/models/calc_state/calc_matrix_model.dart';
+import 'package:dp_algebra/models/calc_state/calc_vector_model.dart';
+import 'package:dp_algebra/models/input/matrix_model.dart';
+import 'package:dp_algebra/models/input/vector_model.dart';
+import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/layout/calc_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
-class SolutionView2 extends StatefulWidget {
+class SolutionView extends StatefulWidget {
   final CalcResult solution;
   final Function(SolutionOptions)? onSelected;
 
-  const SolutionView2({Key? key, required this.solution, this.onSelected})
+  const SolutionView({Key? key, required this.solution, this.onSelected})
       : super(key: key);
 
   @override
-  State<SolutionView2> createState() => _SolutionView2State();
+  State<SolutionView> createState() => _SolutionViewState();
 }
 
-class _SolutionView2State extends State<SolutionView2> {
+class _SolutionViewState extends State<SolutionView> {
   bool showSteps = false;
 
   @override
@@ -49,27 +55,68 @@ class _SolutionView2State extends State<SolutionView2> {
                   textScaleFactor: 1.4,
                 ).texBreak().parts,
               ),
-              if (widget.onSelected != null)
-                PopupMenuButton<SolutionOptions>(
-                  icon: const Icon(Icons.menu),
-                  splashRadius: 20,
-                  onSelected: widget.onSelected,
-                  itemBuilder: (context) => [
-                    const PopupMenuItem(
-                      value: SolutionOptions.close,
-                      child: Text('Zavřít'),
-                    ),
+              PopupMenuButton<SolutionOptions>(
+                icon: const Icon(Icons.menu),
+                splashRadius: 20,
+                onSelected: (value) {
+                  switch (value) {
+                    case SolutionOptions.close:
+                      break;
+                    case SolutionOptions.remove:
+                      widget.onSelected?.call(value);
+                      break;
+                    case SolutionOptions.addToMatrix:
+                      if (widget.solution.result is Matrix) {
+                        var m = getIt<CalcMatrixModel>().addMatrix(
+                          matrix: MatrixModel.fromMatrix(
+                              widget.solution.result as Matrix),
+                        );
+                        if (m == null) {
+                          AlgebraUtils.showMessage(
+                            context,
+                            "Nelze překročit maximální počet matic, je třeba nějakou odebrat před přidáním další.",
+                          );
+                        }
+                      }
+                      break;
+                    case SolutionOptions.addToVector:
+                      if (widget.solution.result is Vector) {
+                        var v = getIt<CalcVectorModel>().addVector(
+                          vector: VectorModel.fromVector(
+                              widget.solution.result as Vector),
+                        );
+                        if (v == null) {
+                          AlgebraUtils.showMessage(
+                            context,
+                            "Nelze překročit maximální počet vektorů, je třeba nějaký odebrat před přidáním dalšího.",
+                          );
+                        }
+                      }
+                      break;
+                  }
+                },
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: SolutionOptions.close,
+                    child: Text('Zavřít'),
+                  ),
+                  if (widget.solution.result is Matrix)
                     const PopupMenuItem(
                       value: SolutionOptions.addToMatrix,
                       child: Text('Vložit výsledek do matice'),
                     ),
+                  if (widget.solution.result is Vector)
+                    const PopupMenuItem(
+                      value: SolutionOptions.addToVector,
+                      child: Text('Vložit výsledek do vektoru'),
+                    ),
+                  if (widget.onSelected != null)
                     const PopupMenuItem(
                       value: SolutionOptions.remove,
                       child: Text('Smazat'),
                     ),
-                  ],
-                ),
-              if (widget.onSelected == null) const SizedBox(), // placeholder
+                ],
+              ), // placeholder
             ],
           ),
           if (showSteps) const SizedBox(height: 8),
@@ -80,64 +127,4 @@ class _SolutionView2State extends State<SolutionView2> {
   }
 }
 
-enum SolutionOptions { close, remove, addToMatrix }
-
-class SolutionView extends StatelessWidget {
-  final CalcResult solution;
-
-  const SolutionView({
-    Key? key,
-    required this.solution,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.calculate),
-                splashRadius: 20,
-              ),
-              Wrap(
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                runAlignment: WrapAlignment.center,
-                runSpacing: 12.0,
-                children: Math.tex(
-                  '${solution.calculation.toTeX(flags: {
-                        TexFlags.dontEnclose,
-                      })}=${solution.result.toTeX()}',
-                  textScaleFactor: 1.4,
-                ).texBreak().parts,
-              ),
-              PopupMenuButton(
-                icon: const Icon(Icons.menu),
-                splashRadius: 20,
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    child: Text('Zavřít'),
-                  ),
-                  const PopupMenuItem(
-                    child: Text('Vložit výsledek do matice'),
-                  ),
-                  const PopupMenuItem(
-                    child: Text('Smazat'),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          CalcStepper(steps: solution.steps),
-        ],
-      ),
-    );
-  }
-}
+enum SolutionOptions { close, remove, addToMatrix, addToVector }

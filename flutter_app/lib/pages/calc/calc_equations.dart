@@ -116,8 +116,24 @@ class CalcEquations extends StatelessWidget with GetItMixin {
               style: Theme.of(context).textTheme.headline4!,
             ),
             const SizedBox(height: 12),
-            for (var solution in solutions.reversed)
-              SolutionView2(solution: solution),
+            ListView.separated(
+              itemBuilder: (context, index) => SolutionView(
+                key: ValueKey(solutions[index]),
+                solution: solutions[index],
+                onSelected: (option) {
+                  if (option == SolutionOptions.remove) {
+                    getIt<CalcSolutionsModel>().removeSolution(
+                      CalcCategory.equation,
+                      index,
+                    );
+                  }
+                },
+              ),
+              separatorBuilder: (context, index) => const Divider(),
+              itemCount: solutions.length,
+              reverse: true,
+              shrinkWrap: true,
+            ),
           ],
         ),
       ),

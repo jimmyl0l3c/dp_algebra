@@ -25,7 +25,8 @@ class CalcMatrixModel extends ChangeNotifier {
     if (matrices.value.containsKey(name)) {
       matrices.value.remove(name);
       matrices.notifyListeners();
-      _availableNames.insert(0, name);
+      _availableNames.add(name);
+      _availableNames.sort();
 
       canAddMatrix.value = _availableNames.isNotEmpty;
     }

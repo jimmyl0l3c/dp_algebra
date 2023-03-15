@@ -11,9 +11,10 @@ class CalcVectorModel extends ChangeNotifier {
   final vectorSelectionTransformA = ValueNotifier<Set<int>>({});
   final vectorSelectionTransformB = ValueNotifier<Set<int>>({});
 
-  void addVector({VectorModel? vector}) {
+  int? addVector({VectorModel? vector}) {
     vectors.value.add(vector ?? VectorModel(length: 1));
     vectors.notifyListeners();
+    return vectors.value.length - 1;
   }
 
   void removeVector(int index) {

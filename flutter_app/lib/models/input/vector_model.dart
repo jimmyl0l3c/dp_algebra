@@ -15,6 +15,9 @@ class VectorModel {
   VectorModel.fromList(List<Fraction> entries)
       : _entries = List<Fraction>.from(entries);
 
+  VectorModel.fromVector(Vector vector)
+      : _entries = vector.items.map((e) => (e as Scalar).value).toList();
+
   VectorModel.from(VectorModel v) : _entries = List<Fraction>.from(v._entries);
 
   void addEntry({Fraction? f}) => _entries.add(f ?? 0.toFraction());
