@@ -173,6 +173,13 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                 context,
                                 e.friendlyMessage,
                               );
+                            } on ExpressionException catch (e) {
+                              var calcException = CalcExpressionException
+                                  .fromExpressionException(null, e);
+                              AlgebraUtils.showMessage(
+                                context,
+                                calcException.friendlyMessage,
+                              );
                             }
                           },
                     child: const Text('Nalézt'),
@@ -396,6 +403,13 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
       ));
     } on CalcExpressionException catch (e) {
       AlgebraUtils.showMessage(context, e.friendlyMessage);
+    } on ExpressionException catch (e) {
+      var calcException =
+          CalcExpressionException.fromExpressionException(null, e);
+      AlgebraUtils.showMessage(
+        context,
+        calcException.friendlyMessage,
+      );
     }
     return null;
   }

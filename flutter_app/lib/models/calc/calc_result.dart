@@ -23,35 +23,7 @@ class CalcResult {
         steps: steps,
       );
     } on ExpressionException catch (e) {
-      String message = e.runtimeType.toString();
-
-      if (e is MatrixSizeMismatchException) {
-        message = "Matice musí mít stejné rozměry";
-      } else if (e is VectorSizeMismatchException) {
-        message = "Vektory musí mít stejnou velikost";
-      } else if (e is MatrixMultiplySizeException) {
-        message = "Počet sloupců první matice musí být roven počtu řádků druhé";
-      } else if (e is DeterminantNotSquareException) {
-        message = "Matice musí být čtvercová";
-      }
-
-      if (e is DivisionByZeroException) {
-        if (calculation is Inverse) {
-          message = "Inverzní matice k zadané matici neexistuje";
-        } else if (calculation is SolveWithCramer ||
-            calculation is SolveWithInverse) {
-          message = "Determinant matice rovnice nesmí být roven nule";
-        } else {
-          message = "Nelze dělit nulou";
-        }
-      }
-
-      // TODO: handle new exceptions (basis size mismatch, ...)
-
-      throw CalcExpressionException(
-        friendlyMessage: message,
-        cause: e,
-      );
+      throw CalcExpressionException.fromExpressionException(calculation, e);
     } on Exception catch (e) {
       // Catch all exceptions, hopefully prevent freezing of the app
       logger.e(e.toString());
