@@ -47,4 +47,20 @@ class ExerciseUtils {
 
   static int generateSize({int max = 4, int min = 1}) =>
       random.nextInt(max - min + 1) + min;
+
+  static List<VectorModel> generateBasis({
+    int? vectorLength,
+    int? basisLength,
+  }) {
+    // TODO: make sure the vectors are lin. independent
+    List<VectorModel> vectors = [];
+    vectorLength ??= generateSize(min: 2);
+    basisLength ??= generateSize(min: 2, max: 3);
+
+    for (var i = 0; i < basisLength; i++) {
+      vectors.add(generateVector(length: vectorLength));
+    }
+
+    return vectors;
+  }
 }

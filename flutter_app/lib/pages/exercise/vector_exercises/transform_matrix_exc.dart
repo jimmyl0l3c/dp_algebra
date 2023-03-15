@@ -1,7 +1,11 @@
+import 'package:algebra_lib/algebra_lib.dart';
+import 'package:dp_algebra/models/calc/calc_expression_exception.dart';
+import 'package:dp_algebra/models/calc/calc_result.dart';
 import 'package:dp_algebra/models/input/matrix_model.dart';
 import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
+import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:dp_algebra/widgets/input/matrix_input.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +22,14 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
   List<VectorModel> basisA = [];
   List<VectorModel> basisB = [];
 
-  MatrixModel answer = MatrixModel();
+  MatrixModel solution = MatrixModel();
+  late CalcResult correctSolution;
+
+  @override
+  void initState() {
+    super.initState();
+    _generate();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,21 +39,7 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
             child: const Text('Náhodně'),
             onPressed: () {
               setState(() {
-                basisA.clear();
-                basisB.clear();
-
-                int vectorLength = ExerciseUtils.generateSize(min: 2);
-                int vectorCount = ExerciseUtils.generateSize(min: 2);
-
-                // TODO: make sure they are linearly independent
-                for (var i = 0; i < vectorCount; i++) {
-                  basisA.add(
-                    ExerciseUtils.generateVector(length: vectorLength),
-                  );
-                  basisB.add(
-                    ExerciseUtils.generateVector(length: vectorLength),
-                  );
-                }
+                _generate();
               });
             }),
       ],
@@ -73,23 +70,53 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
             ),
         ],
       ),
-      result: MatrixInput(matrix: answer),
+      result: MatrixInput(matrix: solution),
       resolveButtons: [
         ButtonRowItem(
           child: const Text('Zkontrolovat'),
           onPressed: basisA.isEmpty || basisB.isEmpty
               ? null
               : () {
-                  // TODO: implement
-                  // MatrixModel solution =
-                  //     VectorModel.getTransformMatrix(basisA, basisB);
-                  // AlgebraUtils.showMessage(
-                  //   context,
-                  //   solution == answer ? 'Správně' : 'Špatně',
-                  // );
+                  AlgebraUtils.showMessage(
+                    context,
+                    solution.toMatrix() == correctSolution.result
+                        ? 'Správně'
+                        : 'Špatně',
+                  );
                 },
         ),
       ],
     );
+  }
+
+  void _generate() {
+    basisA.clear();
+    basisB.clear();
+
+    int vectorLength = ExerciseUtils.generateSize(min: 2);
+    int vectorCount = ExerciseUtils.generateSize(min: 2);
+
+    basisA.addAll(ExerciseUtils.generateBasis(
+      vectorLength: vectorLength,
+      basisLength: vectorCount,
+    ));
+    basisB.addAll(ExerciseUtils.generateBasis(
+      vectorLength: vectorLength,
+      basisLength: vectorCount,
+    ));
+
+    try {
+      correctSolution = CalcResult.calculate(TransformMatrix(
+        basisA: ExpressionSet(items: basisA.map((v) => v.toVector()).toSet()),
+        basisB: ExpressionSet(items: basisB.map((v) => v.toVector()).toSet()),
+      ));
+      // TODO: change this when TransformMatrix is implemented
+      print(correctSolution.result.toTeX());
+    } on Exception catch (e) {
+      print(e.toString());
+      if (e is CalcExpressionException) {
+        print(e.friendlyMessage);
+      }
+    }
   }
 }

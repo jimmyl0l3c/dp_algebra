@@ -1,3 +1,5 @@
+import 'package:algebra_lib/algebra_lib.dart';
+import 'package:dp_algebra/models/calc/calc_result.dart';
 import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
@@ -18,6 +20,14 @@ class _BasisExcState extends State<BasisExc> {
   List<VectorModel> vectors = [];
   List<VectorModel> solution = [];
 
+  late CalcResult correctSolution;
+
+  @override
+  void initState() {
+    super.initState();
+    _generateBasis();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ExercisePage(
@@ -26,15 +36,7 @@ class _BasisExcState extends State<BasisExc> {
           child: const Text('Náhodně'),
           onPressed: () {
             setState(() {
-              // TODO: change vectors generation
-              vectors.clear();
-              int length = ExerciseUtils.generateSize(min: 2);
-
-              for (var i = 0;
-                  i < ExerciseUtils.generateSize(min: 2, max: 3);
-                  i++) {
-                vectors.add(ExerciseUtils.generateVector(length: length));
-              }
+              _generateBasis();
             });
           },
         ),
@@ -96,28 +98,41 @@ class _BasisExcState extends State<BasisExc> {
           onPressed: vectors.isEmpty
               ? null
               : () {
-                  // TODO: implement
-                  // List<VectorModel> correctSolution =
-                  //     VectorModel.findBasis(vectors);
-                  // AlgebraUtils.showMessage(
-                  //   context,
-                  //   correctSolution.isEmpty ? 'Správně' : 'Špatně',
-                  // );
+                  ExpressionSet solutionSet =
+                      correctSolution.result as ExpressionSet;
+                  AlgebraUtils.showMessage(
+                    context,
+                    solutionSet.items.isEmpty ? 'Správně' : 'Špatně',
+                  );
                 },
         ),
       ],
     );
   }
 
-  bool _isAnswerCorrect() {
-    // TODO: implement
-    // List<VectorModel> correctSolution = VectorModel.findBasis(vectors);
-    // if (solution.length != correctSolution.length) return false;
-    //
-    // for (var vector in correctSolution) {
-    //   if (!solution.contains(vector)) return false;
-    // }
+  void _generateBasis() {
+    vectors.clear();
+    int length = ExerciseUtils.generateSize(min: 2);
 
-    return true;
+    for (var i = 0; i < ExerciseUtils.generateSize(min: 2, max: 3); i++) {
+      vectors.add(ExerciseUtils.generateVector(length: length));
+    }
+
+    correctSolution = CalcResult.calculate(FindBasis(
+      matrix: Matrix.fromVectors(vectors.map((v) => v.toVector()).toList()),
+    ));
+  }
+
+  bool _isAnswerCorrect() {
+    var solutionSet = ExpressionSet(
+      items: solution.map((v) => v.toVector()).toSet(),
+    );
+    var correctSet = correctSolution.result as ExpressionSet;
+
+    // TODO: fix the equality check
+    print(correctSet.toTeX());
+    print(solutionSet.toTeX());
+
+    return solutionSet == correctSet;
   }
 }

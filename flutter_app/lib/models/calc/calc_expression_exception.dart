@@ -23,6 +23,8 @@ class CalcExpressionException implements Exception {
       message = "Počet sloupců první matice musí být roven počtu řádků druhé";
     } else if (exception is DeterminantNotSquareException) {
       message = "Matice musí být čtvercová";
+    } else if (exception is VectorsNotIndependentException) {
+      message = "Vektory musí být lineárně nezávislé";
     }
 
     if (exception is DivisionByZeroException) {
