@@ -1,3 +1,7 @@
+import 'dart:math';
+
+import 'package:algebra_lib/algebra_lib.dart';
+import 'package:dp_algebra/models/calc/calc_result.dart';
 import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
 import 'package:dp_algebra/utils/exc_utils.dart';
@@ -5,6 +9,7 @@ import 'package:dp_algebra/utils/utils.dart';
 import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+import 'package:fraction/fraction.dart';
 
 class LinIndependenceExc extends StatefulWidget {
   const LinIndependenceExc({Key? key}) : super(key: key);
@@ -16,6 +21,13 @@ class LinIndependenceExc extends StatefulWidget {
 class _LinIndependenceExcState extends State<LinIndependenceExc> {
   List<VectorModel> vectors = [];
   bool isIndependent = false;
+  final Random _random = Random();
+
+  @override
+  void initState() {
+    super.initState();
+    _generateVectors();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,18 +37,7 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
           child: const Text('Náhodně'),
           onPressed: () {
             setState(() {
-              // TODO: change vectors generation
-              vectors.clear();
-              int length = ExerciseUtils.generateSize(min: 2);
-
-              for (var i = 0;
-                  i < ExerciseUtils.generateSize(min: 2, max: 3);
-                  i++) {
-                vectors.add(ExerciseUtils.generateVector(length: length));
-              }
-
-              // TODO: implement
-              // isIndependent = VectorModel.areLinearlyIndependent(vectors);
+              _generateVectors();
             });
           },
         ),
@@ -74,5 +75,37 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
         ),
       ],
     );
+  }
+
+  void _generateVectors() {
+    bool ensureDependent = _random.nextBool();
+
+    vectors.clear();
+    int length = ExerciseUtils.generateSize(min: 2);
+
+    for (var i = 0; i < ExerciseUtils.generateSize(min: 2, max: 3); i++) {
+      if (ensureDependent && i == 0) continue;
+      vectors.add(ExerciseUtils.generateVector(length: length));
+    }
+
+    if (ensureDependent) {
+      VectorModel combined = VectorModel(length: length);
+      for (var vector in vectors) {
+        int c = _random.nextInt(2) + 2;
+        if (_random.nextBool()) c *= -1;
+        var cf = Fraction(c);
+
+        for (var i = 0; i < length; i++) {
+          combined[i] += cf * vector[i];
+        }
+      }
+      vectors.add(combined);
+    }
+
+    var independence = CalcResult.calculate(AreVectorsLinearlyIndependent(
+      vectors: vectors.map((v) => v.toVector()).toList(),
+    ));
+    isIndependent = independence.result is Boolean &&
+        (independence.result as Boolean).value;
   }
 }
