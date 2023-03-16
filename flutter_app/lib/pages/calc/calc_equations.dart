@@ -64,16 +64,23 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                 onPressed: () {
                   MatrixModel m = equationMatrix;
                   try {
-                    Matrix expMatrix = m.toMatrix();
+                    List<Expression> expMatrix = m.toMatrix().rows;
                     List<Expression> vectorY = [];
-                    int lastCol = expMatrix.columnCount() - 1;
-                    for (var r = 0; r < expMatrix.rowCount(); r++) {
-                      vectorY.add(expMatrix.rows[r].removeAt(lastCol));
+                    for (var r = 0; r < m.getRows(); r++) {
+                      vectorY.add(
+                        (expMatrix[r] as Vector)
+                            .items
+                            .removeAt(m.getColumns() - 1),
+                      );
                     }
 
                     getIt<CalcSolutionsModel>().addSolution(
                       CalcResult.calculate(SolveWithInverse(
-                        matrix: expMatrix,
+                        matrix: Matrix(
+                          rows: expMatrix,
+                          rowCount: expMatrix.length,
+                          columnCount: m.getColumns() - 1,
+                        ),
                         vectorY: Vector(items: vectorY),
                       )),
                       CalcCategory.equation,
@@ -91,16 +98,24 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                 onPressed: () {
                   MatrixModel m = equationMatrix;
                   try {
-                    Matrix expMatrix = m.toMatrix();
+                    List<Expression> expMatrix = m.toMatrix().rows;
                     List<Expression> vectorY = [];
-                    int lastCol = expMatrix.columnCount() - 1;
-                    for (var r = 0; r < expMatrix.rowCount(); r++) {
-                      vectorY.add(expMatrix.rows[r].removeAt(lastCol));
+                    for (var r = 0; r < m.getRows(); r++) {
+                      vectorY.add(
+                        (expMatrix[r] as Vector)
+                            .items
+                            .removeAt(m.getColumns() - 1),
+                      );
                     }
 
                     getIt<CalcSolutionsModel>().addSolution(
                       CalcResult.calculate(SolveWithCramer(
-                          matrix: expMatrix, vectorY: Vector(items: vectorY))),
+                          matrix: Matrix(
+                            rows: expMatrix,
+                            rowCount: expMatrix.length,
+                            columnCount: m.getColumns() - 1,
+                          ),
+                          vectorY: Vector(items: vectorY))),
                       CalcCategory.equation,
                     );
                   } on CalcExpressionException catch (e) {

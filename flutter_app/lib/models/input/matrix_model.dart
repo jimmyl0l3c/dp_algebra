@@ -22,7 +22,8 @@ class MatrixModel {
 
   MatrixModel.fromMatrix(Matrix m)
       : _matrix = m.rows
-            .map((row) => row.map((e) => (e as Scalar).value).toList())
+            .map((row) =>
+                (row as Vector).items.map((e) => (e as Scalar).value).toList())
             .toList(),
         _defaultVal = 0.toFraction();
 
@@ -193,7 +194,11 @@ class MatrixModel {
 
   Matrix toMatrix() => Matrix(
         rows: _matrix
-            .map((row) => row.map((entry) => Scalar(value: entry)).toList())
+            .map((row) => Vector(
+                  items: row.map((entry) => Scalar(value: entry)).toList(),
+                ))
             .toList(),
+        rowCount: getRows(),
+        columnCount: getColumns(),
       );
 }

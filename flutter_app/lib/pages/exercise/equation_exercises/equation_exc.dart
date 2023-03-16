@@ -110,11 +110,11 @@ class _EquationExcState extends State<EquationExc> {
     buffer.write(r'\left( \begin{matrix} ');
 
     for (var row in m.rows) {
-      for (var i = 0; i < row.length; i++) {
-        if (i != row.length - 1) {
+      for (var i = 0; i < (row as Vector).length(); i++) {
+        if (i != row.length() - 1) {
           buffer.write(row[i].toTeX());
 
-          if (i != row.length - 2) {
+          if (i != row.length() - 2) {
             buffer.write(r'&');
           }
         }
@@ -125,7 +125,7 @@ class _EquationExcState extends State<EquationExc> {
     buffer.write(r'\end{matrix} \middle\vert \, \begin{matrix} ');
 
     for (var row in m.rows) {
-      buffer.write(row.last.toTeX());
+      buffer.write((row as Vector).items.last.toTeX());
       buffer.write(r'\\');
     }
 
@@ -134,7 +134,7 @@ class _EquationExcState extends State<EquationExc> {
   }
 
   void setExercise(Matrix matrix, Vector vectorY) {
-    variableCount = matrix.columnCount();
+    variableCount = matrix.columnCount;
     var isSolvable = CalcResult.calculate(
       IsSolvable(matrix: matrix, vectorY: vectorY),
     );
