@@ -35,29 +35,29 @@ class Reduce implements Expression {
     Scalar one = Scalar.one();
     Scalar nOne = Scalar(value: Fraction(-1));
 
-    for (var i = 0; i < m.rowCount(); i++) {
-      for (var j = 0; j < m.columnCount(); j++) {
-        if (m[i][j] != zero) {
-          if (m[i][j] != one) {
+    for (var i = 0; i < m.rowCount; i++) {
+      for (var j = 0; j < m.columnCount; j++) {
+        if ((m[i] as Vector)[j] != zero) {
+          if ((m[i] as Vector)[j] != one) {
             return Reduce(
               exp: MultiplyRowByN(
                 matrix: m,
-                n: Inverse(exp: m[i][j]),
+                n: Inverse(exp: (m[i] as Vector)[j]),
                 row: i,
               ),
             );
           }
 
-          for (var k = 0; k < m.rowCount(); k++) {
+          for (var k = 0; k < m.rowCount; k++) {
             if (k == i) continue;
 
-            if (m[k][j] != zero) {
+            if ((m[k] as Vector)[j] != zero) {
               return Reduce(
                 exp: AddRowToRowNTimes(
                   matrix: m,
                   origin: i,
                   target: k,
-                  n: Multiply(left: nOne, right: m[k][j]),
+                  n: Multiply(left: nOne, right: (m[k] as Vector)[j]),
                 ),
               );
             }

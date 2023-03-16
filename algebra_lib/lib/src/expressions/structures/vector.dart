@@ -5,9 +5,13 @@ class Vector implements Expression {
 
   Vector({required this.items});
 
+  Vector.from(Vector other) : items = List.from(other.items);
+
   int length() => items.length;
 
   Expression operator [](int i) => items[i];
+
+  void operator []=(int i, Expression e) => items[i] = e;
 
   @override
   Expression simplify() {

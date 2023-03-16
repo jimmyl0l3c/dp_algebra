@@ -20,17 +20,21 @@ class Transpose implements Expression {
     }
 
     Matrix m = matrix as Matrix;
-    List<List<Expression>> transposedMatrix = [];
+    List<Expression> transposedMatrix = [];
 
-    for (var r = 0; r < m.columnCount(); r++) {
+    for (var r = 0; r < m.columnCount; r++) {
       List<Expression> row = [];
-      for (var c = 0; c < m.rowCount(); c++) {
-        row.add(m[c][r]);
+      for (var c = 0; c < m.rowCount; c++) {
+        row.add((m[c] as Vector)[r]);
       }
-      transposedMatrix.add(row);
+      transposedMatrix.add(Vector(items: row));
     }
 
-    return Matrix(rows: transposedMatrix);
+    return Matrix(
+      rows: transposedMatrix,
+      rowCount: m.columnCount,
+      columnCount: m.rowCount,
+    );
   }
 
   @override

@@ -24,15 +24,15 @@ class FindBasis implements Expression {
         return FindBasis(matrix: simplifiedMatrix);
       }
 
-      List<List<Expression>> basis = [];
+      List<Expression> basis = [];
       Scalar zero = Scalar.zero();
       for (var row in simplifiedMatrix.rows) {
-        if (row.any((c) => c != zero)) {
+        if ((row as Vector).items.any((c) => c != zero)) {
           basis.add(row);
         }
       }
 
-      return ExpressionSet(items: basis.map((v) => Vector(items: v)).toSet());
+      return ExpressionSet(items: basis.map((v) => v).toSet());
     }
 
     if (matrix is! Matrix) {

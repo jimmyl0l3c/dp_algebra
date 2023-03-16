@@ -31,7 +31,11 @@ class TransformCoords implements Expression {
     return Multiply(
       left: transformMatrix,
       right: Transpose(
-        matrix: Matrix(rows: [vectorCoords.items]),
+        matrix: Matrix(
+          rows: [vectorCoords],
+          rowCount: 1,
+          columnCount: vectorCoords.length(),
+        ),
       ),
     );
   }

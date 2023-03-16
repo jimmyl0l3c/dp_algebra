@@ -30,20 +30,24 @@ class Inverse implements Expression {
     // TODO: check if det == 0
 
     Matrix matrix = (exp as Matrix);
-    List<List<Expression>> inverseMatrix = [];
+    List<Vector> inverseMatrix = [];
 
-    for (var r = 0; r < matrix.rowCount(); r++) {
+    for (var r = 0; r < matrix.rowCount; r++) {
       List<Expression> inverseRow = [];
-      for (var c = 0; c < matrix.rowCount(); c++) {
+      for (var c = 0; c < matrix.rowCount; c++) {
         inverseRow.add(AlgSupplement(matrix: matrix, row: c, column: r));
       }
 
-      inverseMatrix.add(inverseRow);
+      inverseMatrix.add(Vector(items: inverseRow));
     }
 
     return Multiply(
       left: Inverse(exp: Determinant(det: matrix)),
-      right: Matrix(rows: inverseMatrix),
+      right: Matrix(
+        rows: inverseMatrix,
+        rowCount: matrix.rowCount,
+        columnCount: matrix.columnCount,
+      ),
     );
   }
 

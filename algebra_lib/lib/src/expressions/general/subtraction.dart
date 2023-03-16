@@ -42,28 +42,32 @@ class Subtraction implements Expression {
     }
 
     if (left is Matrix && right is Matrix) {
-      List<List<Expression>> addedMatrix = [];
+      List<Expression> addedMatrix = [];
       Matrix leftMatrix = left as Matrix;
       Matrix rightMatrix = right as Matrix;
 
-      if (leftMatrix.rowCount() != rightMatrix.rowCount() ||
-          leftMatrix.columnCount() != rightMatrix.columnCount()) {
+      if (leftMatrix.rowCount != rightMatrix.rowCount ||
+          leftMatrix.columnCount != rightMatrix.columnCount) {
         throw MatrixSizeMismatchException();
       }
 
-      for (var r = 0; r < leftMatrix.rowCount(); r++) {
+      for (var r = 0; r < leftMatrix.rowCount; r++) {
         List<Expression> matrixRow = [];
 
-        for (var c = 0; c < leftMatrix.columnCount(); c++) {
+        for (var c = 0; c < leftMatrix.columnCount; c++) {
           matrixRow.add(Subtraction(
-            left: leftMatrix[r][c],
-            right: rightMatrix[r][c],
+            left: (leftMatrix[r] as Vector)[c],
+            right: (rightMatrix[r] as Vector)[c],
           ));
         }
-        addedMatrix.add(matrixRow);
+        addedMatrix.add(Vector(items: matrixRow));
       }
 
-      return Matrix(rows: addedMatrix);
+      return Matrix(
+        rows: addedMatrix,
+        rowCount: leftMatrix.rowCount,
+        columnCount: leftMatrix.columnCount,
+      );
     }
 
     throw UndefinedOperationException();

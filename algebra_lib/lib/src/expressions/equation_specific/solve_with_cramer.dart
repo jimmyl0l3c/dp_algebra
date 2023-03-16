@@ -33,15 +33,21 @@ class SolveWithCramer implements Expression {
     Matrix m = matrix as Matrix;
     Vector vY = vectorY as Vector;
 
-    for (var i = 0; i < m.columnCount(); i++) {
-      var matrixAi = m.rows.map((row) => List<Expression>.from(row)).toList();
-      for (var j = 0; j < m.rowCount(); j++) {
+    for (var i = 0; i < m.columnCount; i++) {
+      var matrixAi = m.rows.map((row) => Vector.from(row as Vector)).toList();
+      for (var j = 0; j < m.rowCount; j++) {
         matrixAi[j][i] = vY[j];
       }
 
       // TODO: optimize - compute detA only once
       solution.add(Divide(
-        numerator: Determinant(det: Matrix(rows: matrixAi)),
+        numerator: Determinant(
+          det: Matrix(
+            rows: matrixAi,
+            rowCount: m.rowCount,
+            columnCount: m.columnCount,
+          ),
+        ),
         denominator: Determinant(det: m),
       ));
     }

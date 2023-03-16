@@ -24,7 +24,7 @@ class TriangularDet implements Expression {
 
     Matrix m = det.simplify() as Matrix;
 
-    if (m.rowCount() != m.columnCount()) {
+    if (m.rowCount != m.columnCount) {
       throw DeterminantNotSquareException();
     }
 
@@ -33,8 +33,8 @@ class TriangularDet implements Expression {
       return TriangularDet(det: m);
     }
 
-    int rows = m.rowCount();
-    int columns = m.columnCount();
+    int rows = m.rowCount;
+    int columns = m.columnCount;
     int diagonal = min(rows, columns);
 
     Scalar zero = Scalar.zero();
@@ -45,10 +45,10 @@ class TriangularDet implements Expression {
       int? nonZero;
       // Find row with non-zero value
       for (var j = 0; j < (rows - i); j++) {
-        if (m[j + i][i] != zero) {
+        if ((m[j + i] as Vector)[i] != zero) {
           nonZero ??= j + i;
           // Prefer 1 over other non-zero values
-          if (m[j + i][i] == one) {
+          if ((m[j + i] as Vector)[i] == one) {
             nonZero = j + i;
             break;
           }
@@ -70,7 +70,7 @@ class TriangularDet implements Expression {
       // Clear remaining rows
       for (var j = 0; j < (rows - i - 1); j++) {
         int row = i + 1 + j;
-        if (m[row][i] == zero) continue;
+        if ((m[row] as Vector)[i] == zero) continue;
 
         return TriangularDet(
           det: AddRowToRowNTimes(
@@ -78,8 +78,8 @@ class TriangularDet implements Expression {
             origin: i,
             target: row,
             n: Divide(
-              numerator: Multiply(left: nOne, right: m[row][i]),
-              denominator: m[i][i],
+              numerator: Multiply(left: nOne, right: (m[row] as Vector)[i]),
+              denominator: (m[i] as Vector)[i],
             ),
           ),
         );

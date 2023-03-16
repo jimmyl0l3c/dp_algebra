@@ -17,12 +17,12 @@ class ExchangeRows implements Expression {
 
     if (matrix is Matrix) {
       Matrix m = matrix as Matrix;
-      if (row1 < 0 || row1 >= m.rowCount()) {
-        throw IndexError.withLength(row1, m.rowCount());
+      if (row1 < 0 || row1 >= m.rowCount) {
+        throw IndexError.withLength(row1, m.rowCount);
       }
 
-      if (row2 < 0 || row2 >= m.rowCount()) {
-        throw IndexError.withLength(row2, m.rowCount());
+      if (row2 < 0 || row2 >= m.rowCount) {
+        throw IndexError.withLength(row2, m.rowCount);
       }
     }
   }
@@ -43,21 +43,25 @@ class ExchangeRows implements Expression {
 
     var simplifiedMatrix = (matrix as Matrix)
         .rows
-        .map((row) => List<Expression>.from(row))
+        .map((row) => Vector.from(row as Vector))
         .toList();
 
-    List<Expression> tmp = simplifiedMatrix[row1];
+    var tmp = simplifiedMatrix[row1];
     simplifiedMatrix[row1] = simplifiedMatrix[row2];
     simplifiedMatrix[row2] = tmp;
 
-    return Matrix(rows: simplifiedMatrix);
+    return Matrix(
+      rows: simplifiedMatrix,
+      rowCount: (matrix as Matrix).rowCount,
+      columnCount: (matrix as Matrix).columnCount,
+    );
   }
 
   @override
   String toTeX({Set<TexFlags>? flags}) {
     return TexUtils.rowTransformToTeX(
       matrix,
-      'r_{$row1} \\leftrightarrow r_{$row2}',
+      'r_{${row1 + 1}} \\leftrightarrow r_{${row2 + 1}}',
     );
   }
 }

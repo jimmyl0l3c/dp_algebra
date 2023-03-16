@@ -2,22 +2,27 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:collection/collection.dart';
 
 class Matrix implements Expression {
-  final List<List<Expression>> rows;
+  final List<Expression> rows;
+  final int rowCount;
+  final int columnCount;
 
-  Matrix({required this.rows}) {
-    int? length;
-    for (var row in rows) {
-      length ??= row.length;
-
-      if (row.length != length) throw MatrixRowSizeMismatchException();
-    }
+  Matrix({
+    required this.rows,
+    required this.rowCount,
+    required this.columnCount,
+  }) {
+    // TODO: check for invalid Expression types (if any)
+    // int? length;
+    // for (var row in rows) {
+    //   length ??= row.length;
+    //
+    //   if (row.length != length) throw MatrixRowSizeMismatchException();
+    // }
   }
 
-  int rowCount() => rows.length;
-  int columnCount() => rows.isNotEmpty ? rows.first.length : 0;
+  Expression operator [](int i) => rows[i];
 
-  List<Expression> operator [](int i) => rows[i];
-
+  @Deprecated("Add vectors to rows directly, if vertical, do transpose")
   factory Matrix.fromVectors(List<Vector> vectors, {bool vertical = false}) {
     if (vectors.isNotEmpty &&
         vectors.any((v) => v.length() != vectors.first.length())) {
@@ -25,39 +30,77 @@ class Matrix implements Expression {
     }
 
     if (vertical) {
-      List<List<Expression>> matrixRows = [];
+      List<Expression> matrixRows = [];
       for (var r = 0; r < vectors.first.length(); r++) {
         List<Expression> matrixRow = [];
         for (var c = 0; c < vectors.length; c++) {
           matrixRow.add(vectors[c][r]);
         }
-        matrixRows.add(matrixRow);
+        matrixRows.add(Vector(items: matrixRow));
       }
-      return Matrix(rows: matrixRows);
+      return Matrix(
+        rows: matrixRows,
+        rowCount: matrixRows.length,
+        columnCount: vectors.length,
+      );
     }
 
-    return Matrix(rows: vectors.map((v) => v.items).toList());
+    return Matrix(
+      rows: vectors,
+      rowCount: vectors.length,
+      columnCount: vectors.first.length(),
+    );
   }
 
   factory Matrix.toEquationMatrix(Matrix matrix, Vector vectorY) {
-    List<List<Expression>> matrixRows = matrix.rows.mapIndexed((i, r) {
-      List<Expression> row = List.from(r)..add(vectorY[i]);
+    List<Expression> matrixRows = matrix.rows.mapIndexed((i, r) {
+      Expression row = Vector(
+        items: List.from((r as Vector).items)..add(vectorY[i]),
+      );
       return row;
     }).toList();
 
-    return Matrix(rows: matrixRows);
+    return Matrix(
+      rows: matrixRows,
+      rowCount: matrix.rowCount,
+      columnCount: matrix.columnCount + 1,
+    );
   }
 
   @override
   Expression simplify() {
-    for (var r = 0; r < rowCount(); r++) {
-      for (var c = 0; c < columnCount(); c++) {
-        if (rows[r][c] is! Scalar) {
-          List<List<Expression>> simplifiedItems =
-              rows.map((row) => List<Expression>.from(row)).toList();
-          simplifiedItems[r][c] = rows[r][c].simplify();
+    for (var r = 0; r < rowCount; r++) {
+      if (rows[r] is Scalar || rows[r] is Matrix || rows[r] is ExpressionSet) {
+        throw UndefinedOperationException();
+      }
 
-          return Matrix(rows: simplifiedItems);
+      if (rows[r] is! Vector) {
+        return Matrix(
+          rows: List.from(rows)
+            ..removeAt(r)
+            ..insert(r, rows[r].simplify()),
+          rowCount: rowCount,
+          columnCount: columnCount,
+        );
+      }
+
+      Vector row = rows[r] as Vector;
+
+      for (var c = 0; c < columnCount; c++) {
+        if (row[c] is Vector || row[c] is Matrix || row[c] is ExpressionSet) {
+          throw UndefinedOperationException();
+        }
+
+        if (row[c] is! Scalar) {
+          List<Vector> simplifiedMatrix =
+              rows.map((r) => Vector.from(r as Vector)).toList();
+          simplifiedMatrix[r][c] = (rows[r] as Vector)[c].simplify();
+
+          return Matrix(
+            rows: simplifiedMatrix,
+            rowCount: rowCount,
+            columnCount: columnCount,
+          );
         }
       }
     }
@@ -66,7 +109,7 @@ class Matrix implements Expression {
 
   @override
   String toTeX({Set<TexFlags>? flags}) {
-    if (this.rows.isEmpty) return '()';
+    if (rows.isEmpty) return '()';
 
     StringBuffer buffer = StringBuffer();
 
@@ -76,16 +119,18 @@ class Matrix implements Expression {
       buffer.write(r'\begin{pmatrix}');
     }
 
-    int rows = rowCount();
-    int cols = columnCount();
+    for (var r = 0; r < rowCount; r++) {
+      if (rows[r] is Vector) {
+        for (var c = 0; c < columnCount; c++) {
+          buffer.write((rows[r] as Vector)[c].toTeX());
 
-    for (var r = 0; r < rows; r++) {
-      for (var c = 0; c < cols; c++) {
-        buffer.write(this.rows[r][c].toTeX());
-
-        if (c != (cols - 1)) buffer.write(' & ');
+          if (c != (columnCount - 1)) buffer.write(' & ');
+        }
+      } else {
+        buffer.write(rows[r].toTeX());
       }
-      if (r != (rows - 1)) buffer.write(r' \\ ');
+
+      if (r != (rowCount - 1)) buffer.write(r' \\ ');
     }
 
     if (flags != null && flags.contains(TexFlags.dontEnclose)) {
@@ -99,10 +144,8 @@ class Matrix implements Expression {
   @override
   bool operator ==(Object other) {
     if (other is Matrix) {
-      for (var r = 0; r < rowCount(); r++) {
-        for (var c = 0; c < columnCount(); c++) {
-          if (this[r][c] != other[r][c]) return false;
-        }
+      for (var r = 0; r < rowCount; r++) {
+        if (rows[r] != other[r]) return false;
       }
       return true;
     }

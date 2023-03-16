@@ -26,22 +26,22 @@ class GaussianElimination implements Expression {
       Scalar zero = Scalar.zero();
       List<Expression> numSolution = [];
       Map<int, Map<int, Expression>> solution = {};
-      for (var i = 0; i < simplifiedMatrix.columnCount() - 1; i++) {
+      for (var i = 0; i < simplifiedMatrix.columnCount - 1; i++) {
         solution[i] = {i: Scalar.one()};
         numSolution.add(Scalar.zero());
       }
 
-      for (var r = 0; r < simplifiedMatrix.rowCount(); r++) {
-        for (var c = 0; c < simplifiedMatrix.columnCount(); c++) {
-          if (simplifiedMatrix[r][c] != zero) {
-            for (var i = c + 1; i < simplifiedMatrix.columnCount(); i++) {
-              if (i == simplifiedMatrix.columnCount() - 1) {
+      for (var r = 0; r < simplifiedMatrix.rowCount; r++) {
+        for (var c = 0; c < simplifiedMatrix.columnCount; c++) {
+          if ((simplifiedMatrix[r] as Vector)[c] != zero) {
+            for (var i = c + 1; i < simplifiedMatrix.columnCount; i++) {
+              if (i == simplifiedMatrix.columnCount - 1) {
                 // Right side
-                numSolution[c] = simplifiedMatrix[r][i];
-              } else if (simplifiedMatrix[r][i] != zero) {
+                numSolution[c] = (simplifiedMatrix[r] as Vector)[i];
+              } else if ((simplifiedMatrix[r] as Vector)[i] != zero) {
                 solution[c]?[i] = Scalar(
-                  value:
-                      (simplifiedMatrix[r][i] as Scalar).value * Fraction(-1),
+                  value: ((simplifiedMatrix[r] as Vector)[i] as Scalar).value *
+                      Fraction(-1),
                 );
               }
             }
@@ -52,7 +52,7 @@ class GaussianElimination implements Expression {
       }
 
       List<Expression> solutionVector = [];
-      for (var i = 0; i < simplifiedMatrix.columnCount() - 1; i++) {
+      for (var i = 0; i < simplifiedMatrix.columnCount - 1; i++) {
         if (solution[i] == null || solution[i]!.isEmpty) {
           solutionVector.add(numSolution[i]);
         } else {

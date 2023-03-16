@@ -24,9 +24,9 @@ class Rank implements Expression {
 
       Scalar zero = Scalar.zero();
       int rank = 0;
-      for (var r = 0; r < simplifiedReduce.rowCount(); r++) {
-        for (var c = 0; c < simplifiedReduce.columnCount(); c++) {
-          if (simplifiedReduce[r][c] != zero) {
+      for (var r = 0; r < simplifiedReduce.rowCount; r++) {
+        for (var c = 0; c < simplifiedReduce.columnCount; c++) {
+          if ((simplifiedReduce[r] as Vector)[c] != zero) {
             rank++;
             break;
           }

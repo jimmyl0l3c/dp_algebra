@@ -19,12 +19,12 @@ class AddRowToRowNTimes implements Expression {
 
     if (matrix is Matrix) {
       Matrix m = matrix as Matrix;
-      if (origin < 0 || origin >= m.rowCount()) {
-        throw IndexError.withLength(origin, m.rowCount());
+      if (origin < 0 || origin >= m.rowCount) {
+        throw IndexError.withLength(origin, m.rowCount);
       }
 
-      if (target < 0 || target >= m.rowCount()) {
-        throw IndexError.withLength(target, m.rowCount());
+      if (target < 0 || target >= m.rowCount) {
+        throw IndexError.withLength(target, m.rowCount);
       }
     }
 
@@ -63,31 +63,35 @@ class AddRowToRowNTimes implements Expression {
 
     Matrix m = matrix as Matrix;
 
-    if (origin < 0 || origin >= m.rowCount()) {
-      throw IndexError.withLength(origin, m.rowCount());
+    if (origin < 0 || origin >= m.rowCount) {
+      throw IndexError.withLength(origin, m.rowCount);
     }
 
-    if (target < 0 || target >= m.rowCount()) {
-      throw IndexError.withLength(target, m.rowCount());
+    if (target < 0 || target >= m.rowCount) {
+      throw IndexError.withLength(target, m.rowCount);
     }
 
     var simplifiedMatrix =
-        m.rows.map((row) => List<Expression>.from(row)).toList();
+        m.rows.map((row) => Vector.from(row as Vector)).toList();
 
     List<Expression> simplifiedRow = [];
-    for (var i = 0; i < m.columnCount(); i++) {
+    for (var i = 0; i < m.columnCount; i++) {
       simplifiedRow.add(Addition(
-        left: m[target][i],
+        left: (m[target] as Vector)[i],
         right: Multiply(
           left: n,
-          right: m[origin][i],
+          right: (m[origin] as Vector)[i],
         ),
       ));
     }
 
-    simplifiedMatrix[target] = simplifiedRow;
+    simplifiedMatrix[target] = Vector(items: simplifiedRow);
 
-    return Matrix(rows: simplifiedMatrix);
+    return Matrix(
+      rows: simplifiedMatrix,
+      rowCount: m.rowCount,
+      columnCount: m.columnCount,
+    );
   }
 
   @override

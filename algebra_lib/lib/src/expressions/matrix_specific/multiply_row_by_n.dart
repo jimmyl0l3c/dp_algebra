@@ -13,8 +13,8 @@ class MultiplyRowByN implements Expression {
 
     if (matrix is Matrix) {
       Matrix m = matrix as Matrix;
-      if (row < 0 || row >= m.rowCount()) {
-        throw IndexError.withLength(row, m.rowCount());
+      if (row < 0 || row >= m.rowCount) {
+        throw IndexError.withLength(row, m.rowCount);
       }
     }
 
@@ -51,28 +51,32 @@ class MultiplyRowByN implements Expression {
 
     Matrix m = matrix as Matrix;
 
-    if (row < 0 || row >= m.rowCount()) {
-      throw IndexError.withLength(row, m.rowCount());
+    if (row < 0 || row >= m.rowCount) {
+      throw IndexError.withLength(row, m.rowCount);
     }
 
     var simplifiedMatrix =
-        m.rows.map((row) => List<Expression>.from(row)).toList();
+        m.rows.map((row) => Vector.from(row as Vector)).toList();
 
     List<Expression> simplifiedRow = [];
-    for (var i = 0; i < m.columnCount(); i++) {
-      simplifiedRow.add(Multiply(left: n, right: m[row][i]));
+    for (var i = 0; i < m.columnCount; i++) {
+      simplifiedRow.add(Multiply(left: n, right: (m[row] as Vector)[i]));
     }
 
-    simplifiedMatrix[row] = simplifiedRow;
+    simplifiedMatrix[row] = Vector(items: simplifiedRow);
 
-    return Matrix(rows: simplifiedMatrix);
+    return Matrix(
+      rows: simplifiedMatrix,
+      rowCount: m.rowCount,
+      columnCount: m.columnCount,
+    );
   }
 
   @override
   String toTeX({Set<TexFlags>? flags}) {
     return TexUtils.rowTransformToTeX(
       matrix,
-      'r_{$row} \\cdot ${n.toTeX()}',
+      'r_{${row + 1}} \\cdot ${n.toTeX()}',
     );
   }
 }

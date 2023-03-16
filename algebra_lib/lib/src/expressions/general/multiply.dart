@@ -52,68 +52,64 @@ class Multiply implements Expression {
     }
 
     if (left is Scalar && right is Matrix) {
-      List<List<Expression>> multipliedMatrix = [];
+      List<Expression> multipliedMatrix = [];
 
       for (var row in (right as Matrix).rows) {
-        List<Expression> multipliedRow = [];
-
-        for (var col in row) {
-          multipliedRow.add(Multiply(left: left, right: col));
-        }
-
-        multipliedMatrix.add(multipliedRow);
+        multipliedMatrix.add(Multiply(left: left, right: row).simplify());
       }
 
-      return Matrix(rows: multipliedMatrix);
+      return Matrix(
+        rows: multipliedMatrix,
+        rowCount: (right as Matrix).rowCount,
+        columnCount: (right as Matrix).columnCount,
+      );
     }
 
     if (left is Matrix && right is Scalar) {
-      List<List<Expression>> multipliedMatrix = [];
+      List<Expression> multipliedMatrix = [];
 
       for (var row in (left as Matrix).rows) {
-        List<Expression> multipliedRow = [];
-
-        for (var col in row) {
-          multipliedRow.add(Multiply(left: col, right: right));
-        }
-
-        multipliedMatrix.add(multipliedRow);
+        multipliedMatrix.add(Multiply(left: row, right: right).simplify());
       }
 
-      return Matrix(rows: multipliedMatrix);
+      return Matrix(
+        rows: multipliedMatrix,
+        rowCount: (left as Matrix).rowCount,
+        columnCount: (left as Matrix).columnCount,
+      );
     }
 
     if (left is Matrix && right is Matrix) {
       Matrix leftMatrix = left as Matrix;
       Matrix rightMatrix = right as Matrix;
 
-      int leftCols = leftMatrix.columnCount();
-      int rightRows = rightMatrix.rowCount();
+      int leftCols = leftMatrix.columnCount;
+      int rightRows = rightMatrix.rowCount;
 
       if (leftCols != rightRows) throw MatrixMultiplySizeException();
 
-      int leftRows = leftMatrix.rowCount();
-      int rightCols = rightMatrix.columnCount();
+      int leftRows = leftMatrix.rowCount;
+      int rightCols = rightMatrix.columnCount;
 
       if (leftRows == 1 && rightCols == 1) {
         Expression item = Multiply(
-          left: leftMatrix[0][0],
-          right: rightMatrix[0][0],
+          left: (leftMatrix[0] as Vector)[0],
+          right: (rightMatrix[0] as Vector)[0],
         );
 
         for (var i = 1; i < leftCols; i++) {
           item = Addition(
             left: item,
             right: Multiply(
-              left: leftMatrix[0][i],
-              right: rightMatrix[i][0],
+              left: (leftMatrix[0] as Vector)[i],
+              right: (rightMatrix[i] as Vector)[0],
             ),
           );
         }
 
         return item;
       } else {
-        List<List<Expression>> multipliedMatrices = [];
+        List<Expression> multipliedMatrices = [];
 
         for (var ra = 0; ra < leftRows; ra++) {
           List<Expression> outputRow = [];
@@ -122,17 +118,27 @@ class Multiply implements Expression {
               Multiply(
                 left: Matrix(
                   rows: [leftMatrix[ra]],
+                  rowCount: 1,
+                  columnCount: (leftMatrix[ra] as Vector).length(),
                 ),
                 right: Matrix(
-                  rows: rightMatrix.rows.map((row) => [row[cb]]).toList(),
+                  rows: rightMatrix.rows
+                      .map((row) => Vector(items: [(row as Vector)[cb]]))
+                      .toList(),
+                  rowCount: rightMatrix.rowCount,
+                  columnCount: 1,
                 ),
               ),
             );
           }
-          multipliedMatrices.add(outputRow);
+          multipliedMatrices.add(Vector(items: outputRow));
         }
 
-        return Matrix(rows: multipliedMatrices);
+        return Matrix(
+          rows: multipliedMatrices,
+          rowCount: leftRows,
+          columnCount: rightCols,
+        );
       }
     }
 

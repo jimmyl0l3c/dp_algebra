@@ -34,7 +34,11 @@ class SolveWithInverse implements Expression {
 
     Matrix m = matrix as Matrix;
 
-    Matrix y = Matrix(rows: [(vectorY as Vector).items]);
+    Matrix y = Matrix(
+      rows: [vectorY],
+      rowCount: 1,
+      columnCount: (vectorY as Vector).length(),
+    );
 
     return Transpose(
       matrix: Multiply(left: Inverse(exp: m), right: Transpose(matrix: y)),
