@@ -66,25 +66,19 @@ class TransformMatrix implements Expression {
       solutionVectors.add(
         GaussianElimination(
           matrix: Matrix.fromVectors(
-            ((basisA as ExpressionSet).items.toList()..add(v2)) as List<Vector>,
+            ((basisA as ExpressionSet).items.map((e) => e as Vector).toList()
+              ..add(v2 as Vector)),
             vertical: true,
           ),
         ),
       );
     }
 
-    // List<Vector> solutions = [];
-    // for (var v2 in basisB) {
-    //   var solution = Matrix.fromVectors(
-    //     List.from(basisA)..add(v2),
-    //     vertical: true,
-    //   ).solveByGauss();
-    //   solutions.add(solution.toVectorList().first);
-    // }
-    // return Matrix.fromVectors(solutions);
-
-    // TODO: implement simplify
-    throw UnimplementedError();
+    return Matrix(
+      rows: solutionVectors,
+      rowCount: solutionVectors.length,
+      columnCount: solutionVectors.length,
+    );
   }
 
   @override

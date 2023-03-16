@@ -259,6 +259,44 @@ void main() {
     ]),
   );
   printNSimplifications(cramer, 20);
+
+  var transformMatrix = TransformMatrix(
+    basisA: ExpressionSet(items: {
+      Vector(items: [
+        Scalar(value: Fraction(-5)),
+        Scalar(value: Fraction(9)),
+        Scalar(value: Fraction(2)),
+      ]),
+      Vector(items: [
+        Scalar(value: Fraction(6)),
+        Scalar(value: Fraction(-10)),
+        Scalar(value: Fraction(5)),
+      ]),
+      Vector(items: [
+        Scalar(value: Fraction(-1)),
+        Scalar(value: Fraction(2)),
+        Scalar(value: Fraction(9)),
+      ]),
+    }),
+    basisB: ExpressionSet(items: {
+      Vector(items: [
+        Scalar(value: Fraction(0)),
+        Scalar(value: Fraction(0)),
+        Scalar(value: Fraction(-5)),
+      ]),
+      Vector(items: [
+        Scalar(value: Fraction(1)),
+        Scalar(value: Fraction(0)),
+        Scalar(value: Fraction(2)),
+      ]),
+      Vector(items: [
+        Scalar(value: Fraction(-4)),
+        Scalar(value: Fraction(2)),
+        Scalar(value: Fraction(7)),
+      ]),
+    }),
+  );
+  // printNSimplifications(transformMatrix, 400);
 }
 
 void printNSimplifications(Expression expression, int n,
