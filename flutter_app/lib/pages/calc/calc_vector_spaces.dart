@@ -394,12 +394,8 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
         vectors.whereIndexed((i, v) => transformB.contains(i)).toList();
     try {
       return CalcResult.calculate(TransformMatrix(
-        basisA: Matrix.fromVectors(
-          basisA.map((e) => e.toVector()).toList(),
-        ),
-        basisB: Matrix.fromVectors(
-          basisB.map((e) => e.toVector()).toList(),
-        ),
+        basisA: ExpressionSet(items: basisA.map((e) => e.toVector()).toSet()),
+        basisB: ExpressionSet(items: basisB.map((e) => e.toVector()).toSet()),
       ));
     } on CalcExpressionException catch (e) {
       AlgebraUtils.showMessage(context, e.friendlyMessage);
