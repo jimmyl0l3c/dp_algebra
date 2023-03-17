@@ -78,7 +78,7 @@ class Subtraction implements Expression {
     StringBuffer buffer = StringBuffer();
 
     if (flags == null || !flags.contains(TexFlags.dontEnclose)) {
-      buffer.write(r'\begin{pmatrix}');
+      buffer.write(r'\left(');
     }
     buffer.write('${left.toTeX()} -');
     if (right is Scalar && (right as Scalar).value.isNegative) {
@@ -91,7 +91,7 @@ class Subtraction implements Expression {
       buffer.write(')');
     }
     if (flags == null || !flags.contains(TexFlags.dontEnclose)) {
-      buffer.write(r'\end{pmatrix}');
+      buffer.write(r'\right)');
     }
 
     return buffer.toString();
