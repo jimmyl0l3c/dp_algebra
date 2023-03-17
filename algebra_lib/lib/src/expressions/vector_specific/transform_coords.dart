@@ -20,11 +20,28 @@ class TransformCoords implements Expression {
       throw UndefinedOperationException();
     }
 
+    if (transformMatrix is Scalar || transformMatrix is Vector) {
+      throw UndefinedOperationException();
+    }
+
     if (coords is! Vector) {
       return TransformCoords(
         transformMatrix: transformMatrix,
         coords: coords.simplify(),
       );
+    }
+
+    if (transformMatrix is! Matrix) {
+      return TransformCoords(
+        transformMatrix: transformMatrix.simplify(),
+        coords: coords,
+      );
+    }
+
+    Matrix m = transformMatrix.simplify() as Matrix;
+    // If the matrix contains non-computed expressions, return simplified
+    if (m != transformMatrix) {
+      return TransformCoords(transformMatrix: m, coords: coords);
     }
 
     Vector vectorCoords = coords as Vector;

@@ -296,7 +296,16 @@ void main() {
       ]),
     }),
   );
-  // printNSimplifications(transformMatrix, 400);
+  // printNSimplifications(transformMatrix, 350);
+
+  var transform = TransformCoords(
+      transformMatrix: transformMatrix,
+      coords: Vector(items: [
+        Scalar(value: Fraction(1)),
+        Scalar(value: Fraction(2)),
+        Scalar(value: Fraction(3)),
+      ]));
+  // printNSimplifications(transform, 360);
 }
 
 void printNSimplifications(Expression expression, int n,
