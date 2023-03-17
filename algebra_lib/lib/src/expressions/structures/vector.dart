@@ -59,16 +59,14 @@ class Vector implements Expression {
 
   @override
   bool operator ==(Object other) {
-    if (other is Vector) {
-      for (var i = 0; i < length(); i++) {
-        if (this[i] != other[i]) return false;
-      }
-      return true;
+    if (other is! Vector) return false;
+
+    for (var i = 0; i < length(); i++) {
+      if (this[i] != other[i]) return false;
     }
-    return false;
+    return true;
   }
 
   @override
-  // TODO: implement hashCode
-  int get hashCode => items.hashCode;
+  int get hashCode => Object.hashAll(items);
 }

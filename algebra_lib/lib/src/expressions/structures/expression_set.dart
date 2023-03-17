@@ -36,8 +36,7 @@ class ExpressionSet implements Expression {
 
   @override
   bool operator ==(Object other) {
-    if (other is! ExpressionSet) return false;
-    if (other.length() != length()) return false;
+    if (other is! ExpressionSet || other.length() != length()) return false;
 
     for (var item in items) {
       if (!other.items.contains(item)) return false;
@@ -47,6 +46,5 @@ class ExpressionSet implements Expression {
   }
 
   @override
-  // TODO: implement hashCode
-  int get hashCode => items.hashCode;
+  int get hashCode => Object.hashAllUnordered(items);
 }

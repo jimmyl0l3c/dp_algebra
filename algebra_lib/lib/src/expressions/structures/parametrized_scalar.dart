@@ -40,4 +40,18 @@ class ParametrizedScalar implements Expression {
     }
     return buffer.toString();
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! ParametrizedScalar) return false;
+    if (other.values.length != values.length) return false;
+
+    for (var i = 0; i < values.length; i++) {
+      if (values[i] != other.values[i]) return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode => Object.hashAll(values);
 }

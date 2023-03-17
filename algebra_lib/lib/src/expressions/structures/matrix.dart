@@ -11,13 +11,17 @@ class Matrix implements Expression {
     required this.rowCount,
     required this.columnCount,
   }) {
-    // TODO: check for invalid Expression types (if any)
-    // int? length;
-    // for (var row in rows) {
-    //   length ??= row.length;
-    //
-    //   if (row.length != length) throw MatrixRowSizeMismatchException();
-    // }
+    if (rows.any((r) => r is Scalar || r is Matrix || r is ExpressionSet)) {
+      throw UndefinedOperationException();
+    }
+
+    if (rows.every((r) => r is Vector)) {
+      if (rows.any(
+        (r) => (r as Vector).length() != (rows.first as Vector).length(),
+      )) {
+        throw MatrixRowSizeMismatchException();
+      }
+    }
   }
 
   Expression operator [](int i) => rows[i];
@@ -143,16 +147,13 @@ class Matrix implements Expression {
 
   @override
   bool operator ==(Object other) {
-    if (other is Matrix) {
-      for (var r = 0; r < rowCount; r++) {
-        if (rows[r] != other[r]) return false;
-      }
-      return true;
+    if (other is! Matrix) return false;
+    for (var r = 0; r < rowCount; r++) {
+      if (rows[r] != other[r]) return false;
     }
-    return false;
+    return true;
   }
 
   @override
-  // TODO: implement hashCode
-  int get hashCode => rows.hashCode;
+  int get hashCode => Object.hashAll(rows);
 }

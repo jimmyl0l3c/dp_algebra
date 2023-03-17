@@ -27,8 +27,6 @@ class Inverse implements Expression {
       return Scalar(value: (exp as Scalar).value.inverse());
     }
 
-    // TODO: check if det == 0
-
     Matrix matrix = (exp as Matrix);
     List<Vector> inverseMatrix = [];
 

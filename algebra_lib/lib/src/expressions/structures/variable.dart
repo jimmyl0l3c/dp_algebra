@@ -28,4 +28,13 @@ class Variable implements Expression {
     buffer.write('x_{$param}');
     return buffer.toString();
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! Variable) return false;
+    return other.param == param && other.n == n;
+  }
+
+  @override
+  int get hashCode => Object.hash(n, param);
 }

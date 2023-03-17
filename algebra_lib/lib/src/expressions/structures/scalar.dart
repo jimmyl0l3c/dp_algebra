@@ -21,11 +21,8 @@ class Scalar implements Expression {
 
   @override
   bool operator ==(Object other) {
-    if (other is Scalar) {
-      return value == other.value;
-    }
-
-    return false;
+    if (other is! Scalar) return false;
+    return value == other.value;
   }
 
   @override
