@@ -64,6 +64,10 @@ class SolutionValueInput extends StatelessWidget {
               variable = null;
             }
 
+            if (m[1] == '-') {
+              numericValue = Fraction(-1);
+            }
+
             values.add(VariableValue(
               value: numericValue,
               variable: variableInt,

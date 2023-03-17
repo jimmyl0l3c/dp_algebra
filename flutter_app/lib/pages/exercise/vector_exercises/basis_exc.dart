@@ -129,10 +129,6 @@ class _BasisExcState extends State<BasisExc> {
     );
     var correctSet = correctSolution.result as ExpressionSet;
 
-    // TODO: fix the equality check
-    print(correctSet.toTeX());
-    print(solutionSet.toTeX());
-
     return solutionSet == correctSet;
   }
 }
