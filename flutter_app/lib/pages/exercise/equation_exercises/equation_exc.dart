@@ -94,7 +94,6 @@ class _EquationExcState extends State<EquationExc> {
         variableCount,
       );
       return correctSolution?.result == filledSolution;
-      // TODO: test it
     } on Error catch (e) {
       // TODO: ideally show to user
       logger.e(e.toString());

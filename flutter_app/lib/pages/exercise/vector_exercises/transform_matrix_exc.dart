@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:dp_algebra/main.dart';
 import 'package:dp_algebra/models/calc/calc_expression_exception.dart';
 import 'package:dp_algebra/models/calc/calc_result.dart';
 import 'package:dp_algebra/models/input/matrix_model.dart';
@@ -113,9 +114,9 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
       // TODO: change this when TransformMatrix is implemented
       print(correctSolution.result.toTeX());
     } on Exception catch (e) {
-      print(e.toString());
+      logger.e(e.toString());
       if (e is CalcExpressionException) {
-        print(e.friendlyMessage);
+        logger.e(e.friendlyMessage);
       }
     }
   }
