@@ -42,18 +42,20 @@ class _SolutionViewState extends State<SolutionView> {
                 icon: const Icon(Icons.calculate),
                 splashRadius: 20,
               ),
-              Wrap(
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                runAlignment: WrapAlignment.center,
-                runSpacing: 12.0,
-                children: Math.tex(
-                  '${widget.solution.calculation.toTeX(flags: {
-                        TexFlags.dontEnclose,
-                      })}=${widget.solution.result.toTeX()}',
-                  textScaleFactor: 1.4,
-                ).texBreak().parts,
+              Expanded(
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  runAlignment: WrapAlignment.center,
+                  runSpacing: 12.0,
+                  children: Math.tex(
+                    '${widget.solution.calculation.toTeX(flags: {
+                          TexFlags.dontEnclose,
+                        })}=${widget.solution.result.toTeX()}',
+                    textScaleFactor: 1.4,
+                  ).texBreak().parts,
+                ),
               ),
               PopupMenuButton<SolutionOptions>(
                 icon: const Icon(Icons.menu),
