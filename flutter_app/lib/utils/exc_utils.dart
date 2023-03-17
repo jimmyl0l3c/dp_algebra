@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:algebra_lib/algebra_lib.dart';
+import 'package:dp_algebra/models/exc_state/variable_value.dart';
 import 'package:dp_algebra/models/input/matrix_model.dart';
 import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:fraction/fraction.dart';
@@ -62,5 +64,19 @@ class ExerciseUtils {
     }
 
     return vectors;
+  }
+
+  static Vector vectorFromSolutionMap(
+      Map<int, SolutionVariable> inputSolution, int variableCount) {
+    List<Expression> solutionVector = [];
+    for (var i = 0; i < variableCount; i++) {
+      if (inputSolution[i] != null) {
+        solutionVector.add(inputSolution[i]!.toExpression(i));
+      } else {
+        solutionVector.add(Scalar(value: 0.toFraction()));
+      }
+    }
+
+    return Vector(items: solutionVector);
   }
 }

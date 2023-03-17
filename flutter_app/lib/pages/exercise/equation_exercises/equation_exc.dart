@@ -89,18 +89,17 @@ class _EquationExcState extends State<EquationExc> {
     if (correctSolution == null) return false;
 
     try {
-      // TODO: implement
-      // GeneralSolution filledSolution = GeneralSolution.fromVariableMap(
-      //   solution,
-      //   varCount: equationMatrix.getColumns() - 1,
-      // );
-      // return correctSolution == filledSolution;
+      var filledSolution = ExerciseUtils.vectorFromSolutionMap(
+        solution,
+        variableCount,
+      );
+      return correctSolution?.result == filledSolution;
+      // TODO: test it
     } on Error catch (e) {
       // TODO: ideally show to user
       logger.e(e.toString());
       return false;
     }
-    return false;
   }
 
   String exerciseToTeX() {
