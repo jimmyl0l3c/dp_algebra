@@ -25,6 +25,8 @@ class CalcExpressionException implements Exception {
       message = "Matice musí být čtvercová";
     } else if (exception is VectorsNotIndependentException) {
       message = "Vektory musí být lineárně nezávislé";
+    } else if (exception is BasisSizeMismatchException) {
+      message = "Počet vektorů generujících obě báze musí být stejný";
     }
 
     if (exception is DivisionByZeroException) {
@@ -37,8 +39,6 @@ class CalcExpressionException implements Exception {
         message = "Nelze dělit nulou";
       }
     }
-
-    // TODO: handle new exceptions (basis size mismatch, ...)
 
     return CalcExpressionException(
       friendlyMessage: message,
