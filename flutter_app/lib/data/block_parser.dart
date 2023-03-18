@@ -7,8 +7,7 @@ class BlockParser {
     LBlockContentType currentType = LBlockContentType.paragraph;
 
     for (var segment in block.splitWithDelim(
-      RegExp(
-          r'(\\begin{|\\end{)(enumerate}|itemize)}'), // TODO: check if there is extra closing bracket or not
+      RegExp(r'(\\begin{|\\end{)(enumerate|itemize)}'),
     )) {
       segment = segment.trim();
       if (segment.isEmpty) continue;
@@ -93,7 +92,7 @@ class BlockParser {
             ));
           } else if (refMatch.namedGroup('type') == 'ref') {
             blockContent.add(LBlockRefSegment(
-              refType: LBlockReferenceType.page, // TODO: change this (8)
+              refType: LBlockReferenceType.block,
               content: refMatch.namedGroup('ref') ?? 'unknown',
             ));
           }

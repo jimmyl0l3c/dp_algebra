@@ -69,7 +69,6 @@ class _EquationExcState extends State<EquationExc> {
         ButtonRowItem(
           child: const Text('Zkontrolovat'),
           onPressed: () {
-            // TODO: replace this
             AlgebraUtils.showMessage(
                 context, isAnswerCorrect() ? 'Správně' : 'Špatně');
           },

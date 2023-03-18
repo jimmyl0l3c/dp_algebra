@@ -1,37 +1,28 @@
 import 'package:dp_algebra/models/db/learn_article.dart';
 import 'package:dp_algebra/models/db/learn_page.dart';
+import 'package:dp_algebra/routing/route_state.dart';
 import 'package:dp_algebra/widgets/layout/main_scaffold.dart';
 import 'package:dp_algebra/widgets/loading.dart';
 import 'package:dp_algebra/widgets/lpage_view.dart';
 import 'package:flutter/material.dart';
 
-class LearnArticle extends StatefulWidget {
+class LearnArticle extends StatelessWidget {
   final Future<LArticle?> article;
-  final int? currentPage;
+  final int currentChapter;
+  final int currentPage;
 
   const LearnArticle({
     Key? key,
+    required this.currentChapter,
+    this.currentPage = 1,
     required this.article,
-    this.currentPage,
   }) : super(key: key);
 
   @override
-  State<LearnArticle> createState() => _LearnArticleState();
-}
-
-class _LearnArticleState extends State<LearnArticle> {
-  int currentPage = 0;
-
-  @override
-  void initState() {
-    currentPage = widget.currentPage ?? 0;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final routeState = RouteStateScope.of(context);
     return FutureBuilder<LArticle?>(
-        future: widget.article,
+        future: article,
         builder: (context, snapshot) {
           Widget? body;
           String title = 'Načítání...';
@@ -44,12 +35,12 @@ class _LearnArticleState extends State<LearnArticle> {
 
             List<LPage> pages = snapshot.data!.pages;
 
-            if (pages.length > currentPage + 1) {
+            if (pages.length >= currentPage + 1) {
               forwardButton = FloatingActionButton(
                 onPressed: () {
-                  setState(() {
-                    currentPage++;
-                  });
+                  routeState.go(
+                    '/chapter/$currentChapter/${snapshot.data!.id}/${currentPage + 1}',
+                  );
                 },
                 child: const Icon(
                   Icons.arrow_forward,
@@ -58,12 +49,12 @@ class _LearnArticleState extends State<LearnArticle> {
               );
             }
 
-            if (currentPage > 0) {
+            if (currentPage > 1) {
               backwardButton = FloatingActionButton(
                 onPressed: () {
-                  setState(() {
-                    currentPage--;
-                  });
+                  routeState.go(
+                    '/chapter/1/${snapshot.data!.id}/${currentPage - 1}',
+                  );
                 },
                 child: const Icon(
                   Icons.arrow_back,
@@ -95,7 +86,7 @@ class _LearnArticleState extends State<LearnArticle> {
             body = Container(
               child: pages.isEmpty
                   ? const Center(child: Text('Článek je prázdný'))
-                  : LPageView(page: pages[currentPage]),
+                  : LPageView(page: pages[currentPage - 1]),
             );
           } else {
             if (snapshot.connectionState == ConnectionState.waiting) {

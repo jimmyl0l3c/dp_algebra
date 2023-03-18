@@ -164,12 +164,13 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             key: _chapterKey,
             child: LearnChapter(chapter: currentChapter),
           ),
-        if (currentArticle != null)
+        if (currentChapterId != null && currentArticle != null)
           AlgebraTransitionPage(
             key: _articleKey,
             child: LearnArticle(
+              currentChapter: currentChapterId,
               article: currentArticle,
-              currentPage: currentPageId,
+              currentPage: currentPageId ?? 1,
             ),
           ),
         // Add page to stack if /exercise/:exerciseChapterId

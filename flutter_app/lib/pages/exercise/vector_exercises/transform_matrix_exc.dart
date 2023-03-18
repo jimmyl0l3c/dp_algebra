@@ -111,7 +111,7 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
         basisA: ExpressionSet(items: basisA.map((v) => v.toVector()).toSet()),
         basisB: ExpressionSet(items: basisB.map((v) => v.toVector()).toSet()),
       ));
-      // TODO: change this when TransformMatrix is implemented
+      // TODO: change this when TransformMatrix is properly tested
       print(correctSolution.result.toTeX());
     } on Exception catch (e) {
       logger.e(e.toString());

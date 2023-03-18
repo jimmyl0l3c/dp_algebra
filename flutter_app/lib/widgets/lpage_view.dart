@@ -2,7 +2,9 @@ import 'package:dp_algebra/data/block_parser.dart';
 import 'package:dp_algebra/data/db_service.dart';
 import 'package:dp_algebra/models/db/learn_block.dart';
 import 'package:dp_algebra/models/db/learn_page.dart';
+import 'package:dp_algebra/models/db/learn_ref.dart';
 import 'package:dp_algebra/models/learn/block_content.dart';
+import 'package:dp_algebra/routing/route_state.dart';
 import 'package:dp_algebra/widgets/layout/bullet_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
@@ -63,6 +65,7 @@ class LPageView extends StatelessWidget {
 
   List<List<Widget>> _getParagraphContent(
       List<LBlockSegment> paragraphContent, BuildContext context) {
+    final routeState = RouteStateScope.of(context);
     DbService dbService = GetIt.instance.get<DbService>();
     List<List<Widget>> segments = [[]];
 
@@ -90,7 +93,6 @@ class LPageView extends StatelessWidget {
           );
           break;
         case LBlockSegmentType.reference:
-          // TODO: replace with link to reference when references are implemented
           if ((segment as LBlockRefSegment).refType ==
               LBlockReferenceType.literature) {
             segments[segments.length - 1].add(
@@ -103,6 +105,7 @@ class LPageView extends StatelessWidget {
                     return const Text('(...)');
                   }
 
+                  // TODO: show literature details when implemented
                   return Text(
                     snapshot.data!.getHarvardCitation(),
                     style: Theme.of(context).textTheme.bodyText2,
@@ -121,9 +124,24 @@ class LPageView extends StatelessWidget {
                     return const Text('(...)');
                   }
 
-                  return Text(
-                    snapshot.data!.blockNumber.toString(),
-                    style: Theme.of(context).textTheme.bodyText2,
+                  LRef ref = snapshot.data!;
+
+                  return TextButton(
+                    style: const ButtonStyle(
+                      padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                      minimumSize: MaterialStatePropertyAll(Size.zero),
+                    ),
+                    onPressed: () {
+                      routeState.go(
+                        '/chapter/${ref.chapterId}/${ref.articleId}/${ref.pageId}',
+                      );
+                    },
+                    child: Text(
+                      ref.blockNumber.toString(),
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                    ),
                   );
                 },
               ),

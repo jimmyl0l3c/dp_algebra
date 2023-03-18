@@ -46,6 +46,5 @@ enum LBlockContentType {
 
 enum LBlockReferenceType {
   literature,
-  page,
-  theorem,
+  block,
 }

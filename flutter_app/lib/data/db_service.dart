@@ -156,7 +156,7 @@ class DbService {
         }
 
         return null;
-      } on Error catch (e) {
+      } on Error {
         return null;
       }
     }
