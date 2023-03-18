@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: algebra_app
+    build:
+      context: ..
+      dockerfile: ./flutter_app/Dockerfile
+    expose:
+      - 8080 
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.flutter.rule=Host(`algebra.joska.dev`)"
+      - "traefik.http.routers.flutter.tls=true"
+      - "traefik.http.routers.flutter.tls.certresolver=letsencrypt"
+  api:
+    image: algebra_api
+    build: ../backend
+    container_name: algebra_api
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python manage.py runserver 0.0.0.0:5001'
+    expose:
+      - 5001
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/algebra_db
+      - DJANGO_ALLOWED_HOSTS=.joska.dev
+      - DJANGO_SECRET_KEY
+      - DJANGO_DEBUG=True
+    depends_on:
+      - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.django.rule=Host(`algebra2.joska.dev`)"
+      - "traefik.http.routers.django.tls=true"
+      - "traefik.http.routers.django.tls.certresolver=letsencrypt"
+  db:
+    image: postgres:15-alpine
+    container_name: algebra_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - 5101
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB=algebra_db
+  traefik:
+    image: prod_traefik
+    build:
+      context: .
+      dockerfile: Dockerfile.traefik
+    container_name: traefik_prod
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - traefik-public-certificates:/certificates
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.joska.dev`)"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PW}"
+
+volumes:
+  postgres_data:
+  traefik-public-certificates:
+
