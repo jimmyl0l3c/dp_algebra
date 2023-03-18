@@ -10,7 +10,9 @@ class LBlock {
   LBlock.fromJson(Map<dynamic, dynamic> json)
       : showTypeTitle = json["block_type_visible"],
         typeTitle = json["block_type_title"],
-        number = null,
+        number = json.containsKey("block_number") ? json["block_number"] : null,
         title = json["block_title"],
         content = json["block_content"];
+
+  String getTitle() => number != null ? '$typeTitle $number' : typeTitle;
 }

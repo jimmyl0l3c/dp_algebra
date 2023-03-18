@@ -50,7 +50,7 @@ class LPageView extends StatelessWidget {
             children: [
               if (block.showTypeTitle)
                 Text(
-                  block.typeTitle,
+                  block.getTitle(),
                   style: Theme.of(context).textTheme.headline3,
                 ),
               for (var row in content) _getBlockWrap(row)
