@@ -112,9 +112,20 @@ class LPageView extends StatelessWidget {
             );
           } else {
             segments[segments.length - 1].add(
-              Text(
-                '[${segment.content}]',
-                style: Theme.of(context).textTheme.bodyText2,
+              FutureBuilder(
+                future: dbService.fetchReference(segment.content),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting ||
+                      !snapshot.hasData ||
+                      snapshot.data == null) {
+                    return const Text('(...)');
+                  }
+
+                  return Text(
+                    snapshot.data!.blockNumber.toString(),
+                    style: Theme.of(context).textTheme.bodyText2,
+                  );
+                },
               ),
             );
           }

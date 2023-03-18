@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:dp_algebra/models/db/learn_article.dart';
 import 'package:dp_algebra/models/db/learn_chapter.dart';
 import 'package:dp_algebra/models/db/learn_literature.dart';
+import 'package:dp_algebra/models/db/learn_ref.dart';
 import 'package:http/http.dart' as http;
 
 class DbService {
@@ -16,6 +17,7 @@ class DbService {
   final List<LArticle> _articles = [];
 
   Map<String, LLiterature> _literature = {};
+  final Map<String, LRef> _references = {};
 
   DbService() {
     _httpClient = http.Client();
@@ -134,6 +136,32 @@ class DbService {
     }
 
     if (_literature.containsKey(refName)) return _literature[refName];
+
+    return null;
+  }
+
+  Future<LRef?> fetchReference(String refName) async {
+    if (!_references.containsKey(refName)) {
+      Uri refUri = Uri.http(_apiUrl, '/api/learn/ref', {'ref_name': refName});
+      try {
+        final response = await _httpClient.get(refUri);
+
+        if (response.statusCode == 200) {
+          final data = await json.decode(response.body);
+
+          LRef ref = LRef.fromJson(data);
+          _references[refName] = ref;
+
+          return ref;
+        }
+
+        return null;
+      } on Error catch (e) {
+        return null;
+      }
+    }
+
+    if (_references.containsKey(refName)) return _references[refName];
 
     return null;
   }
