@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 
 
 class Language(models.Model):
@@ -13,6 +14,11 @@ class Chapter(models.Model):
     order = models.BigIntegerField(db_index=True)
 
     def __str__(self):
+        translation = Chapter.objects.filter(pk=self.pk).values(
+            name=F('chaptertranslation__title')
+        ).order_by('chaptertranslation__language')[:1]
+        if translation.exists():
+            return f'{self.id}: {translation.get()["name"]} ({self.order})'
         return f'Chapter: {self.id} ({self.order})'
 
     class Meta:
@@ -38,6 +44,11 @@ class Article(models.Model):
     published_at = models.DateField()
 
     def __str__(self):
+        article_translation = Article.objects.filter(pk=self.pk).values(
+            name=F('articletranslation__title')
+        ).order_by('articletranslation__language')[:1]
+        if article_translation.exists():
+            return f'{self.chapter}, {self.id}: {article_translation.get()["name"]} ({self.order})'
         return f'{self.chapter}, Article: {self.id} ({self.order})'
 
     class Meta:
@@ -73,6 +84,11 @@ class BlockType(models.Model):
     enumerated = models.BooleanField(db_index=True)
 
     def __str__(self):
+        type_translation = BlockType.objects.filter(pk=self.pk).values(
+            name=F('blocktypetranslation__title')
+        ).order_by('blocktypetranslation__language')[:1]
+        if type_translation.exists():
+            return f'{self.id}: {type_translation.get()["name"]} (enumerate: {self.enumerated})'
         return f'{self.id} ({self.enumerated})'
 
 
@@ -89,6 +105,13 @@ class Block(models.Model):
     order = models.BigIntegerField(db_index=True)
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
     type = models.ForeignKey(BlockType, on_delete=models.CASCADE)
+    number = models.PositiveIntegerField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.type_id != 1 and not Block.objects.filter(pk=self.pk).exists():
+            self.number = Block.objects.filter(type__gt=1).count() + 1
+        # TODO: recalculate numbers if the object was not numerated before and should be now
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.page}, Block: {self.id} ({self.order})'
@@ -118,4 +141,7 @@ class Literature(models.Model):
     def __str__(self):
         return f'{self.ref_name}: {self.author}, {self.year}'
 
-# TODO: add term dictionary
+
+class RefLabel(models.Model):
+    ref_name = models.CharField(max_length=50, unique=True)
+    block = models.ForeignKey(Block, on_delete=models.CASCADE)

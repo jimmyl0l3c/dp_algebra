@@ -1,8 +1,8 @@
-from django.db.models import F, Count
+from django.db.models import F
 from django.http import HttpRequest, JsonResponse
 from django.views.decorators.http import require_http_methods
 
-from articles.models import Chapter, Article, Block, Page, Literature
+from articles.models import Chapter, Article, Block, Literature
 
 
 @require_http_methods(["GET"])
@@ -57,6 +57,7 @@ def article_view(request: HttpRequest, locale_id: int, article_id: int):
         type__blocktypetranslation__language=locale_id
     ).values(
         page_index=F('page__order'),
+        block_number=F('number'),
         block_type_visible=F('type__show_title'),
         block_type_title=F('type__blocktypetranslation__title'),
         block_title=F('blocktranslation__title'),

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Language, Chapter, ChapterTranslation, Article, ArticleTranslation, Page, Block, BlockTranslation, \
-    BlockType, BlockTypeTranslation, Literature
+    BlockType, BlockTypeTranslation, Literature, RefLabel
 
 
 class InlineChapterTranslation(admin.TabularInline):
@@ -31,6 +31,7 @@ class InlineBlockTranslation(admin.StackedInline):
 @admin.register(Block)
 class BlockAdmin(admin.ModelAdmin):
     inlines = [InlineBlockTranslation]
+    readonly_fields = ['number']
 
 
 class InlineBlockTypeTranslation(admin.TabularInline):
@@ -46,6 +47,7 @@ class BlockTypeAdmin(admin.ModelAdmin):
 admin.site.register(Language)
 admin.site.register(Page)
 admin.site.register(Literature)
+admin.site.register(RefLabel)
 
 admin.site.site_header = 'Algebra - Administration'
 admin.site.site_title = 'Algebra'
