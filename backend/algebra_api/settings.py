@@ -29,6 +29,8 @@ DEBUG = env('DJANGO_DEBUG', default=False)
 
 ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS', default=[])
 
+CSRF_TRUSTED_ORIGINS = [r"https://*.joska.dev"]
+
 # Application definition
 
 INSTALLED_APPS = [

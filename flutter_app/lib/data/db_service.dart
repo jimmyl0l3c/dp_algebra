@@ -9,8 +9,9 @@ import 'package:http/http.dart' as http;
 
 class DbService {
   // final String _apiUrl = '127.0.0.1:8000';
-  final String _apiUrl = 's01.joska.dev';
+  final String _apiUrl = 'algebra2.joska.dev';
   late http.Client _httpClient;
+  final int languageId = 1;
 
   List<LChapter> _chapters = [];
   bool _allChaptersAvailable = false;
@@ -28,8 +29,7 @@ class DbService {
 
     if (!forceRefresh && _allChaptersAvailable) return _chapters;
 
-    // Uri chaptersUri = Uri.http(_apiUrl, '/api/learn/1/chapter/');
-    Uri chaptersUri = Uri.https(_apiUrl, '/api/learn/1/chapter/');
+    Uri chaptersUri = Uri.https(_apiUrl, '/api/learn/$languageId/chapter/');
     try {
       final response = await _httpClient.get(chaptersUri);
 
@@ -60,7 +60,7 @@ class DbService {
       return cachedChapter;
     }
 
-    Uri chapterUri = Uri.http(_apiUrl, '/api/learn/1/chapter/$id');
+    Uri chapterUri = Uri.https(_apiUrl, '/api/learn/$languageId/chapter/$id');
     try {
       final response = await _httpClient.get(chapterUri);
 
@@ -85,7 +85,7 @@ class DbService {
     LArticle? cachedArticle = _articles.firstWhereOrNull((a) => a.id == id);
     if (!forceRefresh && cachedArticle != null) return cachedArticle;
 
-    Uri articleUri = Uri.http(_apiUrl, '/api/learn/1/article/$id');
+    Uri articleUri = Uri.https(_apiUrl, '/api/learn/$languageId/article/$id');
     try {
       final response = await _httpClient.get(articleUri);
 
@@ -107,7 +107,7 @@ class DbService {
   }
 
   Future<Map<String, LLiterature>?> fetchLiteratureMap() async {
-    Uri literatureUri = Uri.http(_apiUrl, '/api/learn/literature');
+    Uri literatureUri = Uri.https(_apiUrl, '/api/learn/literature');
     try {
       final response = await _httpClient.get(literatureUri);
 
@@ -142,7 +142,7 @@ class DbService {
 
   Future<LRef?> fetchReference(String refName) async {
     if (!_references.containsKey(refName)) {
-      Uri refUri = Uri.http(_apiUrl, '/api/learn/ref', {'ref_name': refName});
+      Uri refUri = Uri.https(_apiUrl, '/api/learn/ref', {'ref_name': refName});
       try {
         final response = await _httpClient.get(refUri);
 
