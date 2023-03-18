@@ -145,3 +145,6 @@ class Literature(models.Model):
 class RefLabel(models.Model):
     ref_name = models.CharField(max_length=50, unique=True)
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.ref_name}: {self.block}'

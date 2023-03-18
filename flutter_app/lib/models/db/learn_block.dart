@@ -14,5 +14,14 @@ class LBlock {
         title = json["block_title"],
         content = json["block_content"];
 
-  String getTitle() => number != null ? '$typeTitle $number' : typeTitle;
+  String getTitle() {
+    StringBuffer buffer = StringBuffer(typeTitle);
+    if (number != null) {
+      buffer.write(' $number');
+    }
+    if (title != null && title!.isNotEmpty) {
+      buffer.write(' ($title)');
+    }
+    return buffer.toString();
+  }
 }
