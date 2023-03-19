@@ -92,7 +92,7 @@ def get_reference_view(request: HttpRequest):
     values_kwargs = {
         "block_type": F('block__type'),
         "block_number": F('block__number'),
-        "page": F('block__page'),
+        "page": F('block__page__order'),
         "article": F('block__page__article'),
         "chapter": F('block__page__article__chapter')
     }
