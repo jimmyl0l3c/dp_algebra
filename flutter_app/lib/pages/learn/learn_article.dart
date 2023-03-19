@@ -53,7 +53,7 @@ class LearnArticle extends StatelessWidget {
               backwardButton = FloatingActionButton(
                 onPressed: () {
                   routeState.go(
-                    '/chapter/1/${snapshot.data!.id}/${currentPage - 1}',
+                    '/chapter/$currentChapter/${snapshot.data!.id}/${currentPage - 1}',
                   );
                 },
                 child: const Icon(
