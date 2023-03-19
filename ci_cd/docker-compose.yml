@@ -24,7 +24,7 @@ services:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/algebra_db
       - DJANGO_ALLOWED_HOSTS=.joska.dev
       - DJANGO_SECRET_KEY
-      - DJANGO_DEBUG=True
+      - DJANGO_DEBUG=False
     depends_on:
       - db
     labels:
