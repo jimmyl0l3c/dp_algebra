@@ -25,11 +25,13 @@ class BlockParser {
 
       switch (currentType) {
         case LBlockContentType.paragraph:
-          blockContent.add(
-            LBlockParagraphContent(
-              content: _parseTextContent(segment),
-            ),
-          );
+          for (var s in segment.split(r'\break')) {
+            blockContent.add(
+              LBlockParagraphContent(
+                content: _parseTextContent(s),
+              ),
+            );
+          }
           break;
         case LBlockContentType.list:
         case LBlockContentType.enumeratedList:
@@ -70,7 +72,7 @@ class BlockParser {
     List<LBlockSegment> blockContent = [];
     for (var segment in block
         .trim()
-        .splitWithDelim(RegExp(r'\${1,2}|\\(cite|ref){[a-zA-Z:\-_]+}'))) {
+        .splitWithDelim(RegExp(r'\${1,2}|\\(cite|ref){[a-zA-Z:\-_,]+}'))) {
       if (segment.isEmpty) continue;
 
       if (segment.contains(r'$$')) {
@@ -80,8 +82,8 @@ class BlockParser {
       } else if (segment.contains(r'$')) {
         isMath = !isMath;
         continue;
-      } else if (segment.contains(RegExp(r'\\(cite|ref){[a-zA-Z:\-_]+}'))) {
-        var refMatch = RegExp(r'\\(?<type>(cite|ref)){(?<ref>[a-zA-Z:\-_]+)}')
+      } else if (segment.contains(RegExp(r'\\(cite|ref){[a-zA-Z:\-_,]+}'))) {
+        var refMatch = RegExp(r'\\(?<type>(cite|ref)){(?<ref>[a-zA-Z:\-_,]+)}')
             .firstMatch(segment);
 
         if (refMatch != null) {

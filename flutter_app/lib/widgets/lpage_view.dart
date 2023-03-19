@@ -97,17 +97,23 @@ class LPageView extends StatelessWidget {
               LBlockReferenceType.literature) {
             segments[segments.length - 1].add(
               FutureBuilder(
-                future: dbService.fetchLiterature(segment.content),
+                future: segment.references,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting ||
                       !snapshot.hasData ||
-                      snapshot.data == null) {
+                      snapshot.data == null ||
+                      snapshot.data!.isEmpty) {
                     return const Text('(...)');
                   }
 
+                  String citation = snapshot.data!
+                      .map((e) => e.getHarvardCitation())
+                      .toList()
+                      .join(", ");
+
                   // TODO: show literature details when implemented
                   return Text(
-                    snapshot.data!.getHarvardCitation(),
+                    '($citation)',
                     style: Theme.of(context).textTheme.bodyText2,
                   );
                 },

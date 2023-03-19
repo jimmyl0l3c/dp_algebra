@@ -1,3 +1,7 @@
+import 'package:dp_algebra/data/db_service.dart';
+import 'package:dp_algebra/models/db/learn_literature.dart';
+import 'package:get_it/get_it.dart';
+
 class LBlockSegment {
   final LBlockSegmentType type;
   final String content;
@@ -7,9 +11,18 @@ class LBlockSegment {
 
 class LBlockRefSegment extends LBlockSegment {
   final LBlockReferenceType refType;
+  final Future<List<LLiterature>> references;
 
   LBlockRefSegment({required this.refType, required String content})
-      : super(type: LBlockSegmentType.reference, content: content);
+      : references = refType == LBlockReferenceType.literature
+            ? _getReferences(content)
+            : Future(() => []),
+        super(type: LBlockSegmentType.reference, content: content);
+
+  static Future<List<LLiterature>> _getReferences(String content) {
+    DbService dbService = GetIt.instance.get<DbService>();
+    return dbService.fetchLiterature(content.split(','));
+  }
 }
 
 class LBlockContent {

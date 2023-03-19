@@ -11,5 +11,5 @@ class LLiterature {
         author = json["author"],
         year = json["year"];
 
-  getHarvardCitation() => '($author, $year)';
+  getHarvardCitation() => '$author $year';
 }

@@ -128,16 +128,18 @@ class DbService {
     }
   }
 
-  Future<LLiterature?> fetchLiterature(String refName) async {
+  Future<List<LLiterature>> fetchLiterature(List<String> refNames) async {
     if (_literature.isEmpty) {
       await fetchLiteratureMap().then(
         (value) => {if (value != null) _literature = value},
       );
     }
 
-    if (_literature.containsKey(refName)) return _literature[refName];
-
-    return null;
+    List<LLiterature> output = [];
+    for (var refName in refNames) {
+      if (_literature.containsKey(refName)) output.add(_literature[refName]!);
+    }
+    return output;
   }
 
   Future<LRef?> fetchReference(String refName) async {

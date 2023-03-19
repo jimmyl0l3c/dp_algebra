@@ -19,7 +19,7 @@ class LRef {
       : refName = json["ref_name"],
         blockType = json["block_type"],
         blockNumber = json["block_number"],
-        pageId = json["page"],
+        pageId = json["page"] + 1,
         articleId = json["article"],
         chapterId = json["chapter"];
 }
