@@ -132,6 +132,7 @@ class BlockTranslation(models.Model):
         self.content = re.sub(r"(\r?\n){2,}",  r" \\break ", self.content)
         self.content = re.sub(r"[\n\r\t]",  " ", self.content)
         self.content = re.sub(r" {2,}", " ", self.content)
+        self.content = re.sub(r"(\\cite{\S+)\s+(\S+})", r"\g<1>\g<2>", self.content)
         super().save(*args, **kwargs)
 
     def __str__(self):
