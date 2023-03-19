@@ -62,7 +62,7 @@ def article_view(request: HttpRequest, locale_id: int, article_id: int):
         block_type_title=F('type__blocktypetranslation__title'),
         block_title=F('blocktranslation__title'),
         block_content=F('blocktranslation__content')
-    ).order_by('order'))
+    ).order_by('order', 'page_index'))
 
     pages = []
     for block in blocks:

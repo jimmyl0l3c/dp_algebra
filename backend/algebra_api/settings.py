@@ -13,6 +13,8 @@ from pathlib import Path
 
 import environ
 
+DEV = True
+
 env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,8 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DJANGO_DEBUG', default=False)
-
+DEBUG = env('DJANGO_DEBUG', default=False) or DEV
 ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS', default=[])
 
 CSRF_TRUSTED_ORIGINS = [r"https://*.joska.dev"]
@@ -81,9 +82,17 @@ WSGI_APPLICATION = 'algebra_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': env.db()
-}
+if DEV:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
+        'default': env.db()
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
