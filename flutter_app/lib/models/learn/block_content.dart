@@ -9,20 +9,24 @@ class LBlockSegment {
   LBlockSegment({required this.type, required this.content});
 }
 
-class LBlockRefSegment extends LBlockSegment {
-  final LBlockReferenceType refType;
+class LLitRefSegment extends LBlockSegment {
   final Future<List<LLiterature>> references;
 
-  LBlockRefSegment({required this.refType, required String content})
-      : references = refType == LBlockReferenceType.literature
-            ? _getReferences(content)
-            : Future(() => []),
-        super(type: LBlockSegmentType.reference, content: content);
+  LLitRefSegment({required String content})
+      : references = _getReferences(content),
+        super(type: LBlockSegmentType.literatureReference, content: content);
 
   static Future<List<LLiterature>> _getReferences(String content) {
     DbService dbService = GetIt.instance.get<DbService>();
     return dbService.fetchLiterature(content.split(','));
   }
+}
+
+class LBlockRefSegment extends LBlockSegment {
+  final LBlockReferenceType refType;
+
+  LBlockRefSegment({required this.refType, required String content})
+      : super(type: LBlockSegmentType.reference, content: content);
 }
 
 class LBlockContent {
@@ -49,6 +53,7 @@ enum LBlockSegmentType {
   inlineMath,
   displayMath,
   reference,
+  literatureReference,
 }
 
 enum LBlockContentType {
@@ -58,6 +63,6 @@ enum LBlockContentType {
 }
 
 enum LBlockReferenceType {
-  literature,
+  image,
   block,
 }

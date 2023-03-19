@@ -82,44 +82,26 @@ class LPageView extends StatelessWidget {
         case LBlockSegmentType.inlineMath:
         case LBlockSegmentType.displayMath:
           segments[segments.length - 1].add(
-            Math.tex(
-              segment.content,
-              textScaleFactor:
-                  segment.type == LBlockSegmentType.displayMath ? 1.4 : 1.1,
-              mathStyle: segment.type == LBlockSegmentType.displayMath
-                  ? MathStyle.display
-                  : MathStyle.text,
+            Wrap(
+              direction: Axis.horizontal,
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              runAlignment: WrapAlignment.center,
+              runSpacing: 8.0,
+              children: Math.tex(
+                segment.content,
+                textScaleFactor:
+                    segment.type == LBlockSegmentType.displayMath ? 1.4 : 1.1,
+                mathStyle: segment.type == LBlockSegmentType.displayMath
+                    ? MathStyle.display
+                    : MathStyle.text,
+              ).texBreak().parts,
             ),
           );
           break;
         case LBlockSegmentType.reference:
           if ((segment as LBlockRefSegment).refType ==
-              LBlockReferenceType.literature) {
-            segments[segments.length - 1].add(
-              FutureBuilder(
-                future: segment.references,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting ||
-                      !snapshot.hasData ||
-                      snapshot.data == null ||
-                      snapshot.data!.isEmpty) {
-                    return const Text('(...)');
-                  }
-
-                  String citation = snapshot.data!
-                      .map((e) => e.getHarvardCitation())
-                      .toList()
-                      .join(", ");
-
-                  // TODO: show literature details when implemented
-                  return Text(
-                    '($citation)',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  );
-                },
-              ),
-            );
-          } else {
+              LBlockReferenceType.block) {
             segments[segments.length - 1].add(
               FutureBuilder(
                 future: dbService.fetchReference(segment.content),
@@ -153,6 +135,32 @@ class LPageView extends StatelessWidget {
               ),
             );
           }
+          break;
+        case LBlockSegmentType.literatureReference:
+          segments[segments.length - 1].add(
+            FutureBuilder(
+              future: (segment as LLitRefSegment).references,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting ||
+                    !snapshot.hasData ||
+                    snapshot.data == null ||
+                    snapshot.data!.isEmpty) {
+                  return const Text('(...)');
+                }
+
+                String citation = snapshot.data!
+                    .map((e) => e.getHarvardCitation())
+                    .toList()
+                    .join(", ");
+
+                // TODO: show literature details when implemented
+                return Text(
+                  '($citation)',
+                  style: Theme.of(context).textTheme.bodyText2,
+                );
+              },
+            ),
+          );
           break;
       }
 

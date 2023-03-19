@@ -86,10 +86,20 @@ class BlockParser {
         var refMatch = RegExp(r'\\(?<type>(cite|ref)){(?<ref>[a-zA-Z:\-_,]+)}')
             .firstMatch(segment);
 
+        // Fix previous segment if the citation is inside math segment
+        if (isMath &&
+            (blockContent.last.type == LBlockSegmentType.displayMath ||
+                blockContent.last.type == LBlockSegmentType.inlineMath)) {
+          var previous = blockContent.removeLast();
+          blockContent.add(LBlockSegment(
+            type: previous.type,
+            content: '${previous.content}}',
+          ));
+        }
+
         if (refMatch != null) {
           if (refMatch.namedGroup('type') == 'cite') {
-            blockContent.add(LBlockRefSegment(
-              refType: LBlockReferenceType.literature,
+            blockContent.add(LLitRefSegment(
               content: refMatch.namedGroup('ref') ?? 'unknown',
             ));
           } else if (refMatch.namedGroup('type') == 'ref') {
@@ -100,6 +110,13 @@ class BlockParser {
           }
         }
         continue;
+      }
+
+      // Fix segment if there was citation inside math segment before it
+      if (isMath &&
+          ((!segment.contains('{') && segment.contains('}')) ||
+              (segment.indexOf('}') < segment.indexOf('{')))) {
+        segment = '{$segment';
       }
 
       if (segment.contains(r'$')) continue;
