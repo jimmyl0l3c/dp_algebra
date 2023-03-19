@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 from django.db.models import F
 
@@ -125,6 +127,12 @@ class BlockTranslation(models.Model):
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
     title = models.CharField(max_length=150, blank=True)
     content = models.TextField()
+
+    def save(self, *args, **kwargs):
+        self.content = re.sub(r"(\r?\n){2,}",  r" \\break ", self.content)
+        self.content = re.sub(r"[\n\r\t]",  " ", self.content)
+        self.content = re.sub(r" {2,}", " ", self.content)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.block}/{self.language}'
