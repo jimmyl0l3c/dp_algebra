@@ -48,7 +48,7 @@ class Article(models.Model):
             name=F('articletranslation__title')
         ).order_by('articletranslation__language')[:1]
         if article_translation.exists():
-            return f'{self.chapter}, {self.id}: {article_translation.get()["name"]} ({self.order})'
+            return f'{self.id}: {article_translation.get()["name"]} ({self.order})'
         return f'{self.chapter}, Article: {self.id} ({self.order})'
 
     class Meta:
@@ -88,7 +88,7 @@ class BlockType(models.Model):
             name=F('blocktypetranslation__title')
         ).order_by('blocktypetranslation__language')[:1]
         if type_translation.exists():
-            return f'{self.id}: {type_translation.get()["name"]} (enumerate: {self.enumerated})'
+            return f'{self.id}: {type_translation.get()["name"]}'
         return f'{self.id} ({self.enumerated})'
 
 

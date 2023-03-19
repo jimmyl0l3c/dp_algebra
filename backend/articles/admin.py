@@ -10,6 +10,7 @@ class InlineChapterTranslation(admin.TabularInline):
 
 @admin.register(Chapter)
 class ChapterAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'order')
     inlines = [InlineChapterTranslation]
 
 
@@ -20,6 +21,7 @@ class InlineArticleTranslation(admin.TabularInline):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'chapter', 'order')
     inlines = [InlineArticleTranslation]
 
 
@@ -30,6 +32,7 @@ class InlineBlockTranslation(admin.StackedInline):
 
 @admin.register(Block)
 class BlockAdmin(admin.ModelAdmin):
+    list_display = ('page', 'id', 'order', 'number')
     inlines = [InlineBlockTranslation]
     readonly_fields = ['number']
 
@@ -41,13 +44,29 @@ class InlineBlockTypeTranslation(admin.TabularInline):
 
 @admin.register(BlockType)
 class BlockTypeAdmin(admin.ModelAdmin):
+    list_display = ( '__str__', 'id', 'show_title', 'enumerated')
     inlines = [InlineBlockTypeTranslation]
 
 
-admin.site.register(Language)
-admin.site.register(Page)
-admin.site.register(Literature)
-admin.site.register(RefLabel)
+@admin.register(Page)
+class PageAdmin(admin.ModelAdmin):
+    list_display = ('article', 'id', 'order')
+
+
+@admin.register(RefLabel)
+class RefLabelAdmin(admin.ModelAdmin):
+    list_display = ('ref_name', 'block')
+
+
+@admin.register(Literature)
+class LiteratureAdmin(admin.ModelAdmin):
+    list_display = ('ref_name', '__str__')
+
+
+@admin.register(Language)
+class LanguageAdmin(admin.ModelAdmin):
+    list_display = ('code', 'name')
+
 
 admin.site.site_header = 'Algebra - Administration'
 admin.site.site_title = 'Algebra'
