@@ -13,7 +13,7 @@ from pathlib import Path
 
 import environ
 
-DEV = True
+DEV = False
 
 env = environ.Env()
 
