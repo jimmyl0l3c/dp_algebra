@@ -77,8 +77,8 @@ class LPageView extends StatelessWidget {
     List<List<Widget>> segments = [[]];
 
     for (var segment in paragraphContent) {
-      if (segment.type == LBlockSegmentType.displayMath) segments.add([]);
       if (segment.content.trim().isEmpty) continue;
+      if (segment.type == LBlockSegmentType.displayMath) segments.add([]);
 
       switch (segment.type) {
         case LBlockSegmentType.text:
