@@ -76,10 +76,9 @@ class LPageView extends StatelessWidget {
 
       switch (segment.type) {
         case LBlockSegmentType.text:
-          segments[segments.length - 1].add(Text(
-            segment.content,
-            style: theme.textTheme.bodyText2,
-          ));
+          segments[segments.length - 1].addAll(segment.content.split(' ').map(
+                (e) => Text('$e ', style: theme.textTheme.bodyText2),
+              ));
           break;
         case LBlockSegmentType.inlineMath:
         case LBlockSegmentType.displayMath:
