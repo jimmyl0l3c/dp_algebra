@@ -38,4 +38,20 @@ class LLiterature {
       RegExp(r'(\S*?),').firstMatch(author)?.group(1)?.capitalize() ?? '...';
 
   String getHarvardCitation() => '${getFirstAuthor()}, $year';
+
+  String getFullCitation() {
+    StringBuffer buffer = StringBuffer('$author. $title.');
+
+    if (edition != null) {
+      buffer.write(' $edition. vyd.');
+    }
+
+    buffer.write(' $location: $publisher, $year.');
+
+    if (isbn != null) {
+      buffer.write(' ISBN $isbn');
+    }
+
+    return buffer.toString();
+  }
 }

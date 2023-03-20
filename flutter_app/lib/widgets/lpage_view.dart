@@ -5,6 +5,7 @@ import 'package:dp_algebra/models/db/learn_page.dart';
 import 'package:dp_algebra/models/db/learn_ref.dart';
 import 'package:dp_algebra/models/learn/block_content.dart';
 import 'package:dp_algebra/routing/route_state.dart';
+import 'package:dp_algebra/widgets/dialog_provider.dart';
 import 'package:dp_algebra/widgets/layout/bullet_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
@@ -65,6 +66,7 @@ class LPageView extends StatelessWidget {
 
   List<List<Widget>> _getParagraphContent(
       List<LBlockSegment> paragraphContent, BuildContext context) {
+    final theme = Theme.of(context);
     final routeState = RouteStateScope.of(context);
     DbService dbService = GetIt.instance.get<DbService>();
     List<List<Widget>> segments = [[]];
@@ -76,7 +78,7 @@ class LPageView extends StatelessWidget {
         case LBlockSegmentType.text:
           segments[segments.length - 1].add(Text(
             segment.content,
-            style: Theme.of(context).textTheme.bodyText2,
+            style: theme.textTheme.bodyText2,
           ));
           break;
         case LBlockSegmentType.inlineMath:
@@ -126,9 +128,9 @@ class LPageView extends StatelessWidget {
                     },
                     child: Text(
                       ref.blockNumber.toString(),
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
+                      style: theme.textTheme.bodyText2?.copyWith(
+                        color: theme.colorScheme.secondary,
+                      ),
                     ),
                   );
                 },
@@ -153,10 +155,30 @@ class LPageView extends StatelessWidget {
                     .toList()
                     .join("; ");
 
-                // TODO: show literature details when implemented
-                return Text(
-                  '($citation)',
-                  style: Theme.of(context).textTheme.bodyText2,
+                return TextButton(
+                  style: const ButtonStyle(
+                    minimumSize: MaterialStatePropertyAll(Size.zero),
+                    padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                  ),
+                  onPressed: () => Navigator.of(context).push(
+                    DialogProvider.getDialog(
+                      context,
+                      'Detail citace',
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: snapshot.data!
+                            .map((e) => SelectableText(e.getFullCitation()))
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    '($citation)',
+                    style: theme.textTheme.bodyText2?.copyWith(
+                      color: theme.colorScheme.secondary,
+                    ),
+                  ),
                 );
               },
             ),
