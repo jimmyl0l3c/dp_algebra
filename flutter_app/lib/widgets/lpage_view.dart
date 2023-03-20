@@ -20,6 +20,7 @@ class LPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (page.blocks.isEmpty) return const Text('Page is empty');
     return ListView.builder(
+      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 6.0),
       itemCount: page.blocks.length,
       itemBuilder: (context, index) {
         LBlock block = page.blocks[index];
@@ -47,25 +48,22 @@ class LPageView extends StatelessWidget {
           }
         }
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Column(
-            children: [
-              if (block.showTypeTitle)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 6.0, top: 4.0),
-                  child: Text(
-                    block.getTitle(),
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
+        return Column(
+          children: [
+            if (block.showTypeTitle)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 6.0, top: 12.0),
+                child: Text(
+                  block.getTitle(),
+                  style: Theme.of(context).textTheme.headline3,
                 ),
-              for (var row in content)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 4.0),
-                  child: _getBlockWrap(row),
-                ),
-            ],
-          ),
+              ),
+            for (var row in content)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12.0),
+                child: _getBlockWrap(row),
+              ),
+          ],
         );
       },
     );
@@ -80,6 +78,7 @@ class LPageView extends StatelessWidget {
 
     for (var segment in paragraphContent) {
       if (segment.type == LBlockSegmentType.displayMath) segments.add([]);
+      if (segment.content.trim().isEmpty) continue;
 
       switch (segment.type) {
         case LBlockSegmentType.text:
@@ -98,20 +97,17 @@ class LPageView extends StatelessWidget {
           break;
         case LBlockSegmentType.displayMath:
           segments[segments.length - 1].add(
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6.0),
-              child: Wrap(
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                runAlignment: WrapAlignment.center,
-                runSpacing: 8.0,
-                children: Math.tex(
-                  segment.content,
-                  textScaleFactor: 1.4,
-                  mathStyle: MathStyle.display,
-                ).texBreak().parts,
-              ),
+            Wrap(
+              direction: Axis.horizontal,
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              runAlignment: WrapAlignment.center,
+              runSpacing: 8.0,
+              children: Math.tex(
+                segment.content,
+                textScaleFactor: 1.4,
+                mathStyle: MathStyle.display,
+              ).texBreak().parts,
             ),
           );
           break;
