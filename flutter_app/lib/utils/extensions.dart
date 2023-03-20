@@ -26,4 +26,7 @@ extension RegExpExtension on RegExp {
 extension StringExtension on String {
   List<String> splitWithDelim(RegExp pattern) =>
       pattern.allMatchesWithSep(this);
+
+  String capitalize() =>
+      "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
 }

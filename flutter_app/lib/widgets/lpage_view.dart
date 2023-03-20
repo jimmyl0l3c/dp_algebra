@@ -151,7 +151,7 @@ class LPageView extends StatelessWidget {
                 String citation = snapshot.data!
                     .map((e) => e.getHarvardCitation())
                     .toList()
-                    .join(", ");
+                    .join("; ");
 
                 // TODO: show literature details when implemented
                 return Text(
