@@ -52,11 +52,18 @@ class LPageView extends StatelessWidget {
           child: Column(
             children: [
               if (block.showTypeTitle)
-                Text(
-                  block.getTitle(),
-                  style: Theme.of(context).textTheme.headline3,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 6.0, top: 4.0),
+                  child: Text(
+                    block.getTitle(),
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
                 ),
-              for (var row in content) _getBlockWrap(row)
+              for (var row in content)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4.0),
+                  child: _getBlockWrap(row),
+                ),
             ],
           ),
         );
