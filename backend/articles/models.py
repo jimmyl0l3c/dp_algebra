@@ -146,9 +146,15 @@ class Literature(models.Model):
     ref_name = models.CharField(max_length=50, unique=True)
     author = models.CharField(max_length=150)
     year = models.CharField(max_length=10)
+    title = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+    publisher = models.CharField(max_length=100)
+    isbn = models.CharField(max_length=18, blank=True, null=True)
+    edition = models.IntegerField(blank=True, null=True)
+    pages = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return f'{self.ref_name}: {self.author}, {self.year}'
+        return f'{self.ref_name}: {self.author}, {self.year}, {self.title}'
 
 
 class RefLabel(models.Model):
