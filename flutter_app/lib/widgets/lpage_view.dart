@@ -88,22 +88,30 @@ class LPageView extends StatelessWidget {
               ));
           break;
         case LBlockSegmentType.inlineMath:
+          segments[segments.length - 1].addAll(
+            Math.tex(
+              segment.content,
+              textScaleFactor: 1.1,
+              mathStyle: MathStyle.text,
+            ).texBreak().parts,
+          );
+          break;
         case LBlockSegmentType.displayMath:
           segments[segments.length - 1].add(
-            Wrap(
-              direction: Axis.horizontal,
-              alignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              runAlignment: WrapAlignment.center,
-              runSpacing: 8.0,
-              children: Math.tex(
-                segment.content,
-                textScaleFactor:
-                    segment.type == LBlockSegmentType.displayMath ? 1.4 : 1.1,
-                mathStyle: segment.type == LBlockSegmentType.displayMath
-                    ? MathStyle.display
-                    : MathStyle.text,
-              ).texBreak().parts,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: Wrap(
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runAlignment: WrapAlignment.center,
+                runSpacing: 8.0,
+                children: Math.tex(
+                  segment.content,
+                  textScaleFactor: 1.4,
+                  mathStyle: MathStyle.display,
+                ).texBreak().parts,
+              ),
             ),
           );
           break;
