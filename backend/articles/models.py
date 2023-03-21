@@ -129,10 +129,15 @@ class BlockTranslation(models.Model):
     content = models.TextField()
 
     def save(self, *args, **kwargs):
+        # Replace end of paragraph with \break tag
         self.content = re.sub(r"(\r?\n){2,}",  r" \\break ", self.content)
+        # Filter out extra white spaces
         self.content = re.sub(r"[\n\r\t]",  " ", self.content)
         self.content = re.sub(r" {2,}", " ", self.content)
         self.content = re.sub(r"(\\cite{\S+)\s+(\S+})", r"\g<1>\g<2>", self.content)
+        # Replace \begin{align} with matrix in display math block
+        self.content = re.sub(r"(\\begin{)align\*(})", r"$$\g<1>matrix\g<2>", self.content)
+        self.content = re.sub(r"(\\end{)align\*(})", r"\g<1>matrix\g<2>$$", self.content)
         super().save(*args, **kwargs)
 
     def __str__(self):

@@ -87,12 +87,13 @@ class LPageView extends StatelessWidget {
               ));
           break;
         case LBlockSegmentType.inlineMath:
-          segments[segments.length - 1].addAll(
+          segments[segments.length - 1].add(
             Math.tex(
               segment.content,
-              textScaleFactor: 1.1,
+              textScaleFactor: 1.2,
               mathStyle: MathStyle.text,
-            ).texBreak().parts,
+              textStyle: theme.textTheme.bodyText2,
+            ),
           );
           break;
         case LBlockSegmentType.displayMath:
