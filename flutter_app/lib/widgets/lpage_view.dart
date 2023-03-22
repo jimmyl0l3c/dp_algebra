@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dp_algebra/data/block_parser.dart';
 import 'package:dp_algebra/data/db_service.dart';
 import 'package:dp_algebra/models/db/learn_block.dart';
@@ -24,6 +25,39 @@ class LPageView extends StatelessWidget {
       itemCount: page.blocks.length,
       itemBuilder: (context, index) {
         LBlock block = page.blocks[index];
+
+        if (block.typeTitle == 'image') {
+          return Column(
+            children: [
+              ConstrainedBox(
+                // TODO: have dynamic constrains based on screen size
+                constraints:
+                    const BoxConstraints(maxWidth: 400, maxHeight: 400),
+                child: CachedNetworkImage(
+                  errorWidget: (context, url, error) => Column(
+                    children: const [
+                      Icon(Icons.error),
+                      Text("Error occurred when loading an image"),
+                    ],
+                  ),
+                  fit: BoxFit.contain,
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  imageUrl:
+                      'https://${DbService.apiUrl}/api/learn/image?ref_name=${block.content}',
+                ),
+              ),
+              if (block.title != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 6.0, top: 12.0),
+                  child: Text(
+                    "Obrázek: ${block.title}",
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ),
+            ],
+          );
+        }
 
         List<LBlockContent> blockContent =
             BlockParser.parseBlock(block.content);

@@ -8,8 +8,8 @@ import 'package:dp_algebra/models/db/learn_ref.dart';
 import 'package:http/http.dart' as http;
 
 class DbService {
-  // final String _apiUrl = '127.0.0.1:8000';
-  final String _apiUrl = 'algebra2.joska.dev';
+  // static const String apiUrl = '127.0.0.1:8000';
+  static const String apiUrl = 'algebra2.joska.dev';
   late http.Client _httpClient;
   final int languageId = 1;
 
