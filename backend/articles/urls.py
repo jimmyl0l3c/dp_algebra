@@ -8,4 +8,5 @@ urlpatterns = [
     path('<int:locale_id>/article/<int:article_id>', views.article_view),
     path('literature', views.get_literature_view),
     path('ref', views.get_reference_view),
+    path('image', views.get_learn_image_view),
 ]

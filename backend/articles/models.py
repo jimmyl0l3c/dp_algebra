@@ -170,3 +170,11 @@ class RefLabel(models.Model):
 
     def __str__(self):
         return f'{self.ref_name}: {self.block}'
+
+
+class LearnImage(models.Model):
+    ref_name = models.CharField(max_length=50, unique=True)
+    image = models.ImageField(upload_to=f'learn_images')
+
+    def __str__(self):
+        return self.ref_name

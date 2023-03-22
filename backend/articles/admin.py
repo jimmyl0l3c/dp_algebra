@@ -1,6 +1,7 @@
 from django.contrib import admin
+
 from .models import Language, Chapter, ChapterTranslation, Article, ArticleTranslation, Page, Block, BlockTranslation, \
-    BlockType, BlockTypeTranslation, Literature, RefLabel
+    BlockType, BlockTypeTranslation, Literature, RefLabel, LearnImage
 
 
 class InlineChapterTranslation(admin.TabularInline):
@@ -44,7 +45,7 @@ class InlineBlockTypeTranslation(admin.TabularInline):
 
 @admin.register(BlockType)
 class BlockTypeAdmin(admin.ModelAdmin):
-    list_display = ( '__str__', 'id', 'show_title', 'enumerated')
+    list_display = ('__str__', 'id', 'show_title', 'enumerated')
     inlines = [InlineBlockTypeTranslation]
 
 
@@ -66,6 +67,11 @@ class LiteratureAdmin(admin.ModelAdmin):
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
     list_display = ('code', 'name')
+
+
+@admin.register(LearnImage)
+class LearnImageAdmin(admin.ModelAdmin):
+    list_display = ('ref_name', 'image')
 
 
 admin.site.site_header = 'Algebra - Administration'
