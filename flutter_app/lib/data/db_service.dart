@@ -29,7 +29,7 @@ class DbService {
 
     if (!forceRefresh && _allChaptersAvailable) return _chapters;
 
-    Uri chaptersUri = Uri.https(_apiUrl, '/api/learn/$languageId/chapter/');
+    Uri chaptersUri = Uri.https(apiUrl, '/api/learn/$languageId/chapter/');
     try {
       final response = await _httpClient.get(chaptersUri);
 
@@ -60,7 +60,7 @@ class DbService {
       return cachedChapter;
     }
 
-    Uri chapterUri = Uri.https(_apiUrl, '/api/learn/$languageId/chapter/$id');
+    Uri chapterUri = Uri.https(apiUrl, '/api/learn/$languageId/chapter/$id');
     try {
       final response = await _httpClient.get(chapterUri);
 
@@ -85,7 +85,7 @@ class DbService {
     LArticle? cachedArticle = _articles.firstWhereOrNull((a) => a.id == id);
     if (!forceRefresh && cachedArticle != null) return cachedArticle;
 
-    Uri articleUri = Uri.https(_apiUrl, '/api/learn/$languageId/article/$id');
+    Uri articleUri = Uri.https(apiUrl, '/api/learn/$languageId/article/$id');
     try {
       final response = await _httpClient.get(articleUri);
 
@@ -107,7 +107,7 @@ class DbService {
   }
 
   Future<Map<String, LLiterature>?> fetchLiteratureMap() async {
-    Uri literatureUri = Uri.https(_apiUrl, '/api/learn/literature');
+    Uri literatureUri = Uri.https(apiUrl, '/api/learn/literature');
     try {
       final response = await _httpClient.get(literatureUri);
 
@@ -144,7 +144,7 @@ class DbService {
 
   Future<LRef?> fetchReference(String refName) async {
     if (!_references.containsKey(refName)) {
-      Uri refUri = Uri.https(_apiUrl, '/api/learn/ref', {'ref_name': refName});
+      Uri refUri = Uri.https(apiUrl, '/api/learn/ref', {'ref_name': refName});
       try {
         final response = await _httpClient.get(refUri);
 
