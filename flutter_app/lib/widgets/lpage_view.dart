@@ -43,7 +43,7 @@ class LPageView extends StatelessWidget {
                   placeholder: (context, url) =>
                       const CircularProgressIndicator(),
                   imageUrl:
-                      'https://${DbService.apiUrl}/api/learn/image?ref_name=${block.content}',
+                      'http${DbService.devEnv ? "" : "s"}://${DbService.apiUrl}/api/learn/image?ref_name=${block.content}',
                 ),
               ),
               if (block.title != null)

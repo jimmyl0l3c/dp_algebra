@@ -8,8 +8,9 @@ import 'package:dp_algebra/models/db/learn_ref.dart';
 import 'package:http/http.dart' as http;
 
 class DbService {
-  // static const String apiUrl = '127.0.0.1:8000';
-  static const String apiUrl = 'algebra2.joska.dev';
+  static const bool devEnv = false;
+
+  static const String apiUrl = devEnv ? '127.0.0.1:8000' : 'algebra2.joska.dev';
   late http.Client _httpClient;
   final int languageId = 1;
 
@@ -29,7 +30,9 @@ class DbService {
 
     if (!forceRefresh && _allChaptersAvailable) return _chapters;
 
-    Uri chaptersUri = Uri.https(apiUrl, '/api/learn/$languageId/chapter/');
+    Uri chaptersUri = devEnv
+        ? Uri.http(apiUrl, '/api/learn/$languageId/chapter/')
+        : Uri.https(apiUrl, '/api/learn/$languageId/chapter/');
     try {
       final response = await _httpClient.get(chaptersUri);
 
@@ -60,7 +63,9 @@ class DbService {
       return cachedChapter;
     }
 
-    Uri chapterUri = Uri.https(apiUrl, '/api/learn/$languageId/chapter/$id');
+    Uri chapterUri = devEnv
+        ? Uri.http(apiUrl, '/api/learn/$languageId/chapter/$id')
+        : Uri.https(apiUrl, '/api/learn/$languageId/chapter/$id');
     try {
       final response = await _httpClient.get(chapterUri);
 
@@ -85,7 +90,9 @@ class DbService {
     LArticle? cachedArticle = _articles.firstWhereOrNull((a) => a.id == id);
     if (!forceRefresh && cachedArticle != null) return cachedArticle;
 
-    Uri articleUri = Uri.https(apiUrl, '/api/learn/$languageId/article/$id');
+    Uri articleUri = devEnv
+        ? Uri.http(apiUrl, '/api/learn/$languageId/article/$id')
+        : Uri.https(apiUrl, '/api/learn/$languageId/article/$id');
     try {
       final response = await _httpClient.get(articleUri);
 
@@ -107,7 +114,9 @@ class DbService {
   }
 
   Future<Map<String, LLiterature>?> fetchLiteratureMap() async {
-    Uri literatureUri = Uri.https(apiUrl, '/api/learn/literature');
+    Uri literatureUri = devEnv
+        ? Uri.http(apiUrl, '/api/learn/literature')
+        : Uri.https(apiUrl, '/api/learn/literature');
     try {
       final response = await _httpClient.get(literatureUri);
 
@@ -144,7 +153,9 @@ class DbService {
 
   Future<LRef?> fetchReference(String refName) async {
     if (!_references.containsKey(refName)) {
-      Uri refUri = Uri.https(apiUrl, '/api/learn/ref', {'ref_name': refName});
+      Uri refUri = devEnv
+          ? Uri.http(apiUrl, '/api/learn/ref', {'ref_name': refName})
+          : Uri.https(apiUrl, '/api/learn/ref', {'ref_name': refName});
       try {
         final response = await _httpClient.get(refUri);
 
