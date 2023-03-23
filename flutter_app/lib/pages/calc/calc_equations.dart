@@ -36,7 +36,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
             const Divider(),
             Text(
               'Metody řešení',
-              style: Theme.of(context).textTheme.headline4!,
+              style: Theme.of(context).textTheme.headlineMedium!,
             ),
             const SizedBox(height: 12),
             Padding(
@@ -128,7 +128,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
             const Divider(),
             Text(
               'Výsledky',
-              style: Theme.of(context).textTheme.headline4!,
+              style: Theme.of(context).textTheme.headlineMedium!,
             ),
             const SizedBox(height: 12),
             ListView.separated(

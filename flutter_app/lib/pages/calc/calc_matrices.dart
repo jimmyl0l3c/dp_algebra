@@ -39,7 +39,7 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
               children: [
                 Text(
                   'Matice',
-                  style: Theme.of(context).textTheme.headline4!,
+                  style: Theme.of(context).textTheme.headlineMedium!,
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton(
@@ -54,7 +54,7 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
             const Divider(),
             Text(
               'Operace',
-              style: Theme.of(context).textTheme.headline4!,
+              style: Theme.of(context).textTheme.headlineMedium!,
             ),
             const SizedBox(height: 12),
             MatrixBinOperationSelection(),
@@ -74,7 +74,7 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
             const Divider(),
             Text(
               'Výsledky',
-              style: Theme.of(context).textTheme.headline4!,
+              style: Theme.of(context).textTheme.headlineMedium!,
             ),
             const SizedBox(height: 12),
             ListView.separated(

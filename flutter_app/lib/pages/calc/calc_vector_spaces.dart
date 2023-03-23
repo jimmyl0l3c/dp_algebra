@@ -43,7 +43,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
               children: [
                 Text(
                   'Vektory',
-                  style: Theme.of(context).textTheme.headline4!,
+                  style: Theme.of(context).textTheme.headlineMedium!,
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton(
@@ -62,7 +62,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
             const Divider(),
             Text(
               'Operace',
-              style: Theme.of(context).textTheme.headline4!,
+              style: Theme.of(context).textTheme.headlineMedium!,
             ),
             const SizedBox(height: 12),
             Padding(
@@ -191,7 +191,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
             const Divider(),
             Text(
               'Výsledky',
-              style: Theme.of(context).textTheme.headline4!,
+              style: Theme.of(context).textTheme.headlineMedium!,
             ),
             const SizedBox(height: 12),
             ListView.separated(
@@ -250,7 +250,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
         children: [
           Text(
             'Transformace souřadnic',
-            style: Theme.of(context).textTheme.headline5!,
+            style: Theme.of(context).textTheme.headlineSmall!,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),

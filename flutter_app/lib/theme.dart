@@ -27,30 +27,30 @@ ThemeData _algebraTheme() {
 
 TextTheme _algebraTextTheme(TextTheme base) => base.copyWith(
 // for our appbars title
-      headline1: base.headline1!.copyWith(),
+      displayLarge: base.displayLarge!.copyWith(),
 // for widgets heading/title
-      headline2: base.headline2!.copyWith(),
+      displayMedium: base.displayMedium!.copyWith(),
 // for sub-widgets heading/title - learn title
-      headline3: base.headline3!.copyWith(
+      displaySmall: base.displaySmall!.copyWith(
         fontSize: 24,
         color: Colors.white,
       ),
 // calc headlines
-      headline4: base.headline4!.copyWith(
+      headlineMedium: base.headlineMedium!.copyWith(
         color: Colors.white,
         letterSpacing: .8,
         fontSize: 24,
       ),
 // calc lower headlines
-      headline5: base.headline4!.copyWith(
+      headlineSmall: base.headlineMedium!.copyWith(
         color: Colors.white,
         letterSpacing: .8,
         fontSize: 18,
       ),
 // for widgets contents/paragraph
-      bodyText1: base.bodyText1!.copyWith(),
+      bodyLarge: base.bodyLarge!.copyWith(),
 // for sub-widgets contents/paragraph - learn paragraph
-      bodyText2: base.bodyText2!.copyWith(),
+      bodyMedium: base.bodyMedium!.copyWith(),
     );
 
 ElevatedButtonThemeData _algebraElevatedButtonTheme() =>

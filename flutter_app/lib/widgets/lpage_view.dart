@@ -51,7 +51,7 @@ class LPageView extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 6.0, top: 12.0),
                   child: Text(
                     "Obrázek: ${block.title}",
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
             ],
@@ -91,7 +91,7 @@ class LPageView extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 6.0, top: 12.0),
                   child: Text(
                     block.getTitle(),
-                    style: Theme.of(context).textTheme.headline3,
+                    style: Theme.of(context).textTheme.displaySmall,
                   ),
                 ),
               for (var row in content)
@@ -121,7 +121,7 @@ class LPageView extends StatelessWidget {
       switch (segment.type) {
         case LBlockSegmentType.text:
           segments[segments.length - 1].addAll(segment.content.split(' ').map(
-                (e) => Text('$e ', style: theme.textTheme.bodyText2),
+                (e) => Text('$e ', style: theme.textTheme.bodyMedium),
               ));
           break;
         case LBlockSegmentType.inlineMath:
@@ -130,7 +130,7 @@ class LPageView extends StatelessWidget {
               segment.content,
               textScaleFactor: 1.2,
               mathStyle: MathStyle.text,
-              textStyle: theme.textTheme.bodyText2,
+              textStyle: theme.textTheme.bodyMedium,
             ),
           );
           break;
@@ -177,7 +177,7 @@ class LPageView extends StatelessWidget {
                     },
                     child: Text(
                       ref.blockNumber.toString(),
-                      style: theme.textTheme.bodyText2?.copyWith(
+                      style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.secondary,
                       ),
                     ),
@@ -224,7 +224,7 @@ class LPageView extends StatelessWidget {
                   ),
                   child: Text(
                     '($citation)',
-                    style: theme.textTheme.bodyText2?.copyWith(
+                    style: theme.textTheme.bodyMedium?.copyWith(
                       color: theme.colorScheme.secondary,
                     ),
                   ),
