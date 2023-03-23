@@ -140,6 +140,8 @@ class BlockTranslation(models.Model):
         self.content = re.sub(r"(\\end{)align\*(})", r"\g<1>matrix\g<2>$$", self.content)
         # Replace tilda
         self.content = re.sub(r"~", " ", self.content)
+        # Replace \uv{}
+        self.content = re.sub(r"\\uv{(.*?)}", "\u201e\\g<1>\u201c", self.content)
         super().save(*args, **kwargs)
 
     def __str__(self):

@@ -29,10 +29,9 @@ class LPageView extends StatelessWidget {
         if (block.typeTitle == 'image') {
           return Column(
             children: [
-              ConstrainedBox(
+              FittedBox(
+                fit: BoxFit.contain,
                 // TODO: have dynamic constrains based on screen size
-                constraints:
-                    const BoxConstraints(maxWidth: 400, maxHeight: 400),
                 child: CachedNetworkImage(
                   errorWidget: (context, url, error) => Column(
                     children: const [
@@ -82,22 +81,27 @@ class LPageView extends StatelessWidget {
           }
         }
 
-        return Column(
-          children: [
-            if (block.showTypeTitle)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 6.0, top: 12.0),
-                child: Text(
-                  block.getTitle(),
-                  style: Theme.of(context).textTheme.headline3,
+        return Padding(
+          // Padding of blocks
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Column(
+            children: [
+              if (block.showTypeTitle)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 6.0, top: 12.0),
+                  child: Text(
+                    block.getTitle(),
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
                 ),
-              ),
-            for (var row in content)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12.0),
-                child: _getBlockWrap(row),
-              ),
-          ],
+              for (var row in content)
+                Padding(
+                  // Padding of paragraphs of a block
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: _getBlockWrap(row),
+                ),
+            ],
+          ),
         );
       },
     );
