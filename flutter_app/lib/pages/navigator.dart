@@ -88,8 +88,8 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
     SectionPageModel? exercisePage;
     if (pathTemplate.startsWith('/exercise/') &&
         sectionChapterId != null &&
-        sectionChapterId < ExerciseData.chapters.length) {
-      exerciseChapter = ExerciseData.chapters[sectionChapterId];
+        sectionChapterId < exerciseChapters.length) {
+      exerciseChapter = exerciseChapters[sectionChapterId];
 
       if (sectionPageId != null &&
           sectionPageId < exerciseChapter.pages.length) {
@@ -101,8 +101,8 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
     SectionPageModel? calcPage;
     if (pathTemplate.startsWith('/calc/') &&
         sectionChapterId != null &&
-        sectionChapterId < CalcData.chapters.length) {
-      calcChapter = CalcData.chapters[sectionChapterId];
+        sectionChapterId < calcChapters.length) {
+      calcChapter = calcChapters[sectionChapterId];
 
       if (sectionPageId != null && sectionPageId < calcChapter.pages.length) {
         calcPage = calcChapter.pages[sectionPageId];
@@ -141,7 +141,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             child: AlgMenuView(
               sectionTitle: 'Kalkulačka',
               sectionPath: 'calc',
-              chapters: CalcData.chapters,
+              chapters: calcChapters,
             ),
           )
         else if (routeState.route.pathTemplate.startsWith('/chapter'))
@@ -155,7 +155,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             child: AlgMenuView(
               sectionTitle: 'Procvičování',
               sectionPath: 'exercise',
-              chapters: ExerciseData.chapters,
+              chapters: exerciseChapters,
             ),
           ),
 
