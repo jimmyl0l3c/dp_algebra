@@ -1,4 +1,4 @@
-import 'package:dp_algebra/utils/extensions.dart';
+import '../../utils/extensions.dart';
 
 class LLiterature {
   final String refName;
@@ -34,12 +34,12 @@ class LLiterature {
         edition = json["edition"],
         pages = json["pages"];
 
-  String getFirstAuthor() =>
+  String get firstAuthor =>
       RegExp(r'(\S*?),').firstMatch(author)?.group(1)?.capitalize() ?? '...';
 
-  String getHarvardCitation() => '${getFirstAuthor()}, $year';
+  String get harvardCitation => '$firstAuthor, $year';
 
-  String getFullCitation() {
+  String get fullCitation {
     StringBuffer buffer = StringBuffer('$author. $title.');
 
     if (edition != null) {

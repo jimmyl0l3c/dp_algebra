@@ -1,13 +1,14 @@
-import 'package:dp_algebra/models/app_pages/section_chapter.dart';
-import 'package:dp_algebra/models/app_pages/section_page.dart';
-import 'package:dp_algebra/pages/exercise/equation_exercises/equation_exc.dart';
-import 'package:dp_algebra/pages/exercise/matrix_exercises/binary_matrix_exc.dart';
-import 'package:dp_algebra/pages/exercise/matrix_exercises/determinant_exc.dart';
-import 'package:dp_algebra/pages/exercise/matrix_exercises/inverse_exc.dart';
-import 'package:dp_algebra/pages/exercise/vector_exercises/basis_exc.dart';
-import 'package:dp_algebra/pages/exercise/vector_exercises/lin_independence_exc.dart';
-import 'package:dp_algebra/pages/exercise/vector_exercises/transform_matrix_exc.dart';
+import '../models/app_pages/section_chapter.dart';
+import '../models/app_pages/section_page.dart';
+import '../pages/exercise/equation_exercises/equation_exc.dart';
+import '../pages/exercise/matrix_exercises/binary_matrix_exc.dart';
+import '../pages/exercise/matrix_exercises/determinant_exc.dart';
+import '../pages/exercise/matrix_exercises/inverse_exc.dart';
+import '../pages/exercise/vector_exercises/basis_exc.dart';
+import '../pages/exercise/vector_exercises/lin_independence_exc.dart';
+import '../pages/exercise/vector_exercises/transform_matrix_exc.dart';
 
+/// Data for Exercise section
 final List<SectionChapterModel> exerciseChapters = [
   SectionChapterModel(
     title: 'Matice',

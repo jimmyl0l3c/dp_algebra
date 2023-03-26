@@ -90,7 +90,7 @@ class LPageView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 6.0, top: 12.0),
                   child: Text(
-                    block.getTitle(),
+                    block.fullTitle,
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
                 ),
@@ -200,7 +200,7 @@ class LPageView extends StatelessWidget {
                 }
 
                 String citation = snapshot.data!
-                    .map((e) => e.getHarvardCitation())
+                    .map((e) => e.harvardCitation)
                     .toList()
                     .join("; ");
 
@@ -217,7 +217,7 @@ class LPageView extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: snapshot.data!
-                            .map((e) => SelectableText(e.getFullCitation()))
+                            .map((e) => SelectableText(e.fullCitation))
                             .toList(),
                       ),
                     ),

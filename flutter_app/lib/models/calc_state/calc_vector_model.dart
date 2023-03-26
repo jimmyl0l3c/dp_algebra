@@ -1,8 +1,15 @@
-import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:flutter/widgets.dart';
 
-enum VectorSelectionType { base, transformA, transformB, independence }
+import '../input/vector_model.dart';
 
+enum VectorSelectionType {
+  base,
+  transformA,
+  transformB,
+  independence,
+}
+
+/// Singleton, used to store current Calc state (Vector spaces section)
 class CalcVectorModel extends ChangeNotifier {
   final vectors = ValueNotifier<List<VectorModel>>([VectorModel(length: 1)]);
 
@@ -60,7 +67,7 @@ class CalcVectorModel extends ChangeNotifier {
     vectorSelectionTransformB.notifyListeners();
   }
 
-  void checkVector(VectorSelectionType type, int index) {
+  void selectVector(VectorSelectionType type, int index) {
     if (index < vectors.value.length) {
       switch (type) {
         case VectorSelectionType.base:

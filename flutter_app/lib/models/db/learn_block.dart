@@ -1,6 +1,4 @@
 class LBlock {
-  // eg. Definition 5: Transposed matrix
-  // -> {type} {number}: {title}
   final bool showTypeTitle;
   final String typeTitle;
   final int? number;
@@ -14,7 +12,9 @@ class LBlock {
         title = json["block_title"],
         content = json["block_content"];
 
-  String getTitle() {
+  // eg. Definition 5: Transposed matrix
+  // -> {type} {number}: {title}
+  String get fullTitle {
     StringBuffer buffer = StringBuffer(typeTitle);
     if (number != null) {
       buffer.write(' $number');

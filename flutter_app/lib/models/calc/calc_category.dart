@@ -1,1 +1,5 @@
-enum CalcCategory { matrixOperation, equation, vectorSpace }
+enum CalcCategory {
+  matrixOperation,
+  equation,
+  vectorSpace,
+}

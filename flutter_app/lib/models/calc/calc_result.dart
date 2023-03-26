@@ -1,6 +1,7 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/models/calc/calc_expression_exception.dart';
+
+import '../../main.dart';
+import 'calc_expression_exception.dart';
 
 class CalcResult {
   final Expression calculation;
@@ -35,7 +36,7 @@ class CalcResult {
       logger.e(e.toString());
       throw CalcExpressionException(
         friendlyMessage: "Exception occurred while calculating expression",
-        cause: null,
+        cause: e,
       );
     }
   }

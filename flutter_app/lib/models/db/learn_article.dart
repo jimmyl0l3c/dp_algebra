@@ -1,4 +1,4 @@
-import 'package:dp_algebra/models/db/learn_page.dart';
+import 'learn_page.dart';
 
 class LArticle {
   final int id;

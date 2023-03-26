@@ -1,6 +1,7 @@
-import 'package:dp_algebra/data/db_service.dart';
-import 'package:dp_algebra/models/db/learn_literature.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../data/db_service.dart';
+import '../db/learn_literature.dart';
 
 class LBlockSegment {
   final LBlockSegmentType type;

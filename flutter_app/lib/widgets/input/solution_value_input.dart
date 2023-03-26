@@ -1,4 +1,4 @@
-import 'package:dp_algebra/models/exc_state/variable_value.dart';
+import 'package:dp_algebra/models/input/solution_variable.dart';
 import 'package:dp_algebra/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

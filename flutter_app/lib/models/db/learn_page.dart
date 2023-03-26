@@ -1,4 +1,4 @@
-import 'package:dp_algebra/models/db/learn_block.dart';
+import 'learn_block.dart';
 
 class LPage {
   List<LBlock> blocks;

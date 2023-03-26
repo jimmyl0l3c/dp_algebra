@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
-import 'package:dp_algebra/models/db/learn_article.dart';
-import 'package:dp_algebra/models/db/learn_chapter.dart';
-import 'package:dp_algebra/models/db/learn_literature.dart';
-import 'package:dp_algebra/models/db/learn_ref.dart';
 import 'package:http/http.dart' as http;
+
+import '../models/db/learn_article.dart';
+import '../models/db/learn_chapter.dart';
+import '../models/db/learn_literature.dart';
+import '../models/db/learn_ref.dart';
 
 class DbService {
   static const bool devEnv = false;

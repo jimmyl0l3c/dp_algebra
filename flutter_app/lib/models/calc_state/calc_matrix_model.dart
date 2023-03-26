@@ -1,6 +1,8 @@
-import 'package:dp_algebra/models/input/matrix_model.dart';
 import 'package:flutter/widgets.dart';
 
+import '../input/matrix_model.dart';
+
+/// Singleton, used to store current Calc state (Matrix operations section)
 class CalcMatrixModel extends ChangeNotifier {
   final matrices =
       ValueNotifier<Map<String, MatrixModel>>({'A': MatrixModel()});

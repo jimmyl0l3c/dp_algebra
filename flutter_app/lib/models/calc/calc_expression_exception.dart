@@ -2,7 +2,7 @@ import 'package:algebra_lib/algebra_lib.dart';
 
 class CalcExpressionException implements Exception {
   final String friendlyMessage;
-  final Exception? cause;
+  final dynamic cause;
 
   CalcExpressionException({
     required this.friendlyMessage,

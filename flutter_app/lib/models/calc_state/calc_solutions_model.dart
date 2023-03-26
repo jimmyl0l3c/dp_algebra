@@ -1,7 +1,9 @@
-import 'package:dp_algebra/models/calc/calc_category.dart';
-import 'package:dp_algebra/models/calc/calc_result.dart';
 import 'package:flutter/widgets.dart';
 
+import '../calc/calc_category.dart';
+import '../calc/calc_result.dart';
+
+/// Singleton, used to store current Calc state (Results of calculations)
 class CalcSolutionsModel extends ChangeNotifier {
   final Map<CalcCategory, List<CalcResult>> solutions = {};
 

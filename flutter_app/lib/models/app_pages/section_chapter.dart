@@ -1,9 +1,9 @@
-import 'package:dp_algebra/models/app_pages/section_page.dart';
+import 'section_page.dart';
 
 class SectionChapterModel {
-  String title;
-  String? subtitle;
-  List<SectionPageModel> pages;
+  final String title;
+  final String? subtitle;
+  final List<SectionPageModel> pages;
 
   SectionChapterModel({
     required this.title,

@@ -1,4 +1,4 @@
-import 'package:dp_algebra/models/db/learn_article.dart';
+import 'learn_article.dart';
 
 class LChapter {
   final int id;

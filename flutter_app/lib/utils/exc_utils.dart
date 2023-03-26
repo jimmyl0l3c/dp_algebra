@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/models/exc_state/variable_value.dart';
 import 'package:dp_algebra/models/input/matrix_model.dart';
+import 'package:dp_algebra/models/input/solution_variable.dart';
 import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:fraction/fraction.dart';
 

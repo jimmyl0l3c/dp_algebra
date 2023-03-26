@@ -77,7 +77,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                   const SizedBox(width: 8.0),
                   StyledPopupButton<int>(
                     onSelected: (value) => getIt<CalcVectorModel>()
-                        .checkVector(VectorSelectionType.independence, value),
+                        .selectVector(VectorSelectionType.independence, value),
                     itemBuilder: (context) => <PopupMenuItem<int>>[
                       for (var i = 0; i < vectors.length; i++)
                         CheckedPopupMenuItem<int>(
@@ -134,7 +134,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                   const SizedBox(width: 8.0),
                   StyledPopupButton<int>(
                     onSelected: (value) => getIt<CalcVectorModel>()
-                        .checkVector(VectorSelectionType.base, value),
+                        .selectVector(VectorSelectionType.base, value),
                     itemBuilder: (context) => <PopupMenuItem<int>>[
                       for (var i = 0; i < vectors.length; i++)
                         CheckedPopupMenuItem<int>(
@@ -263,7 +263,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
               children: [
                 StyledPopupButton<int>(
                   onSelected: (value) => getIt<CalcVectorModel>()
-                      .checkVector(VectorSelectionType.transformA, value),
+                      .selectVector(VectorSelectionType.transformA, value),
                   itemBuilder: (context) => <PopupMenuItem<int>>[
                     for (var i = 0; i < vectors.length; i++)
                       CheckedPopupMenuItem<int>(
@@ -279,7 +279,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                 const SizedBox(width: 8.0),
                 StyledPopupButton<int>(
                   onSelected: (value) => getIt<CalcVectorModel>()
-                      .checkVector(VectorSelectionType.transformB, value),
+                      .selectVector(VectorSelectionType.transformB, value),
                   itemBuilder: (context) => <PopupMenuItem<int>>[
                     for (var i = 0; i < vectors.length; i++)
                       CheckedPopupMenuItem<int>(

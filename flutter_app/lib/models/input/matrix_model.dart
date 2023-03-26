@@ -1,6 +1,7 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/utils/extensions.dart';
 import 'package:fraction/fraction.dart';
+
+import '../../utils/extensions.dart';
 
 class MatrixModel {
   List<List<Fraction>> _matrix = List<List<Fraction>>.empty(growable: true);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SectionPageModel {
-  String title;
-  String? subtitle;
-  Widget page;
+  final String title;
+  final String? subtitle;
+  final Widget page;
 
   SectionPageModel({
     required this.title,
