@@ -40,7 +40,7 @@ class TransformMatrix implements Expression {
       throw BasisSizeMismatchException();
     }
 
-    var independenceBasisA = ExpUtils.simplifyAsMuchAsPossible(
+    var independenceBasisA = simplifyAsMuchAsPossible(
       AreVectorsLinearlyIndependent(
         vectors: bA.items.toList(),
       ),
@@ -49,7 +49,7 @@ class TransformMatrix implements Expression {
       throw VectorsNotIndependentException();
     }
 
-    var independenceBasisB = ExpUtils.simplifyAsMuchAsPossible(
+    var independenceBasisB = simplifyAsMuchAsPossible(
       AreVectorsLinearlyIndependent(
         vectors: bB.items.toList(),
       ),

@@ -34,6 +34,10 @@ class GaussianElimination implements Expression {
       for (var r = 0; r < simplifiedMatrix.rowCount; r++) {
         for (var c = 0; c < simplifiedMatrix.columnCount; c++) {
           if ((simplifiedMatrix[r] as Vector)[c] != zero) {
+            if (c == simplifiedMatrix.columnCount - 1) {
+              throw EquationsNotSolvableException();
+            }
+
             for (var i = c + 1; i < simplifiedMatrix.columnCount; i++) {
               if (i == simplifiedMatrix.columnCount - 1) {
                 // Right side

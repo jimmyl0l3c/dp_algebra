@@ -17,3 +17,5 @@ class DivisionByZeroException implements ExpressionException {}
 class BasisSizeMismatchException implements ExpressionException {}
 
 class VectorsNotIndependentException implements ExpressionException {}
+
+class EquationsNotSolvableException implements ExpressionException {}
