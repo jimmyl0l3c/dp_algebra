@@ -184,6 +184,8 @@ class MatrixInputWrap extends StatelessWidget with GetItMixin {
 
   @override
   Widget build(BuildContext context) {
+    bool canAddMatrix = watchX((CalcMatrixModel x) => x.canAddMatrix);
+
     Map<String, MatrixModel> matrices =
         watchX((CalcMatrixModel x) => x.matrices);
 
@@ -198,6 +200,13 @@ class MatrixInputWrap extends StatelessWidget with GetItMixin {
             deleteMatrix: () {
               getIt<CalcMatrixModel>().removeMatrix(matrix.key);
             },
+            duplicateMatrix: canAddMatrix
+                ? () {
+                    getIt<CalcMatrixModel>().addMatrix(
+                      matrix: MatrixModel.from(matrix.value),
+                    );
+                  }
+                : null,
           ),
       ],
     );

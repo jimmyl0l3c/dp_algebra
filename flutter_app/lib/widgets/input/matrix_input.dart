@@ -9,12 +9,14 @@ class MatrixInput extends StatefulWidget {
   final MatrixModel matrix;
   final String? name;
   final VoidCallback? deleteMatrix;
+  final VoidCallback? duplicateMatrix;
 
   const MatrixInput({
     Key? key,
     required this.matrix,
     this.name,
     this.deleteMatrix,
+    this.duplicateMatrix,
   }) : super(key: key);
 
   @override
@@ -59,6 +61,16 @@ class _MatrixInputState extends State<MatrixInput> {
                           style: TextStyle(
                             color: Colors.redAccent,
                           ),
+                        ),
+                      ),
+                    if (widget.duplicateMatrix != null)
+                      MenuItemButton(
+                        leadingIcon: const Icon(
+                          Icons.copy,
+                        ),
+                        onPressed: widget.duplicateMatrix,
+                        child: const Text(
+                          'Duplikovat',
                         ),
                       ),
                     SubmenuButton(
