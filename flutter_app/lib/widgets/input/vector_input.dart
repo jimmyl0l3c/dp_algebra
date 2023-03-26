@@ -52,20 +52,20 @@ class _VectorInputState extends State<VectorInput> {
               runSpacing: 4.0,
               spacing: 2.0,
               children: [
-                for (var i = 0; i < widget.vector.length(); i++)
+                for (var i = 0; i < widget.vector.length; i++)
                   InputUtils.decorateVector(
                     FractionInput(
                       maxWidth: 60,
                       onChanged: (Fraction? value) {
                         if (value == null) return;
-                        widget.vector.setValue(i, value);
+                        widget.vector.set(i, value);
                       },
                       value: widget.vector[i].toDouble() != 0.0
                           ? widget.vector[i].toString()
                           : null,
                     ),
                     i,
-                    widget.vector.length(),
+                    widget.vector.length,
                   ),
               ],
             ),
@@ -81,17 +81,16 @@ class _VectorInputState extends State<VectorInput> {
                     child: const Text('+ Prvek'),
                     onPressed: () {
                       setState(() {
-                        widget.vector.addEntry();
+                        widget.vector.add();
                       });
                     },
                   ),
                   ButtonRowItem(
                     child: const Text('- Prvek'),
-                    onPressed: widget.vector.length() > 1
+                    onPressed: widget.vector.length > 1
                         ? () {
                             setState(() {
-                              widget.vector
-                                  .removeEntry(widget.vector.length() - 1);
+                              widget.vector.removeAt(widget.vector.length - 1);
                             });
                           }
                         : null,

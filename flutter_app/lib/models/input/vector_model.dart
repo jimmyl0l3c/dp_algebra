@@ -20,45 +20,45 @@ class VectorModel {
 
   VectorModel.from(VectorModel v) : _entries = List<Fraction>.from(v._entries);
 
-  void addEntry({Fraction? f}) => _entries.add(f ?? 0.toFraction());
+  int get length => _entries.length;
 
-  Fraction removeEntry(int index) => _entries.removeAt(index);
+  bool get isZeroVector => _entries.every((element) => element == Fraction(0));
 
-  void setValue(int index, Fraction value) => _entries[index] = value;
-
-  int length() => _entries.length;
-
-  bool isSameSizeAs(VectorModel other) => length() == other.length();
-
-  bool isZeroVector() => _entries.every((element) => element == Fraction(0));
+  bool isSameSizeAs(VectorModel other) => length == other.length;
 
   static bool areSameSize(List<VectorModel> vectors) {
     if (vectors.length < 2) return true;
-    int length = vectors.first.length();
+    int length = vectors.first.length;
 
     for (var i = 1; i < vectors.length; i++) {
-      if (length != vectors[i].length()) return false;
+      if (length != vectors[i].length) return false;
     }
     return true;
   }
+
+  void add({Fraction? f}) => _entries.add(f ?? 0.toFraction());
+
+  Fraction removeAt(int index) => _entries.removeAt(index);
+
+  void set(int index, Fraction value) => _entries[index] = value;
 
   @override
   bool operator ==(Object other) {
     if (other is! VectorModel) return false;
     if (!isSameSizeAs(other)) return false;
 
-    for (var i = 0; i < length(); i++) {
+    for (var i = 0; i < length; i++) {
       if (_entries[i] != other[i]) return false;
     }
     return true;
   }
 
+  @override
+  int get hashCode => Object.hashAll(_entries);
+
   Fraction operator [](int i) => _entries[i];
 
   void operator []=(int i, Fraction f) => _entries[i] = f;
-
-  @override
-  int get hashCode => _entries.hashCode;
 
   List<Fraction> asList() => _entries;
 
@@ -66,8 +66,8 @@ class VectorModel {
   String toString() {
     StringBuffer buffer = StringBuffer('(');
 
-    for (var i = 0; i < length(); i++) {
-      if (i == length() - 1) {
+    for (var i = 0; i < length; i++) {
+      if (i == length - 1) {
         buffer.write(_entries[i].reduce().toString());
       } else {
         buffer.write('${_entries[i].reduce().toString()}; ');
@@ -80,10 +80,10 @@ class VectorModel {
   String toTeX() {
     StringBuffer buffer = StringBuffer(r'\begin{pmatrix} ');
 
-    for (var i = 0; i < length(); i++) {
+    for (var i = 0; i < length; i++) {
       buffer.write(_entries[i].reduce().toTeX());
 
-      if (i != (length() - 1)) buffer.write(' & ');
+      if (i != (length - 1)) buffer.write(' & ');
     }
 
     buffer.write(r' \end{pmatrix}');
