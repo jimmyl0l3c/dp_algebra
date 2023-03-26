@@ -1,16 +1,17 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/models/calc/calc_category.dart';
-import 'package:dp_algebra/models/calc/calc_expression_exception.dart';
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/models/calc_state/calc_equation_model.dart';
-import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
-import 'package:dp_algebra/models/input/matrix_model.dart';
-import 'package:dp_algebra/utils/utils.dart';
-import 'package:dp_algebra/widgets/input/equation_input.dart';
-import 'package:dp_algebra/widgets/layout/solution_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
+
+import '../../main.dart';
+import '../../models/calc/calc_category.dart';
+import '../../models/calc/calc_expression_exception.dart';
+import '../../models/calc/calc_result.dart';
+import '../../models/calc_state/calc_equation_model.dart';
+import '../../models/calc_state/calc_solutions_model.dart';
+import '../../models/input/matrix_model.dart';
+import '../../utils/utils.dart';
+import '../../widgets/input/equation_input.dart';
+import '../../widgets/layout/solution_view.dart';
 
 class CalcEquations extends StatelessWidget with GetItMixin {
   CalcEquations({Key? key}) : super(key: key);
@@ -52,7 +53,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                       CalcCategory.equation,
                     );
                   } on CalcExpressionException catch (e) {
-                    AlgebraUtils.showMessage(context, e.friendlyMessage);
+                    showSnackBarMessage(context, e.friendlyMessage);
                   }
                 },
                 child: const Text('Gaussova eliminační metoda'),
@@ -84,7 +85,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                       CalcCategory.equation,
                     );
                   } on CalcExpressionException catch (e) {
-                    AlgebraUtils.showMessage(context, e.friendlyMessage);
+                    showSnackBarMessage(context, e.friendlyMessage);
                   }
                 },
                 child: const Text('Inverzní matice'),
@@ -115,7 +116,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                       CalcCategory.equation,
                     );
                   } on CalcExpressionException catch (e) {
-                    AlgebraUtils.showMessage(context, e.friendlyMessage);
+                    showSnackBarMessage(context, e.friendlyMessage);
                   }
                 },
                 child: const Text('Cramerovo pravidlo'),

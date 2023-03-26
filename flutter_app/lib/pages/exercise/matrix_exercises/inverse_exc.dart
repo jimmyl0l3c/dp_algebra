@@ -1,13 +1,14 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/models/input/matrix_model.dart';
-import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
-import 'package:dp_algebra/utils/exc_utils.dart';
-import 'package:dp_algebra/utils/utils.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
-import 'package:dp_algebra/widgets/input/matrix_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+
+import '../../../models/calc/calc_result.dart';
+import '../../../models/input/matrix_model.dart';
+import '../../../utils/exc_utils.dart';
+import '../../../utils/utils.dart';
+import '../../../widgets/forms/button_row.dart';
+import '../../../widgets/input/matrix_input.dart';
+import '../general/exercise_page.dart';
 
 class InverseMatrixExc extends StatefulWidget {
   const InverseMatrixExc({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class InverseMatrixExc extends StatefulWidget {
 }
 
 class _InverseMatrixExcState extends State<InverseMatrixExc> {
-  MatrixModel solution = MatrixModel(columns: 1, rows: 1);
+  final MatrixModel solution = MatrixModel(columns: 1, rows: 1);
 
   late Expression exercise;
   CalcResult? correctSolution;
@@ -49,14 +50,14 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
         ButtonRowItem(
           child: const Text('Zkontrolovat'),
           onPressed: () {
-            AlgebraUtils.showMessage(
+            showSnackBarMessage(
                 context, isAnswerCorrect() ? 'Správně' : 'Špatně');
           },
         ),
         ButtonRowItem(
           child: const Text('Nemá inverzní'),
           onPressed: () {
-            AlgebraUtils.showMessage(
+            showSnackBarMessage(
                 context, inverseExists() ? 'Špatně' : 'Správně');
           },
         ),

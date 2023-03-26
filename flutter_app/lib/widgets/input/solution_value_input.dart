@@ -1,8 +1,9 @@
-import 'package:dp_algebra/models/input/solution_variable.dart';
-import 'package:dp_algebra/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fraction/fraction.dart';
+
+import '../../models/input/solution_variable.dart';
+import '../../utils/utils.dart';
 
 class SolutionValueInput extends StatelessWidget {
   final ValueChanged<List<VariableValue>?> onChanged;
@@ -39,7 +40,7 @@ class SolutionValueInput extends StatelessWidget {
               continue;
             }
 
-            var numericValue = AlgebraUtils.parseFraction(m[1] ?? '');
+            var numericValue = parseFraction(m[1] ?? '');
             var variable = m[2];
             int? variableInt;
 

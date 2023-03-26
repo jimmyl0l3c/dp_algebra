@@ -1,15 +1,16 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/models/input/vector_model.dart';
-import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
-import 'package:dp_algebra/utils/exc_utils.dart';
-import 'package:dp_algebra/utils/utils.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:fraction/fraction.dart';
+
+import '../../../models/calc/calc_result.dart';
+import '../../../models/input/vector_model.dart';
+import '../../../utils/exc_utils.dart';
+import '../../../utils/utils.dart';
+import '../../../widgets/forms/button_row.dart';
+import '../general/exercise_page.dart';
 
 class LinIndependenceExc extends StatefulWidget {
   const LinIndependenceExc({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class LinIndependenceExc extends StatefulWidget {
 }
 
 class _LinIndependenceExcState extends State<LinIndependenceExc> {
-  List<VectorModel> vectors = [];
+  final List<VectorModel> vectors = [];
   bool isIndependent = false;
   final Random _random = Random();
 
@@ -60,7 +61,7 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
           onPressed: vectors.isEmpty
               ? null
               : () {
-                  AlgebraUtils.showMessage(
+                  showSnackBarMessage(
                       context, isIndependent ? 'Špatně' : 'Správně');
                 },
         ),
@@ -69,7 +70,7 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
           onPressed: vectors.isEmpty
               ? null
               : () {
-                  AlgebraUtils.showMessage(
+                  showSnackBarMessage(
                       context, isIndependent ? 'Správně' : 'Špatně');
                 },
         ),

@@ -1,9 +1,10 @@
-import 'package:dp_algebra/pages/navigator.dart';
-import 'package:dp_algebra/routing/delegate.dart';
-import 'package:dp_algebra/routing/parser.dart';
-import 'package:dp_algebra/routing/route_state.dart';
-import 'package:dp_algebra/theme.dart';
 import 'package:flutter/material.dart';
+
+import 'pages/navigator.dart';
+import 'routing/delegate.dart';
+import 'routing/parser.dart';
+import 'routing/route_state.dart';
+import 'theme.dart';
 
 class AlgebraApp extends StatefulWidget {
   const AlgebraApp({Key? key}) : super(key: key);

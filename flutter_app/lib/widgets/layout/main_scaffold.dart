@@ -1,5 +1,6 @@
-import 'package:dp_algebra/routing/route_state.dart';
 import 'package:flutter/material.dart';
+
+import '../../routing/route_state.dart';
 
 class MainScaffold extends StatelessWidget {
   final String title;

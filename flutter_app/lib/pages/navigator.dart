@@ -1,21 +1,22 @@
-import 'package:dp_algebra/data/calc_data.dart';
-import 'package:dp_algebra/data/db_service.dart';
-import 'package:dp_algebra/data/exercise_data.dart';
-import 'package:dp_algebra/models/app_pages/section_chapter.dart';
-import 'package:dp_algebra/models/app_pages/section_page.dart';
-import 'package:dp_algebra/models/db/learn_article.dart';
-import 'package:dp_algebra/models/db/learn_chapter.dart';
-import 'package:dp_algebra/pages/generic/alg_chapter_view.dart';
-import 'package:dp_algebra/pages/generic/alg_menu_view.dart';
-import 'package:dp_algebra/pages/generic/alg_page_view.dart';
-import 'package:dp_algebra/pages/learn/learn_article.dart';
-import 'package:dp_algebra/pages/learn/learn_chapter.dart';
-import 'package:dp_algebra/pages/learn/learn_menu.dart';
-import 'package:dp_algebra/pages/menu.dart';
-import 'package:dp_algebra/pages/transition_page.dart';
-import 'package:dp_algebra/routing/route_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+
+import '../data/calc_data.dart';
+import '../data/db_service.dart';
+import '../data/exercise_data.dart';
+import '../models/app_pages/section_chapter.dart';
+import '../models/app_pages/section_page.dart';
+import '../models/db/learn_article.dart';
+import '../models/db/learn_chapter.dart';
+import '../routing/route_state.dart';
+import 'generic/alg_chapter_view.dart';
+import 'generic/alg_menu_view.dart';
+import 'generic/alg_page_view.dart';
+import 'learn/learn_article.dart';
+import 'learn/learn_chapter.dart';
+import 'learn/learn_menu.dart';
+import 'menu.dart';
+import 'transition_page.dart';
 
 class AlgebraNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -179,6 +180,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             key: _exerciseChapterKey,
             child: AlgChapterView(
               sectionTitle: 'Procvičování',
+              sectionPath: 'exercise',
               chapter: exerciseChapter,
               chapterId: sectionChapterId,
             ),
@@ -198,6 +200,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
             key: _calcChapterKey,
             child: AlgChapterView(
               sectionTitle: 'Kalkulačka',
+              sectionPath: 'calc',
               chapter: calcChapter,
               chapterId: sectionChapterId,
             ),

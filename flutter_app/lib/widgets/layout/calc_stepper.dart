@@ -1,8 +1,9 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+
+import '../../main.dart';
+import '../forms/button_row.dart';
 
 class CalcStepper extends StatefulWidget {
   final List<Expression> steps;

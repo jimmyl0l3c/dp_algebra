@@ -1,21 +1,22 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/models/calc/calc_category.dart';
-import 'package:dp_algebra/models/calc/calc_expression_exception.dart';
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/models/calc_state/calc_matrix_model.dart';
-import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
-import 'package:dp_algebra/models/input/matrix_model.dart';
-import 'package:dp_algebra/models/input/matrix_operations.dart';
-import 'package:dp_algebra/utils/utils.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
-import 'package:dp_algebra/widgets/forms/styled_dropdown.dart';
-import 'package:dp_algebra/widgets/input/fraction_input.dart';
-import 'package:dp_algebra/widgets/input/matrix_input.dart';
-import 'package:dp_algebra/widgets/layout/solution_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
+
+import '../../main.dart';
+import '../../models/calc/calc_category.dart';
+import '../../models/calc/calc_expression_exception.dart';
+import '../../models/calc/calc_result.dart';
+import '../../models/calc_state/calc_matrix_model.dart';
+import '../../models/calc_state/calc_solutions_model.dart';
+import '../../models/input/matrix_model.dart';
+import '../../models/input/matrix_operations.dart';
+import '../../utils/utils.dart';
+import '../../widgets/forms/button_row.dart';
+import '../../widgets/forms/styled_dropdown.dart';
+import '../../widgets/input/fraction_input.dart';
+import '../../widgets/input/matrix_input.dart';
+import '../../widgets/layout/solution_view.dart';
 
 class CalcMatrices extends StatelessWidget with GetItMixin {
   CalcMatrices({Key? key}) : super(key: key);
@@ -132,10 +133,6 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
             'Násobení matice skalárem:',
             textAlign: TextAlign.end,
           ),
-          // const SizedBox(
-          //   width: 200,
-          //   child:
-          // ),
           const SizedBox(
             width: 8.0,
           ),
@@ -161,18 +158,19 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
             children: [
               for (var matrix in matrices.entries)
                 ButtonRowItem(
-                    child: Text(matrix.key),
-                    onPressed: () {
-                      Expression exp = Multiply(
-                        left: Scalar(value: _scalarC),
-                        right: matrix.value.toMatrix(),
-                      );
+                  child: Text(matrix.key),
+                  onPressed: () {
+                    Expression exp = Multiply(
+                      left: Scalar(value: _scalarC),
+                      right: matrix.value.toMatrix(),
+                    );
 
-                      getIt<CalcSolutionsModel>().addSolution(
-                        CalcResult.calculate(exp),
-                        CalcCategory.matrixOperation,
-                      );
-                    }),
+                    getIt<CalcSolutionsModel>().addSolution(
+                      CalcResult.calculate(exp),
+                      CalcCategory.matrixOperation,
+                    );
+                  },
+                ),
             ],
           ),
         ],
@@ -258,10 +256,6 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                       Expression? exp;
                       try {
                         switch (operation) {
-                          case MatrixOperation.add:
-                          case MatrixOperation.diff:
-                          case MatrixOperation.multiply:
-                            return;
                           case MatrixOperation.det:
                             exp = Determinant(det: expM);
                             break;
@@ -274,6 +268,8 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                           case MatrixOperation.rank:
                             exp = Rank(matrix: expM);
                             break;
+                          default:
+                            return;
                         }
 
                         getIt<CalcSolutionsModel>().addSolution(
@@ -281,7 +277,7 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                           CalcCategory.matrixOperation,
                         );
                       } on CalcExpressionException catch (e) {
-                        AlgebraUtils.showMessage(context, e.friendlyMessage);
+                        showSnackBarMessage(context, e.friendlyMessage);
                       }
                     },
                   ),
@@ -405,15 +401,16 @@ class _MatrixBinOperationSelectionState
                 ? null
                 : () {
                     if (_binaryLeft == null || _binaryRight == null) {
-                      AlgebraUtils.showMessage(context,
+                      showSnackBarMessage(context,
                           'Zvolte matice, se kterými se má operace provést');
                       return;
                     }
+
                     MatrixModel? a = matrices[_binaryLeft];
                     MatrixModel? b = matrices[_binaryRight];
+
                     if (a == null || b == null) {
-                      AlgebraUtils.showMessage(
-                          context, 'Zvolené matice neexistují');
+                      showSnackBarMessage(context, 'Zvolené matice neexistují');
                       return;
                     }
 
@@ -444,7 +441,7 @@ class _MatrixBinOperationSelectionState
                         CalcCategory.matrixOperation,
                       );
                     } on CalcExpressionException catch (e) {
-                      AlgebraUtils.showMessage(context, e.friendlyMessage);
+                      showSnackBarMessage(context, e.friendlyMessage);
                     }
                   },
             child: const Text('='),

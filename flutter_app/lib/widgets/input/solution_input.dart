@@ -1,7 +1,8 @@
-import 'package:dp_algebra/models/input/solution_variable.dart';
-import 'package:dp_algebra/widgets/input/input_utils.dart';
-import 'package:dp_algebra/widgets/input/solution_value_input.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/input/solution_variable.dart';
+import 'decorate_vector_input.dart';
+import 'solution_value_input.dart';
 
 class SolutionInput extends StatefulWidget {
   final Map<int, SolutionVariable> solution;
@@ -37,7 +38,7 @@ class _SolutionInputState extends State<SolutionInput> {
               spacing: 2.0,
               children: [
                 for (var i = 0; i < widget.variableCount; i++)
-                  InputUtils.decorateVector(
+                  decorateVectorInput(
                     SolutionValueInput(
                       maxWidth: 100,
                       onChanged: (List<VariableValue>? value) {

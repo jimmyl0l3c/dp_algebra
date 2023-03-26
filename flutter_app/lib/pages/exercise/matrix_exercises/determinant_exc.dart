@@ -1,15 +1,16 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
-import 'package:dp_algebra/utils/exc_utils.dart';
-import 'package:dp_algebra/utils/utils.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
-import 'package:dp_algebra/widgets/input/fraction_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:fraction/fraction.dart';
+
+import '../../../models/calc/calc_result.dart';
+import '../../../utils/exc_utils.dart';
+import '../../../utils/utils.dart';
+import '../../../widgets/forms/button_row.dart';
+import '../../../widgets/input/fraction_input.dart';
+import '../general/exercise_page.dart';
 
 class DeterminantExc extends StatefulWidget {
   const DeterminantExc({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class DeterminantExc extends StatefulWidget {
 }
 
 class _DeterminantExcState extends State<DeterminantExc> {
-  Random random = Random();
+  final Random random = Random();
 
   late Expression exercise;
   late CalcResult correctSolution;
@@ -85,7 +86,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
         ButtonRowItem(
             child: const Text('Zkontrolovat'),
             onPressed: () {
-              AlgebraUtils.showMessage(
+              showSnackBarMessage(
                   context, isAnswerCorrect() ? 'Správně' : 'Špatně');
             })
       ],

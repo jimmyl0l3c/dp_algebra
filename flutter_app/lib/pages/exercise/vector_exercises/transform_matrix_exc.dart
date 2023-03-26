@@ -1,16 +1,17 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/models/calc/calc_expression_exception.dart';
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/models/input/matrix_model.dart';
-import 'package:dp_algebra/models/input/vector_model.dart';
-import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
-import 'package:dp_algebra/utils/exc_utils.dart';
-import 'package:dp_algebra/utils/utils.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
-import 'package:dp_algebra/widgets/input/matrix_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+
+import '../../../main.dart';
+import '../../../models/calc/calc_expression_exception.dart';
+import '../../../models/calc/calc_result.dart';
+import '../../../models/input/matrix_model.dart';
+import '../../../models/input/vector_model.dart';
+import '../../../utils/exc_utils.dart';
+import '../../../utils/utils.dart';
+import '../../../widgets/forms/button_row.dart';
+import '../../../widgets/input/matrix_input.dart';
+import '../general/exercise_page.dart';
 
 class TransformMatrixExc extends StatefulWidget {
   const TransformMatrixExc({Key? key}) : super(key: key);
@@ -20,10 +21,10 @@ class TransformMatrixExc extends StatefulWidget {
 }
 
 class _TransformMatrixExcState extends State<TransformMatrixExc> {
-  List<VectorModel> basisA = [];
-  List<VectorModel> basisB = [];
+  final List<VectorModel> basisA = [];
+  final List<VectorModel> basisB = [];
 
-  MatrixModel solution = MatrixModel();
+  final MatrixModel solution = MatrixModel();
   late CalcResult correctSolution;
 
   @override
@@ -78,7 +79,7 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
           onPressed: basisA.isEmpty || basisB.isEmpty
               ? null
               : () {
-                  AlgebraUtils.showMessage(
+                  showSnackBarMessage(
                     context,
                     solution.toMatrix() == correctSolution.result
                         ? 'Správně'

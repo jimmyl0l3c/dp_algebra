@@ -1,13 +1,14 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/models/input/vector_model.dart';
-import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
-import 'package:dp_algebra/utils/exc_utils.dart';
-import 'package:dp_algebra/utils/utils.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
-import 'package:dp_algebra/widgets/input/vector_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+
+import '../../../models/calc/calc_result.dart';
+import '../../../models/input/vector_model.dart';
+import '../../../utils/exc_utils.dart';
+import '../../../utils/utils.dart';
+import '../../../widgets/forms/button_row.dart';
+import '../../../widgets/input/vector_input.dart';
+import '../general/exercise_page.dart';
 
 class BasisExc extends StatefulWidget {
   const BasisExc({Key? key}) : super(key: key);
@@ -17,8 +18,8 @@ class BasisExc extends StatefulWidget {
 }
 
 class _BasisExcState extends State<BasisExc> {
-  List<VectorModel> vectors = [];
-  List<VectorModel> solution = [];
+  final List<VectorModel> vectors = [];
+  final List<VectorModel> solution = [];
 
   late CalcResult correctSolution;
 
@@ -87,7 +88,7 @@ class _BasisExcState extends State<BasisExc> {
           onPressed: vectors.isEmpty
               ? null
               : () {
-                  AlgebraUtils.showMessage(
+                  showSnackBarMessage(
                     context,
                     _isAnswerCorrect() ? 'Správně' : 'Špatně',
                   );
@@ -100,7 +101,7 @@ class _BasisExcState extends State<BasisExc> {
               : () {
                   ExpressionSet solutionSet =
                       correctSolution.result as ExpressionSet;
-                  AlgebraUtils.showMessage(
+                  showSnackBarMessage(
                     context,
                     solutionSet.items.isEmpty ? 'Správně' : 'Špatně',
                   );

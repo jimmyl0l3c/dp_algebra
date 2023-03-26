@@ -41,7 +41,7 @@ class FractionInput extends StatelessWidget {
         controller: controller,
         inputFormatters: [
           FilteringTextInputFormatter(
-            RegExp(r'^[+-]?[0-9]*[./]?[0-9]*'),
+            RegExp(r'^[+-]?\d*[./]?\d*'),
             allow: true,
           )
         ],

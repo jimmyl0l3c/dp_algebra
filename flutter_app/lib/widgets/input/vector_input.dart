@@ -1,9 +1,10 @@
-import 'package:dp_algebra/models/input/vector_model.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
-import 'package:dp_algebra/widgets/input/fraction_input.dart';
-import 'package:dp_algebra/widgets/input/input_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
+
+import '../../models/input/vector_model.dart';
+import '../forms/button_row.dart';
+import 'decorate_vector_input.dart';
+import 'fraction_input.dart';
 
 class VectorInput extends StatefulWidget {
   final VectorModel vector;
@@ -53,7 +54,7 @@ class _VectorInputState extends State<VectorInput> {
               spacing: 2.0,
               children: [
                 for (var i = 0; i < widget.vector.length; i++)
-                  InputUtils.decorateVector(
+                  decorateVectorInput(
                     FractionInput(
                       maxWidth: 60,
                       onChanged: (Fraction? value) {

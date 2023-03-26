@@ -1,7 +1,8 @@
-import 'package:dp_algebra/routing/parsed_route.dart';
-import 'package:dp_algebra/routing/route_state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'parsed_route.dart';
+import 'route_state.dart';
 
 class MainRouterDelegate extends RouterDelegate<ParsedRoute>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<ParsedRoute> {

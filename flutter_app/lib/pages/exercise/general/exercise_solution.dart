@@ -1,8 +1,10 @@
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
-import 'package:dp_algebra/widgets/layout/calc_stepper.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/calc/calc_result.dart';
+import '../../../widgets/forms/button_row.dart';
+import '../../../widgets/layout/calc_stepper.dart';
+
+// TODO: use or remove, unused atm
 class ExerciseSolution extends StatefulWidget {
   final CalcResult solution;
 

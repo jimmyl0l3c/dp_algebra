@@ -1,17 +1,18 @@
-import 'package:dp_algebra/data/db_service.dart';
-import 'package:dp_algebra/models/db/learn_chapter.dart';
-import 'package:dp_algebra/widgets/layout/main_scaffold.dart';
-import 'package:dp_algebra/widgets/layout/section_menu.dart';
-import 'package:dp_algebra/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../data/db_service.dart';
+import '../../models/db/learn_chapter.dart';
+import '../../widgets/layout/main_scaffold.dart';
+import '../../widgets/layout/section_menu.dart';
+import '../../widgets/loading.dart';
 
 class LearnMenu extends StatelessWidget {
   const LearnMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    DbService dbService = GetIt.instance.get<DbService>();
+    final DbService dbService = GetIt.instance.get<DbService>();
 
     return MainScaffold(
       isSectionRoot: true,

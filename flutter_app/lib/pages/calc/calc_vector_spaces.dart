@@ -1,20 +1,21 @@
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:collection/collection.dart';
-import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/models/calc/calc_category.dart';
-import 'package:dp_algebra/models/calc/calc_expression_exception.dart';
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/models/calc_state/calc_solutions_model.dart';
-import 'package:dp_algebra/models/calc_state/calc_vector_model.dart';
-import 'package:dp_algebra/models/input/vector_model.dart';
-import 'package:dp_algebra/utils/calc_utils.dart';
-import 'package:dp_algebra/utils/utils.dart';
-import 'package:dp_algebra/widgets/forms/styled_dropdown.dart';
-import 'package:dp_algebra/widgets/forms/styled_popup.dart';
-import 'package:dp_algebra/widgets/input/vector_input.dart';
-import 'package:dp_algebra/widgets/layout/solution_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
+
+import '../../main.dart';
+import '../../models/calc/calc_category.dart';
+import '../../models/calc/calc_expression_exception.dart';
+import '../../models/calc/calc_result.dart';
+import '../../models/calc_state/calc_solutions_model.dart';
+import '../../models/calc_state/calc_vector_model.dart';
+import '../../models/input/vector_model.dart';
+import '../../utils/calc_utils.dart';
+import '../../utils/utils.dart';
+import '../../widgets/forms/styled_dropdown.dart';
+import '../../widgets/forms/styled_popup.dart';
+import '../../widgets/input/vector_input.dart';
+import '../../widgets/layout/solution_view.dart';
 
 class CalcVectorSpaces extends StatelessWidget with GetItMixin {
   CalcVectorSpaces({Key? key}) : super(key: key);
@@ -87,8 +88,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                           child: Text('v$i'),
                         ),
                     ],
-                    child:
-                        CalcUtils.vectorSelectionString(independenceSelection),
+                    child: vectorSelectionString(independenceSelection),
                   ),
                   const SizedBox(width: 8.0),
                   ElevatedButton(
@@ -111,7 +111,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                 CalcCategory.vectorSpace,
                               );
                             } on CalcExpressionException catch (e) {
-                              AlgebraUtils.showMessage(
+                              showSnackBarMessage(
                                 context,
                                 e.friendlyMessage,
                               );
@@ -144,7 +144,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                           child: Text('v$i'),
                         ),
                     ],
-                    child: CalcUtils.vectorSelectionString(baseSelection),
+                    child: vectorSelectionString(baseSelection),
                   ),
                   const SizedBox(width: 8.0),
                   ElevatedButton(
@@ -169,14 +169,14 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                                 CalcCategory.vectorSpace,
                               );
                             } on CalcExpressionException catch (e) {
-                              AlgebraUtils.showMessage(
+                              showSnackBarMessage(
                                 context,
                                 e.friendlyMessage,
                               );
                             } on ExpressionException catch (e) {
                               var calcException = CalcExpressionException
                                   .fromExpressionException(null, e);
-                              AlgebraUtils.showMessage(
+                              showSnackBarMessage(
                                 context,
                                 calcException.friendlyMessage,
                               );
@@ -274,7 +274,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                       ),
                   ],
                   placeholder: 'Báze A',
-                  child: CalcUtils.vectorSelectionString(transformA),
+                  child: vectorSelectionString(transformA),
                 ),
                 const SizedBox(width: 8.0),
                 StyledPopupButton<int>(
@@ -290,7 +290,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                       ),
                   ],
                   placeholder: 'Báze B',
-                  child: CalcUtils.vectorSelectionString(transformB),
+                  child: vectorSelectionString(transformB),
                 ),
                 const SizedBox(width: 8.0),
                 ElevatedButton(
@@ -370,7 +370,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                             CalcCategory.vectorSpace,
                           );
                         } on CalcExpressionException catch (e) {
-                          AlgebraUtils.showMessage(context, e.friendlyMessage);
+                          showSnackBarMessage(context, e.friendlyMessage);
                         }
                       },
                 child: const Text('Transformovat'),
@@ -398,11 +398,11 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
         basisB: ExpressionSet(items: basisB.map((e) => e.toVector()).toSet()),
       ));
     } on CalcExpressionException catch (e) {
-      AlgebraUtils.showMessage(context, e.friendlyMessage);
+      showSnackBarMessage(context, e.friendlyMessage);
     } on ExpressionException catch (e) {
       var calcException =
           CalcExpressionException.fromExpressionException(null, e);
-      AlgebraUtils.showMessage(
+      showSnackBarMessage(
         context,
         calcException.friendlyMessage,
       );

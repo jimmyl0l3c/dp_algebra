@@ -1,17 +1,20 @@
-import 'package:dp_algebra/models/app_pages/section_chapter.dart';
-import 'package:dp_algebra/models/app_pages/section_page.dart';
-import 'package:dp_algebra/widgets/layout/main_scaffold.dart';
-import 'package:dp_algebra/widgets/layout/section_menu.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/app_pages/section_chapter.dart';
+import '../../models/app_pages/section_page.dart';
+import '../../widgets/layout/main_scaffold.dart';
+import '../../widgets/layout/section_menu.dart';
 
 class AlgChapterView extends StatelessWidget {
   final String sectionTitle;
+  final String sectionPath;
   final SectionChapterModel chapter;
   final int chapterId;
 
   const AlgChapterView({
     Key? key,
     required this.sectionTitle,
+    required this.sectionPath,
     required this.chapter,
     required this.chapterId,
   }) : super(key: key);
@@ -31,7 +34,7 @@ class AlgChapterView extends StatelessWidget {
       sections.add(Section(
         title: page.title,
         subtitle: page.subtitle,
-        path: '/exercise/$chapterId/$i',
+        path: '/$sectionPath/$chapterId/$i',
       ));
     }
 

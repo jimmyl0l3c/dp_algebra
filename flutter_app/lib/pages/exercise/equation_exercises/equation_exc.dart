@@ -1,16 +1,17 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/models/input/solution_variable.dart';
-import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
-import 'package:dp_algebra/utils/exc_utils.dart';
-import 'package:dp_algebra/utils/utils.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
-import 'package:dp_algebra/widgets/input/solution_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+
+import '../../../main.dart';
+import '../../../models/calc/calc_result.dart';
+import '../../../models/input/solution_variable.dart';
+import '../../../utils/exc_utils.dart';
+import '../../../utils/utils.dart';
+import '../../../widgets/forms/button_row.dart';
+import '../../../widgets/input/solution_input.dart';
+import '../general/exercise_page.dart';
 
 class EquationExc extends StatefulWidget {
   const EquationExc({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class EquationExc extends StatefulWidget {
 }
 
 class _EquationExcState extends State<EquationExc> {
-  Random random = Random();
+  final Random random = Random();
 
   late Expression exercise;
   CalcResult? correctSolution;
@@ -31,7 +32,7 @@ class _EquationExcState extends State<EquationExc> {
   @override
   void initState() {
     super.initState();
-    generateSquareMatrix(ExerciseUtils.generateSize());
+    _generateSquareMatrix(ExerciseUtils.generateSize());
   }
 
   @override
@@ -42,7 +43,7 @@ class _EquationExcState extends State<EquationExc> {
             child: const Text('Se čtvercovou maticí'),
             onPressed: () {
               setState(() {
-                generateSquareMatrix(ExerciseUtils.generateSize());
+                _generateSquareMatrix(ExerciseUtils.generateSize());
                 solution = {};
               });
             }),
@@ -50,7 +51,7 @@ class _EquationExcState extends State<EquationExc> {
           child: const Text('Náhodně'),
           onPressed: () {
             setState(() {
-              generateRandomMatrix();
+              _generateRandomMatrix();
               solution = {};
             });
           },
@@ -69,14 +70,14 @@ class _EquationExcState extends State<EquationExc> {
         ButtonRowItem(
           child: const Text('Zkontrolovat'),
           onPressed: () {
-            AlgebraUtils.showMessage(
+            showSnackBarMessage(
                 context, isAnswerCorrect() ? 'Správně' : 'Špatně');
           },
         ),
         ButtonRowItem(
           child: const Text('Nemá řešení'),
           onPressed: () {
-            AlgebraUtils.showMessage(
+            showSnackBarMessage(
                 context, correctSolution == null ? 'Správně' : 'Špatně');
           },
         ),
@@ -130,7 +131,7 @@ class _EquationExcState extends State<EquationExc> {
     return buffer.toString();
   }
 
-  void setExercise(Matrix matrix, Vector vectorY) {
+  void _setExercise(Matrix matrix, Vector vectorY) {
     variableCount = matrix.columnCount;
     var isSolvable = CalcResult.calculate(
       IsSolvable(matrix: matrix, vectorY: vectorY),
@@ -147,14 +148,14 @@ class _EquationExcState extends State<EquationExc> {
     }
   }
 
-  void generateSquareMatrix(int size) {
+  void _generateSquareMatrix(int size) {
     var matrix = ExerciseUtils.generateSquareMatrix(size);
     var vector = ExerciseUtils.generateVector(length: size);
 
-    setExercise(matrix.toMatrix(), vector.toVector());
+    _setExercise(matrix.toMatrix(), vector.toVector());
   }
 
-  void generateRandomMatrix() {
+  void _generateRandomMatrix() {
     int rowsCount = ExerciseUtils.generateSize();
 
     var matrix = ExerciseUtils.generateMatrix(
@@ -163,6 +164,6 @@ class _EquationExcState extends State<EquationExc> {
     );
     var vector = ExerciseUtils.generateVector(length: rowsCount);
 
-    setExercise(matrix.toMatrix(), vector.toVector());
+    _setExercise(matrix.toMatrix(), vector.toVector());
   }
 }

@@ -1,7 +1,8 @@
-import 'package:dp_algebra/models/app_pages/section_chapter.dart';
-import 'package:dp_algebra/widgets/layout/main_scaffold.dart';
-import 'package:dp_algebra/widgets/layout/section_menu.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/app_pages/section_chapter.dart';
+import '../../widgets/layout/main_scaffold.dart';
+import '../../widgets/layout/section_menu.dart';
 
 class AlgMenuView extends StatelessWidget {
   final String sectionTitle;

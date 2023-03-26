@@ -1,8 +1,9 @@
-import 'package:dp_algebra/models/input/matrix_model.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
-import 'package:dp_algebra/widgets/input/fraction_input.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
+
+import '../../models/input/matrix_model.dart';
+import '../forms/button_row.dart';
+import 'fraction_input.dart';
 
 class MatrixInput extends StatefulWidget {
   final MatrixModel matrix;
@@ -21,7 +22,6 @@ class MatrixInput extends StatefulWidget {
 }
 
 class _MatrixInputState extends State<MatrixInput> {
-  // TODO: add option to remove rows and columns
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -93,14 +93,6 @@ class _MatrixInputState extends State<MatrixInput> {
                     ),
                   ],
                 ),
-                // if (widget.deleteMatrix != null)
-                //   IconButton(
-                //     onPressed: widget.deleteMatrix,
-                //     icon: const Icon(Icons.close),
-                //     iconSize: 12.0,
-                //     splashRadius: 15.0,
-                //     color: Colors.redAccent,
-                //   ),
               ],
             ),
             SizedBox(

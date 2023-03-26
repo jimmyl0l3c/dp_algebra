@@ -1,9 +1,10 @@
-import 'package:dp_algebra/models/db/learn_article.dart';
-import 'package:dp_algebra/models/db/learn_chapter.dart';
-import 'package:dp_algebra/widgets/layout/main_scaffold.dart';
-import 'package:dp_algebra/widgets/layout/section_menu.dart';
-import 'package:dp_algebra/widgets/loading.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/db/learn_article.dart';
+import '../../models/db/learn_chapter.dart';
+import '../../widgets/layout/main_scaffold.dart';
+import '../../widgets/layout/section_menu.dart';
+import '../../widgets/loading.dart';
 
 class LearnChapter extends StatelessWidget {
   final Future<LChapter?> chapter;

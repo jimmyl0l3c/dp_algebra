@@ -1,6 +1,7 @@
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
 import 'package:flutter/material.dart';
+
+import '../../../models/calc/calc_result.dart';
+import '../../../widgets/forms/button_row.dart';
 
 class ExercisePage extends StatelessWidget {
   final List<ButtonRowItem> generateButtons;

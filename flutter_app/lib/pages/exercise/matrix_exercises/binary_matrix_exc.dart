@@ -1,15 +1,16 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/models/input/matrix_model.dart';
-import 'package:dp_algebra/pages/exercise/general/exercise_page.dart';
-import 'package:dp_algebra/utils/exc_utils.dart';
-import 'package:dp_algebra/utils/utils.dart';
-import 'package:dp_algebra/widgets/forms/button_row.dart';
-import 'package:dp_algebra/widgets/input/matrix_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+
+import '../../../models/calc/calc_result.dart';
+import '../../../models/input/matrix_model.dart';
+import '../../../utils/exc_utils.dart';
+import '../../../utils/utils.dart';
+import '../../../widgets/forms/button_row.dart';
+import '../../../widgets/input/matrix_input.dart';
+import '../general/exercise_page.dart';
 
 class BinaryMatrixExc extends StatefulWidget {
   const BinaryMatrixExc({Key? key}) : super(key: key);
@@ -19,12 +20,12 @@ class BinaryMatrixExc extends StatefulWidget {
 }
 
 class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
-  Random random = Random();
+  final Random random = Random();
 
   late Expression exercise;
   late CalcResult correctSolution;
 
-  MatrixModel solution = MatrixModel(columns: 1, rows: 1);
+  final MatrixModel solution = MatrixModel(columns: 1, rows: 1);
 
   @override
   void initState() {
@@ -86,7 +87,7 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
           child: const Text('Zkontrolovat'),
           onPressed: () {
             // TODO: replace this
-            AlgebraUtils.showMessage(
+            showSnackBarMessage(
                 context, isAnswerCorrect() ? 'Správně' : 'Špatně');
           },
         ),

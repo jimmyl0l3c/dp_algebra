@@ -1,16 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dp_algebra/data/block_parser.dart';
-import 'package:dp_algebra/data/db_service.dart';
-import 'package:dp_algebra/models/db/learn_block.dart';
-import 'package:dp_algebra/models/db/learn_page.dart';
-import 'package:dp_algebra/models/db/learn_ref.dart';
-import 'package:dp_algebra/models/learn/block_content.dart';
-import 'package:dp_algebra/routing/route_state.dart';
-import 'package:dp_algebra/widgets/dialog_provider.dart';
-import 'package:dp_algebra/widgets/layout/bullet_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:get_it/get_it.dart';
+
+import '../data/block_parser.dart';
+import '../data/db_service.dart';
+import '../models/db/learn_block.dart';
+import '../models/db/learn_page.dart';
+import '../models/db/learn_ref.dart';
+import '../models/learn/block_content.dart';
+import '../routing/route_state.dart';
+import '../utils/get_dialog_route.dart';
+import 'layout/bullet_list.dart';
 
 class LPageView extends StatelessWidget {
   final LPage page;
@@ -210,7 +211,7 @@ class LPageView extends StatelessWidget {
                     padding: MaterialStatePropertyAll(EdgeInsets.zero),
                   ),
                   onPressed: () => Navigator.of(context).push(
-                    DialogProvider.getDialog(
+                    getDialogRoute(
                       context,
                       'Detail citace',
                       Column(

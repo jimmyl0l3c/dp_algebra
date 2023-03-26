@@ -1,14 +1,15 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/main.dart';
-import 'package:dp_algebra/models/calc/calc_result.dart';
-import 'package:dp_algebra/models/calc_state/calc_matrix_model.dart';
-import 'package:dp_algebra/models/calc_state/calc_vector_model.dart';
-import 'package:dp_algebra/models/input/matrix_model.dart';
-import 'package:dp_algebra/models/input/vector_model.dart';
-import 'package:dp_algebra/utils/utils.dart';
-import 'package:dp_algebra/widgets/layout/calc_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+
+import '../../main.dart';
+import '../../models/calc/calc_result.dart';
+import '../../models/calc_state/calc_matrix_model.dart';
+import '../../models/calc_state/calc_vector_model.dart';
+import '../../models/input/matrix_model.dart';
+import '../../models/input/vector_model.dart';
+import '../../utils/utils.dart';
+import 'calc_stepper.dart';
 
 class SolutionView extends StatefulWidget {
   final CalcResult solution;
@@ -74,7 +75,7 @@ class _SolutionViewState extends State<SolutionView> {
                               widget.solution.result as Matrix),
                         );
                         if (m == null) {
-                          AlgebraUtils.showMessage(
+                          showSnackBarMessage(
                             context,
                             "Nelze překročit maximální počet matic, je třeba nějakou odebrat před přidáním další.",
                           );
@@ -88,7 +89,7 @@ class _SolutionViewState extends State<SolutionView> {
                               widget.solution.result as Vector),
                         );
                         if (v == null) {
-                          AlgebraUtils.showMessage(
+                          showSnackBarMessage(
                             context,
                             "Nelze překročit maximální počet vektorů, je třeba nějaký odebrat před přidáním dalšího.",
                           );
@@ -129,4 +130,9 @@ class _SolutionViewState extends State<SolutionView> {
   }
 }
 
-enum SolutionOptions { close, remove, addToMatrix, addToVector }
+enum SolutionOptions {
+  close,
+  remove,
+  addToMatrix,
+  addToVector,
+}
