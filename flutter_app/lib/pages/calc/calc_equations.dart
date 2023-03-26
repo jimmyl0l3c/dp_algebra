@@ -66,11 +66,9 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                   try {
                     List<Expression> expMatrix = m.toMatrix().rows;
                     List<Expression> vectorY = [];
-                    for (var r = 0; r < m.getRows(); r++) {
+                    for (var r = 0; r < m.rows; r++) {
                       vectorY.add(
-                        (expMatrix[r] as Vector)
-                            .items
-                            .removeAt(m.getColumns() - 1),
+                        (expMatrix[r] as Vector).items.removeAt(m.columns - 1),
                       );
                     }
 
@@ -79,7 +77,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                         matrix: Matrix(
                           rows: expMatrix,
                           rowCount: expMatrix.length,
-                          columnCount: m.getColumns() - 1,
+                          columnCount: m.columns - 1,
                         ),
                         vectorY: Vector(items: vectorY),
                       )),
@@ -100,11 +98,9 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                   try {
                     List<Expression> expMatrix = m.toMatrix().rows;
                     List<Expression> vectorY = [];
-                    for (var r = 0; r < m.getRows(); r++) {
+                    for (var r = 0; r < m.rows; r++) {
                       vectorY.add(
-                        (expMatrix[r] as Vector)
-                            .items
-                            .removeAt(m.getColumns() - 1),
+                        (expMatrix[r] as Vector).items.removeAt(m.columns - 1),
                       );
                     }
 
@@ -113,7 +109,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                           matrix: Matrix(
                             rows: expMatrix,
                             rowCount: expMatrix.length,
-                            columnCount: m.getColumns() - 1,
+                            columnCount: m.columns - 1,
                           ),
                           vectorY: Vector(items: vectorY))),
                       CalcCategory.equation,

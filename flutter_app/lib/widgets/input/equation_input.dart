@@ -21,9 +21,9 @@ class _EquationInputState extends State<EquationInput> {
   @override
   Widget build(BuildContext context) {
     List<List<Widget>> eqWidgets = [];
-    for (var i = 0; i < widget.matrix.getRows(); i++) {
+    for (var i = 0; i < widget.matrix.rows; i++) {
       eqWidgets.add([]);
-      for (var j = 0; j < widget.matrix.getColumns(); j++) {
+      for (var j = 0; j < widget.matrix.columns; j++) {
         List<Widget> valueRow = [];
         valueRow.add(FractionInput(
           maxWidth: 60,
@@ -35,14 +35,14 @@ class _EquationInputState extends State<EquationInput> {
               ? widget.matrix[i][j].toString()
               : null,
         ));
-        if (j < widget.matrix.getColumns() - 1) {
+        if (j < widget.matrix.columns - 1) {
           valueRow.add(Padding(
             padding: const EdgeInsets.only(left: 6.0),
             child: PopupMenuButton<String>(
-              tooltip: widget.matrix.getColumns() > 2 ? 'Upravit neznámou' : '',
-              enabled: widget.matrix.getColumns() > 2,
+              tooltip: widget.matrix.columns > 2 ? 'Upravit neznámou' : '',
+              enabled: widget.matrix.columns > 2,
               onSelected: (value) {
-                if (value == 'delete' && widget.matrix.getColumns() > 2) {
+                if (value == 'delete' && widget.matrix.columns > 2) {
                   setState(() {
                     widget.matrix.removeColumn(j);
                   });
@@ -65,14 +65,14 @@ class _EquationInputState extends State<EquationInput> {
               ),
             ),
           ));
-        } else if (j == widget.matrix.getColumns() - 1) {
+        } else if (j == widget.matrix.columns - 1) {
           valueRow.add(Padding(
             padding: const EdgeInsets.only(left: 6.0),
             child: PopupMenuButton<String>(
-              tooltip: widget.matrix.getRows() > 1 ? 'Upravit rovnici' : '',
-              enabled: widget.matrix.getRows() > 1,
+              tooltip: widget.matrix.rows > 1 ? 'Upravit rovnici' : '',
+              enabled: widget.matrix.rows > 1,
               onSelected: (value) {
-                if (value == 'delete' && widget.matrix.getRows() > 1) {
+                if (value == 'delete' && widget.matrix.rows > 1) {
                   setState(() {
                     widget.matrix.removeRow(i);
                   });
@@ -100,10 +100,10 @@ class _EquationInputState extends State<EquationInput> {
           mainAxisSize: MainAxisSize.min,
           children: valueRow,
         ));
-        if (j < widget.matrix.getColumns() - 2) {
+        if (j < widget.matrix.columns - 2) {
           eqWidgets[i].add(const Text('+'));
         }
-        if (j == widget.matrix.getColumns() - 2) {
+        if (j == widget.matrix.columns - 2) {
           eqWidgets[i].add(const Text('='));
         }
       }
@@ -114,7 +114,7 @@ class _EquationInputState extends State<EquationInput> {
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
         child: Column(
           children: [
-            for (var r = 0; r < widget.matrix.getRows(); r++)
+            for (var r = 0; r < widget.matrix.rows; r++)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Wrap(

@@ -1,5 +1,4 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:dp_algebra/models/input/vector_model.dart';
 import 'package:dp_algebra/utils/extensions.dart';
 import 'package:fraction/fraction.dart';
 
@@ -31,53 +30,8 @@ class MatrixModel {
       : _matrix = m._matrix.map((row) => List<Fraction>.from(row)).toList(),
         _defaultVal = m._defaultVal;
 
-  MatrixModel.fromVectors(List<VectorModel> vectors, {bool vertical = false}) {
-    if (vectors.isNotEmpty &&
-        vectors.any((v) => v.length() != vectors.first.length())) {
-      throw VectorSizeMismatchException();
-    }
-
-    _defaultVal = 0.toFraction();
-
-    if (vertical) {
-      int cols = vectors.length;
-      int rows = vectors.first.length();
-
-      for (var r = 0; r < rows; r++) {
-        List<Fraction> row = [];
-        for (var c = 0; c < cols; c++) {
-          row.add(vectors[c][r]);
-        }
-        _matrix.add(row);
-      }
-    } else {
-      for (var v in vectors) {
-        _matrix.add(List<Fraction>.from(v.asList()));
-      }
-    }
-  }
-
-  List<VectorModel> toVectors({bool vertical = false}) {
-    List<VectorModel> vectors = [];
-    if (vertical) {
-      for (var c = 0; c < getColumns(); c++) {
-        List<Fraction> column = [];
-        for (var r = 0; r < getRows(); r++) {
-          column.add(_matrix[r][c]);
-        }
-        vectors.add(VectorModel.fromList(column));
-      }
-    } else {
-      for (var row in _matrix) {
-        vectors.add(VectorModel.fromList(row));
-      }
-    }
-
-    return vectors;
-  }
-
-  int getColumns() => _matrix.isNotEmpty ? _matrix.first.length : 0;
-  int getRows() => _matrix.length;
+  int get columns => _matrix.isNotEmpty ? _matrix.first.length : 0;
+  int get rows => _matrix.length;
 
   void addColumn() {
     for (var row in _matrix) {
@@ -88,7 +42,7 @@ class MatrixModel {
   void addRow() {
     List<Fraction> row = List<Fraction>.empty(growable: true);
 
-    for (var j = 0; j < getColumns(); j++) {
+    for (var j = 0; j < columns; j++) {
       row.add(_defaultVal);
     }
 
@@ -111,45 +65,33 @@ class MatrixModel {
 
   void setValue(int r, int c, Fraction value) => _matrix[r][c] = value;
 
-  MatrixModel transposed() {
-    int rows = getRows();
-    int cols = getColumns();
-    MatrixModel output = MatrixModel(rows: cols, columns: rows);
-    for (var i = 0; i < rows; i++) {
-      for (var j = 0; j < cols; j++) {
-        output[j][i] = _matrix[i][j].reduce();
-      }
-    }
-    return output;
-  }
-
-  bool isSquare() => getRows() == getColumns();
+  bool get isSquare => rows == columns;
 
   bool isSameSizeAs(MatrixModel other) =>
-      getRows() == other.getRows() && getColumns() == other.getColumns();
+      rows == other.rows && columns == other.columns;
 
   @override
   bool operator ==(Object other) {
     if (other is! MatrixModel) return false;
-    int rows = getRows();
-    int cols = getColumns();
-    if (rows != other.getRows()) return false;
-    if (cols != other.getColumns()) return false;
+    if (!isSameSizeAs(other)) return false;
     for (var r = 0; r < rows; r++) {
-      for (var c = 0; c < cols; c++) {
+      for (var c = 0; c < columns; c++) {
         if (_matrix[r][c] != other[r][c]) return false;
       }
     }
     return true;
   }
 
+  @override
+  int get hashCode => Object.hashAll(_matrix);
+
   List<Fraction> operator [](int i) => _matrix[i];
 
   @override
   String toString() {
     StringBuffer buffer = StringBuffer('(');
-    int rows = getRows();
-    int cols = getColumns();
+    int rows = this.rows;
+    int cols = columns;
 
     for (var r = 0; r < rows; r++) {
       for (var c = 0; c < cols; c++) {
@@ -171,8 +113,8 @@ class MatrixModel {
     if (_matrix.isEmpty) return '()';
 
     StringBuffer buffer = StringBuffer();
-    int rows = getRows();
-    int cols = getColumns();
+    int rows = this.rows;
+    int cols = columns;
 
     buffer.write('\\begin{${isDeterminant ? 'v' : 'p'}matrix} ');
 
@@ -189,16 +131,13 @@ class MatrixModel {
     return buffer.toString();
   }
 
-  @override
-  int get hashCode => _matrix.hashCode;
-
   Matrix toMatrix() => Matrix(
         rows: _matrix
             .map((row) => Vector(
                   items: row.map((entry) => Scalar(value: entry)).toList(),
                 ))
             .toList(),
-        rowCount: getRows(),
-        columnCount: getColumns(),
+        rowCount: rows,
+        columnCount: columns,
       );
 }
