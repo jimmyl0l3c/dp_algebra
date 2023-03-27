@@ -1,5 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:fraction/fraction.dart';
+import 'package:precise_fractions/precise_fractions.dart';
 
 class GaussianElimination implements Expression {
   final Expression matrix;
@@ -45,7 +45,7 @@ class GaussianElimination implements Expression {
               } else if ((simplifiedMatrix[r] as Vector)[i] != zero) {
                 solution[c]?[i] = Scalar(
                   value: ((simplifiedMatrix[r] as Vector)[i] as Scalar).value *
-                      Fraction(-1),
+                      PreciseFraction.minusOne(),
                 );
               }
             }

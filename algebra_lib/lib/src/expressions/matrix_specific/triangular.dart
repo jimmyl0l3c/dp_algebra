@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:fraction/fraction.dart';
+import 'package:precise_fractions/precise_fractions.dart';
 
 class Triangular implements Expression {
   final Expression matrix;
@@ -35,7 +35,7 @@ class Triangular implements Expression {
 
     Scalar zero = Scalar.zero();
     Scalar one = Scalar.one();
-    Scalar nOne = Scalar(value: Fraction(-1));
+    Scalar nOne = Scalar(value: PreciseFraction.minusOne());
 
     for (var i = 0; i < diagonal; i++) {
       int? nonZero;

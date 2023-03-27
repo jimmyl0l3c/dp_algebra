@@ -1,9 +1,9 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:fraction/fraction.dart';
+import 'package:precise_fractions/precise_fractions.dart';
 
 void main() {
-  var s1 = Scalar(value: 5.toFraction());
-  var s2 = Scalar(value: 6.toFraction());
+  var s1 = Scalar(value: PreciseFraction.from(5));
+  var s2 = Scalar(value: PreciseFraction.from(6));
   var s3 = Multiply(left: s1, right: s2);
   print(s3.toTeX());
   print(s3.simplify().toTeX());
@@ -11,17 +11,20 @@ void main() {
   var v1 = Vector(
     items: [
       Multiply(
-        left: Scalar(value: 2.toFraction()),
-        right: Scalar(value: 3.toFraction()),
+        left: Scalar(value: PreciseFraction.from(2)),
+        right: Scalar(value: PreciseFraction.from(3)),
       ),
       Multiply(
-        left: Scalar(value: 7.toFraction()),
-        right: Scalar(value: 4.toFraction()),
+        left: Scalar(value: PreciseFraction.from(7)),
+        right: Scalar(value: PreciseFraction.from(4)),
       ),
     ],
   );
   var v2 = Vector(
-    items: [Scalar(value: 3.toFraction()), Scalar(value: 4.toFraction())],
+    items: [
+      Scalar(value: PreciseFraction.from(3)),
+      Scalar(value: PreciseFraction.from(4)),
+    ],
   );
   printNSimplifications(v1, 4);
   print("\n");
@@ -33,12 +36,12 @@ void main() {
   var m1 = Matrix(
     rows: [
       Vector(items: [
-        Scalar(value: 2.toFraction()),
-        Scalar(value: 3.toFraction()),
+        Scalar(value: PreciseFraction.from(2)),
+        Scalar(value: PreciseFraction.from(3)),
       ]),
       Vector(items: [
-        Scalar(value: 4.toFraction()),
-        Scalar(value: 5.toFraction()),
+        Scalar(value: PreciseFraction.from(4)),
+        Scalar(value: PreciseFraction.from(5)),
       ]),
     ],
     rowCount: 2,
@@ -52,12 +55,12 @@ void main() {
   var m2 = Matrix(
     rows: [
       Vector(items: [
-        Scalar(value: 6.toFraction()),
-        Scalar(value: 7.toFraction()),
+        Scalar(value: PreciseFraction.from(6)),
+        Scalar(value: PreciseFraction.from(7)),
       ]),
       Vector(items: [
-        Scalar(value: 9.toFraction()),
-        Scalar(value: 8.toFraction()),
+        Scalar(value: PreciseFraction.from(9)),
+        Scalar(value: PreciseFraction.from(8)),
       ]),
     ],
     rowCount: 2,
@@ -69,20 +72,20 @@ void main() {
   var m3 = Matrix(
     rows: [
       Vector(items: [
-        Scalar(value: 6.toFraction()),
-        Scalar(value: 7.toFraction()),
+        Scalar(value: PreciseFraction.from(6)),
+        Scalar(value: PreciseFraction.from(7)),
       ]),
       Vector(items: [
-        Scalar(value: 9.toFraction()),
-        Scalar(value: 8.toFraction()),
+        Scalar(value: PreciseFraction.from(9)),
+        Scalar(value: PreciseFraction.from(8)),
       ]),
       Vector(items: [
-        Scalar(value: 1.toFraction()),
-        Scalar(value: 2.toFraction()),
+        Scalar(value: PreciseFraction.one()),
+        Scalar(value: PreciseFraction.from(2)),
       ]),
       Vector(items: [
-        Scalar(value: 3.toFraction()),
-        Scalar(value: 5.toFraction()),
+        Scalar(value: PreciseFraction.from(3)),
+        Scalar(value: PreciseFraction.from(5)),
       ]),
     ],
     rowCount: 4,
@@ -96,19 +99,20 @@ void main() {
     matrix: m3,
     origin: 2,
     target: 0,
-    n: Scalar(value: Fraction(-2)),
+    n: Scalar(value: PreciseFraction.from(-2)),
   );
   printNSimplifications(addRow2Row, 4);
 
   var multiplyRow = MultiplyRowByN(
     matrix: m3,
-    n: Scalar(value: Fraction(-3)),
+    n: Scalar(value: PreciseFraction.from(-3)),
     row: 1,
   );
   printNSimplifications(multiplyRow, 3);
 
   var divide = Divide(
-    numerator: Multiply(left: Scalar(value: Fraction(-1)), right: s1),
+    numerator:
+        Multiply(left: Scalar(value: PreciseFraction.minusOne()), right: s1),
     denominator: s2,
   );
   printNSimplifications(divide, 3);
@@ -121,19 +125,19 @@ void main() {
   var m4 = Matrix(
     rows: [
       Vector(items: [
-        Scalar(value: 0.toFraction()),
-        Scalar(value: 7.toFraction()),
-        Scalar(value: 3.toFraction())
+        Scalar(value: PreciseFraction.zero()),
+        Scalar(value: PreciseFraction.from(7)),
+        Scalar(value: PreciseFraction.from(3))
       ]),
       Vector(items: [
-        Scalar(value: 3.toFraction()),
-        Scalar(value: 8.toFraction()),
-        Scalar(value: 2.toFraction())
+        Scalar(value: PreciseFraction.from(3)),
+        Scalar(value: PreciseFraction.from(8)),
+        Scalar(value: PreciseFraction.from(2))
       ]),
       Vector(items: [
-        Scalar(value: 1.toFraction()),
-        Scalar(value: 8.toFraction()),
-        Scalar(value: 13.toFraction())
+        Scalar(value: PreciseFraction.one()),
+        Scalar(value: PreciseFraction.from(8)),
+        Scalar(value: PreciseFraction.from(13))
       ]),
     ],
     rowCount: 3,
@@ -167,20 +171,20 @@ void main() {
   var eqM = Matrix(
     rows: [
       Vector(items: [
-        Scalar(value: 1.toFraction()),
-        Scalar(value: 2.toFraction()),
+        Scalar(value: PreciseFraction.one()),
+        Scalar(value: PreciseFraction.from(2)),
       ]),
       Vector(items: [
-        Scalar(value: 4.toFraction()),
-        Scalar(value: 5.toFraction()),
+        Scalar(value: PreciseFraction.from(4)),
+        Scalar(value: PreciseFraction.from(5)),
       ]),
     ],
     rowCount: 2,
     columnCount: 2,
   );
   var vY = Vector(items: [
-    Scalar(value: 3.toFraction()),
-    Scalar(value: 6.toFraction()),
+    Scalar(value: PreciseFraction.from(3)),
+    Scalar(value: PreciseFraction.from(6)),
   ]);
   var eqSolution = SolveWithInverse(matrix: eqM, vectorY: vY);
   print(eqSolution.toTeX());
@@ -189,19 +193,19 @@ void main() {
   var basis = FindBasis(
       matrix: Matrix.fromVectors([
     Vector(items: [
-      Scalar(value: Fraction(1)),
-      Scalar(value: Fraction(2)),
-      Scalar(value: Fraction(3)),
+      Scalar(value: PreciseFraction.one()),
+      Scalar(value: PreciseFraction.from(2)),
+      Scalar(value: PreciseFraction.from(3)),
     ]),
     Vector(items: [
-      Scalar(value: Fraction(4)),
-      Scalar(value: Fraction(5)),
-      Scalar(value: Fraction(6)),
+      Scalar(value: PreciseFraction.from(4)),
+      Scalar(value: PreciseFraction.from(5)),
+      Scalar(value: PreciseFraction.from(6)),
     ]),
     Vector(items: [
-      Scalar(value: Fraction(7)),
-      Scalar(value: Fraction(3)),
-      Scalar(value: Fraction(2)),
+      Scalar(value: PreciseFraction.from(7)),
+      Scalar(value: PreciseFraction.from(3)),
+      Scalar(value: PreciseFraction.from(2)),
     ]),
   ]));
   printNSimplifications(basis, 85);
@@ -210,16 +214,16 @@ void main() {
   var generalEq = GaussianElimination(
     matrix: Matrix.fromVectors([
       Vector(items: [
-        Scalar(value: Fraction(1)),
-        Scalar(value: Fraction(2)),
-        Scalar(value: Fraction(3)),
-        Scalar(value: Fraction(4)),
+        Scalar(value: PreciseFraction.one()),
+        Scalar(value: PreciseFraction.from(2)),
+        Scalar(value: PreciseFraction.from(3)),
+        Scalar(value: PreciseFraction.from(4)),
       ]),
       Vector(items: [
-        Scalar(value: Fraction(0)),
-        Scalar(value: Fraction(1)),
-        Scalar(value: Fraction(7)),
-        Scalar(value: Fraction(3)),
+        Scalar(value: PreciseFraction.zero()),
+        Scalar(value: PreciseFraction.one()),
+        Scalar(value: PreciseFraction.from(7)),
+        Scalar(value: PreciseFraction.from(3)),
       ]),
     ]),
   );
@@ -228,16 +232,16 @@ void main() {
   print("\n");
   var independent = AreVectorsLinearlyIndependent(vectors: [
     Vector(items: [
-      Scalar(value: Fraction(1)),
-      Scalar(value: Fraction(2)),
-      Scalar(value: Fraction(3)),
-      Scalar(value: Fraction(4)),
+      Scalar(value: PreciseFraction.one()),
+      Scalar(value: PreciseFraction.from(2)),
+      Scalar(value: PreciseFraction.from(3)),
+      Scalar(value: PreciseFraction.from(4)),
     ]),
     Vector(items: [
-      Scalar(value: Fraction(0)),
-      Scalar(value: Fraction(1)),
-      Scalar(value: Fraction(7)),
-      Scalar(value: Fraction(3)),
+      Scalar(value: PreciseFraction.zero()),
+      Scalar(value: PreciseFraction.one()),
+      Scalar(value: PreciseFraction.from(7)),
+      Scalar(value: PreciseFraction.from(3)),
     ]),
   ]);
   printNSimplifications(independent, 60);
@@ -245,17 +249,17 @@ void main() {
   var cramer = SolveWithCramer(
     matrix: Matrix.fromVectors([
       Vector(items: [
-        Scalar(value: Fraction(1)),
-        Scalar(value: Fraction(2)),
+        Scalar(value: PreciseFraction.one()),
+        Scalar(value: PreciseFraction.from(2)),
       ]),
       Vector(items: [
-        Scalar(value: Fraction(4)),
-        Scalar(value: Fraction(5)),
+        Scalar(value: PreciseFraction.from(4)),
+        Scalar(value: PreciseFraction.from(5)),
       ]),
     ]),
     vectorY: Vector(items: [
-      Scalar(value: Fraction(3)),
-      Scalar(value: Fraction(6)),
+      Scalar(value: PreciseFraction.from(3)),
+      Scalar(value: PreciseFraction.from(6)),
     ]),
   );
   printNSimplifications(cramer, 20);
@@ -263,36 +267,36 @@ void main() {
   var transformMatrix = TransformMatrix(
     basisA: ExpressionSet(items: {
       Vector(items: [
-        Scalar(value: Fraction(-5)),
-        Scalar(value: Fraction(9)),
-        Scalar(value: Fraction(2)),
+        Scalar(value: PreciseFraction.from(-5)),
+        Scalar(value: PreciseFraction.from(9)),
+        Scalar(value: PreciseFraction.from(2)),
       ]),
       Vector(items: [
-        Scalar(value: Fraction(6)),
-        Scalar(value: Fraction(-10)),
-        Scalar(value: Fraction(5)),
+        Scalar(value: PreciseFraction.from(6)),
+        Scalar(value: PreciseFraction.from(-10)),
+        Scalar(value: PreciseFraction.from(5)),
       ]),
       Vector(items: [
-        Scalar(value: Fraction(-1)),
-        Scalar(value: Fraction(2)),
-        Scalar(value: Fraction(9)),
+        Scalar(value: PreciseFraction.minusOne()),
+        Scalar(value: PreciseFraction.from(2)),
+        Scalar(value: PreciseFraction.from(9)),
       ]),
     }),
     basisB: ExpressionSet(items: {
       Vector(items: [
-        Scalar(value: Fraction(0)),
-        Scalar(value: Fraction(0)),
-        Scalar(value: Fraction(-5)),
+        Scalar(value: PreciseFraction.zero()),
+        Scalar(value: PreciseFraction.zero()),
+        Scalar(value: PreciseFraction.from(-5)),
       ]),
       Vector(items: [
-        Scalar(value: Fraction(1)),
-        Scalar(value: Fraction(0)),
-        Scalar(value: Fraction(2)),
+        Scalar(value: PreciseFraction.one()),
+        Scalar(value: PreciseFraction.zero()),
+        Scalar(value: PreciseFraction.from(2)),
       ]),
       Vector(items: [
-        Scalar(value: Fraction(-4)),
-        Scalar(value: Fraction(2)),
-        Scalar(value: Fraction(7)),
+        Scalar(value: PreciseFraction.from(-4)),
+        Scalar(value: PreciseFraction.from(2)),
+        Scalar(value: PreciseFraction.from(7)),
       ]),
     }),
   );
@@ -301,9 +305,9 @@ void main() {
   var transform = TransformCoords(
       transformMatrix: transformMatrix,
       coords: Vector(items: [
-        Scalar(value: Fraction(1)),
-        Scalar(value: Fraction(2)),
-        Scalar(value: Fraction(3)),
+        Scalar(value: PreciseFraction.one()),
+        Scalar(value: PreciseFraction.from(2)),
+        Scalar(value: PreciseFraction.from(3)),
       ]));
   // printNSimplifications(transform, 360);
 }
