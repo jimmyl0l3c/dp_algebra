@@ -1,8 +1,7 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:fraction/fraction.dart';
-import 'package:precise_fractions/precise_fractions.dart';
+import 'package:big_fraction/big_fraction.dart';
 
 import '../models/input/matrix_model.dart';
 import '../models/input/solution_variable.dart';
@@ -44,9 +43,9 @@ class ExerciseUtils {
     return v;
   }
 
-  static Fraction generateFraction() {
+  static BigFraction generateFraction() {
     int num = random.nextInt(30) - 15;
-    return num.toFraction();
+    return num.toBigFraction();
   }
 
   static int generateSize({int max = 4, int min = 1}) =>
@@ -75,7 +74,7 @@ class ExerciseUtils {
       if (inputSolution[i] != null) {
         solutionVector.add(inputSolution[i]!.toExpression(i));
       } else {
-        solutionVector.add(Scalar(value: 0.toFraction().toPreciseFrac()));
+        solutionVector.add(Scalar(value: 0.toBigFraction()));
       }
     }
 

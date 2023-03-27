@@ -1,10 +1,9 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'package:fraction/fraction.dart';
-import 'package:precise_fractions/precise_fractions.dart';
 
 import '../../../models/calc/calc_result.dart';
 import '../../../utils/exc_utils.dart';
@@ -26,7 +25,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
   late Expression exercise;
   late CalcResult correctSolution;
 
-  Fraction solution = Fraction(0);
+  BigFraction solution = BigFraction.zero();
 
   @override
   void initState() {
@@ -77,7 +76,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
       ),
       result: FractionInput(
         maxWidth: 100,
-        onChanged: (Fraction? value) {
+        onChanged: (BigFraction? value) {
           if (value == null) return;
           solution = value;
         },
@@ -94,8 +93,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
     );
   }
 
-  bool isAnswerCorrect() =>
-      Scalar(value: solution.toPreciseFrac()) == correctSolution.result;
+  bool isAnswerCorrect() => Scalar(value: solution) == correctSolution.result;
 
   void generateRandomDeterminant() {
     int size = 1 + ExerciseUtils.generateSize();

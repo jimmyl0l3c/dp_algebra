@@ -1,6 +1,6 @@
-import 'package:fraction/fraction.dart';
+import 'package:big_fraction/big_fraction.dart';
 
-extension ParsingToTex on Fraction {
+extension ParsingToTex on BigFraction {
   String toTeX() {
     if (isWhole) {
       return toString();

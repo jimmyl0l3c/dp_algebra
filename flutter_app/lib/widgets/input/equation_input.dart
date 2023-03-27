@@ -1,6 +1,6 @@
+import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'package:fraction/fraction.dart';
 
 import '../../models/input/matrix_model.dart';
 import '../forms/button_row.dart';
@@ -28,7 +28,7 @@ class _EquationInputState extends State<EquationInput> {
         List<Widget> valueRow = [];
         valueRow.add(FractionInput(
           maxWidth: 60,
-          onChanged: (Fraction? value) {
+          onChanged: (BigFraction? value) {
             if (value == null) return;
             widget.matrix.setValue(i, j, value);
           },

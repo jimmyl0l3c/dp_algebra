@@ -1,5 +1,5 @@
+import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
-import 'package:fraction/fraction.dart';
 
 import '../../models/input/matrix_model.dart';
 import '../forms/button_row.dart';
@@ -119,7 +119,7 @@ class _MatrixInputState extends State<MatrixInput> {
                   for (var i = 0; i < widget.matrix.rows; i++)
                     for (var j = 0; j < widget.matrix.columns; j++)
                       FractionInput(
-                        onChanged: (Fraction? value) {
+                        onChanged: (BigFraction? value) {
                           if (value == null) return;
                           widget.matrix.setValue(i, j, value);
                         },

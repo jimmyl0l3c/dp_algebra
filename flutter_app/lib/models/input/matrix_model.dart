@@ -1,17 +1,17 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:fraction/fraction.dart';
-import 'package:precise_fractions/precise_fractions.dart';
+import 'package:big_fraction/big_fraction.dart';
 
 import '../../utils/extensions.dart';
 
 class MatrixModel {
-  List<List<Fraction>> _matrix = List<List<Fraction>>.empty(growable: true);
-  late Fraction _defaultVal;
+  List<List<BigFraction>> _matrix =
+      List<List<BigFraction>>.empty(growable: true);
+  late BigFraction _defaultVal;
 
   MatrixModel({int columns = 1, int rows = 1, int defaultValue = 0}) {
-    _defaultVal = defaultValue.toFraction();
+    _defaultVal = defaultValue.toBigFraction();
     for (var i = 0; i < rows; i++) {
-      List<Fraction> row = List<Fraction>.empty(growable: true);
+      List<BigFraction> row = List<BigFraction>.empty(growable: true);
 
       for (var j = 0; j < columns; j++) {
         row.add(_defaultVal);
@@ -23,15 +23,13 @@ class MatrixModel {
 
   MatrixModel.fromMatrix(Matrix m)
       : _matrix = m.rows
-            .map((row) => (row as Vector)
-                .items
-                .map((e) => (e as Scalar).value.toFraction())
-                .toList())
+            .map((row) =>
+                (row as Vector).items.map((e) => (e as Scalar).value).toList())
             .toList(),
-        _defaultVal = 0.toFraction();
+        _defaultVal = 0.toBigFraction();
 
   MatrixModel.from(MatrixModel m)
-      : _matrix = m._matrix.map((row) => List<Fraction>.from(row)).toList(),
+      : _matrix = m._matrix.map((row) => List<BigFraction>.from(row)).toList(),
         _defaultVal = m._defaultVal;
 
   int get columns => _matrix.isNotEmpty ? _matrix.first.length : 0;
@@ -44,7 +42,7 @@ class MatrixModel {
   }
 
   void addRow() {
-    List<Fraction> row = List<Fraction>.empty(growable: true);
+    List<BigFraction> row = List<BigFraction>.empty(growable: true);
 
     for (var j = 0; j < columns; j++) {
       row.add(_defaultVal);
@@ -53,8 +51,8 @@ class MatrixModel {
     _matrix.add(row);
   }
 
-  List<Fraction> removeColumn(int index) {
-    List<Fraction> removed = [];
+  List<BigFraction> removeColumn(int index) {
+    List<BigFraction> removed = [];
 
     for (var row in _matrix) {
       removed.add(row.removeAt(index));
@@ -63,11 +61,11 @@ class MatrixModel {
     return removed;
   }
 
-  List<Fraction> removeRow(int index) {
+  List<BigFraction> removeRow(int index) {
     return _matrix.removeAt(index);
   }
 
-  void setValue(int r, int c, Fraction value) => _matrix[r][c] = value;
+  void setValue(int r, int c, BigFraction value) => _matrix[r][c] = value;
 
   bool get isSquare => rows == columns;
 
@@ -89,7 +87,7 @@ class MatrixModel {
   @override
   int get hashCode => Object.hashAll(_matrix);
 
-  List<Fraction> operator [](int i) => _matrix[i];
+  List<BigFraction> operator [](int i) => _matrix[i];
 
   @override
   String toString() {
@@ -138,9 +136,7 @@ class MatrixModel {
   Matrix toMatrix() => Matrix(
         rows: _matrix
             .map((row) => Vector(
-                  items: row
-                      .map((entry) => Scalar(value: entry.toPreciseFrac()))
-                      .toList(),
+                  items: row.map((entry) => Scalar(value: entry)).toList(),
                 ))
             .toList(),
         rowCount: rows,

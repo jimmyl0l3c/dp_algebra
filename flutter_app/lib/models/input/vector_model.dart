@@ -1,31 +1,31 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:fraction/fraction.dart';
-import 'package:precise_fractions/precise_fractions.dart';
+import 'package:big_fraction/big_fraction.dart';
 
 import '../../utils/extensions.dart';
 
 class VectorModel {
-  List<Fraction> _entries = List<Fraction>.empty(growable: true);
+  List<BigFraction> _entries = List<BigFraction>.empty(growable: true);
 
   VectorModel({int length = 1}) {
     _entries = [];
     for (var i = 0; i < length; i++) {
-      _entries.add(0.toFraction());
+      _entries.add(0.toBigFraction());
     }
   }
 
-  VectorModel.fromList(List<Fraction> entries)
-      : _entries = List<Fraction>.from(entries);
+  VectorModel.fromList(List<BigFraction> entries)
+      : _entries = List<BigFraction>.from(entries);
 
   VectorModel.fromVector(Vector vector)
-      : _entries =
-            vector.items.map((e) => (e as Scalar).value.toFraction()).toList();
+      : _entries = vector.items.map((e) => (e as Scalar).value).toList();
 
-  VectorModel.from(VectorModel v) : _entries = List<Fraction>.from(v._entries);
+  VectorModel.from(VectorModel v)
+      : _entries = List<BigFraction>.from(v._entries);
 
   int get length => _entries.length;
 
-  bool get isZeroVector => _entries.every((element) => element == Fraction(0));
+  bool get isZeroVector =>
+      _entries.every((element) => element == BigFraction.zero());
 
   bool isSameSizeAs(VectorModel other) => length == other.length;
 
@@ -39,11 +39,11 @@ class VectorModel {
     return true;
   }
 
-  void add({Fraction? f}) => _entries.add(f ?? 0.toFraction());
+  void add({BigFraction? f}) => _entries.add(f ?? 0.toBigFraction());
 
-  Fraction removeAt(int index) => _entries.removeAt(index);
+  BigFraction removeAt(int index) => _entries.removeAt(index);
 
-  void set(int index, Fraction value) => _entries[index] = value;
+  void set(int index, BigFraction value) => _entries[index] = value;
 
   @override
   bool operator ==(Object other) {
@@ -59,11 +59,11 @@ class VectorModel {
   @override
   int get hashCode => Object.hashAll(_entries);
 
-  Fraction operator [](int i) => _entries[i];
+  BigFraction operator [](int i) => _entries[i];
 
-  void operator []=(int i, Fraction f) => _entries[i] = f;
+  void operator []=(int i, BigFraction f) => _entries[i] = f;
 
-  List<Fraction> asList() => _entries;
+  List<BigFraction> asList() => _entries;
 
   @override
   String toString() {
@@ -93,6 +93,6 @@ class VectorModel {
     return buffer.toString();
   }
 
-  Vector toVector() => Vector(
-      items: _entries.map((e) => Scalar(value: e.toPreciseFrac())).toList());
+  Vector toVector() =>
+      Vector(items: _entries.map((e) => Scalar(value: e)).toList());
 }

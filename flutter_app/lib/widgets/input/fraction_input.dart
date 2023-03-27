@@ -1,9 +1,9 @@
+import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fraction/fraction.dart';
 
 class FractionInput extends StatelessWidget {
-  final ValueChanged<Fraction?> onChanged;
+  final ValueChanged<BigFraction?> onChanged;
   final TextEditingController? controller;
   final double? maxWidth;
 
@@ -24,18 +24,18 @@ class FractionInput extends StatelessWidget {
       child: TextFormField(
         onChanged: (value) {
           if (value.isEmpty) {
-            onChanged.call(Fraction(0));
+            onChanged.call(BigFraction.zero());
           } else if (value.contains('.')) {
             double? dValue = double.tryParse(value);
             if (dValue == null) {
               onChanged.call(null);
               return;
             }
-            onChanged.call(dValue.toFraction());
+            onChanged.call(dValue.toBigFraction());
           } else {
             if (value.startsWith('/')) value = '0$value';
-            if (!value.isFraction) return;
-            onChanged.call(value.toFraction());
+            if (!value.isBigFraction) return;
+            onChanged.call(value.toBigFraction());
           }
         },
         controller: controller,
@@ -62,7 +62,7 @@ class FractionInput extends StatelessWidget {
             return double.tryParse(value) == null ? 'Neplatná hodnota' : null;
           }
           if (value.startsWith('/')) value = '0$value';
-          if (!value.isFraction) return 'Neplatná hodnota';
+          if (!value.isBigFraction) return 'Neplatná hodnota';
           return null;
         },
         keyboardType:

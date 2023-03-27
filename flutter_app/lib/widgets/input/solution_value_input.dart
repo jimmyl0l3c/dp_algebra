@@ -1,6 +1,6 @@
+import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fraction/fraction.dart';
 
 import '../../models/input/solution_variable.dart';
 import '../../utils/utils.dart';
@@ -29,7 +29,7 @@ class SolutionValueInput extends StatelessWidget {
       child: TextFormField(
         onChanged: (value) {
           if (value.isEmpty) {
-            onChanged.call([VariableValue(value: 0.toFraction())]);
+            onChanged.call([VariableValue(value: BigFraction.zero())]);
             return;
           }
 
@@ -60,13 +60,13 @@ class SolutionValueInput extends StatelessWidget {
                 return; // TODO: throw error
               }
 
-              numericValue ??= 1.toFraction();
+              numericValue ??= BigFraction.one();
             } else {
               variable = null;
             }
 
             if (m[1] == '-') {
-              numericValue = Fraction(-1);
+              numericValue = BigFraction.minusOne();
             }
 
             values.add(VariableValue(
@@ -87,8 +87,8 @@ class SolutionValueInput extends StatelessWidget {
         validator: (String? value) {
           if (value == null || value.isEmpty) return null;
 
-          var match = RegExp(r'(?:[+-]?[0-9]*[./]?[0-9]*(x[0-9]+)?)*')
-              .stringMatch(value);
+          var match =
+              RegExp(r'(?:[+-]?\d*[./]?\d*(x\d+)?)*').stringMatch(value);
           if (match == null || match.length != value.length) {
             return 'Nesprávný formát';
           }

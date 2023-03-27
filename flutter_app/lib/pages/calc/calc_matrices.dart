@@ -1,8 +1,7 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
-import 'package:fraction/fraction.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
-import 'package:precise_fractions/precise_fractions.dart';
 
 import '../../main.dart';
 import '../../models/calc/calc_category.dart';
@@ -114,7 +113,7 @@ class MatrixMultiplyByScalar extends StatefulWidget
 
 class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
     with GetItStateMixin {
-  Fraction _scalarC = Fraction(1);
+  BigFraction _scalarC = BigFraction.one();
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +138,7 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
           ),
           FractionInput(
             maxWidth: 80,
-            onChanged: (Fraction? value) {
+            onChanged: (BigFraction? value) {
               if (value == null) return;
               _scalarC = value;
             },
@@ -162,7 +161,7 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
                   child: Text(matrix.key),
                   onPressed: () {
                     Expression exp = Multiply(
-                      left: Scalar(value: _scalarC.toPreciseFrac()),
+                      left: Scalar(value: _scalarC),
                       right: matrix.value.toMatrix(),
                     );
 

@@ -1,9 +1,8 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:fraction/fraction.dart';
-import 'package:precise_fractions/precise_fractions.dart';
+import 'package:big_fraction/big_fraction.dart';
 
 class VariableValue {
-  final Fraction? value;
+  final BigFraction? value;
   final int? variable;
 
   VariableValue({this.value, this.variable});
@@ -34,20 +33,20 @@ class SolutionVariable {
   }
 
   Expression toExpression(int i) {
-    final Map<int, Fraction> solution = {};
-    Fraction numSolution = 0.toFraction();
+    final Map<int, BigFraction> solution = {};
+    BigFraction numSolution = 0.toBigFraction();
 
     for (var variable in variables) {
       if (variable.variable == null) {
-        numSolution += (variable.value ?? 0.toFraction());
+        numSolution += (variable.value ?? 0.toBigFraction());
       } else {
         solution.update(
           variable.variable!,
-          (value) => value += (variable.value ?? 0.toFraction()),
-          ifAbsent: () => variable.value ?? 0.toFraction(),
+          (value) => value += (variable.value ?? 0.toBigFraction()),
+          ifAbsent: () => variable.value ?? 0.toBigFraction(),
         );
 
-        if (solution[variable.variable!] == 0.toFraction()) {
+        if (solution[variable.variable!] == 0.toBigFraction()) {
           solution.remove(variable.variable!);
         }
       }
@@ -55,16 +54,16 @@ class SolutionVariable {
 
     List<Expression> paramScalar = [];
     if (solution.isEmpty) {
-      return Scalar(value: numSolution.toPreciseFrac());
+      return Scalar(value: numSolution);
     }
 
-    if (numSolution != 0.toFraction()) {
-      paramScalar.add(Scalar(value: numSolution.toPreciseFrac()));
+    if (numSolution != 0.toBigFraction()) {
+      paramScalar.add(Scalar(value: numSolution));
     }
     solution.forEach((key, value) {
-      if (value != 0.toFraction()) {
+      if (value != 0.toBigFraction()) {
         paramScalar.add(Variable(
-          n: Scalar(value: value.toPreciseFrac()),
+          n: Scalar(value: value),
           param: key,
         ));
       }

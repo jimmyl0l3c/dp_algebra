@@ -1,5 +1,5 @@
+import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
-import 'package:fraction/fraction.dart';
 
 import '../../models/input/vector_model.dart';
 import '../forms/button_row.dart';
@@ -57,7 +57,7 @@ class _VectorInputState extends State<VectorInput> {
                   decorateVectorInput(
                     FractionInput(
                       maxWidth: 60,
-                      onChanged: (Fraction? value) {
+                      onChanged: (BigFraction? value) {
                         if (value == null) return;
                         widget.vector.set(i, value);
                       },

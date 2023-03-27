@@ -1,5 +1,5 @@
+import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
-import 'package:fraction/fraction.dart';
 
 // TODO: add state option (error, correct, info)
 void showSnackBarMessage(BuildContext context, String message) {
@@ -9,7 +9,7 @@ void showSnackBarMessage(BuildContext context, String message) {
   ));
 }
 
-Fraction? parseFraction(String value) {
+BigFraction? parseFraction(String value) {
   int sign = 1;
   if (value.startsWith(RegExp(r'[+-]'))) {
     sign = value[0] == '-' ? -1 : 1;
@@ -25,10 +25,10 @@ Fraction? parseFraction(String value) {
     if (dValue == null) {
       return null;
     }
-    return dValue.toFraction() * sign.toFraction();
+    return dValue.toBigFraction() * sign.toBigFraction();
   } else {
     if (value.startsWith('/')) value = '0$value';
-    if (!value.isFraction) return null;
-    return value.toFraction() * sign.toFraction();
+    if (!value.isBigFraction) return null;
+    return value.toBigFraction() * sign.toBigFraction();
   }
 }

@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'package:fraction/fraction.dart';
 
 import '../../../models/calc/calc_result.dart';
 import '../../../models/input/vector_model.dart';
@@ -94,7 +94,7 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
       for (var vector in vectors) {
         int c = _random.nextInt(2) + 2;
         if (_random.nextBool()) c *= -1;
-        var cf = Fraction(c);
+        var cf = BigFraction.from(c);
 
         for (var i = 0; i < length; i++) {
           combined[i] += cf * vector[i];
