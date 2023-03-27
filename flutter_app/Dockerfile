@@ -20,12 +20,10 @@ ENV PATH="$PATH:/home/flutter/flutter-sdk/bin"
 ENV PATH="$PATH:/home/flutter/flutter-sdk/bin/cache/dart-sdk/bin"
 
 COPY ./algebra_lib ./algebra_lib
-COPY ./precise_fractions ./precise_fractions
 COPY ./flutter_app ./flutter_app
 
 USER root:root
 RUN chown -R flutter:flutter ./algebra_lib
-RUN chown -R flutter:flutter ./precise_fractions
 RUN chown -R flutter:flutter ./flutter_app
 
 USER flutter:flutter
