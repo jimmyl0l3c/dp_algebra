@@ -1,5 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:precise_fractions/precise_fractions.dart';
+import 'package:big_fraction/big_fraction.dart';
 
 class Rank implements Expression {
   final Expression matrix;
@@ -33,7 +33,7 @@ class Rank implements Expression {
         }
       }
 
-      return Scalar(value: PreciseFraction.from(rank));
+      return Scalar(value: BigFraction.from(rank));
     }
 
     if (matrix is! Matrix) {

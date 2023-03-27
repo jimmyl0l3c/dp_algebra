@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:precise_fractions/precise_fractions.dart';
+import 'package:big_fraction/big_fraction.dart';
 
 class TriangularDet implements Expression {
   final Expression det;
@@ -39,7 +39,7 @@ class TriangularDet implements Expression {
 
     Scalar zero = Scalar.zero();
     Scalar one = Scalar.one();
-    Scalar nOne = Scalar(value: PreciseFraction.minusOne());
+    Scalar nOne = Scalar(value: BigFraction.minusOne());
 
     for (var i = 0; i < diagonal; i++) {
       int? nonZero;

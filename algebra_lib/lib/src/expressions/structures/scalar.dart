@@ -1,13 +1,13 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:precise_fractions/precise_fractions.dart';
+import 'package:big_fraction/big_fraction.dart';
 
 class Scalar implements Expression {
-  final PreciseFraction value;
+  final BigFraction value;
 
   Scalar({required this.value});
 
-  Scalar.zero() : value = PreciseFraction.zero();
-  Scalar.one() : value = PreciseFraction.one();
+  Scalar.zero() : value = BigFraction.zero();
+  Scalar.one() : value = BigFraction.one();
 
   @override
   Expression simplify() => this;

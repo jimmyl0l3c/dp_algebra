@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:precise_fractions/precise_fractions.dart';
+import 'package:big_fraction/big_fraction.dart';
 
 class AlgSupplement implements Expression {
   final Expression matrix;
@@ -39,7 +39,7 @@ class AlgSupplement implements Expression {
 
     return Multiply(
       // TODO: make the computation of power of -1 out of expressions?
-      left: Scalar(value: PreciseFraction.from(pow(-1, row + column + 2))),
+      left: Scalar(value: pow(-1, row + column + 2).toBigFraction()),
       right: Minor(matrix: matrix, row: row, column: column),
     );
   }

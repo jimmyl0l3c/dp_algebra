@@ -1,5 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:precise_fractions/precise_fractions.dart';
+import 'package:big_fraction/big_fraction.dart';
 
 class Reduce implements Expression {
   final Expression exp;
@@ -33,7 +33,7 @@ class Reduce implements Expression {
 
     Scalar zero = Scalar.zero();
     Scalar one = Scalar.one();
-    Scalar nOne = Scalar(value: PreciseFraction.minusOne());
+    Scalar nOne = Scalar(value: BigFraction.minusOne());
 
     for (var i = 0; i < m.rowCount; i++) {
       for (var j = 0; j < m.columnCount; j++) {
