@@ -1,5 +1,6 @@
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:fraction/fraction.dart';
+import 'package:precise_fractions/precise_fractions.dart';
 
 import '../../utils/extensions.dart';
 
@@ -22,8 +23,10 @@ class MatrixModel {
 
   MatrixModel.fromMatrix(Matrix m)
       : _matrix = m.rows
-            .map((row) =>
-                (row as Vector).items.map((e) => (e as Scalar).value).toList())
+            .map((row) => (row as Vector)
+                .items
+                .map((e) => (e as Scalar).value.toFraction())
+                .toList())
             .toList(),
         _defaultVal = 0.toFraction();
 
@@ -135,7 +138,9 @@ class MatrixModel {
   Matrix toMatrix() => Matrix(
         rows: _matrix
             .map((row) => Vector(
-                  items: row.map((entry) => Scalar(value: entry)).toList(),
+                  items: row
+                      .map((entry) => Scalar(value: entry.toPreciseFrac()))
+                      .toList(),
                 ))
             .toList(),
         rowCount: rows,

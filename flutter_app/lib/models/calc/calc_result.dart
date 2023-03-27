@@ -16,7 +16,7 @@ class CalcResult {
 
   factory CalcResult.calculate(Expression calculation) {
     try {
-      var steps = CalcResult._getCalculationSteps(calculation);
+      var steps = _getCalculationSteps(calculation);
 
       return CalcResult(
         calculation: calculation,
@@ -41,17 +41,60 @@ class CalcResult {
     }
   }
 
+  static Future<CalcResult> calculateAsync(Expression calculation) {
+    return Future(
+      () {
+        try {
+          List<Expression> steps = [];
+
+          Expression prevExp = calculation;
+          Expression lastExp = calculation;
+
+          do {
+            steps.add(lastExp);
+            prevExp = lastExp;
+            lastExp = lastExp.simplify();
+
+            // TODO: remove when certain the freezing is fixed
+            print(prevExp.toTeX());
+          } while (prevExp != lastExp);
+
+          return CalcResult(
+            calculation: calculation,
+            result: steps.last,
+            steps: steps,
+          );
+        } on ExpressionException catch (e) {
+          throw CalcExpressionException.fromExpressionException(calculation, e);
+        } on Exception catch (e) {
+          // Catch all exceptions, hopefully prevent freezing of the app
+          logger.e(e.toString());
+          throw CalcExpressionException(
+            friendlyMessage: "Exception occurred while calculating expression",
+            cause: e,
+          );
+        } on Error catch (e) {
+          logger.e(e.toString());
+          throw CalcExpressionException(
+            friendlyMessage: "Exception occurred while calculating expression",
+            cause: e,
+          );
+        }
+      },
+    );
+  }
+
   static List<Expression> _getCalculationSteps(Expression calculation) {
-    List<Expression> output = [calculation];
+    List<Expression> output = [];
 
     Expression prevExp = calculation;
-    Expression lastExp = calculation.simplify();
+    Expression lastExp = calculation;
 
-    while (prevExp != lastExp) {
+    do {
       output.add(lastExp);
       prevExp = lastExp;
       lastExp = lastExp.simplify();
-    }
+    } while (prevExp != lastExp);
 
     return output;
   }

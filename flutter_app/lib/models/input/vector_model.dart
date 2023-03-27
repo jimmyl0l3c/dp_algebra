@@ -1,5 +1,6 @@
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:fraction/fraction.dart';
+import 'package:precise_fractions/precise_fractions.dart';
 
 import '../../utils/extensions.dart';
 
@@ -17,7 +18,8 @@ class VectorModel {
       : _entries = List<Fraction>.from(entries);
 
   VectorModel.fromVector(Vector vector)
-      : _entries = vector.items.map((e) => (e as Scalar).value).toList();
+      : _entries =
+            vector.items.map((e) => (e as Scalar).value.toFraction()).toList();
 
   VectorModel.from(VectorModel v) : _entries = List<Fraction>.from(v._entries);
 
@@ -91,6 +93,6 @@ class VectorModel {
     return buffer.toString();
   }
 
-  Vector toVector() =>
-      Vector(items: _entries.map((e) => Scalar(value: e)).toList());
+  Vector toVector() => Vector(
+      items: _entries.map((e) => Scalar(value: e.toPreciseFrac())).toList());
 }

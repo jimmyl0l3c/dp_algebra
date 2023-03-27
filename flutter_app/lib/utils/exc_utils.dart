@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:fraction/fraction.dart';
+import 'package:precise_fractions/precise_fractions.dart';
 
 import '../models/input/matrix_model.dart';
 import '../models/input/solution_variable.dart';
@@ -74,7 +75,7 @@ class ExerciseUtils {
       if (inputSolution[i] != null) {
         solutionVector.add(inputSolution[i]!.toExpression(i));
       } else {
-        solutionVector.add(Scalar(value: 0.toFraction()));
+        solutionVector.add(Scalar(value: 0.toFraction().toPreciseFrac()));
       }
     }
 

@@ -2,6 +2,7 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:fraction/fraction.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
+import 'package:precise_fractions/precise_fractions.dart';
 
 import '../../main.dart';
 import '../../models/calc/calc_category.dart';
@@ -161,7 +162,7 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
                   child: Text(matrix.key),
                   onPressed: () {
                     Expression exp = Multiply(
-                      left: Scalar(value: _scalarC),
+                      left: Scalar(value: _scalarC.toPreciseFrac()),
                       right: matrix.value.toMatrix(),
                     );
 

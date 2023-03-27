@@ -46,6 +46,8 @@ dependencies:
 
   algebra_lib:
     path: ../algebra_lib
+  precise_fractions:
+    path: ../precise_fractions
   logger: ^1.3.0
   cached_network_image: ^3.2.3
 

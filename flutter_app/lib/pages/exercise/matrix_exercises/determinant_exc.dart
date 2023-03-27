@@ -4,6 +4,7 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:fraction/fraction.dart';
+import 'package:precise_fractions/precise_fractions.dart';
 
 import '../../../models/calc/calc_result.dart';
 import '../../../utils/exc_utils.dart';
@@ -93,7 +94,8 @@ class _DeterminantExcState extends State<DeterminantExc> {
     );
   }
 
-  bool isAnswerCorrect() => Scalar(value: solution) == correctSolution.result;
+  bool isAnswerCorrect() =>
+      Scalar(value: solution.toPreciseFrac()) == correctSolution.result;
 
   void generateRandomDeterminant() {
     int size = 1 + ExerciseUtils.generateSize();

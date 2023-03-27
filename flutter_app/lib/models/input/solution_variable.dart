@@ -1,5 +1,6 @@
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:fraction/fraction.dart';
+import 'package:precise_fractions/precise_fractions.dart';
 
 class VariableValue {
   final Fraction? value;
@@ -54,16 +55,16 @@ class SolutionVariable {
 
     List<Expression> paramScalar = [];
     if (solution.isEmpty) {
-      return Scalar(value: numSolution);
+      return Scalar(value: numSolution.toPreciseFrac());
     }
 
     if (numSolution != 0.toFraction()) {
-      paramScalar.add(Scalar(value: numSolution));
+      paramScalar.add(Scalar(value: numSolution.toPreciseFrac()));
     }
     solution.forEach((key, value) {
       if (value != 0.toFraction()) {
         paramScalar.add(Variable(
-          n: Scalar(value: value),
+          n: Scalar(value: value.toPreciseFrac()),
           param: key,
         ));
       }

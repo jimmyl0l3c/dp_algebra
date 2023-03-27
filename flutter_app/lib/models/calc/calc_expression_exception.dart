@@ -27,6 +27,8 @@ class CalcExpressionException implements Exception {
       message = "Vektory musí být lineárně nezávislé";
     } else if (exception is BasisSizeMismatchException) {
       message = "Počet vektorů generujících obě báze musí být stejný";
+    } else if (exception is EquationsNotSolvableException) {
+      message = "Soustava rovnic není řešitelná";
     }
 
     if (exception is DivisionByZeroException) {

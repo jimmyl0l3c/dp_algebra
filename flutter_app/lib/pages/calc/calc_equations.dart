@@ -43,18 +43,38 @@ class CalcEquations extends StatelessWidget with GetItMixin {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: ElevatedButton(
-                onPressed: () {
-                  MatrixModel m = equationMatrix;
-                  try {
-                    getIt<CalcSolutionsModel>().addSolution(
-                      CalcResult.calculate(GaussianElimination(
-                        matrix: m.toMatrix(),
-                      )),
+                onPressed: () async {
+                  Matrix m = equationMatrix.toMatrix();
+
+                  CalcResult.calculateAsync(
+                    GaussianElimination(matrix: m),
+                  )
+                      .then(
+                    (value) => getIt<CalcSolutionsModel>().addSolution(
+                      value,
                       CalcCategory.equation,
-                    );
-                  } on CalcExpressionException catch (e) {
-                    showSnackBarMessage(context, e.friendlyMessage);
-                  }
+                    ),
+                  )
+                      .catchError(
+                    (err) {
+                      if (err is CalcExpressionException) {
+                        showSnackBarMessage(context, err.friendlyMessage);
+                      } else {
+                        throw err;
+                      }
+                    },
+                  ).timeout(const Duration(seconds: 5));
+
+                  // try {
+                  //   getIt<CalcSolutionsModel>().addSolution(
+                  //     CalcResult.calculate(GaussianElimination(
+                  //       matrix: m,
+                  //     )),
+                  //     CalcCategory.equation,
+                  //   );
+                  // } on CalcExpressionException catch (e) {
+                  //   showSnackBarMessage(context, e.friendlyMessage);
+                  // }
                 },
                 child: const Text('Gaussova eliminační metoda'),
               ),
