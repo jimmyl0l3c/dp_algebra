@@ -90,6 +90,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
                   context, isAnswerCorrect() ? 'Správně' : 'Špatně');
             })
       ],
+      solution: correctSolution,
     );
   }
 

@@ -82,6 +82,7 @@ class _EquationExcState extends State<EquationExc> {
           },
         ),
       ],
+      solution: correctSolution,
     );
   }
 

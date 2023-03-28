@@ -4,7 +4,6 @@ import '../../../models/calc/calc_result.dart';
 import '../../../widgets/forms/button_row.dart';
 import '../../../widgets/layout/calc_stepper.dart';
 
-// TODO: use or remove, unused atm
 class ExerciseSolution extends StatefulWidget {
   final CalcResult solution;
 
@@ -31,8 +30,8 @@ class _ExerciseSolutionState extends State<ExerciseSolution> {
               children: [
                 ButtonRowItem(
                     child: showSolution
-                        ? const Text('Hide solution')
-                        : const Text('Show solution'),
+                        ? const Text('Skrýt postup')
+                        : const Text('Zobrazit postup'),
                     onPressed: () {
                       setState(() {
                         showSolution = !showSolution;
@@ -40,7 +39,11 @@ class _ExerciseSolutionState extends State<ExerciseSolution> {
                     })
               ]),
           const SizedBox(height: 8),
-          if (showSolution) CalcStepper(steps: widget.solution.steps),
+          if (showSolution)
+            CalcStepper(
+              key: ValueKey(widget.solution),
+              steps: widget.solution.steps,
+            ),
         ],
       ),
     );

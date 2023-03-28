@@ -62,6 +62,7 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
           },
         ),
       ],
+      solution: correctSolution,
     );
   }
 

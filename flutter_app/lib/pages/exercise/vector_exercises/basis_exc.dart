@@ -108,6 +108,7 @@ class _BasisExcState extends State<BasisExc> {
                 },
         ),
       ],
+      solution: correctSolution,
     );
   }
 

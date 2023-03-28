@@ -20,9 +20,12 @@ class LinIndependenceExc extends StatefulWidget {
 }
 
 class _LinIndependenceExcState extends State<LinIndependenceExc> {
-  final List<VectorModel> vectors = [];
-  bool isIndependent = false;
   final Random _random = Random();
+
+  final List<VectorModel> vectors = [];
+
+  bool isIndependent = false;
+  late CalcResult correctSolution;
 
   @override
   void initState() {
@@ -75,6 +78,7 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
                 },
         ),
       ],
+      solution: correctSolution,
     );
   }
 
@@ -103,10 +107,12 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
       vectors.add(combined);
     }
 
-    var independence = CalcResult.calculate(AreVectorsLinearlyIndependent(
-      vectors: vectors.map((v) => v.toVector()).toList(),
-    ));
-    isIndependent = independence.result is Boolean &&
-        (independence.result as Boolean).value;
+    correctSolution = CalcResult.calculate(
+      AreVectorsLinearlyIndependent(
+        vectors: vectors.map((v) => v.toVector()).toList(),
+      ),
+    );
+    isIndependent = correctSolution.result is Boolean &&
+        (correctSolution.result as Boolean).value;
   }
 }
