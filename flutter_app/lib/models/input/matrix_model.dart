@@ -2,6 +2,7 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:big_fraction/big_fraction.dart';
 
 import '../../utils/extensions.dart';
+import 'vector_model.dart';
 
 class MatrixModel {
   List<List<BigFraction>> _matrix =
@@ -142,4 +143,7 @@ class MatrixModel {
         rowCount: rows,
         columnCount: columns,
       );
+
+  List<VectorModel> toVectorModels() =>
+      _matrix.map((r) => VectorModel.fromList(r)).toList();
 }

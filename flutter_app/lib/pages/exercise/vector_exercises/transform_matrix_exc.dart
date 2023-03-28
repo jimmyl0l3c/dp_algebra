@@ -2,8 +2,6 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
-import '../../../main.dart';
-import '../../../models/calc/calc_expression_exception.dart';
 import '../../../models/calc/calc_result.dart';
 import '../../../models/input/matrix_model.dart';
 import '../../../models/input/vector_model.dart';
@@ -88,6 +86,7 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
                 },
         ),
       ],
+      solution: correctSolution,
     );
   }
 
@@ -95,29 +94,32 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
     basisA.clear();
     basisB.clear();
 
-    int vectorLength = ExerciseUtils.generateSize(min: 2);
-    int vectorCount = ExerciseUtils.generateSize(min: 2);
+    while (true) {
+      try {
+        int vectorCount = ExerciseUtils.generateSize(min: 2, max: 3);
+        int vectorLength = ExerciseUtils.generateSize(min: vectorCount);
 
-    basisA.addAll(ExerciseUtils.generateBasis(
-      vectorLength: vectorLength,
-      basisLength: vectorCount,
-    ));
-    basisB.addAll(ExerciseUtils.generateBasis(
-      vectorLength: vectorLength,
-      basisLength: vectorCount,
-    ));
+        var basisA = ExerciseUtils.generateBasis(
+          vectorLength: vectorLength,
+          basisLength: vectorCount,
+        );
 
-    try {
-      correctSolution = CalcResult.calculate(TransformMatrix(
-        basisA: ExpressionSet(items: basisA.map((v) => v.toVector()).toSet()),
-        basisB: ExpressionSet(items: basisB.map((v) => v.toVector()).toSet()),
-      ));
-      // TODO: change this when TransformMatrix is properly tested
-      print(correctSolution.result.toTeX());
-    } on Exception catch (e) {
-      logger.e(e.toString());
-      if (e is CalcExpressionException) {
-        logger.e(e.friendlyMessage);
+        var basisB = ExerciseUtils.generateBasis(
+          vectorLength: vectorLength,
+          basisLength: vectorCount,
+        );
+
+        correctSolution = CalcResult.calculate(TransformMatrix(
+          basisA: ExpressionSet(items: basisA.map((v) => v.toVector()).toSet()),
+          basisB: ExpressionSet(items: basisB.map((v) => v.toVector()).toSet()),
+        ));
+
+        this.basisA.addAll(basisA);
+        this.basisB.addAll(basisB);
+
+        break;
+      } on Exception {
+        // TODO: Add a fallback for the case when unable to generate for too long
       }
     }
   }
