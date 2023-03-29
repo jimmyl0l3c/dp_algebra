@@ -25,6 +25,7 @@ class _EquationExcState extends State<EquationExc> {
 
   late Expression exercise;
   CalcResult? correctSolution;
+  CalcResult? isSolvable;
   int variableCount = 0;
 
   Map<int, SolutionVariable> solution = {};
@@ -82,7 +83,8 @@ class _EquationExcState extends State<EquationExc> {
           },
         ),
       ],
-      solution: correctSolution,
+      solution: correctSolution ?? isSolvable,
+      strSolution: correctSolution == null ? "Soustava nemá řešení" : null,
     );
   }
 
@@ -134,7 +136,7 @@ class _EquationExcState extends State<EquationExc> {
 
   void _setExercise(Matrix matrix, Vector vectorY) {
     variableCount = matrix.columnCount;
-    var isSolvable = CalcResult.calculate(
+    isSolvable = CalcResult.calculate(
       IsSolvable(matrix: matrix, vectorY: vectorY),
     );
 
@@ -142,7 +144,8 @@ class _EquationExcState extends State<EquationExc> {
       matrix: Matrix.toEquationMatrix(matrix, vectorY),
     );
 
-    if (isSolvable.result is Boolean && (isSolvable.result as Boolean).value) {
+    if (isSolvable?.result is Boolean &&
+        (isSolvable!.result as Boolean).value) {
       correctSolution = CalcResult.calculate(exercise);
     } else {
       correctSolution = null;

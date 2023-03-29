@@ -10,6 +10,7 @@ class ExercisePage extends StatelessWidget {
   final Widget? result;
   final List<ButtonRowItem> resolveButtons;
   final CalcResult? solution;
+  final String? strSolution;
 
   const ExercisePage({
     Key? key,
@@ -18,6 +19,7 @@ class ExercisePage extends StatelessWidget {
     this.result,
     required this.resolveButtons,
     this.solution,
+    this.strSolution,
   }) : super(key: key);
 
   @override
@@ -67,7 +69,11 @@ class ExercisePage extends StatelessWidget {
                 ),
                 children: resolveButtons,
               ),
-              if (solution != null) ExerciseSolution(solution: solution!),
+              if (solution != null || strSolution != null)
+                ExerciseSolution(
+                  solution: solution,
+                  strSolution: strSolution,
+                ),
             ],
           ),
         ),

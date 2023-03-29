@@ -5,9 +5,14 @@ import '../../../widgets/forms/button_row.dart';
 import '../../../widgets/layout/calc_stepper.dart';
 
 class ExerciseSolution extends StatefulWidget {
-  final CalcResult solution;
+  final CalcResult? solution;
+  final String? strSolution;
 
-  const ExerciseSolution({Key? key, required this.solution}) : super(key: key);
+  const ExerciseSolution({
+    Key? key,
+    this.solution,
+    this.strSolution,
+  }) : super(key: key);
 
   @override
   State<ExerciseSolution> createState() => _ExerciseSolutionState();
@@ -39,10 +44,15 @@ class _ExerciseSolutionState extends State<ExerciseSolution> {
                     })
               ]),
           const SizedBox(height: 8),
-          if (showSolution)
+          if (showSolution && widget.solution != null)
             CalcStepper(
               key: ValueKey(widget.solution),
-              steps: widget.solution.steps,
+              steps: widget.solution!.steps,
+            ),
+          if (showSolution && widget.strSolution != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: Text(widget.strSolution!),
             ),
         ],
       ),

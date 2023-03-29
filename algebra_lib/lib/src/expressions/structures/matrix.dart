@@ -26,7 +26,6 @@ class Matrix implements Expression {
 
   Expression operator [](int i) => rows[i];
 
-  @Deprecated("Add vectors to rows directly, if vertical, do transpose")
   factory Matrix.fromVectors(List<Vector> vectors, {bool vertical = false}) {
     if (vectors.isNotEmpty &&
         vectors.any((v) => v.length() != vectors.first.length())) {

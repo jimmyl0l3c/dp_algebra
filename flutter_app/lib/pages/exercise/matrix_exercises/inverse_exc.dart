@@ -2,6 +2,7 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
+import '../../../models/calc/calc_expression_exception.dart';
 import '../../../models/calc/calc_result.dart';
 import '../../../models/input/matrix_model.dart';
 import '../../../utils/exc_utils.dart';
@@ -22,6 +23,7 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
 
   late Expression exercise;
   CalcResult? correctSolution;
+  String? strSolution;
 
   @override
   void initState() {
@@ -63,6 +65,7 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
         ),
       ],
       solution: correctSolution,
+      strSolution: strSolution,
     );
   }
 
@@ -76,8 +79,10 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
 
     try {
       correctSolution = CalcResult.calculate(exercise);
-    } on ExpressionException {
-      correctSolution = null;
+      strSolution = null;
+    } on CalcExpressionException {
+      correctSolution = CalcResult.calculate(Determinant(det: matrix));
+      strSolution = "Inverzní matice k zadané matici neexistuje";
     }
   }
 }
