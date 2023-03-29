@@ -2,6 +2,7 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
+import '../../../models/calc/calc_expression_exception.dart';
 import '../../../models/calc/calc_result.dart';
 import '../../../models/input/vector_model.dart';
 import '../../../utils/exc_utils.dart';
@@ -126,11 +127,26 @@ class _BasisExcState extends State<BasisExc> {
   }
 
   bool _isAnswerCorrect() {
-    var solutionSet = ExpressionSet(
-      items: solution.map((v) => v.toVector()).toSet(),
-    );
     var correctSet = correctSolution.result as ExpressionSet;
 
-    return solutionSet == correctSet;
+    if (correctSet.length() != solution.length) {
+      return false;
+    }
+
+    try {
+      var solutionMatrix = CalcResult.calculate(
+        Reduce(
+          exp: Triangular(
+            matrix: Matrix.fromVectors(
+              solution.map((v) => v.toVector()).toList(),
+            ),
+          ),
+        ),
+      ).result as Matrix;
+
+      return ExpressionSet(items: solutionMatrix.rows.toSet()) == correctSet;
+    } on CalcExpressionException {
+      return false;
+    }
   }
 }

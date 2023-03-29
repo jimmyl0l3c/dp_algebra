@@ -2,13 +2,6 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:big_fraction/big_fraction.dart';
 
 void main() {
-  // \begin{pmatrix}
-  // -13 & -2 & 9 \\
-  // 4 & 9 & -13 \\
-  // 9 & 8 & -8 \\
-  // 8 & -1 & -13
-  // \end{pmatrix}
-  // \begin{pmatrix} 13 & -8 & -2 & 2 \end{pmatrix}
   var m = Matrix(
     rows: [
       Vector(items: [

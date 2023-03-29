@@ -26,5 +26,11 @@ class Scalar implements Expression {
   }
 
   @override
-  int get hashCode => value.hashCode;
+  int get hashCode {
+    if (value == BigFraction.one()) {
+      return BigFraction.one().hashCode;
+    }
+
+    return value.hashCode;
+  }
 }

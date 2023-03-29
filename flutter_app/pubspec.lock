@@ -20,10 +20,10 @@ packages:
     dependency: "direct main"
     description:
       name: big_fraction
-      sha256: f43fee487022e0c67666b1a9d218223a4a49560c0bf1948568c905104bc19dfc
+      sha256: "247ac5a9c6c20a3517c5c1f83fff6e25485cbf6014699f9b356e874e7763be0f"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "5.0.1"
   boolean_selector:
     dependency: transitive
     description:
