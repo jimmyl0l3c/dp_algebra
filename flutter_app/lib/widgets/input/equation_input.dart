@@ -59,10 +59,18 @@ class _EquationInputState extends State<EquationInput> {
                   ),
                 ),
               ],
-              child: Math.tex(
-                'x_{$j}',
-                textScaleFactor: 1.4,
-                mathStyle: MathStyle.text,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  minWidth: 25,
+                  minHeight: 30,
+                ),
+                child: Center(
+                  child: Math.tex(
+                    'x_{$j}',
+                    textScaleFactor: 1.4,
+                    mathStyle: MathStyle.text,
+                  ),
+                ),
               ),
             ),
           ));
@@ -89,10 +97,18 @@ class _EquationInputState extends State<EquationInput> {
                   ),
                 ),
               ],
-              child: Math.tex(
-                'y_{$i}',
-                textScaleFactor: 1.4,
-                mathStyle: MathStyle.text,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  minWidth: 25,
+                  minHeight: 30,
+                ),
+                child: Center(
+                  child: Math.tex(
+                    'y_{$i}',
+                    textScaleFactor: 1.4,
+                    mathStyle: MathStyle.text,
+                  ),
+                ),
               ),
             ),
           ));
