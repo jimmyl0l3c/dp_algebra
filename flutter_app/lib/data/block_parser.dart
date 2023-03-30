@@ -83,8 +83,8 @@ class BlockParser {
         isMath = !isMath;
         continue;
       } else if (segment.contains(RegExp(r'\\(cite|ref){[a-zA-Z:\-_,]+}'))) {
-        var refMatch = RegExp(r'\\(?<type>(cite|ref)){(?<ref>[a-zA-Z:\-_,]+)}')
-            .firstMatch(segment);
+        var refMatch =
+            RegExp(r'\\(cite|ref){([a-zA-Z:\-_,]+)}').firstMatch(segment);
 
         // Fix previous segment if the citation is inside math segment
         if (isMath &&
@@ -98,14 +98,14 @@ class BlockParser {
         }
 
         if (refMatch != null) {
-          if (refMatch.namedGroup('type') == 'cite') {
+          if (refMatch.group(1) == 'cite') {
             blockContent.add(LLitRefSegment(
-              content: refMatch.namedGroup('ref') ?? 'unknown',
+              content: refMatch.group(2) ?? 'unknown',
             ));
-          } else if (refMatch.namedGroup('type') == 'ref') {
+          } else if (refMatch.group(1) == 'ref') {
             blockContent.add(LBlockRefSegment(
               refType: LBlockReferenceType.block,
-              content: refMatch.namedGroup('ref') ?? 'unknown',
+              content: refMatch.group(2) ?? 'unknown',
             ));
           }
         }
