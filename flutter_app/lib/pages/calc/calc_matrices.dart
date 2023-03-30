@@ -95,6 +95,7 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
               itemCount: solutions.length,
               reverse: true,
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
             ),
           ],
         ),
