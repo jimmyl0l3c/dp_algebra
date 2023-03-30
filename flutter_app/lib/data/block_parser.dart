@@ -56,6 +56,29 @@ class BlockParser {
 
       if (item.isEmpty) continue;
 
+      var tabularRegex =
+          RegExp(r"\\begin{tabular}{\s*m{(\d+)(\w+)}\s*l?}(.*?)\\end{tabular}");
+      var tabularMatch = tabularRegex.firstMatch(item);
+      if (tabularMatch != null) {
+        List<LBlockSegment> tabularCells = [];
+
+        // TODO: use the width unit (group 2)
+        for (var tabularCell in tabularMatch.group(3)!.split(r"&")) {
+          tabularCell = tabularCell.trim();
+          if (tabularCell.endsWith(r"\\")) {
+            tabularCell = tabularCell.substring(0, tabularCell.length - 2);
+          }
+          tabularCells.add(LBlockTabularCellSegment(
+            content: tabularMatch.group(3)!,
+            cells: _parseTextContent(tabularCell),
+            width: int.parse(tabularMatch.group(1)!),
+          ));
+        }
+
+        content.add(LBlockParagraphContent(content: tabularCells));
+        continue;
+      }
+
       content.add(
         LBlockParagraphContent(
           content: _parseTextContent(item),

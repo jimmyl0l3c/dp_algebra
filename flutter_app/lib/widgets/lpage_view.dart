@@ -234,6 +234,22 @@ class LPageView extends StatelessWidget {
             ),
           );
           break;
+        case LBlockSegmentType.tabular:
+          if (segment is! LBlockTabularCellSegment || segment.cells.isEmpty) {
+            continue;
+          }
+          segments[segments.length - 1].add(
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: 50 * segment.width.toDouble(),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: _getParagraphContent(segment.cells, context).first,
+              ),
+            ),
+          );
+          break;
       }
 
       if (segment.type == LBlockSegmentType.displayMath) segments.add([]);

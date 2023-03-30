@@ -30,6 +30,17 @@ class LBlockRefSegment extends LBlockSegment {
       : super(type: LBlockSegmentType.reference, content: content);
 }
 
+class LBlockTabularCellSegment extends LBlockSegment {
+  final List<LBlockSegment> cells;
+  final int width;
+
+  LBlockTabularCellSegment({
+    required String content,
+    required this.cells,
+    required this.width,
+  }) : super(type: LBlockSegmentType.tabular, content: content);
+}
+
 class LBlockContent {
   final LBlockContentType type;
 
@@ -55,6 +66,7 @@ enum LBlockSegmentType {
   displayMath,
   reference,
   literatureReference,
+  tabular,
 }
 
 enum LBlockContentType {
