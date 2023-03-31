@@ -10,8 +10,9 @@ import '../models/db/learn_page.dart';
 import '../models/db/learn_ref.dart';
 import '../models/learn/block_content.dart';
 import '../routing/route_state.dart';
-import '../utils/get_dialog_route.dart';
 import 'layout/bullet_list.dart';
+import 'layout/display_math_wrap.dart';
+import 'literature_citation.dart';
 
 class LPageView extends StatelessWidget {
   final LPage page;
@@ -121,12 +122,12 @@ class LPageView extends StatelessWidget {
 
       switch (segment.type) {
         case LBlockSegmentType.text:
-          segments[segments.length - 1].addAll(segment.content.split(' ').map(
+          segments.last.addAll(segment.content.split(' ').map(
                 (e) => Text('$e ', style: theme.textTheme.bodyMedium),
               ));
           break;
         case LBlockSegmentType.inlineMath:
-          segments[segments.length - 1].add(
+          segments.last.add(
             Math.tex(
               segment.content,
               textScaleFactor: 1.2,
@@ -136,25 +137,14 @@ class LPageView extends StatelessWidget {
           );
           break;
         case LBlockSegmentType.displayMath:
-          segments[segments.length - 1].add(
-            Wrap(
-              direction: Axis.horizontal,
-              alignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              runAlignment: WrapAlignment.center,
-              runSpacing: 8.0,
-              children: Math.tex(
-                segment.content,
-                textScaleFactor: 1.4,
-                mathStyle: MathStyle.display,
-              ).texBreak().parts,
-            ),
+          segments.last.add(
+            DisplayMathWrap(content: segment.content),
           );
           break;
         case LBlockSegmentType.reference:
           if ((segment as LBlockRefSegment).refType ==
               LBlockReferenceType.block) {
-            segments[segments.length - 1].add(
+            segments.last.add(
               FutureBuilder(
                 future: dbService.fetchReference(segment.content),
                 builder: (context, snapshot) {
@@ -189,56 +179,39 @@ class LPageView extends StatelessWidget {
           }
           break;
         case LBlockSegmentType.literatureReference:
-          segments[segments.length - 1].add(
-            FutureBuilder(
-              future: (segment as LLitRefSegment).references,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting ||
-                    !snapshot.hasData ||
-                    snapshot.data == null ||
-                    snapshot.data!.isEmpty) {
-                  return const Text('(...)');
-                }
+          if (segments.last.isEmpty) {
+            // Citation on an empty line (it was probably inside display math)
+            var previous = segments[segments.length - 2].removeLast();
+            if (previous is DisplayMathWrap) {
+              segments[segments.length - 2].add(
+                DisplayMathWrap(
+                  content: previous.content,
+                  citation: segment as LLitRefSegment,
+                ),
+              );
+            } else {
+              segments[segments.length - 2].add(
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    previous,
+                    LiteratureCitation(segment: segment as LLitRefSegment),
+                  ],
+                ),
+              );
+            }
+            continue;
+          }
 
-                String citation = snapshot.data!
-                    .map((e) => e.harvardCitation)
-                    .toList()
-                    .join("; ");
-
-                return TextButton(
-                  style: const ButtonStyle(
-                    minimumSize: MaterialStatePropertyAll(Size.zero),
-                    padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                  ),
-                  onPressed: () => Navigator.of(context).push(
-                    getDialogRoute(
-                      context,
-                      'Detail citace',
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: snapshot.data!
-                            .map((e) => SelectableText(e.fullCitation))
-                            .toList(),
-                      ),
-                    ),
-                  ),
-                  child: Text(
-                    '($citation)',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.secondary,
-                    ),
-                  ),
-                );
-              },
-            ),
+          segments.last.add(
+            LiteratureCitation(segment: segment as LLitRefSegment),
           );
           break;
         case LBlockSegmentType.tabular:
           if (segment is! LBlockTabularCellSegment || segment.cells.isEmpty) {
             continue;
           }
-          segments[segments.length - 1].add(
+          segments.last.add(
             ConstrainedBox(
               constraints: BoxConstraints(
                 minWidth: 50 * segment.width.toDouble(),

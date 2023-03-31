@@ -145,7 +145,9 @@ class BlockParser {
 
       if (segment.contains(r'$')) continue;
 
-      if (RegExp(r'\\text\{\s*\}').hasMatch(segment.trim())) continue;
+      if (RegExp(r'\\text\{\s*\}').hasMatch(segment.trim())) {
+        continue;
+      }
 
       blockContent.add(
         LBlockSegment(
