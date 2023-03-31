@@ -177,6 +177,7 @@ class RefLabel(models.Model):
 class LearnImage(models.Model):
     ref_name = models.CharField(max_length=50, unique=True)
     image = models.ImageField(upload_to=f'learn_images')
+    number = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.ref_name
