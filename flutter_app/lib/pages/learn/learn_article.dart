@@ -35,12 +35,13 @@ class LearnArticle extends StatelessWidget {
             title = snapshot.data!.title;
 
             List<LPage> pages = snapshot.data!.pages;
+            var articleId = snapshot.data!.id;
 
             if (pages.length >= currentPage + 1) {
               forwardButton = FloatingActionButton(
                 onPressed: () {
                   routeState.go(
-                    '/chapter/$currentChapter/${snapshot.data!.id}/${currentPage + 1}',
+                    '/chapter/$currentChapter/$articleId/${currentPage + 1}',
                   );
                 },
                 child: const Icon(
@@ -54,7 +55,7 @@ class LearnArticle extends StatelessWidget {
               backwardButton = FloatingActionButton(
                 onPressed: () {
                   routeState.go(
-                    '/chapter/$currentChapter/${snapshot.data!.id}/${currentPage - 1}',
+                    '/chapter/$currentChapter/$articleId/${currentPage - 1}',
                   );
                 },
                 child: const Icon(
