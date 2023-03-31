@@ -26,6 +26,7 @@ RUN addgroup --system app && adduser --system --group app
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
 RUN mkdir $APP_HOME
+RUN mkdir -p $APP_HOME/user_files/learn_images
 WORKDIR $APP_HOME
 
 # install dependencies

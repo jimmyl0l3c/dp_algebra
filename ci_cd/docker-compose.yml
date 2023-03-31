@@ -19,7 +19,7 @@ services:
     container_name: algebra_api
     command: bash -c 'python manage.py collectstatic; while !</dev/tcp/db/5432; do sleep 1; done; python manage.py runserver 0.0.0.0:5001'
     volumes:
-      - backend_user_data:/home/app/web/user_files/
+      - backend_user_data:/home/app/web/user_files/:z
     expose:
       - 5001
     environment:
