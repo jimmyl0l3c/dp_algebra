@@ -4,6 +4,7 @@ import 'package:flutter_math_fork/flutter_math.dart';
 
 import '../../main.dart';
 import '../forms/button_row.dart';
+import 'horizontally_scrollable.dart';
 
 class CalcStepper extends StatefulWidget {
   final List<Expression> steps;
@@ -100,22 +101,11 @@ class _CalcStepperState extends State<CalcStepper> {
                   _stepToTeX(widget.steps[step]),
                   mathStyle: MathStyle.display,
                   textScaleFactor: 1.2,
-                ).texBreak().parts.map((e) {
-                  ScrollController scrollController = ScrollController();
-                  return Scrollbar(
-                    thumbVisibility: true,
-                    interactive: true,
-                    controller: scrollController,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      controller: scrollController,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      clipBehavior: Clip.antiAlias,
-                      padding: const EdgeInsets.only(bottom: 12.0),
-                      child: e,
-                    ),
-                  );
-                }).toList(),
+                )
+                  .texBreak()
+                  .parts
+                  .map((e) => HorizontallyScrollable(child: e))
+                  .toList(),
         ),
         // TODO: add hint (what operation is being done)
       ],

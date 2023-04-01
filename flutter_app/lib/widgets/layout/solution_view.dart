@@ -10,6 +10,7 @@ import '../../models/input/matrix_model.dart';
 import '../../models/input/vector_model.dart';
 import '../../utils/utils.dart';
 import 'calc_stepper.dart';
+import 'horizontally_scrollable.dart';
 
 class SolutionView extends StatefulWidget {
   final CalcResult solution;
@@ -55,7 +56,11 @@ class _SolutionViewState extends State<SolutionView> {
                           TexFlags.dontEnclose,
                         })}=${widget.solution.result.toTeX()}',
                     textScaleFactor: 1.4,
-                  ).texBreak().parts,
+                  )
+                      .texBreak()
+                      .parts
+                      .map((e) => HorizontallyScrollable(child: e))
+                      .toList(),
                 ),
               ),
               PopupMenuButton<SolutionOptions>(
