@@ -33,7 +33,7 @@ class InlineBlockTranslation(admin.StackedInline):
 
 @admin.register(Block)
 class BlockAdmin(admin.ModelAdmin):
-    list_display = ('page', 'id', 'order', 'number')
+    list_display = ('page', 'id', 'order', 'number', 'type')
     inlines = [InlineBlockTranslation]
     readonly_fields = ['number']
 
@@ -45,7 +45,7 @@ class InlineBlockTypeTranslation(admin.TabularInline):
 
 @admin.register(BlockType)
 class BlockTypeAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'id', 'show_title', 'enumerated')
+    list_display = ('__str__', 'id', 'show_title', 'enumerated', 'figure')
     inlines = [InlineBlockTypeTranslation]
 
 

@@ -1,5 +1,4 @@
 import os.path
-import re
 
 from django.db.models import F
 from django.http import HttpRequest, JsonResponse, FileResponse
@@ -107,13 +106,7 @@ def get_reference_view(request: HttpRequest):
         if not ref.exists():
             return JsonResponse({'error': 'Reference not found'}, status=404)
 
-        output = {**ref.get()}
-        if re.match(r"fig:.*", str(request.GET['ref_name'])):
-            img = LearnImage.objects.filter(ref_name__iexact=request.GET['ref_name']).values('ref_name', 'number')
-            if img.exists():
-                output['block_number'] = img.get()['number']
-
-        return JsonResponse(output)
+        return JsonResponse({**ref.get()})
     else:
         return JsonResponse({'reference': list(RefLabel.objects.all().values(*values_args, **values_kwargs))})
 

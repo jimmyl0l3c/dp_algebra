@@ -84,6 +84,7 @@ class Page(models.Model):
 class BlockType(models.Model):
     show_title = models.BooleanField(db_index=True)
     enumerated = models.BooleanField(db_index=True)
+    figure = models.BooleanField(db_index=True)
 
     def __str__(self):
         type_translation = BlockType.objects.filter(pk=self.pk).values(
@@ -113,6 +114,8 @@ class Block(models.Model):
         if self.type.enumerated and not Block.objects.filter(pk=self.pk).exists():
             self.number = Block.objects.filter(type__enumerated=True).count() + 1
         # TODO: recalculate numbers if the object was not numerated before and should be now
+        if self.type.figure and not Block.objects.filter(pk=self.pk).exists():
+            self.number = Block.objects.filter(type__figure=True).count() + 1
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -177,7 +180,6 @@ class RefLabel(models.Model):
 class LearnImage(models.Model):
     ref_name = models.CharField(max_length=50, unique=True)
     image = models.ImageField(upload_to=f'learn_images')
-    number = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.ref_name
