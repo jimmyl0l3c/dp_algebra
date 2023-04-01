@@ -4,6 +4,7 @@ import 'package:flutter_math_fork/flutter_math.dart';
 
 import '../../models/input/matrix_model.dart';
 import '../forms/button_row.dart';
+import '../hint.dart';
 import 'fraction_input.dart';
 
 class EquationInput extends StatefulWidget {
@@ -142,26 +143,34 @@ class _EquationInputState extends State<EquationInput> {
                   children: eqWidgets[r],
                 ),
               ),
-            ButtonRow(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 16,
-              ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                ButtonRowItem(
-                    child: const Text('+ Rovnice'),
-                    onPressed: () {
-                      setState(() {
-                        widget.matrix.addRow();
-                      });
-                    }),
-                ButtonRowItem(
-                    child: const Text('+ Neznámá'),
-                    onPressed: () {
-                      setState(() {
-                        widget.matrix.addColumn();
-                      });
-                    }),
+                ButtonRow(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
+                  children: [
+                    ButtonRowItem(
+                        child: const Text('+ Rovnice'),
+                        onPressed: () {
+                          setState(() {
+                            widget.matrix.addRow();
+                          });
+                        }),
+                    ButtonRowItem(
+                        child: const Text('+ Neznámá'),
+                        onPressed: () {
+                          setState(() {
+                            widget.matrix.addColumn();
+                          });
+                        }),
+                  ],
+                ),
+                const SizedBox(width: 8),
+                const Hint(
+                    "Kliknutím na název proměnné lze odebrat rovnici/neznámou (pokud je rovnic/neznámých >2)"),
               ],
             )
           ],

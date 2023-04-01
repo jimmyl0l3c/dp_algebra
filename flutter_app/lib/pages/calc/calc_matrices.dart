@@ -456,37 +456,40 @@ class _MatrixBinOperationSelectionState
                   },
             child: const Text('='),
           ),
-          TextButton(
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all(const CircleBorder()),
-              backgroundColor: MaterialStateProperty.resolveWith((states) {
-                if (states.contains(MaterialState.disabled)) {
-                  return Colors.white12;
-                }
-                if (states.contains(MaterialState.pressed)) {
-                  return Colors.deepPurpleAccent[100];
-                }
-                if (states.contains(MaterialState.hovered) ||
-                    states.contains(MaterialState.focused)) {
-                  return Colors.deepPurpleAccent;
-                }
-                return Theme.of(context).colorScheme.primary;
-              }),
-            ),
-            onPressed: (_binaryLeft == null && _binaryRight == null)
-                ? null
-                : () {
-                    if (_binaryLeft == _binaryRight) return;
-                    setState(() {
-                      String? tmp = _binaryLeft;
-                      _binaryLeft = _binaryRight;
-                      _binaryRight = tmp;
-                    });
-                  },
-            child: Icon(
-              Icons.autorenew_rounded,
-              color: Theme.of(context).colorScheme.onPrimary,
-              size: 20.0,
+          Tooltip(
+            message: "Vyměnit matice",
+            child: TextButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(const CircleBorder()),
+                backgroundColor: MaterialStateProperty.resolveWith((states) {
+                  if (states.contains(MaterialState.disabled)) {
+                    return Colors.white12;
+                  }
+                  if (states.contains(MaterialState.pressed)) {
+                    return Colors.deepPurpleAccent[100];
+                  }
+                  if (states.contains(MaterialState.hovered) ||
+                      states.contains(MaterialState.focused)) {
+                    return Colors.deepPurpleAccent;
+                  }
+                  return Theme.of(context).colorScheme.primary;
+                }),
+              ),
+              onPressed: (_binaryLeft == null && _binaryRight == null)
+                  ? null
+                  : () {
+                      if (_binaryLeft == _binaryRight) return;
+                      setState(() {
+                        String? tmp = _binaryLeft;
+                        _binaryLeft = _binaryRight;
+                        _binaryRight = tmp;
+                      });
+                    },
+              child: Icon(
+                Icons.autorenew_rounded,
+                color: Theme.of(context).colorScheme.onPrimary,
+                size: 20.0,
+              ),
             ),
           ),
         ],

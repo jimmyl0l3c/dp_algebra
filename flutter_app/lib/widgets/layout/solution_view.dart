@@ -43,6 +43,7 @@ class _SolutionViewState extends State<SolutionView> {
                 },
                 icon: const Icon(Icons.calculate),
                 splashRadius: 20,
+                tooltip: showSteps ? "Skrýt postup" : "Zobrazit postup",
               ),
               Expanded(
                 child: Wrap(
@@ -124,6 +125,7 @@ class _SolutionViewState extends State<SolutionView> {
                       child: Text('Smazat'),
                     ),
                 ],
+                tooltip: "Možnosti",
               ), // placeholder
             ],
           ),

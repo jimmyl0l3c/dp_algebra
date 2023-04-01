@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/input/matrix_model.dart';
 import '../forms/button_row.dart';
+import '../hint.dart';
 import 'fraction_input.dart';
 
 class MatrixInput extends StatefulWidget {
@@ -37,6 +38,7 @@ class _MatrixInputState extends State<MatrixInput> {
                 if (widget.name != null) Text(widget.name!),
                 MenuAnchor(
                   builder: (context, controller, child) => IconButton(
+                    tooltip: "Upravit matici",
                     onPressed: () {
                       if (controller.isOpen) {
                         controller.close();
@@ -104,6 +106,9 @@ class _MatrixInputState extends State<MatrixInput> {
                       child: const Text("Sloupec"),
                     ),
                   ],
+                ),
+                const Hint(
+                  "Hodnoty lze pro lepší přesnost zadávat ve zlomcích, např. 1/2",
                 ),
               ],
             ),

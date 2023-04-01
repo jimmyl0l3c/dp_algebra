@@ -8,17 +8,19 @@ class StyledPopupButton<T> extends StatelessWidget {
   final AlignmentGeometry? valueAlignment;
   final double? maxWidth;
   final bool? isExpanded;
+  final String? tooltip;
 
-  const StyledPopupButton({
-    Key? key,
-    this.onSelected,
-    this.child,
-    this.placeholder,
-    required this.itemBuilder,
-    this.valueAlignment,
-    this.maxWidth,
-    this.isExpanded,
-  }) : super(key: key);
+  const StyledPopupButton(
+      {Key? key,
+      this.onSelected,
+      this.child,
+      this.placeholder,
+      required this.itemBuilder,
+      this.valueAlignment,
+      this.maxWidth,
+      this.isExpanded,
+      this.tooltip})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class StyledPopupButton<T> extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
         // alignment: Alignment.center,
         itemBuilder: itemBuilder,
+        tooltip: tooltip,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

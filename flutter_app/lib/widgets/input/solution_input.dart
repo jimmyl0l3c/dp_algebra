@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/input/solution_variable.dart';
+import '../hint.dart';
 import 'decorate_vector_input.dart';
 import 'solution_value_input.dart';
 
@@ -30,7 +31,16 @@ class _SolutionInputState extends State<SolutionInput> {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: Text(widget.name),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(widget.name),
+                  const SizedBox(width: 8.0),
+                  const Hint(
+                    "Pokud má soustava více řešení, zadejte řešení parametricky, např. (x0, 2x0+1)",
+                  ),
+                ],
+              ),
             ),
             Wrap(
               direction: Axis.horizontal,

@@ -14,6 +14,7 @@ import '../../utils/calc_utils.dart';
 import '../../utils/utils.dart';
 import '../../widgets/forms/styled_dropdown.dart';
 import '../../widgets/forms/styled_popup.dart';
+import '../../widgets/hint.dart';
 import '../../widgets/input/vector_input.dart';
 import '../../widgets/layout/solution_view.dart';
 
@@ -89,6 +90,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                         ),
                     ],
                     child: vectorSelectionString(independenceSelection),
+                    tooltip: "Zvolte vektory",
                   ),
                   const SizedBox(width: 8.0),
                   ElevatedButton(
@@ -145,6 +147,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                         ),
                     ],
                     child: vectorSelectionString(baseSelection),
+                    tooltip: "Zvolte vektory generující bázi",
                   ),
                   const SizedBox(width: 8.0),
                   ElevatedButton(
@@ -249,9 +252,16 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            'Transformace souřadnic',
-            style: Theme.of(context).textTheme.headlineSmall!,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Transformace souřadnic',
+                style: Theme.of(context).textTheme.headlineSmall!,
+              ),
+              const SizedBox(width: 8),
+              const Hint("Výpočet transformace souřadnic od báze A k bázi B"),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -276,6 +286,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                   ],
                   placeholder: 'Báze A',
                   child: vectorSelectionString(transformA),
+                  tooltip: "Zvolte vektory báze A",
                 ),
                 const SizedBox(width: 8.0),
                 StyledPopupButton<int>(
@@ -292,6 +303,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                   ],
                   placeholder: 'Báze B',
                   child: vectorSelectionString(transformB),
+                  tooltip: "Zvolte vektory báze B",
                 ),
                 const SizedBox(width: 8.0),
                 ElevatedButton(

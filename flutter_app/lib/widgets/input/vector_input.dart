@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/input/vector_model.dart';
 import '../forms/button_row.dart';
+import '../hint.dart';
 import 'decorate_vector_input.dart';
 import 'fraction_input.dart';
 
@@ -45,6 +46,9 @@ class _VectorInputState extends State<VectorInput> {
                         splashRadius: 15.0,
                         color: Colors.redAccent,
                       ),
+                    const Hint(
+                      "Hodnoty lze pro lepší přesnost zadávat ve zlomcích, např. 1/2",
+                    )
                   ],
                 ),
               ),
