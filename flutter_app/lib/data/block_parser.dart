@@ -149,6 +149,19 @@ class BlockParser {
         continue;
       }
 
+      // If segment starts with [.,], add it to previous segment
+      if (segment.startsWith(RegExp(r"[.,]")) &&
+          (blockContent.last.type == LBlockSegmentType.text ||
+              blockContent.last.type == LBlockSegmentType.inlineMath)) {
+        var previous = blockContent.removeLast();
+        blockContent.add(LBlockSegment(
+          type: previous.type,
+          content: '${previous.content}${segment[0]}',
+        ));
+
+        segment = segment.substring(1);
+      }
+
       blockContent.add(
         LBlockSegment(
           type: isMath

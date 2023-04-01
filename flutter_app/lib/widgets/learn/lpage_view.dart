@@ -101,8 +101,11 @@ class LPageView extends StatelessWidget {
 
       switch (segment.type) {
         case LBlockSegmentType.text:
-          segments.last.addAll(segment.content.split(' ').map(
-                (e) => Text('$e ', style: theme.textTheme.bodyMedium),
+          segments.last.addAll(segment.content.split(RegExp(r' (?=\S)')).map(
+                (e) => Text(
+                  '${e.trimRight()} ',
+                  style: theme.textTheme.bodyMedium,
+                ),
               ));
           break;
         case LBlockSegmentType.inlineMath:
@@ -173,6 +176,9 @@ class LPageView extends StatelessWidget {
             continue;
           }
 
+          if (segments.last.isNotEmpty && segments.last.last is Math) {
+            segments.last.add(Text(' ', style: theme.textTheme.bodyMedium));
+          }
           segments.last.add(
             LiteratureCitation(segment: segment as LLitRefSegment),
           );
