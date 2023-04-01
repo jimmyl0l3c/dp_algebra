@@ -111,7 +111,7 @@ class Block(models.Model):
 
     def save(self, *args, **kwargs):
         if self.type.enumerated and not Block.objects.filter(pk=self.pk).exists():
-            self.number = Block.objects.filter(type__gt=1).count() + 1
+            self.number = Block.objects.filter(type__enumerated=True).count() + 1
         # TODO: recalculate numbers if the object was not numerated before and should be now
         super().save(*args, **kwargs)
 
