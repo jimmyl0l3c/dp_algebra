@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
 import '../../models/learn/block_content.dart';
-import '../literature_citation.dart';
+import '../learn/literature_citation.dart';
 
 class DisplayMathWrap extends StatelessWidget {
   final String content;

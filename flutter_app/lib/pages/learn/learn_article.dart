@@ -4,8 +4,8 @@ import '../../models/db/learn_article.dart';
 import '../../models/db/learn_page.dart';
 import '../../routing/route_state.dart';
 import '../../widgets/layout/main_scaffold.dart';
+import '../../widgets/learn/lpage_view.dart';
 import '../../widgets/loading.dart';
-import '../../widgets/lpage_view.dart';
 
 class LearnArticle extends StatelessWidget {
   final Future<LArticle?> article;

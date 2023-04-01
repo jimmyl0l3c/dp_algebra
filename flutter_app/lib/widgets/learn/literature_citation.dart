@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../models/learn/block_content.dart';
-import '../utils/get_dialog_route.dart';
+import '../../models/learn/block_content.dart';
+import '../../utils/get_dialog_route.dart';
 import 'in_text_button.dart';
 
 class LiteratureCitation extends StatelessWidget {

@@ -1,18 +1,18 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:get_it/get_it.dart';
 
-import '../data/block_parser.dart';
-import '../data/db_service.dart';
-import '../models/db/learn_block.dart';
-import '../models/db/learn_page.dart';
-import '../models/db/learn_ref.dart';
-import '../models/learn/block_content.dart';
-import '../routing/route_state.dart';
+import '../../data/block_parser.dart';
+import '../../data/db_service.dart';
+import '../../models/db/learn_block.dart';
+import '../../models/db/learn_page.dart';
+import '../../models/db/learn_ref.dart';
+import '../../models/learn/block_content.dart';
+import '../../routing/route_state.dart';
+import '../layout/bullet_list.dart';
+import '../layout/display_math_wrap.dart';
+import 'image_block.dart';
 import 'in_text_button.dart';
-import 'layout/bullet_list.dart';
-import 'layout/display_math_wrap.dart';
 import 'literature_citation.dart';
 
 class LPageView extends StatelessWidget {
@@ -30,36 +30,7 @@ class LPageView extends StatelessWidget {
         LBlock block = page.blocks[index];
 
         if (block.typeTitle == 'image') {
-          var imgNum = block.number != null ? ' ${block.number}' : '';
-          return Column(
-            children: [
-              FittedBox(
-                fit: BoxFit.contain,
-                // TODO: have dynamic constrains based on screen size
-                child: CachedNetworkImage(
-                  errorWidget: (context, url, error) => Column(
-                    children: const [
-                      Icon(Icons.error),
-                      Text("Error occurred when loading an image"),
-                    ],
-                  ),
-                  fit: BoxFit.contain,
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
-                  imageUrl:
-                      'http${DbService.devEnv ? "" : "s"}://${DbService.apiUrl}/api/learn/image?ref_name=${block.content}',
-                ),
-              ),
-              if (block.title != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 6.0, top: 12.0),
-                  child: Text(
-                    "Obrázek$imgNum: ${block.title}",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-            ],
-          );
+          return ImageBlock(block: block);
         }
 
         List<LBlockContent> blockContent =
