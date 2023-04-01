@@ -95,7 +95,7 @@ class BlockParser {
     List<LBlockSegment> blockContent = [];
     for (var segment in block
         .trim()
-        .splitWithDelim(RegExp(r'\${1,2}|\\(cite|ref){[a-zA-Z:\-_,]+}'))) {
+        .splitWithDelim(RegExp(r'\${1,2}|\\(cite|ref){[a-zA-Z\d:\-_,]+}'))) {
       if (segment.trim().isEmpty) continue;
 
       if (segment.contains(r'$$')) {
@@ -105,9 +105,9 @@ class BlockParser {
       } else if (segment.contains(r'$')) {
         isMath = !isMath;
         continue;
-      } else if (segment.contains(RegExp(r'\\(cite|ref){[a-zA-Z:\-_,]+}'))) {
+      } else if (segment.contains(RegExp(r'\\(cite|ref){[a-zA-Z\d:\-_,]+}'))) {
         var refMatch =
-            RegExp(r'\\(cite|ref){([a-zA-Z:\-_,]+)}').firstMatch(segment);
+            RegExp(r'\\(cite|ref){([a-zA-Z\d:\-_,]+)}').firstMatch(segment);
 
         // Fix previous segment if the citation is inside math segment
         if (isMath &&
