@@ -110,6 +110,7 @@ class _MatrixInputState extends State<MatrixInput> {
             SizedBox(
               width: 60 * widget.matrix.columns.toDouble(),
               child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
                 crossAxisCount: widget.matrix.columns,
                 shrinkWrap: true,
                 mainAxisSpacing: 0.0,

@@ -29,8 +29,8 @@ class _CalcStepperState extends State<CalcStepper> {
       children: [
         ButtonRow(
           padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 16,
+            horizontal: 10,
+            vertical: 12,
           ),
           children: [
             ButtonRowItem(

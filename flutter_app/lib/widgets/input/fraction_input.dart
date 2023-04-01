@@ -65,8 +65,6 @@ class FractionInput extends StatelessWidget {
           if (!value.isBigFraction) return 'Neplatná hodnota';
           return null;
         },
-        keyboardType:
-            const TextInputType.numberWithOptions(decimal: true, signed: true),
         decoration: const InputDecoration(
           hintText: '0',
           border: OutlineInputBorder(),
