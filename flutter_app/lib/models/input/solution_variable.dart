@@ -54,16 +54,16 @@ class SolutionVariable {
 
     List<Expression> paramScalar = [];
     if (solution.isEmpty) {
-      return Scalar(value: numSolution);
+      return Scalar(numSolution);
     }
 
     if (numSolution != 0.toBigFraction()) {
-      paramScalar.add(Scalar(value: numSolution));
+      paramScalar.add(Scalar(numSolution));
     }
     solution.forEach((key, value) {
       if (value != 0.toBigFraction()) {
         paramScalar.add(Variable(
-          n: Scalar(value: value),
+          n: Scalar(value),
           param: key,
         ));
       }

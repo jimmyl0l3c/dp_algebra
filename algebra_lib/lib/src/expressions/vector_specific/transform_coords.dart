@@ -51,7 +51,7 @@ class TransformCoords implements Expression {
         matrix: Matrix(
           rows: [vectorCoords],
           rowCount: 1,
-          columnCount: vectorCoords.length(),
+          columnCount: vectorCoords.length,
         ),
       ),
     );

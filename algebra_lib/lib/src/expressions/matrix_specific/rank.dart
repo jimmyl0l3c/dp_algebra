@@ -33,7 +33,7 @@ class Rank implements Expression {
         }
       }
 
-      return Scalar(value: BigFraction.from(rank));
+      return Scalar(BigFraction.from(rank));
     }
 
     if (matrix is! Matrix) {

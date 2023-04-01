@@ -111,11 +111,11 @@ class _EquationExcState extends State<EquationExc> {
     buffer.write(r'\left( \begin{matrix} ');
 
     for (var row in m.rows) {
-      for (var i = 0; i < (row as Vector).length(); i++) {
-        if (i != row.length() - 1) {
+      for (var i = 0; i < (row as Vector).length; i++) {
+        if (i != row.length - 1) {
           buffer.write(row[i].toTeX());
 
-          if (i != row.length() - 2) {
+          if (i != row.length - 2) {
             buffer.write(r'&');
           }
         }

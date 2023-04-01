@@ -137,7 +137,7 @@ class MatrixModel {
   Matrix toMatrix() => Matrix(
         rows: _matrix
             .map((row) => Vector(
-                  items: row.map((entry) => Scalar(value: entry)).toList(),
+                  items: row.map((entry) => Scalar(entry)).toList(),
                 ))
             .toList(),
         rowCount: rows,

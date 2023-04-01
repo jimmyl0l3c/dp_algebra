@@ -28,7 +28,7 @@ class Multiply implements Expression {
     }
 
     if (left is Scalar && right is Scalar) {
-      return Scalar(value: (left as Scalar).value * (right as Scalar).value);
+      return Scalar((left as Scalar).value * (right as Scalar).value);
     }
 
     if (left is Scalar && right is Vector) {
@@ -119,7 +119,7 @@ class Multiply implements Expression {
                 left: Matrix(
                   rows: [leftMatrix[ra]],
                   rowCount: 1,
-                  columnCount: (leftMatrix[ra] as Vector).length(),
+                  columnCount: (leftMatrix[ra] as Vector).length,
                 ),
                 right: Matrix(
                   rows: rightMatrix.rows

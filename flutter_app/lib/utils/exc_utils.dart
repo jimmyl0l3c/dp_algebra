@@ -125,7 +125,7 @@ class ExerciseUtils {
         matrix: expB,
         origin: row1,
         target: row2,
-        n: Scalar(value: BigFraction.from(n)),
+        n: Scalar(BigFraction.from(n)),
       );
     }
 
@@ -142,7 +142,7 @@ class ExerciseUtils {
       if (inputSolution[i] != null) {
         solutionVector.add(inputSolution[i]!.toExpression(i));
       } else {
-        solutionVector.add(Scalar(value: 0.toBigFraction()));
+        solutionVector.add(Scalar.zero());
       }
     }
 

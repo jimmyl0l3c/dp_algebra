@@ -41,7 +41,7 @@ class Divide implements Expression {
     }
 
     return Scalar(
-      value: (numerator as Scalar).value / (denominator as Scalar).value,
+      (numerator as Scalar).value / (denominator as Scalar).value,
     );
   }
 

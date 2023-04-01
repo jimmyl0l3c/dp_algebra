@@ -5,24 +5,24 @@ void main() {
   var m = Matrix(
     rows: [
       Vector(items: [
-        Scalar(value: BigFraction.from(-13)),
-        Scalar(value: BigFraction.from(-2)),
-        Scalar(value: BigFraction.from(9)),
+        Scalar(BigFraction.from(-13)),
+        Scalar(BigFraction.from(-2)),
+        Scalar(BigFraction.from(9)),
       ]),
       Vector(items: [
-        Scalar(value: BigFraction.from(4)),
-        Scalar(value: BigFraction.from(9)),
-        Scalar(value: BigFraction.from(-13)),
+        Scalar(BigFraction.from(4)),
+        Scalar(BigFraction.from(9)),
+        Scalar(BigFraction.from(-13)),
       ]),
       Vector(items: [
-        Scalar(value: BigFraction.from(9)),
-        Scalar(value: BigFraction.from(8)),
-        Scalar(value: BigFraction.from(-8)),
+        Scalar(BigFraction.from(9)),
+        Scalar(BigFraction.from(8)),
+        Scalar(BigFraction.from(-8)),
       ]),
       Vector(items: [
-        Scalar(value: BigFraction.from(8)),
-        Scalar(value: BigFraction.from(-1)),
-        Scalar(value: BigFraction.from(-13)),
+        Scalar(BigFraction.from(8)),
+        Scalar(BigFraction.from(-1)),
+        Scalar(BigFraction.from(-13)),
       ]),
     ],
     rowCount: 4,
@@ -31,10 +31,10 @@ void main() {
 
   var v = Vector(
     items: [
-      Scalar(value: BigFraction.from(13)),
-      Scalar(value: BigFraction.from(-8)),
-      Scalar(value: BigFraction.from(-2)),
-      Scalar(value: BigFraction.from(2)),
+      Scalar(BigFraction.from(13)),
+      Scalar(BigFraction.from(-8)),
+      Scalar(BigFraction.from(-2)),
+      Scalar(BigFraction.from(2)),
     ],
   );
 

@@ -7,7 +7,7 @@ class Vector implements Expression {
 
   Vector.from(Vector other) : items = List.from(other.items);
 
-  int length() => items.length;
+  int get length => items.length;
 
   Expression operator [](int i) => items[i];
 
@@ -61,7 +61,7 @@ class Vector implements Expression {
   bool operator ==(Object other) {
     if (other is! Vector) return false;
 
-    for (var i = 0; i < length(); i++) {
+    for (var i = 0; i < length; i++) {
       if (this[i] != other[i]) return false;
     }
     return true;

@@ -21,7 +21,7 @@ class Reduce implements Expression {
     }
 
     if (exp is Scalar) {
-      return Scalar(value: (exp as Scalar).value.reduce());
+      return Scalar((exp as Scalar).value.reduce());
     }
 
     Matrix m = exp.simplify() as Matrix;
@@ -33,7 +33,7 @@ class Reduce implements Expression {
 
     Scalar zero = Scalar.zero();
     Scalar one = Scalar.one();
-    Scalar nOne = Scalar(value: BigFraction.minusOne());
+    Scalar nOne = Scalar(BigFraction.minusOne());
 
     for (var i = 0; i < m.rowCount; i++) {
       for (var j = 0; j < m.columnCount; j++) {

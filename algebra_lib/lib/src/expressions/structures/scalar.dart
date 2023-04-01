@@ -4,7 +4,7 @@ import 'package:big_fraction/big_fraction.dart';
 class Scalar implements Expression {
   final BigFraction value;
 
-  Scalar({required this.value});
+  Scalar(this.value);
 
   Scalar.zero() : value = BigFraction.zero();
   Scalar.one() : value = BigFraction.one();

@@ -35,7 +35,7 @@ class Triangular implements Expression {
 
     Scalar zero = Scalar.zero();
     Scalar one = Scalar.one();
-    Scalar nOne = Scalar(value: BigFraction.minusOne());
+    Scalar nOne = Scalar(BigFraction.minusOne());
 
     for (var i = 0; i < diagonal; i++) {
       int? nonZero;

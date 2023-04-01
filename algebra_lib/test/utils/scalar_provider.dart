@@ -6,7 +6,7 @@ class ScalarProvider {
 
   static Scalar get(int scalar) {
     if (!_scalars.containsKey(scalar)) {
-      _scalars[scalar] = Scalar(value: BigFraction.from(scalar));
+      _scalars[scalar] = Scalar(BigFraction.from(scalar));
     }
 
     return _scalars[scalar]!;

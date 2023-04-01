@@ -44,7 +44,7 @@ class GaussianElimination implements Expression {
                 numSolution[c] = (simplifiedMatrix[r] as Vector)[i];
               } else if ((simplifiedMatrix[r] as Vector)[i] != zero) {
                 solution[c]?[i] = Scalar(
-                  value: ((simplifiedMatrix[r] as Vector)[i] as Scalar).value *
+                  ((simplifiedMatrix[r] as Vector)[i] as Scalar).value *
                       BigFraction.minusOne(),
                 );
               }

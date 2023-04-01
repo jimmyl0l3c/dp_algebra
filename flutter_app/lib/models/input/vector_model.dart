@@ -93,6 +93,5 @@ class VectorModel {
     return buffer.toString();
   }
 
-  Vector toVector() =>
-      Vector(items: _entries.map((e) => Scalar(value: e)).toList());
+  Vector toVector() => Vector(items: _entries.map((e) => Scalar(e)).toList());
 }

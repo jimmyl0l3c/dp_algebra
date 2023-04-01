@@ -17,7 +17,7 @@ class Matrix implements Expression {
 
     if (rows.every((r) => r is Vector)) {
       if (rows.any(
-        (r) => (r as Vector).length() != (rows.first as Vector).length(),
+        (r) => (r as Vector).length != (rows.first as Vector).length,
       )) {
         throw MatrixRowSizeMismatchException();
       }
@@ -28,13 +28,13 @@ class Matrix implements Expression {
 
   factory Matrix.fromVectors(List<Vector> vectors, {bool vertical = false}) {
     if (vectors.isNotEmpty &&
-        vectors.any((v) => v.length() != vectors.first.length())) {
+        vectors.any((v) => v.length != vectors.first.length)) {
       throw VectorSizeMismatchException();
     }
 
     if (vertical) {
       List<Expression> matrixRows = [];
-      for (var r = 0; r < vectors.first.length(); r++) {
+      for (var r = 0; r < vectors.first.length; r++) {
         List<Expression> matrixRow = [];
         for (var c = 0; c < vectors.length; c++) {
           matrixRow.add(vectors[c][r]);
@@ -51,7 +51,7 @@ class Matrix implements Expression {
     return Matrix(
       rows: vectors,
       rowCount: vectors.length,
-      columnCount: vectors.first.length(),
+      columnCount: vectors.first.length,
     );
   }
 

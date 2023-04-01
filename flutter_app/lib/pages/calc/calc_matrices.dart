@@ -162,7 +162,7 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
                   child: Text(matrix.key),
                   onPressed: () {
                     Expression exp = Multiply(
-                      left: Scalar(value: _scalarC),
+                      left: Scalar(_scalarC),
                       right: matrix.value.toMatrix(),
                     );
 

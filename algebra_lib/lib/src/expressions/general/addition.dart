@@ -19,7 +19,7 @@ class Addition implements Expression {
     }
 
     if (left is Scalar && right is Scalar) {
-      return Scalar(value: (left as Scalar).value + (right as Scalar).value);
+      return Scalar((left as Scalar).value + (right as Scalar).value);
     }
 
     if (left is Vector && right is Vector) {
@@ -27,11 +27,11 @@ class Addition implements Expression {
       Vector leftVector = left as Vector;
       Vector rightVector = right as Vector;
 
-      if (leftVector.length() != rightVector.length()) {
+      if (leftVector.length != rightVector.length) {
         throw VectorSizeMismatchException();
       }
 
-      for (var i = 0; i < leftVector.length(); i++) {
+      for (var i = 0; i < leftVector.length; i++) {
         addedVector.add(Addition(
           left: leftVector[i],
           right: rightVector[i],

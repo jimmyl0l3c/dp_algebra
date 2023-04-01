@@ -94,7 +94,7 @@ class _DeterminantExcState extends State<DeterminantExc> {
     );
   }
 
-  bool isAnswerCorrect() => Scalar(value: solution) == correctSolution.result;
+  bool isAnswerCorrect() => Scalar(solution) == correctSolution.result;
 
   void generateRandomDeterminant() {
     int size = 1 + ExerciseUtils.generateSize();

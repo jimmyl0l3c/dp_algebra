@@ -37,7 +37,7 @@ class SolveWithInverse implements Expression {
     Matrix y = Matrix(
       rows: [vectorY],
       rowCount: 1,
-      columnCount: (vectorY as Vector).length(),
+      columnCount: (vectorY as Vector).length,
     );
 
     return Transpose(

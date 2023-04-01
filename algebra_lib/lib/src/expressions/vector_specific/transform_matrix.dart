@@ -19,8 +19,8 @@ class TransformMatrix implements Expression {
         throw UndefinedOperationException();
       }
 
-      length ??= vector.length();
-      if (length != vector.length()) {
+      length ??= vector.length;
+      if (length != vector.length) {
         throw VectorSizeMismatchException();
       }
     }
@@ -30,8 +30,8 @@ class TransformMatrix implements Expression {
         throw UndefinedOperationException();
       }
 
-      length ??= vector.length();
-      if (length != vector.length()) {
+      length ??= vector.length;
+      if (length != vector.length) {
         throw VectorSizeMismatchException();
       }
     }

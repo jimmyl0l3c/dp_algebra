@@ -24,7 +24,7 @@ class Inverse implements Expression {
         throw DivisionByZeroException();
       }
 
-      return Scalar(value: (exp as Scalar).value.inverse());
+      return Scalar((exp as Scalar).value.inverse());
     }
 
     Matrix matrix = (exp as Matrix);

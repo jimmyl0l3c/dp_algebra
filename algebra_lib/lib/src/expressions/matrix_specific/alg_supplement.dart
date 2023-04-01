@@ -39,7 +39,7 @@ class AlgSupplement implements Expression {
 
     return Multiply(
       // TODO: make the computation of power of -1 out of expressions?
-      left: Scalar(value: pow(-1, row + column + 2).toBigFraction()),
+      left: Scalar(pow(-1, row + column + 2).toBigFraction()),
       right: Minor(matrix: matrix, row: row, column: column),
     );
   }
