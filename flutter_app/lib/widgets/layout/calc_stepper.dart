@@ -75,6 +75,18 @@ class _CalcStepperState extends State<CalcStepper> {
             ),
           ],
         ),
+        Slider(
+          min: 0,
+          max: widget.steps.length - 1,
+          value: step.toDouble(),
+          label: 'Krok $step',
+          divisions: widget.steps.length - 1,
+          onChanged: (value) {
+            setState(() {
+              step = value.toInt();
+            });
+          },
+        ),
         const SizedBox(height: 8),
         Wrap(
           direction: Axis.horizontal,
