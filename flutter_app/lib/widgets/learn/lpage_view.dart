@@ -17,14 +17,20 @@ import 'literature_citation.dart';
 
 class LPageView extends StatelessWidget {
   final LPage page;
+  final ScrollController? scrollController;
 
-  const LPageView({Key? key, required this.page}) : super(key: key);
+  const LPageView({
+    Key? key,
+    required this.page,
+    this.scrollController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (page.blocks.isEmpty) return const Text('Page is empty');
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 6.0),
+      controller: scrollController,
       itemCount: page.blocks.length,
       itemBuilder: (context, index) {
         LBlock block = page.blocks[index];

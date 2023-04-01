@@ -22,6 +22,8 @@ class LearnArticle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final routeState = RouteStateScope.of(context);
+    final scrollController = ScrollController();
+
     return FutureBuilder<LArticle?>(
         future: article,
         builder: (context, snapshot) {
@@ -40,6 +42,11 @@ class LearnArticle extends StatelessWidget {
             if (pages.length >= currentPage + 1) {
               forwardButton = FloatingActionButton(
                 onPressed: () {
+                  scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeIn,
+                  );
                   routeState.go(
                     '/chapter/$currentChapter/$articleId/${currentPage + 1}',
                   );
@@ -54,6 +61,11 @@ class LearnArticle extends StatelessWidget {
             if (currentPage > 1) {
               backwardButton = FloatingActionButton(
                 onPressed: () {
+                  scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeIn,
+                  );
                   routeState.go(
                     '/chapter/$currentChapter/$articleId/${currentPage - 1}',
                   );
@@ -88,7 +100,10 @@ class LearnArticle extends StatelessWidget {
             body = Container(
               child: pages.isEmpty
                   ? const Center(child: Text('Článek je prázdný'))
-                  : LPageView(page: pages[currentPage - 1]),
+                  : LPageView(
+                      page: pages[currentPage - 1],
+                      scrollController: scrollController,
+                    ),
             );
           } else {
             if (snapshot.connectionState == ConnectionState.waiting) {
