@@ -10,6 +10,7 @@ import '../models/db/learn_page.dart';
 import '../models/db/learn_ref.dart';
 import '../models/learn/block_content.dart';
 import '../routing/route_state.dart';
+import 'in_text_button.dart';
 import 'layout/bullet_list.dart';
 import 'layout/display_math_wrap.dart';
 import 'literature_citation.dart';
@@ -157,22 +158,13 @@ class LPageView extends StatelessWidget {
 
                   LRef ref = snapshot.data!;
 
-                  return TextButton(
-                    style: const ButtonStyle(
-                      padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                      minimumSize: MaterialStatePropertyAll(Size.zero),
-                    ),
+                  return InTextButton(
+                    text: ref.blockNumber.toString(),
                     onPressed: () {
                       routeState.go(
                         '/chapter/${ref.chapterId}/${ref.articleId}/${ref.pageId}',
                       );
                     },
-                    child: Text(
-                      ref.blockNumber.toString(),
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.secondary,
-                      ),
-                    ),
                   );
                 },
               ),

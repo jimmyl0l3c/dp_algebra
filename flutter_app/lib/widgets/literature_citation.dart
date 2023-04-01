@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/learn/block_content.dart';
 import '../utils/get_dialog_route.dart';
+import 'in_text_button.dart';
 
 class LiteratureCitation extends StatelessWidget {
   final LLitRefSegment segment;
@@ -13,8 +14,6 @@ class LiteratureCitation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return FutureBuilder(
       future: segment.references,
       builder: (context, snapshot) {
@@ -28,11 +27,8 @@ class LiteratureCitation extends StatelessWidget {
         String citation =
             snapshot.data!.map((e) => e.harvardCitation).toList().join("; ");
 
-        return TextButton(
-          style: const ButtonStyle(
-            minimumSize: MaterialStatePropertyAll(Size.zero),
-            padding: MaterialStatePropertyAll(EdgeInsets.zero),
-          ),
+        return InTextButton(
+          text: '($citation)',
           onPressed: () => Navigator.of(context).push(
             getDialogRoute(
               context,
@@ -44,12 +40,6 @@ class LiteratureCitation extends StatelessWidget {
                     .map((e) => SelectableText(e.fullCitation))
                     .toList(),
               ),
-            ),
-          ),
-          child: Text(
-            '($citation)',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.secondary,
             ),
           ),
         );
