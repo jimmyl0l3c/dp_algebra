@@ -29,6 +29,7 @@ class LPageView extends StatelessWidget {
         LBlock block = page.blocks[index];
 
         if (block.typeTitle == 'image') {
+          var imgNum = block.number != null ? ' ${block.number}' : '';
           return Column(
             children: [
               FittedBox(
@@ -52,7 +53,7 @@ class LPageView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 6.0, top: 12.0),
                   child: Text(
-                    "Obrázek: ${block.title}",
+                    "Obrázek$imgNum: ${block.title}",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
