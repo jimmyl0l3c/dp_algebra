@@ -6,6 +6,7 @@ services:
     build:
       context: ..
       dockerfile: ./flutter_app/Dockerfile
+    container_name: algebra_app
     expose:
       - 8080 
     labels:
