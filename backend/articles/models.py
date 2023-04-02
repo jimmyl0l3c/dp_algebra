@@ -1,7 +1,7 @@
 import re
 
 from django.db import models
-from django.db.models import F
+from django.db.models import F, Q
 
 
 class Language(models.Model):
@@ -110,12 +110,48 @@ class Block(models.Model):
     type = models.ForeignKey(BlockType, on_delete=models.CASCADE)
     number = models.PositiveIntegerField(null=True, blank=True)
 
+    def calculate_number(self) -> int | None:
+        if not self.type.enumerated and not self.type.figure:
+            return None
+        type_filter = {"type__enumerated": True}
+        if self.type.figure:
+            type_filter = {"type__figure": True}
+        preceding_count = Block.objects.filter(
+            Q(
+                page__article__chapter__order__lt=self.page.article.chapter.order
+            ) | Q(
+                page__article__chapter=self.page.article.chapter, page__article__order__lt=self.page.article.order
+            ) | Q(
+                page__article=self.page.article, page__order__lt=self.page.order
+            ) | Q(page=self.page, order__lt=self.order), **type_filter).count()
+        return preceding_count + 1
+
+    def __update_following_enumerated(self):
+        if not self.type.enumerated and not self.type.figure:
+            return
+        type_filter = {"type__enumerated": True}
+        if self.type.figure:
+            type_filter = {"type__figure": True}
+
+        following = Block.objects.filter(
+            Q(
+                page__article__chapter__order__gt=self.page.article.chapter.order
+            ) | Q(
+                page__article__chapter=self.page.article.chapter, page__article__order__gt=self.page.article.order
+            ) | Q(
+                page__article=self.page.article, page__order__gt=self.page.order
+            ) | Q(page=self.page, order__gt=self.order), **type_filter).order_by(
+            'page__article__chapter__order', 'page__article__order', 'page__order', 'order'
+        )[:1]
+        if following:
+            block = following.first()
+            block.number = block.calculate_number()
+            block.save()
+
     def save(self, *args, **kwargs):
-        if self.type.enumerated and not Block.objects.filter(pk=self.pk).exists():
-            self.number = Block.objects.filter(type__enumerated=True).count() + 1
-        # TODO: recalculate numbers if the object was not numerated before and should be now
-        if self.type.figure and not Block.objects.filter(pk=self.pk).exists():
-            self.number = Block.objects.filter(type__figure=True).count() + 1
+        if self.type.enumerated or self.type.figure:
+            self.number = self.calculate_number()
+            self.__update_following_enumerated()
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -133,9 +169,9 @@ class BlockTranslation(models.Model):
 
     def save(self, *args, **kwargs):
         # Replace end of paragraph with \break tag
-        self.content = re.sub(r"(\r?\n){2,}",  r" \\break ", self.content)
+        self.content = re.sub(r"(\r?\n){2,}", r" \\break ", self.content)
         # Filter out extra white spaces
-        self.content = re.sub(r"[\n\r\t]",  " ", self.content)
+        self.content = re.sub(r"[\n\r\t]", " ", self.content)
         self.content = re.sub(r" {2,}", " ", self.content)
         self.content = re.sub(r"(\\cite{\S+)\s+(\S+})", r"\g<1>\g<2>", self.content)
         # Replace \begin{align} with matrix in display math block
