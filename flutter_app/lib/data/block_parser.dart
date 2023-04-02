@@ -159,6 +159,15 @@ class BlockParser {
           content: '${previous.content}${segment[0]}',
         ));
 
+        // Add space between two inline math blocks
+        if (previous.type == LBlockSegmentType.inlineMath &&
+            isMath &&
+            !isDisplayMath) {
+          blockContent.add(LBlockSegment(
+            type: LBlockSegmentType.text,
+            content: " ",
+          ));
+        }
         segment = segment.substring(1);
       }
 
