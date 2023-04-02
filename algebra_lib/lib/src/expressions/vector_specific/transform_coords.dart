@@ -46,14 +46,12 @@ class TransformCoords implements Expression {
 
     Vector vectorCoords = coords as Vector;
     return Multiply(
-      left: transformMatrix,
-      right: Transpose(
-        matrix: Matrix(
-          rows: [vectorCoords],
-          rowCount: 1,
-          columnCount: vectorCoords.length,
-        ),
+      left: Matrix(
+        rows: [vectorCoords],
+        rowCount: 1,
+        columnCount: vectorCoords.length,
       ),
+      right: transformMatrix,
     );
   }
 
