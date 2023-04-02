@@ -22,7 +22,7 @@ class InlineArticleTranslation(admin.TabularInline):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'chapter', 'order')
+    list_display = ('__str__', 'id', 'chapter', 'order')
     inlines = [InlineArticleTranslation]
 
 

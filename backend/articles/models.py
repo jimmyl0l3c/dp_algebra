@@ -9,7 +9,10 @@ class Language(models.Model):
     name = models.CharField(max_length=150)
 
     def __str__(self):
-        return f'{self.id}_{self.code}'
+        return f'{self.id}: {self.code}'
+
+    class Meta:
+        ordering = ['code']
 
 
 class Chapter(models.Model):
@@ -38,6 +41,7 @@ class ChapterTranslation(models.Model):
 
     class Meta:
         db_table = 'articles_chapter_translations'
+        ordering = ['language']
 
 
 class Article(models.Model):
@@ -54,7 +58,7 @@ class Article(models.Model):
         return f'{self.chapter}, Article: {self.id} ({self.order})'
 
     class Meta:
-        ordering = ['order']
+        ordering = ['chapter__order', 'order']
 
 
 class ArticleTranslation(models.Model):
@@ -68,6 +72,7 @@ class ArticleTranslation(models.Model):
 
     class Meta:
         db_table = 'articles_article_translations'
+        ordering = ['language']
 
 
 class Page(models.Model):
@@ -78,7 +83,7 @@ class Page(models.Model):
         return f'{self.article}, Page: {self.id} ({self.order})'
 
     class Meta:
-        ordering = ['order']
+        ordering = ['article__chapter__order', 'article__order', 'order']
 
 
 class BlockType(models.Model):
@@ -94,6 +99,9 @@ class BlockType(models.Model):
             return f'{self.id}: {type_translation.get()["name"]}'
         return f'{self.id} ({self.enumerated})'
 
+    class Meta:
+        ordering = ['id']
+
 
 class BlockTypeTranslation(models.Model):
     block_type = models.ForeignKey(BlockType, on_delete=models.CASCADE)
@@ -102,6 +110,9 @@ class BlockTypeTranslation(models.Model):
 
     def __str__(self):
         return f'{self.block_type}/{self.language}: {self.title}'
+
+    class Meta:
+        ordering = ['language']
 
 
 class Block(models.Model):
@@ -158,7 +169,7 @@ class Block(models.Model):
         return f'{self.page}, Block: {self.id} ({self.order})'
 
     class Meta:
-        ordering = ['order']
+        ordering = ['page__article__chapter__order', 'page__article__order', 'page__order', 'order']
 
 
 class BlockTranslation(models.Model):
@@ -188,6 +199,7 @@ class BlockTranslation(models.Model):
 
     class Meta:
         db_table = 'articles_block_translations'
+        ordering = ['language']
 
 
 class Literature(models.Model):
@@ -204,6 +216,9 @@ class Literature(models.Model):
     def __str__(self):
         return f'{self.ref_name}: {self.author}, {self.year}, {self.title}'
 
+    class Meta:
+        ordering = ['ref_name']
+
 
 class RefLabel(models.Model):
     ref_name = models.CharField(max_length=50, unique=True)
@@ -212,6 +227,9 @@ class RefLabel(models.Model):
     def __str__(self):
         return f'{self.ref_name}: {self.block}'
 
+    class Meta:
+        ordering = ['block']
+
 
 class LearnImage(models.Model):
     ref_name = models.CharField(max_length=50, unique=True)
@@ -219,3 +237,6 @@ class LearnImage(models.Model):
 
     def __str__(self):
         return self.ref_name
+
+    class Meta:
+        ordering = ['ref_name']
