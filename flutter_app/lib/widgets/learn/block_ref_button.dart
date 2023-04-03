@@ -10,12 +10,14 @@ class BlockRefButton extends StatelessWidget {
   final String refName;
   final String? placeholder;
   final String? text;
+  final String? tooltip;
 
   const BlockRefButton({
     Key? key,
     required this.refName,
     this.placeholder,
     this.text,
+    this.tooltip,
   }) : super(key: key);
 
   @override
@@ -39,7 +41,7 @@ class BlockRefButton extends StatelessWidget {
           ref.blockNumber.toString(),
         );
 
-        return InTextButton(
+        var button = InTextButton(
           text: buttonText ?? ref.blockNumber.toString(),
           onPressed: () {
             routeState.go(
@@ -47,6 +49,12 @@ class BlockRefButton extends StatelessWidget {
             );
           },
         );
+
+        if (tooltip != null) {
+          return Tooltip(message: tooltip, child: button);
+        } else {
+          return button;
+        }
       },
     );
   }

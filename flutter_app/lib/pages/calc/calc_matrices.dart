@@ -138,6 +138,7 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
             refName: PredefinedRef.multiplyMatrixByScalar.refName,
             placeholder: multiplyMatrixByScalar,
             text: multiplyMatrixByScalar,
+            tooltip: "Zjistit více",
           ),
           const SizedBox(
             width: 8.0,
@@ -269,6 +270,7 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                   refName: refName,
                   placeholder: operationDescription,
                   text: operationDescription,
+                  tooltip: "Zjistit více",
                 );
               } else {
                 return SizedBox(
@@ -279,6 +281,7 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                       refName: refName,
                       placeholder: operationDescription,
                       text: operationDescription,
+                      tooltip: "Zjistit více",
                     ),
                   ),
                 );
@@ -372,6 +375,7 @@ class _MatrixBinOperationSelectionState
             refName: PredefinedRef.matrixAddition.refName,
             placeholder: binaryOperation,
             text: binaryOperation,
+            tooltip: "Zjistit více",
           ),
           const SizedBox(
             width: 8.0,

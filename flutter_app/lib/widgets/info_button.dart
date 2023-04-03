@@ -7,8 +7,10 @@ import '../routing/route_state.dart';
 
 class InfoButton extends StatelessWidget {
   final String refName;
+  final String? tooltip;
 
-  const InfoButton({Key? key, required this.refName}) : super(key: key);
+  const InfoButton({Key? key, required this.refName, this.tooltip})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +20,19 @@ class InfoButton extends StatelessWidget {
     return FutureBuilder(
       future: dbService.fetchReference(refName),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting ||
-            !snapshot.hasData ||
-            snapshot.data == null) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const SizedBox(
-            width: 12,
-            height: 12,
+            width: 16,
+            height: 16,
             child: CircularProgressIndicator(strokeWidth: 2),
+          );
+        }
+
+        if (!snapshot.hasData || snapshot.data == null) {
+          return const Icon(
+            Icons.info,
+            size: 18.0,
+            color: Colors.grey,
           );
         }
 
@@ -44,7 +52,7 @@ class InfoButton extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 20),
           padding: EdgeInsets.zero,
           color: Colors.deepPurpleAccent,
-          tooltip: "Zjistit více",
+          tooltip: tooltip ?? "Zjistit více",
         );
       },
     );

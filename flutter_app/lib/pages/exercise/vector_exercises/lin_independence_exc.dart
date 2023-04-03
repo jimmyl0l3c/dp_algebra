@@ -5,6 +5,7 @@ import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
+import '../../../data/predefined_refs.dart';
 import '../../../models/calc/calc_result.dart';
 import '../../../models/input/vector_model.dart';
 import '../../../utils/exc_utils.dart';
@@ -79,6 +80,7 @@ class _LinIndependenceExcState extends State<LinIndependenceExc> {
         ),
       ],
       solution: correctSolution,
+      hintRef: PredefinedRef.vectorLinIndependence.refName,
     );
   }
 

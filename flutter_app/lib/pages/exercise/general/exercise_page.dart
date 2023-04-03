@@ -11,6 +11,7 @@ class ExercisePage extends StatelessWidget {
   final List<ButtonRowItem> resolveButtons;
   final CalcResult? solution;
   final String? strSolution;
+  final String? hintRef;
 
   const ExercisePage({
     Key? key,
@@ -20,6 +21,7 @@ class ExercisePage extends StatelessWidget {
     required this.resolveButtons,
     this.solution,
     this.strSolution,
+    this.hintRef,
   }) : super(key: key);
 
   @override
@@ -73,6 +75,7 @@ class ExercisePage extends StatelessWidget {
                 ExerciseSolution(
                   solution: solution,
                   strSolution: strSolution,
+                  hintRef: hintRef,
                 ),
             ],
           ),

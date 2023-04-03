@@ -2,6 +2,7 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
+import '../../../data/predefined_refs.dart';
 import '../../../models/calc/calc_result.dart';
 import '../../../models/input/matrix_model.dart';
 import '../../../models/input/vector_model.dart';
@@ -87,6 +88,7 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
         ),
       ],
       solution: correctSolution,
+      hintRef: PredefinedRef.transformMatrix.refName,
     );
   }
 

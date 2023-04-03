@@ -4,6 +4,7 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
+import '../../../data/predefined_refs.dart';
 import '../../../main.dart';
 import '../../../models/calc/calc_result.dart';
 import '../../../models/input/solution_variable.dart';
@@ -85,6 +86,7 @@ class _EquationExcState extends State<EquationExc> {
       ],
       solution: correctSolution ?? isSolvable,
       strSolution: correctSolution == null ? "Soustava nemá řešení" : null,
+      hintRef: PredefinedRef.gaussianElimination.refName,
     );
   }
 

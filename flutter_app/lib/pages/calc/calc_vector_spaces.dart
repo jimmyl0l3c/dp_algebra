@@ -85,6 +85,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                     refName: PredefinedRef.vectorLinIndependence.refName,
                     placeholder: linIndependence,
                     text: linIndependence,
+                    tooltip: "Zjistit více",
                   ),
                   const SizedBox(width: 8.0),
                   StyledPopupButton<int>(
@@ -146,6 +147,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                     refName: PredefinedRef.basis.refName,
                     placeholder: findBasis,
                     text: findBasis,
+                    tooltip: "Zjistit více",
                   ),
                   const SizedBox(width: 8.0),
                   StyledPopupButton<int>(
@@ -358,6 +360,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                 refName: PredefinedRef.transformCoords.refName,
                 placeholder: coordsToTransform,
                 text: coordsToTransform,
+                tooltip: "Zjistit více",
               ),
               const SizedBox(width: 8.0),
               StyledDropdownButton<int>(

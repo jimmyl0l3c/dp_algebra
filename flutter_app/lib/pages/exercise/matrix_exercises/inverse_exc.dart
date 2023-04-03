@@ -2,6 +2,7 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
+import '../../../data/predefined_refs.dart';
 import '../../../models/calc/calc_expression_exception.dart';
 import '../../../models/calc/calc_result.dart';
 import '../../../models/input/matrix_model.dart';
@@ -66,6 +67,7 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
       ],
       solution: correctSolution,
       strSolution: strSolution,
+      hintRef: PredefinedRef.inverseMatrix.refName,
     );
   }
 

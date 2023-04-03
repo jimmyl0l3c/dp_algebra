@@ -4,6 +4,7 @@ import 'package:algebra_lib/algebra_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
+import '../../../data/predefined_refs.dart';
 import '../../../models/calc/calc_result.dart';
 import '../../../models/input/matrix_model.dart';
 import '../../../utils/exc_utils.dart';
@@ -24,6 +25,7 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
 
   late Expression exercise;
   late CalcResult correctSolution;
+  late String hintRef;
 
   final MatrixModel solution = MatrixModel(columns: 1, rows: 1);
 
@@ -93,6 +95,7 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
         ),
       ],
       solution: correctSolution,
+      hintRef: hintRef,
     );
   }
 
@@ -127,6 +130,7 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
       exercise = Subtraction(left: matrixA, right: matrixB);
     }
     correctSolution = CalcResult.calculate(exercise);
+    hintRef = PredefinedRef.matrixAddition.refName;
   }
 
   void generateMultiplyExample() {
@@ -148,5 +152,6 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
       right: matrixB,
     );
     correctSolution = CalcResult.calculate(exercise);
+    hintRef = PredefinedRef.matrixMultiplication.refName;
   }
 }
