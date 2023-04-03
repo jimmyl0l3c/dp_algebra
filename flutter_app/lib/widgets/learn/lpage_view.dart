@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../data/block_parser.dart';
-import '../../data/db_service.dart';
 import '../../models/db/learn_block.dart';
 import '../../models/db/learn_page.dart';
-import '../../models/db/learn_ref.dart';
 import '../../models/learn/block_content.dart';
-import '../../routing/route_state.dart';
 import '../layout/bullet_list.dart';
 import '../layout/display_math_wrap.dart';
+import 'block_ref_button.dart';
 import 'image_block.dart';
-import 'in_text_button.dart';
 import 'literature_citation.dart';
 
 class LPageView extends StatelessWidget {
@@ -91,8 +87,6 @@ class LPageView extends StatelessWidget {
   List<List<Widget>> _getParagraphContent(
       List<LBlockSegment> paragraphContent, BuildContext context) {
     final theme = Theme.of(context);
-    final routeState = RouteStateScope.of(context);
-    DbService dbService = GetIt.instance.get<DbService>();
     List<List<Widget>> segments = [[]];
 
     for (var segment in paragraphContent) {
@@ -126,29 +120,7 @@ class LPageView extends StatelessWidget {
         case LBlockSegmentType.reference:
           if ((segment as LBlockRefSegment).refType ==
               LBlockReferenceType.block) {
-            segments.last.add(
-              FutureBuilder(
-                future: dbService.fetchReference(segment.content),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting ||
-                      !snapshot.hasData ||
-                      snapshot.data == null) {
-                    return const Text('(...)');
-                  }
-
-                  LRef ref = snapshot.data!;
-
-                  return InTextButton(
-                    text: ref.blockNumber.toString(),
-                    onPressed: () {
-                      routeState.go(
-                        '/chapter/${ref.chapterId}/${ref.articleId}/${ref.pageId}',
-                      );
-                    },
-                  );
-                },
-              ),
-            );
+            segments.last.add(BlockRefButton(refName: segment.content));
           }
           break;
         case LBlockSegmentType.literatureReference:

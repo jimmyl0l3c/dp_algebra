@@ -3,6 +3,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
+import '../../data/predefined_refs.dart';
 import '../../main.dart';
 import '../../models/calc/calc_category.dart';
 import '../../models/calc/calc_expression_exception.dart';
@@ -15,8 +16,10 @@ import '../../utils/utils.dart';
 import '../../widgets/forms/styled_dropdown.dart';
 import '../../widgets/forms/styled_popup.dart';
 import '../../widgets/hint.dart';
+import '../../widgets/info_button.dart';
 import '../../widgets/input/vector_input.dart';
 import '../../widgets/layout/solution_view.dart';
+import '../../widgets/learn/block_ref_button.dart';
 
 class CalcVectorSpaces extends StatelessWidget with GetItMixin {
   CalcVectorSpaces({Key? key}) : super(key: key);
@@ -31,6 +34,9 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
 
     List<CalcResult> solutions =
         watchX((CalcSolutionsModel x) => x.vectorSolutions);
+
+    const String linIndependence = "Lineární nezávislost:";
+    const String findBasis = "Nalezení báze:";
 
     return SingleChildScrollView(
       child: Padding(
@@ -75,7 +81,11 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 runAlignment: WrapAlignment.center,
                 children: [
-                  const Text('Lineární nezávislost:'),
+                  BlockRefButton(
+                    refName: PredefinedRef.vectorLinIndependence.refName,
+                    placeholder: linIndependence,
+                    text: linIndependence,
+                  ),
                   const SizedBox(width: 8.0),
                   StyledPopupButton<int>(
                     onSelected: (value) => getIt<CalcVectorModel>()
@@ -132,7 +142,11 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 runAlignment: WrapAlignment.center,
                 children: [
-                  const Text('Nalezení báze:'),
+                  BlockRefButton(
+                    refName: PredefinedRef.basis.refName,
+                    placeholder: findBasis,
+                    text: findBasis,
+                  ),
                   const SizedBox(width: 8.0),
                   StyledPopupButton<int>(
                     onSelected: (value) => getIt<CalcVectorModel>()
@@ -247,6 +261,8 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
       selectedCoordinateVector = null;
     }
 
+    const String coordsToTransform = "Souřadnice:";
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Column(
@@ -261,6 +277,8 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
               ),
               const SizedBox(width: 8),
               const Hint("Výpočet transformace souřadnic od báze A k bázi B"),
+              const SizedBox(width: 8),
+              InfoButton(refName: PredefinedRef.transformMatrix.refName),
             ],
           ),
           Padding(
@@ -336,7 +354,11 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
             runAlignment: WrapAlignment.center,
             runSpacing: 4.0,
             children: [
-              const Text('Souřadnice: '),
+              BlockRefButton(
+                refName: PredefinedRef.transformCoords.refName,
+                placeholder: coordsToTransform,
+                text: coordsToTransform,
+              ),
               const SizedBox(width: 8.0),
               StyledDropdownButton<int>(
                 value: selectedCoordinateVector,

@@ -3,6 +3,7 @@ import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';
 
+import '../../data/predefined_refs.dart';
 import '../../main.dart';
 import '../../models/calc/calc_category.dart';
 import '../../models/calc/calc_expression_exception.dart';
@@ -17,6 +18,7 @@ import '../../widgets/forms/styled_dropdown.dart';
 import '../../widgets/input/fraction_input.dart';
 import '../../widgets/input/matrix_input.dart';
 import '../../widgets/layout/solution_view.dart';
+import '../../widgets/learn/block_ref_button.dart';
 
 class CalcMatrices extends StatelessWidget with GetItMixin {
   CalcMatrices({Key? key}) : super(key: key);
@@ -121,6 +123,8 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
     Map<String, MatrixModel> matrices =
         watchX((CalcMatrixModel x) => x.matrices);
 
+    const String multiplyMatrixByScalar = 'Násobení matice skalárem:';
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Wrap(
@@ -130,9 +134,10 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
         runAlignment: WrapAlignment.center,
         runSpacing: 4.0,
         children: [
-          const Text(
-            'Násobení matice skalárem:',
-            textAlign: TextAlign.end,
+          BlockRefButton(
+            refName: PredefinedRef.multiplyMatrixByScalar.refName,
+            placeholder: multiplyMatrixByScalar,
+            text: multiplyMatrixByScalar,
           ),
           const SizedBox(
             width: 8.0,
@@ -227,6 +232,27 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
     Map<String, MatrixModel> matrices =
         watchX((CalcMatrixModel x) => x.matrices);
 
+    String refName = "";
+    switch (operation) {
+      case MatrixOperation.add:
+      case MatrixOperation.diff:
+      case MatrixOperation.multiply:
+        break;
+      case MatrixOperation.det:
+        refName = PredefinedRef.determinant.refName;
+        break;
+      case MatrixOperation.inverse:
+        refName = PredefinedRef.inverseMatrix.refName;
+        break;
+      case MatrixOperation.transpose:
+        refName = PredefinedRef.transposedMatrix.refName;
+        break;
+      case MatrixOperation.rank:
+        refName = PredefinedRef.matrixRank.refName;
+        break;
+    }
+    String operationDescription = '${operation.description}:';
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
       child: Wrap(
@@ -238,15 +264,22 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
         children: [
           LayoutBuilder(
             builder: (context, constraints) {
-              String content = '${operation.description}:';
               if (constraints.maxWidth < 300) {
-                return Text(content);
+                return BlockRefButton(
+                  refName: refName,
+                  placeholder: operationDescription,
+                  text: operationDescription,
+                );
               } else {
                 return SizedBox(
                   width: 200,
-                  child: Text(
-                    content,
-                    textAlign: TextAlign.end,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: BlockRefButton(
+                      refName: refName,
+                      placeholder: operationDescription,
+                      text: operationDescription,
+                    ),
                   ),
                 );
               }
@@ -326,6 +359,8 @@ class _MatrixBinOperationSelectionState
     _binaryLeft ??= matrices.isNotEmpty ? matrices.keys.first : null;
     _binaryRight ??= _binaryLeft;
 
+    const String binaryOperation = 'Binární operace:';
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Wrap(
@@ -333,14 +368,11 @@ class _MatrixBinOperationSelectionState
         crossAxisAlignment: WrapCrossAlignment.center,
         alignment: WrapAlignment.center,
         children: [
-          const Text(
-            'Binární operace:',
-            textAlign: TextAlign.end,
+          BlockRefButton(
+            refName: PredefinedRef.matrixAddition.refName,
+            placeholder: binaryOperation,
+            text: binaryOperation,
           ),
-          // const SizedBox(
-          //   width: 200,
-          //   child:
-          // ),
           const SizedBox(
             width: 8.0,
           ),
