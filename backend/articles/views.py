@@ -133,11 +133,14 @@ def get_reference_view(request: HttpRequest):
 def get_learn_image_view(request: HttpRequest):
     if "ref_name" not in request.GET:
         return JsonResponse({"error": "Image ref not specified"}, status=400)
+
     image_path_q = LearnImage.objects.filter(
         ref_name__iexact=request.GET["ref_name"]
     ).values("image")
+
     if image_path_q.exists():  # Check if the image is in the database
         image_path = os.path.join(MEDIA_ROOT, image_path_q.get()["image"])
         if os.path.exists(image_path):  # Check if the image file exists
             return FileResponse(open(image_path, "rb"))
+
     return JsonResponse({"error": "Image not found"}, status=404)
