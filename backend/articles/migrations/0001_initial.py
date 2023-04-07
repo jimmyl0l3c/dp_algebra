@@ -5,97 +5,204 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Article',
+            name="Article",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('order', models.BigIntegerField(db_index=True)),
-                ('published_at', models.DateField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("order", models.BigIntegerField(db_index=True)),
+                ("published_at", models.DateField()),
             ],
         ),
         migrations.CreateModel(
-            name='Block',
+            name="Block",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('order', models.BigIntegerField(db_index=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("order", models.BigIntegerField(db_index=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Chapter',
+            name="Chapter",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('order', models.BigIntegerField(db_index=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("order", models.BigIntegerField(db_index=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Language',
+            name="Language",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(max_length=5, unique=True)),
-                ('name', models.CharField(max_length=150)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(max_length=5, unique=True)),
+                ("name", models.CharField(max_length=150)),
             ],
         ),
         migrations.CreateModel(
-            name='Page',
+            name="Page",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('order', models.BigIntegerField(db_index=True)),
-                ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.article')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("order", models.BigIntegerField(db_index=True)),
+                (
+                    "article",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="articles.article",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ChapterTranslation',
+            name="ChapterTranslation",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=150)),
-                ('description', models.CharField(blank=True, max_length=250)),
-                ('chapter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.chapter')),
-                ('language', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.language')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=150)),
+                ("description", models.CharField(blank=True, max_length=250)),
+                (
+                    "chapter",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="articles.chapter",
+                    ),
+                ),
+                (
+                    "language",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="articles.language",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'articles_chapter_translations',
+                "db_table": "articles_chapter_translations",
             },
         ),
         migrations.CreateModel(
-            name='BlockTranslation',
+            name="BlockTranslation",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('content', models.TextField()),
-                ('block', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.block')),
-                ('language', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.language')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("content", models.TextField()),
+                (
+                    "block",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="articles.block"
+                    ),
+                ),
+                (
+                    "language",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="articles.language",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'articles_block_translations',
+                "db_table": "articles_block_translations",
             },
         ),
         migrations.AddField(
-            model_name='block',
-            name='page',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.page'),
+            model_name="block",
+            name="page",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="articles.page"
+            ),
         ),
         migrations.CreateModel(
-            name='ArticleTranslation',
+            name="ArticleTranslation",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=150)),
-                ('description', models.CharField(blank=True, max_length=250)),
-                ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.article')),
-                ('language', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.language')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=150)),
+                ("description", models.CharField(blank=True, max_length=250)),
+                (
+                    "article",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="articles.article",
+                    ),
+                ),
+                (
+                    "language",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="articles.language",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'articles_article_translations',
+                "db_table": "articles_article_translations",
             },
         ),
         migrations.AddField(
-            model_name='article',
-            name='chapter',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.chapter'),
+            model_name="article",
+            name="chapter",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="articles.chapter"
+            ),
         ),
     ]

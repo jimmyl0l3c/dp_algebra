@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('articles', '0009_learnimage_number'),
+        ("articles", "0009_learnimage_number"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='blocktype',
-            name='figure',
+            model_name="blocktype",
+            name="figure",
             field=models.BooleanField(db_index=True, default=False),
             preserve_default=False,
         ),

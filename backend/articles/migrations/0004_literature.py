@@ -4,19 +4,26 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('articles', '0003_blocktype_show_title'),
+        ("articles", "0003_blocktype_show_title"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Literature',
+            name="Literature",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('ref_name', models.CharField(max_length=50)),
-                ('author', models.CharField(max_length=150)),
-                ('year', models.CharField(max_length=10)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("ref_name", models.CharField(max_length=50)),
+                ("author", models.CharField(max_length=150)),
+                ("year", models.CharField(max_length=10)),
             ],
         ),
     ]

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('articles', '0008_learnimage'),
+        ("articles", "0008_learnimage"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='learnimage',
-            name='number',
+            model_name="learnimage",
+            name="number",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
     ]

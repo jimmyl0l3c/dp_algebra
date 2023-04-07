@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('articles', '0010_blocktype_figure'),
+        ("articles", "0010_blocktype_figure"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='learnimage',
-            name='number',
+            model_name="learnimage",
+            name="number",
         ),
     ]

@@ -4,15 +4,17 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('articles', '0002_blocktype_alter_article_options_alter_block_options_and_more'),
+        (
+            "articles",
+            "0002_blocktype_alter_article_options_alter_block_options_and_more",
+        ),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='blocktype',
-            name='show_title',
+            model_name="blocktype",
+            name="show_title",
             field=models.BooleanField(db_index=True, default=False),
             preserve_default=False,
         ),

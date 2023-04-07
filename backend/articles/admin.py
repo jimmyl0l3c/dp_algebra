@@ -1,7 +1,20 @@
 from django.contrib import admin
 
-from .models import Language, Chapter, ChapterTranslation, Article, ArticleTranslation, Page, Block, BlockTranslation, \
-    BlockType, BlockTypeTranslation, Literature, RefLabel, LearnImage
+from .models import (
+    Language,
+    Chapter,
+    ChapterTranslation,
+    Article,
+    ArticleTranslation,
+    Page,
+    Block,
+    BlockTranslation,
+    BlockType,
+    BlockTypeTranslation,
+    Literature,
+    RefLabel,
+    LearnImage,
+)
 
 
 class InlineChapterTranslation(admin.TabularInline):
@@ -11,7 +24,7 @@ class InlineChapterTranslation(admin.TabularInline):
 
 @admin.register(Chapter)
 class ChapterAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'order')
+    list_display = ("__str__", "order")
     inlines = [InlineChapterTranslation]
 
 
@@ -22,7 +35,7 @@ class InlineArticleTranslation(admin.TabularInline):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'id', 'chapter', 'order')
+    list_display = ("__str__", "id", "chapter", "order")
     inlines = [InlineArticleTranslation]
 
 
@@ -33,9 +46,9 @@ class InlineBlockTranslation(admin.StackedInline):
 
 @admin.register(Block)
 class BlockAdmin(admin.ModelAdmin):
-    list_display = ('page', 'id', 'order', 'number', 'type')
+    list_display = ("page", "id", "order", "number", "type")
     inlines = [InlineBlockTranslation]
-    readonly_fields = ['number']
+    readonly_fields = ["number"]
 
 
 class InlineBlockTypeTranslation(admin.TabularInline):
@@ -45,34 +58,34 @@ class InlineBlockTypeTranslation(admin.TabularInline):
 
 @admin.register(BlockType)
 class BlockTypeAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'id', 'show_title', 'enumerated', 'figure')
+    list_display = ("__str__", "id", "show_title", "enumerated", "figure")
     inlines = [InlineBlockTypeTranslation]
 
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
-    list_display = ('article', 'id', 'order')
+    list_display = ("article", "id", "order")
 
 
 @admin.register(RefLabel)
 class RefLabelAdmin(admin.ModelAdmin):
-    list_display = ('ref_name', 'block')
+    list_display = ("ref_name", "block")
 
 
 @admin.register(Literature)
 class LiteratureAdmin(admin.ModelAdmin):
-    list_display = ('ref_name', '__str__')
+    list_display = ("ref_name", "__str__")
 
 
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name')
+    list_display = ("code", "name")
 
 
 @admin.register(LearnImage)
 class LearnImageAdmin(admin.ModelAdmin):
-    list_display = ('ref_name', 'image')
+    list_display = ("ref_name", "image")
 
 
-admin.site.site_header = 'Algebra - Administration'
-admin.site.site_title = 'Algebra'
+admin.site.site_header = "Algebra - Administration"
+admin.site.site_title = "Algebra"
