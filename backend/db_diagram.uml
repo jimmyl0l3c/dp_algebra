@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>803a9937-985e-4883-8bd7-ba2a233b7744</OriginalElement>
+  <nodes>
+    <node x="1151.0" y="-137.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_article_translations</node>
+    <node x="445.0" y="104.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_language</node>
+    <node x="-77.0" y="373.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_blocktype</node>
+    <node x="666.0" y="82.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_chapter_translations</node>
+    <node x="-115.0" y="93.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_blocktypetranslation</node>
+    <node x="698.0" y="384.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_learnimage</node>
+    <node x="169.0" y="184.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_reflabel</node>
+    <node x="414.0" y="362.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_block_translations</node>
+    <node x="1200.0" y="329.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_page</node>
+    <node x="964.5" y="252.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_literature</node>
+    <node x="1195.5" y="93.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_article</node>
+    <node x="970.5" y="115.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_chapter</node>
+    <node x="158.5" y="362.5">803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_block</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_blocktypetranslation" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_blocktype" relationship="REFERENCES">
+      <point x="0.0" y="60.5" />
+      <point x="0.0" y="-60.5" />
+    </edge>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_block_translations" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_language" relationship="REFERENCES">
+      <point x="0.0" y="-71.5" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_blocktypetranslation" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_language" relationship="REFERENCES">
+      <point x="118.0" y="-0.0" />
+      <point x="-78.0" y="-0.0" />
+    </edge>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_block" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_blocktype" relationship="REFERENCES">
+      <point x="-84.5" y="-0.0" />
+      <point x="80.0" y="-0.0" />
+    </edge>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_page" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_article" relationship="REFERENCES">
+      <point x="63.0" y="-0.0" />
+      <point x="1263.0" y="379.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_article_translations" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_article" relationship="REFERENCES">
+      <point x="0.0" y="71.5" />
+      <point x="0.0" y="-60.5" />
+    </edge>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_block" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_page" relationship="REFERENCES">
+      <point x="0.0" y="71.5" />
+      <point x="243.0" y="545.0" />
+      <point x="1263.0" y="545.0" />
+      <point x="0.0" y="-49.5" />
+    </edge>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_article" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_chapter" relationship="REFERENCES">
+      <point x="-67.5" y="-0.0" />
+      <point x="72.5" y="-0.0" />
+    </edge>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_reflabel" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_block" relationship="REFERENCES">
+      <point x="0.0" y="49.5" />
+      <point x="0.0" y="-71.5" />
+    </edge>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_chapter_translations" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_language" relationship="REFERENCES">
+      <point x="-117.0" y="-0.0" />
+      <point x="78.0" y="-0.0" />
+    </edge>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_article_translations" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_language" relationship="REFERENCES">
+      <point x="-112.0" y="-0.0" />
+      <point x="523.0" y="-66.0" />
+      <point x="0.0" y="-49.5" />
+    </edge>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_block_translations" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_block" relationship="REFERENCES">
+      <point x="-109.0" y="-0.0" />
+      <point x="84.5" y="-0.0" />
+    </edge>
+    <edge source="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_chapter_translations" target="803a9937-985e-4883-8bd7-ba2a233b7744.TABLE:main.articles_chapter" relationship="REFERENCES">
+      <point x="117.0" y="-0.0" />
+      <point x="-72.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Orthogonal Groups" zoom="0.9944370860927154" showDependencies="false" x="710.4418620138516" y="264.09263452317526" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
