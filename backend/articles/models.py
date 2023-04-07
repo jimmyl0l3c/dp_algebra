@@ -134,13 +134,15 @@ class Block(models.Model):
         if self.type.figure:
             type_filter = {"type__figure": True}
         preceding_count = Block.objects.filter(
-            Q(
-                page__article__chapter__order__lt=self.page.article.chapter.order
-            ) | Q(
-                page__article__chapter=self.page.article.chapter, page__article__order__lt=self.page.article.order
-            ) | Q(
-                page__article=self.page.article, page__order__lt=self.page.order
-            ) | Q(page=self.page, order__lt=self.order), **type_filter).count()
+            Q(page__article__chapter__order__lt=self.page.article.chapter.order)
+            | Q(
+                page__article__chapter=self.page.article.chapter,
+                page__article__order__lt=self.page.article.order,
+            )
+            | Q(page__article=self.page.article, page__order__lt=self.page.order)
+            | Q(page=self.page, order__lt=self.order),
+            **type_filter,
+        ).count()
         return preceding_count + 1
 
     def __update_following_enumerated(self):
@@ -151,15 +153,22 @@ class Block(models.Model):
             type_filter = {"type__figure": True}
 
         following = Block.objects.filter(
-            Q(
-                page__article__chapter__order__gt=self.page.article.chapter.order
-            ) | Q(
-                page__article__chapter=self.page.article.chapter, page__article__order__gt=self.page.article.order
-            ) | Q(
-                page__article=self.page.article, page__order__gt=self.page.order
-            ) | Q(page=self.page, order__gt=self.order), **type_filter).order_by(
-            'page__article__chapter__order', 'page__article__order', 'page__order', 'order'
-        )[:1]
+            Q(page__article__chapter__order__gt=self.page.article.chapter.order)
+            | Q(
+                page__article__chapter=self.page.article.chapter,
+                page__article__order__gt=self.page.article.order,
+            )
+            | Q(page__article=self.page.article, page__order__gt=self.page.order)
+            | Q(page=self.page, order__gt=self.order),
+            **type_filter,
+        ).order_by(
+            "page__article__chapter__order",
+            "page__article__order",
+            "page__order",
+            "order",
+        )[
+            :1
+        ]
         if following:
             block = following.first()
             block.number = block.calculate_number()
@@ -197,8 +206,12 @@ class BlockTranslation(models.Model):
         self.content = re.sub(r" {2,}", " ", self.content)
         self.content = re.sub(r"(\\cite{\S+)\s+(\S+})", r"\g<1>\g<2>", self.content)
         # Replace \begin{align} with matrix in display math block
-        self.content = re.sub(r"(\\begin{)align\*(})", r"$$\g<1>matrix\g<2>", self.content)
-        self.content = re.sub(r"(\\end{)align\*(})", r"\g<1>matrix\g<2>$$", self.content)
+        self.content = re.sub(
+            r"(\\begin{)align\*(})", r"$$\g<1>matrix\g<2>", self.content
+        )
+        self.content = re.sub(
+            r"(\\end{)align\*(})", r"\g<1>matrix\g<2>$$", self.content
+        )
         # Replace tilda
         self.content = re.sub(r"~", " ", self.content)
         # Replace \uv{}
