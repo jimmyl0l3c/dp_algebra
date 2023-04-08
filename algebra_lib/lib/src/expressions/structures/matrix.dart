@@ -122,19 +122,13 @@ class Matrix implements Expression {
       buffer.write(r'\begin{pmatrix}');
     }
 
-    for (var r = 0; r < rowCount; r++) {
-      if (rows[r] is Vector) {
-        for (var c = 0; c < columnCount; c++) {
-          buffer.write((rows[r] as Vector)[c].toTeX());
-
-          if (c != (columnCount - 1)) buffer.write(' & ');
-        }
-      } else {
-        buffer.write(rows[r].toTeX());
-      }
-
-      if (r != (rowCount - 1)) buffer.write(r' \\ ');
-    }
+    buffer.write(
+      rows
+          .map((row) => row is Vector
+              ? row.items.map((c) => c.toTeX()).join(' & ')
+              : row.toTeX())
+          .join(r' \\ '),
+    );
 
     if (flags != null && flags.contains(TexFlags.dontEnclose)) {
       buffer.write(r'\end{matrix}');

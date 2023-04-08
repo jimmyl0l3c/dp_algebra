@@ -33,27 +33,9 @@ class Vector implements Expression {
   String toTeX({Set<TexFlags>? flags}) {
     StringBuffer buffer = StringBuffer(r'\begin{pmatrix} ');
 
-    for (var i = 0; i < items.length; i++) {
-      buffer.write(items[i].toTeX());
-
-      if (i != (items.length - 1)) buffer.write(' & ');
-    }
+    buffer.write(items.map((e) => e.toTeX()).join(' & '));
 
     buffer.write(r' \end{pmatrix}');
-    return buffer.toString();
-  }
-
-  @override
-  String toString() {
-    StringBuffer buffer = StringBuffer('(');
-
-    for (var i = 0; i < items.length; i++) {
-      buffer.write(items[i]);
-
-      if (i != (items.length - 1)) buffer.write(', ');
-    }
-
-    buffer.write(')');
     return buffer.toString();
   }
 

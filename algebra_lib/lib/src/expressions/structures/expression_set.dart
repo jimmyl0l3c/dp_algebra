@@ -27,8 +27,7 @@ class ExpressionSet implements Expression {
   String toTeX({Set<TexFlags>? flags}) {
     StringBuffer buffer = StringBuffer(r'\{');
 
-    List<String> itemsTeX = items.map((e) => e.toTeX()).toList();
-    buffer.write(itemsTeX.join(", "));
+    buffer.write(items.map((e) => e.toTeX()).join(", "));
 
     buffer.write(r'\}');
     return buffer.toString();
