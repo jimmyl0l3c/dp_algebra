@@ -72,14 +72,15 @@ def article_view(request: HttpRequest, locale_id: int, article_id: int):
             block_title=F("blocktranslation__title"),
             block_content=F("blocktranslation__content"),
         )
-        .order_by("order", "page_index")
+        .order_by("page_index", "order")
     )
 
-    pages = []
+    pages, curr_page = [], -1
     for block in blocks:
-        if block["page_index"] == len(pages):
+        if block["page_index"] != curr_page:
+            curr_page = block["page_index"]
             pages.append([])
-        pages[block["page_index"]].append(block)
+        pages[-1].append(block)
 
     return JsonResponse({**article.get(), "pages": pages})
 
