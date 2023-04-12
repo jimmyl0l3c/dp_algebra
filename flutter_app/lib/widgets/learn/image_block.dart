@@ -28,7 +28,7 @@ class ImageBlock extends StatelessWidget {
             fit: BoxFit.contain,
             placeholder: (context, url) => const CircularProgressIndicator(),
             imageUrl:
-                'http${DbService.devEnv ? "" : "s"}://${DbService.apiUrl}/api/learn/image?ref_name=${block.content}',
+                'http${DbService.devEnv ? "" : "s"}://${DbService.apiUrl}/api/learn/image/${block.content}',
           ),
         ),
         if (block.title != null)
