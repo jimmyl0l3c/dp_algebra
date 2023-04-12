@@ -101,32 +101,25 @@ def get_literature_view(request: HttpRequest):
 
 @require_http_methods(["GET"])
 def get_reference_view(request: HttpRequest):
-    values_args = ["ref_name"]
-    values_kwargs = {
-        "block_type": F("block__type"),
-        "block_number": F("block__number"),
-        "page": F("block__page__order"),
-        "article": F("block__page__article"),
-        "chapter": F("block__page__article__chapter"),
-    }
-
-    if "ref_name" in request.GET:
-        ref = RefLabel.objects.filter(ref_name__iexact=request.GET["ref_name"]).values(
-            *values_args, **values_kwargs
-        )
+    is_filtered = "ref_name" in request.GET
+    if is_filtered:
+        ref = RefLabel.objects.filter(ref_name__iexact=request.GET["ref_name"])
 
         if not ref.exists():
             return JsonResponse({"error": "Reference not found"}, status=404)
-
-        return JsonResponse({**ref.get()})
     else:
-        return JsonResponse(
-            {
-                "reference": list(
-                    RefLabel.objects.all().values(*values_args, **values_kwargs)
-                )
-            }
-        )
+        ref = RefLabel.objects.all()
+
+    ref = ref.values(
+        "ref_name",
+        block_type=F("block__type"),
+        block_number=F("block__number"),
+        page=F("block__page__order"),
+        article=F("block__page__article"),
+        chapter=F("block__page__article__chapter"),
+    )
+
+    return JsonResponse({**ref.get()} if is_filtered else {"reference": list(ref)})
 
 
 @require_http_methods(["GET"])
