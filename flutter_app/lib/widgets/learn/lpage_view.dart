@@ -5,6 +5,8 @@ import '../../data/block_parser.dart';
 import '../../models/db/learn_block.dart';
 import '../../models/db/learn_page.dart';
 import '../../models/learn/block_content.dart';
+import '../../models/learn/block_segment.dart';
+import '../../models/learn/type_enums.dart';
 import '../layout/bullet_list.dart';
 import '../layout/display_math_wrap.dart';
 import 'block_ref_button.dart';

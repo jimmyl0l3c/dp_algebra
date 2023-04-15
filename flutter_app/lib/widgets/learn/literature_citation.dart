@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/learn/block_content.dart';
+import '../../models/learn/block_segment.dart';
 import '../../utils/get_dialog_route.dart';
 import 'in_text_button.dart';
 

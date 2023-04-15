@@ -1,4 +1,6 @@
 import '../models/learn/block_content.dart';
+import '../models/learn/block_segment.dart';
+import '../models/learn/type_enums.dart';
 import '../utils/extensions.dart';
 
 class BlockParser {

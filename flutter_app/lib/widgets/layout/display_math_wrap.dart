@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
-import '../../models/learn/block_content.dart';
+import '../../models/learn/block_segment.dart';
 import '../learn/literature_citation.dart';
 
 class DisplayMathWrap extends StatelessWidget {
