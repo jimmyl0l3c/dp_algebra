@@ -27,34 +27,37 @@ class ButtonRow extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: children
-              .asMap()
-              .keys
-              .toList()
-              .map(
-                (i) => Container(
-                  decoration: i != (children.length - 1)
-                      ? BoxDecoration(
-                          border: Border(
-                          right: BorderSide(
-                            color: children[i].onPressed == null
-                                ? Colors.black12
-                                : Colors.deepPurple.shade800,
-                            width: 2.0,
-                          ),
-                        ))
-                      : null,
-                  child: children[i].tooltip != null
-                      ? Tooltip(
-                          message: children[i].tooltip,
-                          child: _getRowButton(context, children[i]),
-                        )
-                      : _getRowButton(context, children[i]),
-                ),
-              )
-              .toList(),
+        child: IntrinsicHeight(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: children
+                .asMap()
+                .keys
+                .toList()
+                .map(
+                  (i) => Container(
+                    decoration: i != (children.length - 1)
+                        ? BoxDecoration(
+                            border: Border(
+                            right: BorderSide(
+                              color: children[i].onPressed == null
+                                  ? Colors.black12
+                                  : Colors.deepPurple.shade800,
+                              width: 2.0,
+                            ),
+                          ))
+                        : null,
+                    child: children[i].tooltip != null
+                        ? Tooltip(
+                            message: children[i].tooltip,
+                            child: _getRowButton(context, children[i]),
+                          )
+                        : _getRowButton(context, children[i]),
+                  ),
+                )
+                .toList(),
+          ),
         ),
       ),
     );
@@ -87,9 +90,6 @@ class ButtonRow extends StatelessWidget {
           side: MaterialStateProperty.all(BorderSide.none),
           shape: MaterialStateProperty.all(const RoundedRectangleBorder()),
         ),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 15),
-          child: item.child,
-        ),
+        child: item.child,
       );
 }
