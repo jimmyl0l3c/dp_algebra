@@ -11,12 +11,14 @@ class VectorInput extends StatefulWidget {
   final VectorModel vector;
   final String? name;
   final VoidCallback? deleteVector;
+  final bool randomGenerationAllowed;
 
   const VectorInput({
     Key? key,
     required this.vector,
     this.name,
     this.deleteVector,
+    this.randomGenerationAllowed = false,
   }) : super(key: key);
 
   @override
@@ -83,15 +85,14 @@ class _VectorInputState extends State<VectorInput> {
                 ),
                 children: [
                   ButtonRowItem(
-                    child: const Text('+ Prvek'),
                     onPressed: () {
                       setState(() {
                         widget.vector.add();
                       });
                     },
+                    child: const Text('+ Prvek'),
                   ),
                   ButtonRowItem(
-                    child: const Text('- Prvek'),
                     onPressed: widget.vector.length > 1
                         ? () {
                             setState(() {
@@ -99,7 +100,21 @@ class _VectorInputState extends State<VectorInput> {
                             });
                           }
                         : null,
+                    child: const Text('- Prvek'),
                   ),
+                  if (widget.randomGenerationAllowed)
+                    ButtonRowItem(
+                      onPressed: () {
+                        setState(() {
+                          widget.vector.regenerateValues();
+                        });
+                      },
+                      tooltip: 'Náhodně vyplnit',
+                      child: const Icon(
+                        Icons.casino,
+                        size: 17,
+                      ),
+                    ),
                 ],
               ),
             ),

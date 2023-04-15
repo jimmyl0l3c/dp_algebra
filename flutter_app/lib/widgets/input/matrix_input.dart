@@ -67,16 +67,6 @@ class _MatrixInputState extends State<MatrixInput> {
                           ),
                         ),
                       ),
-                    if (widget.randomGenerationAllowed)
-                      MenuItemButton(
-                        leadingIcon: const Icon(Icons.casino),
-                        onPressed: () {
-                          setState(() {
-                            widget.matrix.regenerateValues();
-                          });
-                        },
-                        child: const Text('Vyplnit'),
-                      ),
                     if (widget.duplicateMatrix != null)
                       MenuItemButton(
                         leadingIcon: const Icon(
@@ -170,6 +160,19 @@ class _MatrixInputState extends State<MatrixInput> {
                     });
                   },
                 ),
+                if (widget.randomGenerationAllowed)
+                  ButtonRowItem(
+                    onPressed: () {
+                      setState(() {
+                        widget.matrix.regenerateValues();
+                      });
+                    },
+                    tooltip: 'Náhodně vyplnit',
+                    child: const Icon(
+                      Icons.casino,
+                      size: 17,
+                    ),
+                  ),
               ],
             )
           ],

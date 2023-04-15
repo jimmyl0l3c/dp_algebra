@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ButtonRowItem {
-  final Widget child;
+  final String? tooltip;
   final void Function()? onPressed;
+  final Widget child;
 
-  ButtonRowItem({required this.child, this.onPressed});
+  ButtonRowItem({this.tooltip, this.onPressed, required this.child});
 }
 
 class ButtonRow extends StatelessWidget {
@@ -38,42 +39,19 @@ class ButtonRow extends StatelessWidget {
                       ? BoxDecoration(
                           border: Border(
                           right: BorderSide(
-                            color: Colors.deepPurple.shade800,
+                            color: children[i].onPressed == null
+                                ? Colors.black12
+                                : Colors.deepPurple.shade800,
                             width: 2.0,
                           ),
                         ))
                       : null,
-                  child: TextButton(
-                    onPressed: children[i].onPressed,
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all(padding ??
-                          const EdgeInsets.symmetric(
-                            vertical: 20,
-                            horizontal: 8,
-                          )),
-                      backgroundColor:
-                          MaterialStateProperty.resolveWith((states) {
-                        if (states.contains(MaterialState.disabled)) {
-                          return Colors.white12;
-                        }
-                        if (states.contains(MaterialState.pressed)) {
-                          return Colors.deepPurpleAccent[100];
-                        }
-                        if (states.contains(MaterialState.hovered) ||
-                            states.contains(MaterialState.focused)) {
-                          return Colors.deepPurpleAccent;
-                        }
-                        return Theme.of(context).colorScheme.primary;
-                      }),
-                      foregroundColor: MaterialStateProperty.all(
-                        Theme.of(context).colorScheme.onPrimary,
-                      ),
-                      side: MaterialStateProperty.all(BorderSide.none),
-                      shape: MaterialStateProperty.all(
-                          const RoundedRectangleBorder()),
-                    ),
-                    child: children[i].child,
-                  ),
+                  child: children[i].tooltip != null
+                      ? Tooltip(
+                          message: children[i].tooltip,
+                          child: _getRowButton(context, children[i]),
+                        )
+                      : _getRowButton(context, children[i]),
                 ),
               )
               .toList(),
@@ -81,4 +59,37 @@ class ButtonRow extends StatelessWidget {
       ),
     );
   }
+
+  Widget _getRowButton(BuildContext context, ButtonRowItem item) => TextButton(
+        onPressed: item.onPressed,
+        style: ButtonStyle(
+          padding: MaterialStateProperty.all(padding ??
+              const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 8,
+              )),
+          backgroundColor: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.disabled)) {
+              return Colors.white12;
+            }
+            if (states.contains(MaterialState.pressed)) {
+              return Colors.deepPurpleAccent[100];
+            }
+            if (states.contains(MaterialState.hovered) ||
+                states.contains(MaterialState.focused)) {
+              return Colors.deepPurpleAccent;
+            }
+            return Theme.of(context).colorScheme.primary;
+          }),
+          foregroundColor: MaterialStateProperty.all(
+            Theme.of(context).colorScheme.onPrimary,
+          ),
+          side: MaterialStateProperty.all(BorderSide.none),
+          shape: MaterialStateProperty.all(const RoundedRectangleBorder()),
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 15),
+          child: item.child,
+        ),
+      );
 }

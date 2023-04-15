@@ -66,6 +66,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                 vector: vectors[i],
                 name: 'v$i',
                 deleteVector: () => getIt<CalcVectorModel>().removeVector(i),
+                randomGenerationAllowed: true,
               ),
             const Divider(),
             Text(

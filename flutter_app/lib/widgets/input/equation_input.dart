@@ -9,10 +9,12 @@ import 'fraction_input.dart';
 
 class EquationInput extends StatefulWidget {
   final MatrixModel matrix;
+  final bool randomGenerationAllowed;
 
   const EquationInput({
     Key? key,
     required this.matrix,
+    this.randomGenerationAllowed = false,
   }) : super(key: key);
 
   @override
@@ -153,19 +155,36 @@ class _EquationInputState extends State<EquationInput> {
                   ),
                   children: [
                     ButtonRowItem(
-                        child: const Text('+ Rovnice'),
-                        onPressed: () {
-                          setState(() {
-                            widget.matrix.addRow();
-                          });
-                        }),
+                      child: const Text('+ Rovnice'),
+                      tooltip: 'Přidat rovnici (řádek)',
+                      onPressed: () {
+                        setState(() {
+                          widget.matrix.addRow();
+                        });
+                      },
+                    ),
                     ButtonRowItem(
-                        child: const Text('+ Neznámá'),
+                      child: const Text('+ Neznámá'),
+                      tooltip: 'Přidat neznámou (sloupec)',
+                      onPressed: () {
+                        setState(() {
+                          widget.matrix.addColumn();
+                        });
+                      },
+                    ),
+                    if (widget.randomGenerationAllowed)
+                      ButtonRowItem(
                         onPressed: () {
                           setState(() {
-                            widget.matrix.addColumn();
+                            widget.matrix.regenerateValues();
                           });
-                        }),
+                        },
+                        tooltip: 'Náhodně vyplnit',
+                        child: const Icon(
+                          Icons.casino,
+                          size: 17,
+                        ),
+                      ),
                   ],
                 ),
                 const SizedBox(width: 8),

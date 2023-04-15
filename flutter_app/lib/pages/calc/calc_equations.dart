@@ -35,6 +35,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
           children: [
             EquationInput(
               matrix: equationMatrix,
+              randomGenerationAllowed: true,
             ),
             const Divider(),
             Text(
