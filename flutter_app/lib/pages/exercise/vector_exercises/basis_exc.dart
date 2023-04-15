@@ -116,7 +116,9 @@ class _BasisExcState extends State<BasisExc> {
   }
 
   void _generateBasis() {
+    solution.clear();
     vectors.clear();
+
     int length = ExerciseUtils.generateSize(min: 2);
 
     for (var i = 0; i < ExerciseUtils.generateSize(min: 2, max: 3); i++) {

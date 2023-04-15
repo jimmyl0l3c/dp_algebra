@@ -92,6 +92,7 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
   }
 
   void _generate() {
+    solution.clear();
     basisA.clear();
     basisB.clear();
 

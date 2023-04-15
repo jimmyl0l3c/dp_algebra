@@ -66,6 +66,11 @@ class MatrixModel {
     return _matrix.removeAt(index);
   }
 
+  void clear() {
+    _matrix.clear();
+    _matrix.add([_defaultVal]);
+  }
+
   void setValue(int r, int c, BigFraction value) => _matrix[r][c] = value;
 
   bool get isSquare => rows == columns;

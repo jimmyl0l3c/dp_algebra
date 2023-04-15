@@ -76,6 +76,8 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
   bool isAnswerCorrect() => solution.toMatrix() == correctSolution?.result;
 
   void generateSquareMatrix(int size) {
+    solution.clear();
+
     var matrix = ExerciseUtils.generateSquareMatrix(size).toMatrix();
     exercise = Inverse(exp: matrix);
 

@@ -112,6 +112,8 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
   }
 
   void generateEntryWiseExample(String operation) {
+    solution.clear();
+
     int rows = ExerciseUtils.generateSize();
     int cols = ExerciseUtils.generateSize();
 
@@ -134,6 +136,8 @@ class _BinaryMatrixExcState extends State<BinaryMatrixExc> {
   }
 
   void generateMultiplyExample() {
+    solution.clear();
+
     int rows = ExerciseUtils.generateSize();
     int cols = ExerciseUtils.generateSize();
     int cols2 = ExerciseUtils.generateSize();

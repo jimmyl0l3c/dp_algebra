@@ -99,8 +99,10 @@ class _DeterminantExcState extends State<DeterminantExc> {
   bool isAnswerCorrect() => Scalar(solution) == correctSolution.result;
 
   void generateRandomDeterminant() {
+    solution = BigFraction.zero();
+
     int size = 1 + ExerciseUtils.generateSize();
-    return generateDeterminant(size);
+    generateDeterminant(size);
   }
 
   void generateDeterminant(int size) {
@@ -110,5 +112,6 @@ class _DeterminantExcState extends State<DeterminantExc> {
     ).toMatrix();
     exercise = Determinant(det: determinant);
     correctSolution = CalcResult.calculate(exercise);
+    solution = BigFraction.zero();
   }
 }
