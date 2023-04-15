@@ -24,8 +24,7 @@ class MainScaffold extends StatelessWidget {
         title: Text(title),
         centerTitle: true,
         leading: isSectionRoot
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back),
+            ? BackButton(
                 onPressed: () {
                   routeState.go('/');
                 },
@@ -33,6 +32,7 @@ class MainScaffold extends StatelessWidget {
             : null,
         actions: [
           IconButton(
+            tooltip: 'Návrat do hlavního menu',
             onPressed: () {
               routeState.go('/');
             },

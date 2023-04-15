@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'pages/navigator.dart';
 import 'routing/delegate.dart';
@@ -58,6 +59,14 @@ class _AlgebraAppState extends State<AlgebraApp> {
           routeInformationParser: _routeParser,
           routerDelegate: _routerDelegate,
           theme: algebraTheme,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('cs'),
+          ],
         ),
       );
 
