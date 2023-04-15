@@ -31,6 +31,14 @@ class MainScaffold extends StatelessWidget {
                 },
               )
             : null,
+        actions: [
+          IconButton(
+            onPressed: () {
+              routeState.go('/');
+            },
+            icon: const Icon(Icons.home),
+          )
+        ],
       ),
       body: child,
       floatingActionButton: floatingActionButton,
