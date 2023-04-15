@@ -30,7 +30,7 @@ USER flutter:flutter
 WORKDIR ./flutter_app
 
 RUN flutter pub get
-RUN flutter build web
+RUN flutter build web -v
 
 # Final
 FROM devforth/spa-to-http:latest
