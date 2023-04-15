@@ -6,14 +6,14 @@ class LRef {
   final int articleId;
   final int chapterId;
 
-  LRef({
-    required this.refName,
-    required this.blockType,
-    required this.blockNumber,
-    required this.pageId,
-    required this.articleId,
-    required this.chapterId,
-  });
+  LRef(
+    this.refName,
+    this.blockType,
+    this.blockNumber,
+    this.pageId,
+    this.articleId,
+    this.chapterId,
+  );
 
   LRef.fromJson(Map<dynamic, dynamic> json)
       : refName = json["ref_name"],

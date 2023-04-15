@@ -11,13 +11,13 @@ class LLiterature {
   final int? edition;
   final int? pages;
 
-  LLiterature({
-    required this.refName,
-    required this.author,
-    required this.year,
-    required this.title,
-    required this.location,
-    required this.publisher,
+  LLiterature(
+    this.refName,
+    this.author,
+    this.year,
+    this.title,
+    this.location,
+    this.publisher, {
     this.isbn,
     this.edition,
     this.pages,

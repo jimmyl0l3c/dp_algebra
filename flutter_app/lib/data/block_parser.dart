@@ -67,7 +67,7 @@ class BlockParser {
             tabularCell = tabularCell.substring(0, tabularCell.length - 2);
           }
           tabularCells.add(LBlockTabularCellSegment(
-            content: tabularMatch.group(3)!,
+            tabularMatch.group(3)!,
             cells: _parseTextContent(tabularCell),
             width: int.parse(tabularMatch.group(1)!),
           ));
