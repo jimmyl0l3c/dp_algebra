@@ -12,11 +12,11 @@ import '../routing/route_state.dart';
 import 'generic/alg_chapter_view.dart';
 import 'generic/alg_menu_view.dart';
 import 'generic/alg_page_view.dart';
+import 'generic/transition_page.dart';
 import 'learn/learn_article.dart';
 import 'learn/learn_chapter.dart';
 import 'learn/learn_menu.dart';
 import 'menu.dart';
-import 'transition_page.dart';
 
 class AlgebraNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;

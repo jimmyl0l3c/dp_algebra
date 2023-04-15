@@ -12,7 +12,7 @@ import '../../../utils/exc_utils.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/forms/button_row.dart';
 import '../../../widgets/input/solution_input.dart';
-import '../general/exercise_page.dart';
+import '../../generic/exercise_page.dart';
 
 class EquationExc extends StatefulWidget {
   const EquationExc({Key? key}) : super(key: key);
@@ -46,7 +46,6 @@ class _EquationExcState extends State<EquationExc> {
             onPressed: () {
               setState(() {
                 _generateSquareMatrix(ExerciseUtils.generateSize());
-                solution = {};
               });
             }),
         ButtonRowItem(
@@ -54,7 +53,6 @@ class _EquationExcState extends State<EquationExc> {
           onPressed: () {
             setState(() {
               _generateRandomMatrix();
-              solution = {};
             });
           },
         ),
@@ -152,6 +150,7 @@ class _EquationExcState extends State<EquationExc> {
     } else {
       correctSolution = null;
     }
+    solution = {};
   }
 
   void _generateSquareMatrix(int size) {

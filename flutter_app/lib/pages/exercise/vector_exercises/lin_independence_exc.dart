@@ -11,7 +11,7 @@ import '../../../models/input/vector_model.dart';
 import '../../../utils/exc_utils.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/forms/button_row.dart';
-import '../general/exercise_page.dart';
+import '../../generic/exercise_page.dart';
 
 class LinIndependenceExc extends StatefulWidget {
   const LinIndependenceExc({Key? key}) : super(key: key);

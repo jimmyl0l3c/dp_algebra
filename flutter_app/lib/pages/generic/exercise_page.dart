@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/calc/calc_result.dart';
-import '../../../widgets/forms/button_row.dart';
+import '../../models/calc/calc_result.dart';
+import '../../widgets/forms/button_row.dart';
 import 'exercise_solution.dart';
 
 class ExercisePage extends StatelessWidget {

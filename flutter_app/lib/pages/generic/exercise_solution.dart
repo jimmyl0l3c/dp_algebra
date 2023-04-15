@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/calc/calc_result.dart';
-import '../../../widgets/forms/button_row.dart';
-import '../../../widgets/info_button.dart';
-import '../../../widgets/layout/calc_stepper.dart';
+import '../../models/calc/calc_result.dart';
+import '../../widgets/forms/button_row.dart';
+import '../../widgets/info_button.dart';
+import '../../widgets/layout/calc_stepper.dart';
 
 class ExerciseSolution extends StatefulWidget {
   final CalcResult? solution;
