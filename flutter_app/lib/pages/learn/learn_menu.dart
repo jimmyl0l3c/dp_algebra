@@ -16,7 +16,7 @@ class LearnMenu extends StatelessWidget {
 
     return MainScaffold(
       isSectionRoot: true,
-      title: 'Výuka - Výběr kapitoly',
+      title: 'Výuka \u2014 Výběr kapitoly',
       child: FutureBuilder<List<LChapter>?>(
           future: dbService.fetchChapters(),
           builder: (context, snapshot) {

@@ -19,7 +19,7 @@ class AlgPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      title: '$sectionTitle - ${chapter.title} - ${page.title}',
+      title: '$sectionTitle \u2014 ${chapter.title} \u2014 ${page.title}',
       child: page.page,
     );
   }

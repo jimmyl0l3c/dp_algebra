@@ -38,7 +38,7 @@ final List<SectionChapterModel> exerciseChapters = [
         page: const LinIndependenceExc(),
       ),
       SectionPageModel(
-        title: 'Nálezení báze',
+        title: 'Nalezení báze',
         page: const BasisExc(),
       ),
       SectionPageModel(

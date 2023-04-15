@@ -23,7 +23,7 @@ class AlgChapterView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (chapter.pages.length == 1) {
       return MainScaffold(
-        title: '$sectionTitle - ${chapter.title}',
+        title: '$sectionTitle \u2014 ${chapter.title}',
         child: chapter.pages.first.page,
       );
     }
@@ -39,7 +39,7 @@ class AlgChapterView extends StatelessWidget {
     }
 
     return MainScaffold(
-      title: '$sectionTitle - ${chapter.title}',
+      title: '$sectionTitle \u2014 ${chapter.title}',
       child: SectionMenu(
         sections: sections,
       ),

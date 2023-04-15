@@ -11,7 +11,7 @@ class Menu extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lineární Algebra - Menu'),
+        title: const Text('Lineární algebra \u2014 menu'),
         centerTitle: true,
       ),
       body: Center(
