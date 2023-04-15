@@ -48,10 +48,9 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (basisA.isNotEmpty && basisB.isNotEmpty)
-            const Text(
-                'Vytvořte transformační matici pro transformaci souřadnic od báze A k bázi B:'),
+            const Text('Vytvořte matici přechodu od báze A k bázi B:'),
           const SizedBox(height: 12),
-          if (basisA.isNotEmpty) const Text('Basis A'),
+          if (basisA.isNotEmpty) const Text('Báze A'),
           for (var v in basisA)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -60,7 +59,7 @@ class _TransformMatrixExcState extends State<TransformMatrixExc> {
                 textScaleFactor: 1.4,
               ),
             ),
-          if (basisB.isNotEmpty) const Text('Basis B'),
+          if (basisB.isNotEmpty) const Text('Báze B'),
           for (var v in basisB)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),

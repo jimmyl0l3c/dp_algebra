@@ -124,7 +124,7 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                         showSnackBarMessage(context, e.friendlyMessage);
                       }
                     },
-                    child: const Text('Inverzní matice'),
+                    child: const Text('Pomocí inverzní matice'),
                   ),
                   const SizedBox(width: 8.0),
                   InfoButton(
