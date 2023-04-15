@@ -97,7 +97,7 @@ class LPageView extends StatelessWidget {
         case LBlockSegmentType.text:
           segments.last.addAll(segment.content.split(RegExp(r' (?=\S)')).map(
                 (e) => Text(
-                  '${e.trimRight()} ',
+                  '${e.trimRight().replaceAll('--', '\u2014')} ',
                   style: theme.textTheme.bodyMedium,
                 ),
               ));
