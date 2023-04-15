@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:big_fraction/big_fraction.dart';
 
@@ -69,6 +71,16 @@ class MatrixModel {
   void clear() {
     _matrix.clear();
     _matrix.add([_defaultVal]);
+  }
+
+  void regenerateValues() {
+    Random r = Random();
+
+    for (var i = 0; i < rows; i++) {
+      for (var j = 0; j < columns; j++) {
+        _matrix[i][j] = BigFraction.from(r.nextInt(21) - 10);
+      }
+    }
   }
 
   void setValue(int r, int c, BigFraction value) => _matrix[r][c] = value;

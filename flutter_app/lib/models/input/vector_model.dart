@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:algebra_lib/algebra_lib.dart';
 import 'package:big_fraction/big_fraction.dart';
 
@@ -10,6 +12,14 @@ class VectorModel {
     _entries = [];
     for (var i = 0; i < length; i++) {
       _entries.add(0.toBigFraction());
+    }
+  }
+
+  void regenerateValues() {
+    Random r = Random();
+
+    for (var i = 0; i < length; i++) {
+      _entries[i] = BigFraction.from(r.nextInt(21) - 10);
     }
   }
 

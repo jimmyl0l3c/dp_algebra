@@ -63,16 +63,16 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
             MatrixBinOperationSelection(),
             MatrixMultiplyByScalar(),
             MatrixOperationSelection(
-              operation: MatrixOperation.det,
+              operation: UnaryMatrixOperation.det,
             ),
             MatrixOperationSelection(
-              operation: MatrixOperation.rank,
+              operation: UnaryMatrixOperation.rank,
             ),
             MatrixOperationSelection(
-              operation: MatrixOperation.transpose,
+              operation: UnaryMatrixOperation.transpose,
             ),
             MatrixOperationSelection(
-              operation: MatrixOperation.inverse,
+              operation: UnaryMatrixOperation.inverse,
             ),
             const Divider(),
             Text(
@@ -214,6 +214,7 @@ class MatrixInputWrap extends StatelessWidget with GetItMixin {
                     );
                   }
                 : null,
+            randomGenerationAllowed: true,
           ),
       ],
     );
@@ -221,7 +222,7 @@ class MatrixInputWrap extends StatelessWidget with GetItMixin {
 }
 
 class MatrixOperationSelection extends StatelessWidget with GetItMixin {
-  final MatrixOperation operation;
+  final UnaryMatrixOperation operation;
 
   MatrixOperationSelection({
     Key? key,
@@ -235,20 +236,16 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
 
     String refName = "";
     switch (operation) {
-      case MatrixOperation.add:
-      case MatrixOperation.diff:
-      case MatrixOperation.multiply:
-        break;
-      case MatrixOperation.det:
+      case UnaryMatrixOperation.det:
         refName = PredefinedRef.determinant.refName;
         break;
-      case MatrixOperation.inverse:
+      case UnaryMatrixOperation.inverse:
         refName = PredefinedRef.inverseMatrix.refName;
         break;
-      case MatrixOperation.transpose:
+      case UnaryMatrixOperation.transpose:
         refName = PredefinedRef.transposedMatrix.refName;
         break;
-      case MatrixOperation.rank:
+      case UnaryMatrixOperation.rank:
         refName = PredefinedRef.matrixRank.refName;
         break;
     }
@@ -291,44 +288,43 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
           const SizedBox(
             width: 8.0,
           ),
-          if (!operation.binary)
-            ButtonRow(
-              children: [
-                for (var matrix in matrices.entries)
-                  ButtonRowItem(
-                    child: Text(matrix.key),
-                    onPressed: () {
-                      Expression expM = matrix.value.toMatrix();
-                      Expression? exp;
-                      try {
-                        switch (operation) {
-                          case MatrixOperation.det:
-                            exp = Determinant(det: expM);
-                            break;
-                          case MatrixOperation.inverse:
-                            exp = Inverse(exp: expM);
-                            break;
-                          case MatrixOperation.transpose:
-                            exp = Transpose(matrix: expM);
-                            break;
-                          case MatrixOperation.rank:
-                            exp = Rank(matrix: expM);
-                            break;
-                          default:
-                            return;
-                        }
-
-                        getIt<CalcSolutionsModel>().addSolution(
-                          CalcResult.calculate(exp),
-                          CalcCategory.matrixOperation,
-                        );
-                      } on CalcExpressionException catch (e) {
-                        showSnackBarMessage(context, e.friendlyMessage);
+          ButtonRow(
+            children: [
+              for (var matrix in matrices.entries)
+                ButtonRowItem(
+                  child: Text(matrix.key),
+                  onPressed: () {
+                    Expression expM = matrix.value.toMatrix();
+                    Expression? exp;
+                    try {
+                      switch (operation) {
+                        case UnaryMatrixOperation.det:
+                          exp = Determinant(det: expM);
+                          break;
+                        case UnaryMatrixOperation.inverse:
+                          exp = Inverse(exp: expM);
+                          break;
+                        case UnaryMatrixOperation.transpose:
+                          exp = Transpose(matrix: expM);
+                          break;
+                        case UnaryMatrixOperation.rank:
+                          exp = Rank(matrix: expM);
+                          break;
+                        default:
+                          return;
                       }
-                    },
-                  ),
-              ],
-            ),
+
+                      getIt<CalcSolutionsModel>().addSolution(
+                        CalcResult.calculate(exp),
+                        CalcCategory.matrixOperation,
+                      );
+                    } on CalcExpressionException catch (e) {
+                      showSnackBarMessage(context, e.friendlyMessage);
+                    }
+                  },
+                ),
+            ],
+          ),
         ],
       ),
     );
@@ -349,7 +345,7 @@ class MatrixBinOperationSelection extends StatefulWidget
 class _MatrixBinOperationSelectionState
     extends State<MatrixBinOperationSelection> with GetItStateMixin {
   String? _binaryLeft, _binaryRight;
-  String? _binaryOperation = '+';
+  BinaryMatrixOperation _binaryOperation = BinaryMatrixOperation.add;
 
   @override
   Widget build(BuildContext context) {
@@ -400,20 +396,21 @@ class _MatrixBinOperationSelectionState
           const SizedBox(
             width: 8.0,
           ),
-          StyledDropdownButton<String>(
+          StyledDropdownButton<BinaryMatrixOperation>(
             value: _binaryOperation,
-            items: <String>['+', '-', '*']
-                .map<DropdownMenuItem<String>>((String operation) {
+            items: BinaryMatrixOperation.values
+                .map<DropdownMenuItem<BinaryMatrixOperation>>(
+                    (BinaryMatrixOperation operation) {
               return DropdownMenuItem(
                 value: operation,
                 child: Center(
-                  child: Text(operation),
+                  child: Text(operation.symbol),
                 ),
               );
             }).toList(),
-            onChanged: (String? val) {
+            onChanged: (BinaryMatrixOperation? val) {
               setState(() {
-                _binaryOperation = val;
+                _binaryOperation = val ?? BinaryMatrixOperation.add;
               });
             },
             maxWidth: 60,
@@ -466,16 +463,16 @@ class _MatrixBinOperationSelectionState
 
                     try {
                       switch (_binaryOperation) {
-                        case '+':
+                        case BinaryMatrixOperation.add:
                           exp = Addition(left: expLeftM, right: expRightM);
                           break;
-                        case '-':
+                        case BinaryMatrixOperation.diff:
                           exp = Subtraction(
                             left: expLeftM,
                             right: expRightM,
                           );
                           break;
-                        case '*':
+                        case BinaryMatrixOperation.multiply:
                           exp = Multiply(left: expLeftM, right: expRightM);
                           break;
                         default:

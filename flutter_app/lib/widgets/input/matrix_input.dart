@@ -11,6 +11,7 @@ class MatrixInput extends StatefulWidget {
   final String? name;
   final VoidCallback? deleteMatrix;
   final VoidCallback? duplicateMatrix;
+  final bool randomGenerationAllowed;
 
   const MatrixInput({
     Key? key,
@@ -18,6 +19,7 @@ class MatrixInput extends StatefulWidget {
     this.name,
     this.deleteMatrix,
     this.duplicateMatrix,
+    this.randomGenerationAllowed = false,
   }) : super(key: key);
 
   @override
@@ -64,6 +66,16 @@ class _MatrixInputState extends State<MatrixInput> {
                             color: Colors.redAccent,
                           ),
                         ),
+                      ),
+                    if (widget.randomGenerationAllowed)
+                      MenuItemButton(
+                        leadingIcon: const Icon(Icons.casino),
+                        onPressed: () {
+                          setState(() {
+                            widget.matrix.regenerateValues();
+                          });
+                        },
+                        child: const Text('Vyplnit'),
                       ),
                     if (widget.duplicateMatrix != null)
                       MenuItemButton(
