@@ -10,12 +10,12 @@ class LBlockContent {
 class LBlockParagraphContent extends LBlockContent {
   final List<LBlockSegment> content;
 
-  LBlockParagraphContent({required this.content})
+  LBlockParagraphContent(this.content)
       : super(type: LBlockContentType.paragraph);
 }
 
 class LBlockListContent extends LBlockContent {
   final List<LBlockParagraphContent> content;
 
-  LBlockListContent({required super.type, required this.content});
+  LBlockListContent(this.content, {required super.type});
 }

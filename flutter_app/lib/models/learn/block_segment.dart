@@ -8,15 +8,15 @@ class LBlockSegment {
   final LBlockSegmentType type;
   final String content;
 
-  LBlockSegment({required this.type, required this.content});
+  LBlockSegment(this.content, {required this.type});
 }
 
 class LLitRefSegment extends LBlockSegment {
   final Future<List<LLiterature>> references;
 
-  LLitRefSegment({required String content})
+  LLitRefSegment(String content)
       : references = _getReferences(content),
-        super(type: LBlockSegmentType.literatureReference, content: content);
+        super(content, type: LBlockSegmentType.literatureReference);
 
   static Future<List<LLiterature>> _getReferences(String content) {
     DbService dbService = GetIt.instance.get<DbService>();
@@ -27,8 +27,8 @@ class LLitRefSegment extends LBlockSegment {
 class LBlockRefSegment extends LBlockSegment {
   final LBlockReferenceType refType;
 
-  LBlockRefSegment({required this.refType, required String content})
-      : super(type: LBlockSegmentType.reference, content: content);
+  LBlockRefSegment(String content, {required this.refType})
+      : super(content, type: LBlockSegmentType.reference);
 }
 
 class LBlockTabularCellSegment extends LBlockSegment {
@@ -39,5 +39,5 @@ class LBlockTabularCellSegment extends LBlockSegment {
     required String content,
     required this.cells,
     required this.width,
-  }) : super(type: LBlockSegmentType.tabular, content: content);
+  }) : super(content, type: LBlockSegmentType.tabular);
 }

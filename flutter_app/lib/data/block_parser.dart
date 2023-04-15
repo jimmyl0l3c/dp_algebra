@@ -28,19 +28,15 @@ class BlockParser {
       switch (currentType) {
         case LBlockContentType.paragraph:
           for (var s in segment.split(r'\break')) {
-            blockContent.add(
-              LBlockParagraphContent(
-                content: _parseTextContent(s),
-              ),
-            );
+            blockContent.add(LBlockParagraphContent(_parseTextContent(s)));
           }
           break;
         case LBlockContentType.list:
         case LBlockContentType.enumeratedList:
           blockContent.add(
             LBlockListContent(
+              _parseListContent(segment),
               type: currentType,
-              content: _parseListContent(segment),
             ),
           );
           break;
@@ -77,14 +73,12 @@ class BlockParser {
           ));
         }
 
-        content.add(LBlockParagraphContent(content: tabularCells));
+        content.add(LBlockParagraphContent(tabularCells));
         continue;
       }
 
       content.add(
-        LBlockParagraphContent(
-          content: _parseTextContent(item),
-        ),
+        LBlockParagraphContent(_parseTextContent(item)),
       );
     }
 
@@ -117,20 +111,18 @@ class BlockParser {
                 blockContent.last.type == LBlockSegmentType.inlineMath)) {
           var previous = blockContent.removeLast();
           blockContent.add(LBlockSegment(
+            '${previous.content}}',
             type: previous.type,
-            content: '${previous.content}}',
           ));
         }
 
         if (refMatch != null) {
           if (refMatch.group(1) == 'cite') {
-            blockContent.add(LLitRefSegment(
-              content: refMatch.group(2) ?? 'unknown',
-            ));
+            blockContent.add(LLitRefSegment(refMatch.group(2) ?? 'unknown'));
           } else if (refMatch.group(1) == 'ref') {
             blockContent.add(LBlockRefSegment(
+              refMatch.group(2) ?? 'unknown',
               refType: LBlockReferenceType.block,
-              content: refMatch.group(2) ?? 'unknown',
             ));
           }
         }
@@ -152,35 +144,32 @@ class BlockParser {
       }
 
       // If segment starts with [.,], add it to previous segment
-      if (segment.startsWith(RegExp(r"[.,]")) &&
+      if (segment.startsWith(RegExp(r'[.,]')) &&
           (blockContent.last.type == LBlockSegmentType.text ||
               blockContent.last.type == LBlockSegmentType.inlineMath)) {
         var previous = blockContent.removeLast();
         blockContent.add(LBlockSegment(
+          '${previous.content}${segment[0]}',
           type: previous.type,
-          content: '${previous.content}${segment[0]}',
         ));
 
         // Add space between two inline math blocks
         if (previous.type == LBlockSegmentType.inlineMath &&
             isMath &&
             !isDisplayMath) {
-          blockContent.add(LBlockSegment(
-            type: LBlockSegmentType.text,
-            content: " ",
-          ));
+          blockContent.add(LBlockSegment(' ', type: LBlockSegmentType.text));
         }
         segment = segment.substring(1);
       }
 
       blockContent.add(
         LBlockSegment(
+          segment,
           type: isMath
               ? (isDisplayMath
                   ? LBlockSegmentType.displayMath
                   : LBlockSegmentType.inlineMath)
               : LBlockSegmentType.text,
-          content: segment,
         ),
       );
     }
