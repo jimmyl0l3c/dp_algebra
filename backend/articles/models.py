@@ -94,16 +94,10 @@ class BlockType(models.Model):
     show_title = models.BooleanField(db_index=True)
     enumerated = models.BooleanField(db_index=True)
     figure = models.BooleanField(db_index=True)
+    code = models.CharField(max_length=50, unique=True, null=True, blank=True)
 
     def __str__(self):
-        type_translation = (
-            BlockType.objects.filter(pk=self.pk)
-            .values(name=F("blocktypetranslation__title"))
-            .order_by("blocktypetranslation__language")[:1]
-        )
-        if type_translation.exists():
-            return f'{self.id}: {type_translation.get()["name"]}'
-        return f"{self.id} ({self.enumerated})"
+        return f"{self.id}: {self.code}"
 
     class Meta:
         ordering = ["id"]
@@ -126,6 +120,7 @@ class Block(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
     type = models.ForeignKey(BlockType, on_delete=models.CASCADE)
     number = models.PositiveIntegerField(null=True, blank=True)
+    ref_label = models.CharField(max_length=50, unique=True, null=True, blank=True)
 
     def calculate_number(self) -> int | None:
         if not self.type.enumerated and not self.type.figure:
