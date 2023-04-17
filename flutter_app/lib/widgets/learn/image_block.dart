@@ -35,7 +35,7 @@ class ImageBlock extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 6.0, top: 12.0),
             child: Text(
-              "Obrázek$imgNum: ${block.title}",
+              "${block.typeTitle}$imgNum: ${block.title}",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
