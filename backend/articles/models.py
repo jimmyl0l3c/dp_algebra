@@ -94,7 +94,7 @@ class BlockType(models.Model):
     show_title = models.BooleanField(db_index=True)
     enumerated = models.BooleanField(db_index=True)
     figure = models.BooleanField(db_index=True)
-    code = models.CharField(max_length=50, unique=True, null=True, blank=True)
+    code = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return f"{self.id}: {self.code}"
