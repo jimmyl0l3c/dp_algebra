@@ -46,7 +46,7 @@ class InlineBlockTranslation(admin.StackedInline):
 
 @admin.register(Block)
 class BlockAdmin(admin.ModelAdmin):
-    list_display = ("page", "id", "order", "number", "type")
+    list_display = ("page", "id", "order", "number", "type", "ref_label")
     inlines = [InlineBlockTranslation]
     readonly_fields = ["number"]
 
