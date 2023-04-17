@@ -239,17 +239,6 @@ class Literature(models.Model):
         ordering = ["ref_name"]
 
 
-class RefLabel(models.Model):
-    ref_name = models.CharField(max_length=50, unique=True)
-    block = models.ForeignKey(Block, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.ref_name}: {self.block}"
-
-    class Meta:
-        ordering = ["block"]
-
-
 class LearnImage(models.Model):
     ref_name = models.CharField(max_length=50, unique=True)
     image = models.ImageField(upload_to=f"learn_images")

@@ -5,7 +5,7 @@ from django.http import HttpRequest, JsonResponse, FileResponse
 from django.views.decorators.http import require_http_methods
 
 from algebra_api.settings import MEDIA_ROOT
-from articles.models import Chapter, Article, Block, Literature, RefLabel, LearnImage
+from articles.models import Chapter, Article, Block, Literature, LearnImage
 
 
 @require_http_methods(["GET"])
@@ -69,6 +69,7 @@ def article_view(request: HttpRequest, locale_id: int, article_id: int):
             block_number=F("number"),
             block_type_visible=F("type__show_title"),
             block_type_title=F("type__blocktypetranslation__title"),
+            block_type_code=F("type__code"),
             block_title=F("blocktranslation__title"),
             block_content=F("blocktranslation__content"),
         )
@@ -104,20 +105,20 @@ def get_literature_view(request: HttpRequest):
 def get_reference_view(request: HttpRequest):
     is_filtered = "ref_name" in request.GET
     if is_filtered:
-        ref = RefLabel.objects.filter(ref_name__iexact=request.GET["ref_name"])
+        ref = Block.objects.filter(ref_label__iexact=request.GET["ref_name"])
 
         if not ref.exists():
             return JsonResponse({"error": "Reference not found"}, status=404)
     else:
-        ref = RefLabel.objects.all()
+        ref =  Block.objects.filter(ref_label__isnull=False)
 
     ref = ref.values(
-        "ref_name",
-        block_type=F("block__type"),
-        block_number=F("block__number"),
-        page=F("block__page__order"),
-        article=F("block__page__article"),
-        chapter=F("block__page__article__chapter"),
+        "ref_label",
+        block_type=F("type"),
+        block_number=F("number"),
+        page_order=F("page__order"),
+        article=F("page__article"),
+        chapter=F("page__article__chapter"),
     )
 
     return JsonResponse({**ref.get()} if is_filtered else {"reference": list(ref)})

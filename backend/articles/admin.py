@@ -12,7 +12,6 @@ from .models import (
     BlockType,
     BlockTypeTranslation,
     Literature,
-    RefLabel,
     LearnImage,
 )
 
@@ -65,11 +64,6 @@ class BlockTypeAdmin(admin.ModelAdmin):
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
     list_display = ("article", "id", "order")
-
-
-@admin.register(RefLabel)
-class RefLabelAdmin(admin.ModelAdmin):
-    list_display = ("ref_name", "block")
 
 
 @admin.register(Literature)
