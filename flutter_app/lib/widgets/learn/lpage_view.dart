@@ -33,7 +33,7 @@ class LPageView extends StatelessWidget {
       itemBuilder: (context, index) {
         LBlock block = page.blocks[index];
 
-        if (block.typeTitle == 'image') {
+        if (block.typeCode == 'image') {
           return ImageBlock(block: block);
         }
 

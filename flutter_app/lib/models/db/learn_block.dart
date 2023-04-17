@@ -1,6 +1,8 @@
 class LBlock {
   final bool showTypeTitle;
   final String typeTitle;
+  final String typeCode;
+
   final int? number;
   final String? title;
   final String content;
@@ -8,6 +10,7 @@ class LBlock {
   LBlock.fromJson(Map<dynamic, dynamic> json)
       : showTypeTitle = json["block_type_visible"],
         typeTitle = json["block_type_title"],
+        typeCode = json["block_type_code"],
         number = json.containsKey("block_number") ? json["block_number"] : null,
         title = json["block_title"],
         content = json["block_content"];
