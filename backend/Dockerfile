@@ -17,7 +17,6 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r ./api/
 
 
 # FINAL
-
 FROM python:3.11-slim
 
 RUN mkdir -p /home/app
@@ -43,6 +42,3 @@ RUN chown -R app:app $APP_HOME
 
 # change to the app user
 USER app
-
-# collect static
-RUN python manage.py collectstatic
