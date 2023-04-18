@@ -29,7 +29,7 @@ class LiteratureCitation extends StatelessWidget {
             return _getLitColumn(context, [
               const Padding(
                 padding: EdgeInsets.only(bottom: 8.0, left: 24.0),
-                child: Text('No literature found'),
+                child: Text('Seznam literatury se nepodařilo načíst'),
               )
             ]);
           }
@@ -47,7 +47,9 @@ class LiteratureCitation extends StatelessWidget {
                             child: Text('[${i + 1}]'),
                           ),
                           const SizedBox(width: 16),
-                          SelectableText(e.fullCitation),
+                          SelectableText(
+                            e?.fullCitation ?? 'Literatura nenalezena',
+                          ),
                         ],
                       ),
                     ))

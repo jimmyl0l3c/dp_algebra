@@ -25,13 +25,13 @@ class LBlockListContent extends LBlockContent {
 }
 
 class LBlockLiteratureContent extends LBlockContent {
-  final Future<List<LLiterature>> literature;
+  final Future<List<LLiterature?>> literature;
 
   LBlockLiteratureContent(List<String> refs)
       : literature = _getReferences(refs),
         super(type: LBlockContentType.literature);
 
-  static Future<List<LLiterature>> _getReferences(List<String> refs) {
+  static Future<List<LLiterature?>> _getReferences(List<String> refs) {
     DbService dbService = GetIt.instance.get<DbService>();
     return dbService.fetchLiterature(refs);
   }

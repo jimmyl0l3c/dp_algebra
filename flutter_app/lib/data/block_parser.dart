@@ -29,7 +29,7 @@ class BlockParser {
       blockContent.addAll(_parseSegment(segment));
     }
 
-    if (isLastBlock) {
+    if (isLastBlock && usedLiterature.isNotEmpty) {
       blockContent.add(LBlockLiteratureContent(usedLiterature.toList()));
     }
     return blockContent;

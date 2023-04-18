@@ -35,13 +35,30 @@ class LPageView extends StatelessWidget {
       itemCount: page.blocks.length,
       itemBuilder: (context, index) {
         LBlock block = page.blocks[index];
+        bool isLastBlock = index == page.blocks.length - 1;
+
         if (block.typeCode == 'image') {
-          return ImageBlock(block: block);
+          var image = ImageBlock(block: block);
+
+          if (isLastBlock) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                image,
+                LiteratureCitation(
+                  segment: LBlockLiteratureContent(
+                    parser.usedLiterature.toList(),
+                  ),
+                )
+              ],
+            );
+          }
+          return image;
         }
 
         List<LBlockContent> blockContent = parser.parseBlock(
           block.content,
-          isLastBlock: index == page.blocks.length - 1,
+          isLastBlock: isLastBlock,
         );
 
         List<List<Widget>> content = [];
