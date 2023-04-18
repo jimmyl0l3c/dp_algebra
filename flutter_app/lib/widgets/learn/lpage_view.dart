@@ -139,7 +139,10 @@ class LPageView extends StatelessWidget {
               segments[segments.length - 2].add(
                 DisplayMathWrap(
                   content: previous.content,
-                  citation: segment as LLitRefSegment,
+                  citation: LiteratureReference(
+                    segment: segment as LLitRefSegment,
+                    scrollController: scrollController,
+                  ),
                 ),
               );
             } else {
@@ -148,7 +151,10 @@ class LPageView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     previous,
-                    LiteratureReference(segment: segment as LLitRefSegment),
+                    LiteratureReference(
+                      segment: segment as LLitRefSegment,
+                      scrollController: scrollController,
+                    ),
                   ],
                 ),
               );
@@ -160,7 +166,10 @@ class LPageView extends StatelessWidget {
             segments.last.add(Text(' ', style: theme.textTheme.bodyMedium));
           }
           segments.last.add(
-            LiteratureReference(segment: segment as LLitRefSegment),
+            LiteratureReference(
+              segment: segment as LLitRefSegment,
+              scrollController: scrollController,
+            ),
           );
           break;
         case LBlockSegmentType.tabular:

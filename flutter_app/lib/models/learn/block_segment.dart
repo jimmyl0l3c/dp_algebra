@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+
 import 'type_enums.dart';
 
 class LBlockSegment {
@@ -10,7 +12,7 @@ class LBlockSegment {
 class LLitRefSegment extends LBlockSegment {
   LLitRefSegment(List<int> refs)
       : super(
-          '[${refs.join(", ")}]',
+          '[${refs.sorted((a, b) => a.compareTo(b)).join(", ")}]',
           type: LBlockSegmentType.literatureReference,
         );
 }
