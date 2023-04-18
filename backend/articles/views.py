@@ -110,7 +110,7 @@ def get_reference_view(request: HttpRequest):
         if not ref.exists():
             return JsonResponse({"error": "Reference not found"}, status=404)
     else:
-        ref =  Block.objects.filter(ref_label__isnull=False)
+        ref = Block.objects.filter(ref_label__isnull=False)
 
     ref = ref.values(
         "ref_label",
