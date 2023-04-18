@@ -111,9 +111,10 @@ class BlockParser {
       } else if (segment.contains(r'$')) {
         isMath = !isMath;
         continue;
-      } else if (segment.contains(RegExp(_refRegex))) {
-        var refMatch = RegExp(_refRegex).firstMatch(segment);
+      }
 
+      var refMatch = RegExp(_refRegex).firstMatch(segment);
+      if (refMatch != null) {
         // Fix previous segment if the citation is inside math segment
         if (isMath &&
             (blockContent.last.type == LBlockSegmentType.displayMath ||
@@ -125,15 +126,13 @@ class BlockParser {
           ));
         }
 
-        if (refMatch != null) {
-          if (refMatch.group(1) == 'cite') {
-            blockContent.add(LLitRefSegment(refMatch.group(2) ?? 'unknown'));
-          } else if (refMatch.group(1) == 'ref') {
-            blockContent.add(LBlockRefSegment(
-              refMatch.group(2) ?? 'unknown',
-              refType: LBlockReferenceType.block,
-            ));
-          }
+        if (refMatch.group(1) == 'cite') {
+          blockContent.add(LLitRefSegment(refMatch.group(2) ?? 'unknown'));
+        } else if (refMatch.group(1) == 'ref') {
+          blockContent.add(LBlockRefSegment(
+            refMatch.group(2) ?? 'unknown',
+            refType: LBlockReferenceType.block,
+          ));
         }
         continue;
       }
