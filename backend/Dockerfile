@@ -44,3 +44,5 @@ RUN chown -R app:app $APP_HOME
 # change to the app user
 USER app
 
+# collect static
+RUN python manage.py collectstatic
