@@ -4,7 +4,7 @@ import '../models/learn/type_enums.dart';
 import '../utils/extensions.dart';
 
 class BlockParser {
-  static const String _refRegex = r'\\(cite|ref){[a-zA-Z\d:\-_,]+}';
+  static const String _refRegex = r'\\(cite|ref){([a-zA-Z\d:\-_,]+)}';
   static const String _tabularRegex =
       r"\\begin{tabular}{\s*m{(\d+)(\w+)}\s*l?}(.*?)\\end{tabular}";
 
