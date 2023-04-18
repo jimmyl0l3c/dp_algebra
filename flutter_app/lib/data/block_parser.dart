@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
+
 import '../models/learn/block_content.dart';
 import '../models/learn/block_segment.dart';
 import '../models/learn/type_enums.dart';
@@ -8,7 +10,7 @@ import '../utils/extensions.dart';
 class BlockParser {
   static const String _refRegex = r'\\(cite|ref){([a-zA-Z\d:\-_,]+)}';
   static const String _tabularRegex =
-      r"\\begin{tabular}{\s*m{(\d+)(\w+)}\s*l?}(.*?)\\end{tabular}";
+      r'\\begin{tabular}{\s*m{(\d+)(\w+)}\s*l?}(.*?)\\end{tabular}';
 
   LBlockContentType _currentType = LBlockContentType.paragraph;
   LinkedHashSet<String> usedLiterature = LinkedHashSet();
@@ -24,7 +26,6 @@ class BlockParser {
       if (segment.isEmpty || _updateType(segment)) {
         continue;
       }
-
       blockContent.addAll(_parseSegment(segment));
     }
 
@@ -88,10 +89,10 @@ class BlockParser {
   }
 
   List<LBlockSegment> _getTabularCells(RegExpMatch tabularMatch) =>
-      tabularMatch.group(3)!.split(r"&").map(
+      tabularMatch.group(3)!.split(r'&').map(
         (tabularCell) {
           tabularCell = tabularCell.trim();
-          if (tabularCell.endsWith(r"\\")) {
+          if (tabularCell.endsWith(r'\\')) {
             tabularCell = tabularCell.substring(0, tabularCell.length - 2);
           }
 
@@ -125,34 +126,8 @@ class BlockParser {
       var refMatch = RegExp(_refRegex).firstMatch(segment);
       if (refMatch != null) {
         // Fix previous segment if the citation is inside math segment
-        if (isMath &&
-            (blockContent.last.type == LBlockSegmentType.displayMath ||
-                blockContent.last.type == LBlockSegmentType.inlineMath)) {
-          var previous = blockContent.removeLast();
-          blockContent.add(LBlockSegment(
-            '${previous.content}}',
-            type: previous.type,
-          ));
-        }
-
-        if (refMatch.group(1) == 'cite') {
-          var litRefs = refMatch.group(2)!.split(',');
-          usedLiterature.addAll(litRefs);
-          List<int> refIndexes = litRefs.map((r) {
-            int index = 1;
-            for (var lit in usedLiterature) {
-              if (lit == r) break;
-              index++;
-            }
-            return index;
-          }).toList();
-          blockContent.add(LLitRefSegment(refIndexes));
-        } else if (refMatch.group(1) == 'ref') {
-          blockContent.add(LBlockRefSegment(
-            refMatch.group(2) ?? 'unknown',
-            refType: LBlockReferenceType.block,
-          ));
-        }
+        if (isMath) _fixPreviousMathSegment(blockContent);
+        blockContent.add(_parseRef(refMatch)!);
         continue;
       }
 
@@ -164,30 +139,17 @@ class BlockParser {
         segment = '\\text{$segment';
       }
 
-      if (segment.contains(r'$')) continue;
-
-      if (RegExp(r'\\text\{\s*\}').hasMatch(segment.trim())) {
+      if (segment.contains(r'$') ||
+          RegExp(r'\\text\{\s*\}').hasMatch(segment.trim())) {
         continue;
       }
 
       // If segment starts with [.,], add it to previous segment
-      if (segment.startsWith(RegExp(r'[.,]')) &&
-          (blockContent.last.type == LBlockSegmentType.text ||
-              blockContent.last.type == LBlockSegmentType.inlineMath)) {
-        var previous = blockContent.removeLast();
-        blockContent.add(LBlockSegment(
-          '${previous.content}${segment[0]}',
-          type: previous.type,
-        ));
-
-        // Add space between two inline math blocks
-        if (previous.type == LBlockSegmentType.inlineMath &&
-            isMath &&
-            !isDisplayMath) {
-          blockContent.add(LBlockSegment(' ', type: LBlockSegmentType.text));
-        }
-        segment = segment.substring(1);
-      }
+      segment = _appendPunctuationToPreviousSegment(
+        blockContent,
+        segment,
+        isMath && !isDisplayMath,
+      );
 
       blockContent.add(
         LBlockSegment(
@@ -202,5 +164,61 @@ class BlockParser {
     }
 
     return blockContent;
+  }
+
+  LBlockSegment? _parseRef(RegExpMatch refMatch) {
+    if (refMatch.group(1) == 'cite') {
+      var litRefs = refMatch.group(2)!.split(',');
+      usedLiterature.addAll(litRefs);
+
+      List<int> refIndexes = [];
+      usedLiterature.forEachIndexed((index, element) {
+        if (litRefs.contains(element)) {
+          refIndexes.add(index + 1);
+        }
+      });
+
+      return LLitRefSegment(refIndexes);
+    } else if (refMatch.group(1) == 'ref') {
+      return LBlockRefSegment(
+        refMatch.group(2) ?? 'unknown',
+        refType: LBlockReferenceType.block,
+      );
+    }
+    return null;
+  }
+
+  String _appendPunctuationToPreviousSegment(
+    List<LBlockSegment> blockContent,
+    String segment,
+    bool isInlineMath,
+  ) {
+    if (segment.startsWith(RegExp(r'[.,]')) &&
+        (blockContent.last.type == LBlockSegmentType.text ||
+            blockContent.last.type == LBlockSegmentType.inlineMath)) {
+      var previous = blockContent.removeLast();
+      blockContent.add(LBlockSegment(
+        '${previous.content}${segment[0]}',
+        type: previous.type,
+      ));
+
+      // Add space between two inline math blocks
+      if (previous.type == LBlockSegmentType.inlineMath && isInlineMath) {
+        blockContent.add(LBlockSegment(' ', type: LBlockSegmentType.text));
+      }
+      return segment.substring(1);
+    }
+    return segment;
+  }
+
+  void _fixPreviousMathSegment(List<LBlockSegment> blockContent) {
+    if ((blockContent.last.type == LBlockSegmentType.displayMath ||
+        blockContent.last.type == LBlockSegmentType.inlineMath)) {
+      var previous = blockContent.removeLast();
+      blockContent.add(LBlockSegment(
+        '${previous.content}}',
+        type: previous.type,
+      ));
+    }
   }
 }
