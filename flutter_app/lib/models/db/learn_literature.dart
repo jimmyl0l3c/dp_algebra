@@ -54,4 +54,11 @@ class LLiterature {
 
     return buffer.toString();
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is LLiterature && refName == other.refName;
+
+  @override
+  int get hashCode => refName.hashCode;
 }

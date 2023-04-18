@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
 import '../../models/learn/block_segment.dart';
-import '../learn/literature_citation.dart';
+import '../learn/literature_reference.dart';
 
 class DisplayMathWrap extends StatelessWidget {
   final String content;
@@ -32,7 +32,7 @@ class DisplayMathWrap extends StatelessWidget {
           children: [
             lastMath,
             const SizedBox(width: 8),
-            LiteratureCitation(segment: citation!),
+            LiteratureReference(segment: citation!),
           ],
         ),
       if (citation == null) lastMath,

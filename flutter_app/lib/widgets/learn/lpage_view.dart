@@ -12,6 +12,7 @@ import '../layout/display_math_wrap.dart';
 import 'block_ref_button.dart';
 import 'image_block.dart';
 import 'literature_citation.dart';
+import 'literature_reference.dart';
 
 class LPageView extends StatelessWidget {
   final LPage page;
@@ -38,7 +39,10 @@ class LPageView extends StatelessWidget {
           return ImageBlock(block: block);
         }
 
-        List<LBlockContent> blockContent = parser.parseBlock(block.content);
+        List<LBlockContent> blockContent = parser.parseBlock(
+          block.content,
+          isLastBlock: index == page.blocks.length - 1,
+        );
 
         List<List<Widget>> content = [];
 
@@ -57,6 +61,8 @@ class LPageView extends StatelessWidget {
                 enumerated: part.type == LBlockContentType.enumeratedList,
               )
             ]);
+          } else if (part is LBlockLiteratureContent) {
+            content.add([LiteratureCitation(segment: part)]);
           }
         }
 
@@ -142,7 +148,7 @@ class LPageView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     previous,
-                    LiteratureCitation(segment: segment as LLitRefSegment),
+                    LiteratureReference(segment: segment as LLitRefSegment),
                   ],
                 ),
               );
@@ -154,7 +160,7 @@ class LPageView extends StatelessWidget {
             segments.last.add(Text(' ', style: theme.textTheme.bodyMedium));
           }
           segments.last.add(
-            LiteratureCitation(segment: segment as LLitRefSegment),
+            LiteratureReference(segment: segment as LLitRefSegment),
           );
           break;
         case LBlockSegmentType.tabular:

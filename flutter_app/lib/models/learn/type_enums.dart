@@ -11,6 +11,7 @@ enum LBlockContentType {
   paragraph,
   list,
   enumeratedList,
+  literature,
 }
 
 enum LBlockReferenceType {

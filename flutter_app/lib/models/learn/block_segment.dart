@@ -1,7 +1,3 @@
-import 'package:get_it/get_it.dart';
-
-import '../../data/db_service.dart';
-import '../db/learn_literature.dart';
 import 'type_enums.dart';
 
 class LBlockSegment {
@@ -12,16 +8,11 @@ class LBlockSegment {
 }
 
 class LLitRefSegment extends LBlockSegment {
-  final Future<List<LLiterature>> references;
-
-  LLitRefSegment(String content)
-      : references = _getReferences(content),
-        super(content, type: LBlockSegmentType.literatureReference);
-
-  static Future<List<LLiterature>> _getReferences(String content) {
-    DbService dbService = GetIt.instance.get<DbService>();
-    return dbService.fetchLiterature(content.split(','));
-  }
+  LLitRefSegment(List<int> refs)
+      : super(
+          '[${refs.join(", ")}]',
+          type: LBlockSegmentType.literatureReference,
+        );
 }
 
 class LBlockRefSegment extends LBlockSegment {

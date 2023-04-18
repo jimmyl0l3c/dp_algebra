@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import '../models/learn/block_content.dart';
 import '../models/learn/block_segment.dart';
 import '../models/learn/type_enums.dart';
@@ -8,10 +10,11 @@ class BlockParser {
   static const String _tabularRegex =
       r"\\begin{tabular}{\s*m{(\d+)(\w+)}\s*l?}(.*?)\\end{tabular}";
 
-  LBlockContentType currentType = LBlockContentType.paragraph;
+  LBlockContentType _currentType = LBlockContentType.paragraph;
+  LinkedHashSet<String> usedLiterature = LinkedHashSet();
 
-  List<LBlockContent> parseBlock(String block) {
-    currentType = LBlockContentType.paragraph;
+  List<LBlockContent> parseBlock(String block, {bool isLastBlock = false}) {
+    _currentType = LBlockContentType.paragraph;
     List<LBlockContent> blockContent = [];
 
     for (var segment in block.splitWithDelim(
@@ -25,16 +28,19 @@ class BlockParser {
       blockContent.addAll(_parseSegment(segment));
     }
 
+    if (isLastBlock) {
+      blockContent.add(LBlockLiteratureContent(usedLiterature.toList()));
+    }
     return blockContent;
   }
 
   bool _updateType(String segment) {
     if (segment.contains('begin{itemize')) {
-      currentType = LBlockContentType.list;
+      _currentType = LBlockContentType.list;
     } else if (segment.contains('begin{enumerate')) {
-      currentType = LBlockContentType.enumeratedList;
+      _currentType = LBlockContentType.enumeratedList;
     } else if (segment.contains(RegExp(r'\\end{(enumerate|itemize)}'))) {
-      currentType = LBlockContentType.paragraph;
+      _currentType = LBlockContentType.paragraph;
     } else {
       return false;
     }
@@ -42,7 +48,7 @@ class BlockParser {
   }
 
   List<LBlockContent> _parseSegment(String segment) {
-    switch (currentType) {
+    switch (_currentType) {
       case LBlockContentType.paragraph:
         return segment
             .split(r'\break')
@@ -53,9 +59,12 @@ class BlockParser {
         return [
           LBlockListContent(
             _parseListContent(segment),
-            type: currentType,
+            type: _currentType,
           )
         ];
+      case LBlockContentType.literature:
+        // Should never happen
+        return [];
     }
   }
 
@@ -127,7 +136,17 @@ class BlockParser {
         }
 
         if (refMatch.group(1) == 'cite') {
-          blockContent.add(LLitRefSegment(refMatch.group(2) ?? 'unknown'));
+          var litRefs = refMatch.group(2)!.split(',');
+          usedLiterature.addAll(litRefs);
+          List<int> refIndexes = litRefs.map((r) {
+            int index = 1;
+            for (var lit in usedLiterature) {
+              if (lit == r) break;
+              index++;
+            }
+            return index;
+          }).toList();
+          blockContent.add(LLitRefSegment(refIndexes));
         } else if (refMatch.group(1) == 'ref') {
           blockContent.add(LBlockRefSegment(
             refMatch.group(2) ?? 'unknown',

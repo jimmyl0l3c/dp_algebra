@@ -1,11 +1,11 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/learn/block_segment.dart';
-import '../../utils/get_dialog_route.dart';
-import 'in_text_button.dart';
+import '../../models/learn/block_content.dart';
+import '../loading.dart';
 
 class LiteratureCitation extends StatelessWidget {
-  final LLitRefSegment segment;
+  final LBlockLiteratureContent segment;
 
   const LiteratureCitation({
     Key? key,
@@ -14,36 +14,61 @@ class LiteratureCitation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: segment.references,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting ||
-            !snapshot.hasData ||
-            snapshot.data == null ||
-            snapshot.data!.isEmpty) {
-          return const Text('(...)');
-        }
+    return Padding(
+      padding: const EdgeInsets.only(top: 32.0),
+      child: FutureBuilder(
+        future: segment.literature,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return _getLitColumn(context, [const Loading()]);
+          }
 
-        String citation =
-            snapshot.data!.map((e) => e.harvardCitation).toList().join("; ");
+          if (!snapshot.hasData ||
+              snapshot.data == null ||
+              snapshot.data!.isEmpty) {
+            return _getLitColumn(context, [
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8.0, left: 24.0),
+                child: Text('No literature found'),
+              )
+            ]);
+          }
 
-        return InTextButton(
-          text: '($citation)',
-          onPressed: () => Navigator.of(context).push(
-            getDialogRoute(
-              context,
-              'Detail citace',
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: snapshot.data!
-                    .map((e) => SelectableText(e.fullCitation))
-                    .toList(),
-              ),
-            ),
-          ),
-        );
-      },
+          return _getLitColumn(
+            context,
+            snapshot.data!
+                .mapIndexed((i, e) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0, left: 24.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(minWidth: 24),
+                            child: Text('[${i + 1}]'),
+                          ),
+                          const SizedBox(width: 16),
+                          SelectableText(e.fullCitation),
+                        ],
+                      ),
+                    ))
+                .toList(),
+          );
+        },
+      ),
     );
   }
+
+  Widget _getLitColumn(BuildContext context, List<Widget> content) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Převzato z:',
+            textAlign: TextAlign.start,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 12.0),
+          ...content,
+        ],
+      );
 }
