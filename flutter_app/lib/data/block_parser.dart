@@ -4,94 +4,104 @@ import '../models/learn/type_enums.dart';
 import '../utils/extensions.dart';
 
 class BlockParser {
-  static List<LBlockContent> parseBlock(String block) {
+  static const String _refRegex = r'\\(cite|ref){[a-zA-Z\d:\-_,]+}';
+  static const String _tabularRegex =
+      r"\\begin{tabular}{\s*m{(\d+)(\w+)}\s*l?}(.*?)\\end{tabular}";
+
+  LBlockContentType currentType = LBlockContentType.paragraph;
+
+  List<LBlockContent> parseBlock(String block) {
+    currentType = LBlockContentType.paragraph;
     List<LBlockContent> blockContent = [];
-    LBlockContentType currentType = LBlockContentType.paragraph;
 
     for (var segment in block.splitWithDelim(
       RegExp(r'\\(begin|end){(enumerate|itemize)}'),
     )) {
       segment = segment.trim();
-      if (segment.isEmpty) continue;
-
-      if (segment.contains('begin{itemize')) {
-        currentType = LBlockContentType.list;
-        continue;
-      } else if (segment.contains('begin{enumerate')) {
-        currentType = LBlockContentType.enumeratedList;
-        continue;
-      } else if (segment.contains(RegExp(r'\\end{(enumerate|itemize)}'))) {
-        currentType = LBlockContentType.paragraph;
+      if (segment.isEmpty || _updateType(segment)) {
         continue;
       }
 
-      switch (currentType) {
-        case LBlockContentType.paragraph:
-          for (var s in segment.split(r'\break')) {
-            blockContent.add(LBlockParagraphContent(_parseTextContent(s)));
-          }
-          break;
-        case LBlockContentType.list:
-        case LBlockContentType.enumeratedList:
-          blockContent.add(
-            LBlockListContent(
-              _parseListContent(segment),
-              type: currentType,
-            ),
-          );
-          break;
-      }
+      blockContent.addAll(_parseSegment(segment));
     }
 
     return blockContent;
   }
 
-  static List<LBlockParagraphContent> _parseListContent(String block) {
+  bool _updateType(String segment) {
+    if (segment.contains('begin{itemize')) {
+      currentType = LBlockContentType.list;
+    } else if (segment.contains('begin{enumerate')) {
+      currentType = LBlockContentType.enumeratedList;
+    } else if (segment.contains(RegExp(r'\\end{(enumerate|itemize)}'))) {
+      currentType = LBlockContentType.paragraph;
+    } else {
+      return false;
+    }
+    return true;
+  }
+
+  List<LBlockContent> _parseSegment(String segment) {
+    switch (currentType) {
+      case LBlockContentType.paragraph:
+        return segment
+            .split(r'\break')
+            .map((s) => LBlockParagraphContent(_parseTextContent(s)))
+            .toList();
+      case LBlockContentType.list:
+      case LBlockContentType.enumeratedList:
+        return [
+          LBlockListContent(
+            _parseListContent(segment),
+            type: currentType,
+          )
+        ];
+    }
+  }
+
+  List<LBlockParagraphContent> _parseListContent(String block) {
     List<LBlockParagraphContent> content = [];
 
     for (var item in block.split(r'\item')) {
       item = item.trim();
-
       if (item.isEmpty) continue;
 
-      var tabularRegex =
-          RegExp(r"\\begin{tabular}{\s*m{(\d+)(\w+)}\s*l?}(.*?)\\end{tabular}");
-      var tabularMatch = tabularRegex.firstMatch(item);
+      var tabularMatch = RegExp(_tabularRegex).firstMatch(item);
       if (tabularMatch != null) {
-        List<LBlockSegment> tabularCells = [];
-
-        // TODO: use the width unit (group 2)
-        for (var tabularCell in tabularMatch.group(3)!.split(r"&")) {
-          tabularCell = tabularCell.trim();
-          if (tabularCell.endsWith(r"\\")) {
-            tabularCell = tabularCell.substring(0, tabularCell.length - 2);
-          }
-          tabularCells.add(LBlockTabularCellSegment(
-            tabularMatch.group(3)!,
-            cells: _parseTextContent(tabularCell),
-            width: int.parse(tabularMatch.group(1)!),
-          ));
-        }
-
-        content.add(LBlockParagraphContent(tabularCells));
+        content.add(LBlockParagraphContent(_getTabularCells(tabularMatch)));
         continue;
       }
 
-      content.add(
-        LBlockParagraphContent(_parseTextContent(item)),
-      );
+      content.add(LBlockParagraphContent(_parseTextContent(item)));
     }
 
     return content;
   }
 
-  static List<LBlockSegment> _parseTextContent(String block) {
+  List<LBlockSegment> _getTabularCells(RegExpMatch tabularMatch) =>
+      tabularMatch.group(3)!.split(r"&").map(
+        (tabularCell) {
+          tabularCell = tabularCell.trim();
+          if (tabularCell.endsWith(r"\\")) {
+            tabularCell = tabularCell.substring(0, tabularCell.length - 2);
+          }
+
+          // TODO: use the width unit (group 2)
+          return LBlockTabularCellSegment(
+            tabularMatch.group(3)!,
+            cells: _parseTextContent(tabularCell),
+            width: int.parse(tabularMatch.group(1)!),
+          );
+        },
+      ).toList();
+
+  List<LBlockSegment> _parseTextContent(String block) {
     bool isMath = false;
     bool isDisplayMath = false;
     List<LBlockSegment> blockContent = [];
     for (var segment in block
         .trim()
-        .splitWithDelim(RegExp(r'\${1,2}|\\(cite|ref){[a-zA-Z\d:\-_,]+}'))) {
+        .splitWithDelim(RegExp([r'\${1,2}', _refRegex].join('|')))) {
       if (segment.trim().isEmpty) continue;
 
       if (segment.contains(r'$$')) {
@@ -101,9 +111,8 @@ class BlockParser {
       } else if (segment.contains(r'$')) {
         isMath = !isMath;
         continue;
-      } else if (segment.contains(RegExp(r'\\(cite|ref){[a-zA-Z\d:\-_,]+}'))) {
-        var refMatch =
-            RegExp(r'\\(cite|ref){([a-zA-Z\d:\-_,]+)}').firstMatch(segment);
+      } else if (segment.contains(RegExp(_refRegex))) {
+        var refMatch = RegExp(_refRegex).firstMatch(segment);
 
         // Fix previous segment if the citation is inside math segment
         if (isMath &&

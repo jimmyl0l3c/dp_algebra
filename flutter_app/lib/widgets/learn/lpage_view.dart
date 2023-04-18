@@ -25,6 +25,8 @@ class LPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlockParser parser = BlockParser();
+
     if (page.blocks.isEmpty) return const Text('Page is empty');
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 6.0),
@@ -32,13 +34,11 @@ class LPageView extends StatelessWidget {
       itemCount: page.blocks.length,
       itemBuilder: (context, index) {
         LBlock block = page.blocks[index];
-
         if (block.typeCode == 'image') {
           return ImageBlock(block: block);
         }
 
-        List<LBlockContent> blockContent =
-            BlockParser.parseBlock(block.content);
+        List<LBlockContent> blockContent = parser.parseBlock(block.content);
 
         List<List<Widget>> content = [];
 
