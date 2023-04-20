@@ -2,7 +2,7 @@ enum LBlockSegmentType {
   text,
   inlineMath,
   displayMath,
-  reference,
+  blockReference,
   literatureReference,
   tabular,
 }
@@ -12,9 +12,4 @@ enum LBlockContentType {
   list,
   enumeratedList,
   literature,
-}
-
-enum LBlockReferenceType {
-  image,
-  block,
 }

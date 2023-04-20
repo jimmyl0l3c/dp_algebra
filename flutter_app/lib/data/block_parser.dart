@@ -180,10 +180,7 @@ class BlockParser {
 
       return LBlockSegment.literature(refIndexes);
     } else if (refMatch.group(1) == 'ref') {
-      return LBlockRefSegment(
-        refMatch.group(2) ?? 'unknown',
-        refType: LBlockReferenceType.block,
-      );
+      return LBlockSegment.blockRef(refMatch.group(2) ?? 'unknown');
     }
     return null;
   }

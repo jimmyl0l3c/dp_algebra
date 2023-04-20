@@ -142,11 +142,8 @@ class LPageView extends StatelessWidget {
             DisplayMathWrap(content: segment.content),
           );
           break;
-        case LBlockSegmentType.reference:
-          if ((segment as LBlockRefSegment).refType ==
-              LBlockReferenceType.block) {
-            segments.last.add(BlockRefButton(refName: segment.content));
-          }
+        case LBlockSegmentType.blockReference:
+          segments.last.add(BlockRefButton(refName: segment.content));
           break;
         case LBlockSegmentType.literatureReference:
           if (segments.last.isEmpty) {

@@ -11,13 +11,9 @@ class LBlockSegment {
   LBlockSegment.literature(List<int> refs)
       : content = '[${refs.sorted((a, b) => a.compareTo(b)).join(", ")}]',
         type = LBlockSegmentType.literatureReference;
-}
 
-class LBlockRefSegment extends LBlockSegment {
-  final LBlockReferenceType refType;
-
-  LBlockRefSegment(String content, {required this.refType})
-      : super(content, type: LBlockSegmentType.reference);
+  LBlockSegment.blockRef(this.content)
+      : type = LBlockSegmentType.blockReference;
 }
 
 class LBlockTabularCellSegment extends LBlockSegment {
