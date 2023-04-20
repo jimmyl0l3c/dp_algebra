@@ -7,14 +7,10 @@ class LBlockSegment {
   final String content;
 
   LBlockSegment(this.content, {required this.type});
-}
 
-class LLitRefSegment extends LBlockSegment {
-  LLitRefSegment(List<int> refs)
-      : super(
-          '[${refs.sorted((a, b) => a.compareTo(b)).join(", ")}]',
-          type: LBlockSegmentType.literatureReference,
-        );
+  LBlockSegment.literature(List<int> refs)
+      : content = '[${refs.sorted((a, b) => a.compareTo(b)).join(", ")}]',
+        type = LBlockSegmentType.literatureReference;
 }
 
 class LBlockRefSegment extends LBlockSegment {

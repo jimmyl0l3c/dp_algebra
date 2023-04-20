@@ -178,7 +178,7 @@ class BlockParser {
         }
       });
 
-      return LLitRefSegment(refIndexes);
+      return LBlockSegment.literature(refIndexes);
     } else if (refMatch.group(1) == 'ref') {
       return LBlockRefSegment(
         refMatch.group(2) ?? 'unknown',

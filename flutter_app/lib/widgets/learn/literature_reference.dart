@@ -4,7 +4,7 @@ import '../../models/learn/block_segment.dart';
 import 'in_text_button.dart';
 
 class LiteratureReference extends StatelessWidget {
-  final LLitRefSegment segment;
+  final LBlockSegment segment;
   final ScrollController? scrollController;
 
   const LiteratureReference({

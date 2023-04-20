@@ -157,7 +157,7 @@ class LPageView extends StatelessWidget {
                 DisplayMathWrap(
                   content: previous.content,
                   citation: LiteratureReference(
-                    segment: segment as LLitRefSegment,
+                    segment: segment,
                     scrollController: scrollController,
                   ),
                 ),
@@ -169,7 +169,7 @@ class LPageView extends StatelessWidget {
                   children: [
                     previous,
                     LiteratureReference(
-                      segment: segment as LLitRefSegment,
+                      segment: segment,
                       scrollController: scrollController,
                     ),
                   ],
@@ -184,7 +184,7 @@ class LPageView extends StatelessWidget {
           }
           segments.last.add(
             LiteratureReference(
-              segment: segment as LLitRefSegment,
+              segment: segment,
               scrollController: scrollController,
             ),
           );
