@@ -5,7 +5,7 @@ class SectionChapterModel {
   final String? subtitle;
   final List<SectionPageModel> pages;
 
-  SectionChapterModel({
+  const SectionChapterModel({
     required this.title,
     this.subtitle,
     required this.pages,

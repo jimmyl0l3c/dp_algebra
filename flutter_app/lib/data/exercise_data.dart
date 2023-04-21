@@ -10,49 +10,49 @@ import '../pages/exercise/vector_exercises/transform_matrix_exc.dart';
 
 /// Data for Exercise section
 final List<SectionChapterModel> exerciseChapters = [
-  SectionChapterModel(
+  const SectionChapterModel(
     title: 'Matice',
     subtitle: 'Součet, rozdíl, součin, determinant, inverzní matice',
     pages: [
       SectionPageModel(
         title: 'Sčítání, odčítání, násobení',
-        page: const BinaryMatrixExc(),
+        page: BinaryMatrixExc(),
       ),
       SectionPageModel(
         title: 'Determinant',
-        page: const DeterminantExc(),
+        page: DeterminantExc(),
       ),
       SectionPageModel(
         title: 'Inverzní matice',
-        page: const InverseMatrixExc(),
+        page: InverseMatrixExc(),
       ),
     ],
   ),
-  SectionChapterModel(
+  const SectionChapterModel(
     title: 'Vektorové prostory',
     subtitle:
         'Lineární (ne)závislost vektorů, nalezení báze, transformace souřadnic od báze k bázi, ...',
     pages: [
       SectionPageModel(
         title: 'Lineární (ne)závislost vektorů',
-        page: const LinIndependenceExc(),
+        page: LinIndependenceExc(),
       ),
       SectionPageModel(
         title: 'Nalezení báze',
-        page: const BasisExc(),
+        page: BasisExc(),
       ),
       SectionPageModel(
         title: 'Transformace souřadnic',
-        page: const TransformMatrixExc(),
+        page: TransformMatrixExc(),
       ),
     ],
   ),
-  SectionChapterModel(
+  const SectionChapterModel(
     title: 'Soustavy lineárních rovnic',
     pages: [
       SectionPageModel(
         title: 'Soustavy lineárních rovnic',
-        page: const EquationExc(),
+        page: EquationExc(),
       ),
     ],
   ),

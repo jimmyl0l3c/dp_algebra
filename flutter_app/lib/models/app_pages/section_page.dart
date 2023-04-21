@@ -5,7 +5,7 @@ class SectionPageModel {
   final String? subtitle;
   final Widget page;
 
-  SectionPageModel({
+  const SectionPageModel({
     required this.title,
     this.subtitle,
     required this.page,
