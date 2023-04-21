@@ -57,5 +57,5 @@ class TransformCoords implements Expression {
 
   @override
   String toTeX({Set<TexFlags>? flags}) =>
-      'tramsformCoords(${transformMatrix.toTeX()}, ${coords.toTeX()})';
+      'transformCoords(${transformMatrix.toTeX()}, ${coords.toTeX()})';
 }

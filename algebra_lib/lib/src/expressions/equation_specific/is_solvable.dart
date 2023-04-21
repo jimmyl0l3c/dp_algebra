@@ -32,7 +32,7 @@ class IsSolvable implements Expression {
 
   @override
   String toTeX({Set<TexFlags>? flags}) {
-    StringBuffer buffer = StringBuffer('IsSolvable');
+    StringBuffer buffer = StringBuffer('isSolvable');
     buffer.write(r'\left( \begin{matrix} ');
 
     buffer.write(matrix.toTeX());
