@@ -9,8 +9,8 @@ import '../pages/exercise/vector_exercises/lin_independence_exc.dart';
 import '../pages/exercise/vector_exercises/transform_matrix_exc.dart';
 
 /// Data for Exercise section
-final List<SectionChapterModel> exerciseChapters = [
-  const SectionChapterModel(
+const List<SectionChapterModel> exerciseChapters = [
+  SectionChapterModel(
     title: 'Matice',
     subtitle: 'Součet, rozdíl, součin, determinant, inverzní matice',
     pages: [
@@ -28,7 +28,7 @@ final List<SectionChapterModel> exerciseChapters = [
       ),
     ],
   ),
-  const SectionChapterModel(
+  SectionChapterModel(
     title: 'Vektorové prostory',
     subtitle:
         'Lineární (ne)závislost vektorů, nalezení báze, transformace souřadnic od báze k bázi, ...',
@@ -47,7 +47,7 @@ final List<SectionChapterModel> exerciseChapters = [
       ),
     ],
   ),
-  const SectionChapterModel(
+  SectionChapterModel(
     title: 'Soustavy lineárních rovnic',
     pages: [
       SectionPageModel(
