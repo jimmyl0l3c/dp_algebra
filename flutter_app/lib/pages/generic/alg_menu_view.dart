@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/app_pages/section_chapter.dart';
@@ -17,23 +18,17 @@ class AlgMenuView extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    List<Section> sections = [];
-    for (var i = 0; i < chapters.length; i++) {
-      SectionChapterModel chapter = chapters[i];
-      sections.add(Section(
-        title: chapter.title,
-        subtitle: chapter.subtitle,
-        path: '/$sectionPath/$i',
-      ));
-    }
-
-    return MainScaffold(
-      isSectionRoot: true,
-      title: sectionTitle,
-      child: SectionMenu(
-        sections: sections,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => MainScaffold(
+        isSectionRoot: true,
+        title: sectionTitle,
+        child: SectionMenu(
+          sections: chapters
+              .mapIndexed((i, chapter) => Section(
+                    title: chapter.title,
+                    subtitle: chapter.subtitle,
+                    path: '/$sectionPath/$i',
+                  ))
+              .toList(),
+        ),
+      );
 }

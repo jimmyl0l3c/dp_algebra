@@ -1,7 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/app_pages/section_chapter.dart';
-import '../../models/app_pages/section_page.dart';
 import '../../widgets/layout/main_scaffold.dart';
 import '../../widgets/layout/section_menu.dart';
 
@@ -28,20 +28,16 @@ class AlgChapterView extends StatelessWidget {
       );
     }
 
-    List<Section> sections = [];
-    for (var i = 0; i < chapter.pages.length; i++) {
-      SectionPageModel page = chapter.pages[i];
-      sections.add(Section(
-        title: page.title,
-        subtitle: page.subtitle,
-        path: '/$sectionPath/$chapterId/$i',
-      ));
-    }
-
     return MainScaffold(
       title: '$sectionTitle \u2014 ${chapter.title}',
       child: SectionMenu(
-        sections: sections,
+        sections: chapter.pages
+            .mapIndexed((i, page) => Section(
+                  title: page.title,
+                  subtitle: page.subtitle,
+                  path: '/$sectionPath/$chapterId/$i',
+                ))
+            .toList(),
       ),
     );
   }
