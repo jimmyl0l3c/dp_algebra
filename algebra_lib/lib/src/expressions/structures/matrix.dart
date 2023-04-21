@@ -140,7 +140,11 @@ class Matrix implements Expression {
 
   @override
   bool operator ==(Object other) {
-    if (other is! Matrix) return false;
+    if (other is! Matrix ||
+        other.rowCount != rowCount ||
+        other.columnCount != columnCount) {
+      return false;
+    }
     for (var r = 0; r < rowCount; r++) {
       if (rows[r] != other[r]) return false;
     }
