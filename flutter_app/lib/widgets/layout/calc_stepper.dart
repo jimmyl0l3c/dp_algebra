@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
 import '../../main.dart';
+import '../../utils/extensions.dart';
 import '../forms/button_row.dart';
+import '../hint.dart';
 import 'horizontally_scrollable.dart';
 
 class CalcStepper extends StatefulWidget {
@@ -26,54 +28,66 @@ class _CalcStepperState extends State<CalcStepper> {
 
   @override
   Widget build(BuildContext context) {
+    final expression = widget.steps.isNotEmpty ? widget.steps[step] : null;
+    final hints = expression?.getHints() ?? [];
+
     return Column(
       children: [
-        ButtonRow(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 12,
-          ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            ButtonRowItem(
-              child: const Icon(Icons.first_page),
-              onPressed: () {
-                if (step == 0) return;
-                setState(() {
-                  step = 0;
-                });
-              },
-            ),
-            ButtonRowItem(
-              child: const Icon(Icons.navigate_before),
-              onPressed: () {
-                if (step > 0) {
-                  setState(() {
-                    step--;
-                  });
-                }
-              },
-            ),
-            ButtonRowItem(
-              child: const Icon(Icons.navigate_next),
-              onPressed: () {
-                if (step < widget.steps.length - 1) {
-                  setState(() {
-                    step++;
-                  });
-                }
-              },
-            ),
-            ButtonRowItem(
-              child: const Icon(Icons.last_page),
-              onPressed: () {
-                int newStep = widget.steps.length - 1;
+            ButtonRow(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 12,
+              ),
+              children: [
+                ButtonRowItem(
+                  child: const Icon(Icons.first_page),
+                  onPressed: () {
+                    if (step == 0) return;
+                    setState(() {
+                      step = 0;
+                    });
+                  },
+                ),
+                ButtonRowItem(
+                  child: const Icon(Icons.navigate_before),
+                  onPressed: () {
+                    if (step > 0) {
+                      setState(() {
+                        step--;
+                      });
+                    }
+                  },
+                ),
+                ButtonRowItem(
+                  child: const Icon(Icons.navigate_next),
+                  onPressed: () {
+                    if (step < widget.steps.length - 1) {
+                      setState(() {
+                        step++;
+                      });
+                    }
+                  },
+                ),
+                ButtonRowItem(
+                  child: const Icon(Icons.last_page),
+                  onPressed: () {
+                    int newStep = widget.steps.length - 1;
 
-                if (step == newStep) return;
-                setState(() {
-                  step = newStep;
-                });
-              },
+                    if (step == newStep) return;
+                    setState(() {
+                      step = newStep;
+                    });
+                  },
+                ),
+              ],
             ),
+            const SizedBox(width: 12.0),
+            if (hints.isNotEmpty)
+              Hint(hints.map((e) => '${e.name}: ${e.description}').join("\n")),
+            if (hints.isEmpty) const SizedBox(width: 18),
           ],
         ),
         Slider(
@@ -98,7 +112,7 @@ class _CalcStepperState extends State<CalcStepper> {
           children: widget.steps.isEmpty
               ? []
               : Math.tex(
-                  _stepToTeX(widget.steps[step]),
+                  _stepToTeX(expression!),
                   mathStyle: MathStyle.display,
                   textScaleFactor: 1.2,
                 )
@@ -107,7 +121,6 @@ class _CalcStepperState extends State<CalcStepper> {
                   .map((e) => HorizontallyScrollable(child: e))
                   .toList(),
         ),
-        // TODO: add hint (what operation is being done)
       ],
     );
   }

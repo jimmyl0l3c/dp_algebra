@@ -1,4 +1,7 @@
+import 'package:algebra_lib/algebra_lib.dart';
 import 'package:big_fraction/big_fraction.dart';
+
+import '../models/calc/calc_operation.dart';
 
 extension ParsingToTex on BigFraction {
   String toTeX() {
@@ -29,4 +32,15 @@ extension StringExtension on String {
 
   String capitalize() =>
       "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+}
+
+extension HintsExtension on Expression {
+  List<CalcOperation> getHints() {
+    final String tex = toTeX();
+    return CalcOperation.values
+        .where(
+          (e) => tex.contains(RegExp(e.name + r'((\\begin\{pmatrix\})|\()')),
+        )
+        .toList();
+  }
 }
