@@ -1,7 +1,15 @@
 import 'dart:math';
 
-import 'package:algebra_lib/algebra_lib.dart';
 import 'package:big_fraction/big_fraction.dart';
+
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../general/multiply.dart';
+import '../structures/matrix.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
+import 'minor.dart';
 
 class AlgSupplement implements Expression {
   final Expression matrix;

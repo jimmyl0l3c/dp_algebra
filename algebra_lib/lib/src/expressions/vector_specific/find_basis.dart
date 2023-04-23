@@ -1,4 +1,12 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../matrix_specific/reduce.dart';
+import '../matrix_specific/triangular.dart';
+import '../structures/expression_set.dart';
+import '../structures/matrix.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
 
 class FindBasis implements Expression {
   final Expression matrix;

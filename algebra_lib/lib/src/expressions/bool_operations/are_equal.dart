@@ -1,4 +1,9 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../structures/boolean.dart';
+import '../structures/matrix.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
 
 class AreEqual implements Expression {
   final Expression left;

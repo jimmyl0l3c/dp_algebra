@@ -1,4 +1,11 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
+import 'boolean.dart';
+import 'matrix.dart';
+import 'variable.dart';
 
 class ParametrizedScalar implements Expression {
   final List<Expression> values;

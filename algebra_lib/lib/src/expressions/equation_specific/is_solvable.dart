@@ -1,4 +1,11 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../bool_operations/are_equal.dart';
+import '../matrix_specific/rank.dart';
+import '../structures/matrix.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
 
 class IsSolvable implements Expression {
   final Expression matrix;

@@ -1,5 +1,11 @@
-import 'package:algebra_lib/algebra_lib.dart';
 import 'package:collection/collection.dart';
+
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
+import 'expression_set.dart';
 
 class Matrix implements Expression {
   final List<Expression> rows;

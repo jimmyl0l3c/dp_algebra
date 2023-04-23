@@ -1,4 +1,5 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
 
 class Boolean implements Expression {
   final bool value;

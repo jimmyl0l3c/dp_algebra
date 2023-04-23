@@ -1,4 +1,4 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../interfaces/expression.dart';
 
 Expression simplifyAsMuchAsPossible(Expression exp) {
   Expression prevExp = exp;

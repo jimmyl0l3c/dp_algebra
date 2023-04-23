@@ -1,5 +1,15 @@
-import 'package:algebra_lib/algebra_lib.dart';
 import 'package:big_fraction/big_fraction.dart';
+
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../matrix_specific/reduce.dart';
+import '../matrix_specific/triangular.dart';
+import '../structures/matrix.dart';
+import '../structures/parametrized_scalar.dart';
+import '../structures/scalar.dart';
+import '../structures/variable.dart';
+import '../structures/vector.dart';
 
 class GaussianElimination implements Expression {
   final Expression matrix;

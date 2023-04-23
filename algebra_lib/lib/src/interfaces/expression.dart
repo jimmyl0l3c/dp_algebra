@@ -1,4 +1,5 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../tex_flags.dart';
+import 'tex_parseable.dart';
 
 class Expression implements TexParseable {
   Expression simplify() {

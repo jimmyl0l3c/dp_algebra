@@ -1,4 +1,10 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../structures/matrix.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
+import 'addition.dart';
 
 class Multiply implements Expression {
   final Expression left;

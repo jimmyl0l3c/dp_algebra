@@ -1,7 +1,17 @@
 import 'dart:math';
 
-import 'package:algebra_lib/algebra_lib.dart';
 import 'package:big_fraction/big_fraction.dart';
+
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../general/divide.dart';
+import '../general/multiply.dart';
+import '../structures/matrix.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
+import 'add_row_to_row_n_times.dart';
+import 'exchange_rows.dart';
 
 class Triangular implements Expression {
   final Expression matrix;

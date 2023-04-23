@@ -1,4 +1,8 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../structures/scalar.dart';
+import 'parametrized_scalar.dart';
+import 'variable.dart';
 
 class Vector implements Expression {
   final List<Expression> items;

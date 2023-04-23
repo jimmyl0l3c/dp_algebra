@@ -1,5 +1,11 @@
-import 'package:algebra_lib/algebra_lib.dart';
-import 'package:algebra_lib/src/utils/tex_utils.dart';
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../../utils/tex_utils.dart';
+import '../general/multiply.dart';
+import '../structures/matrix.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
 
 class MultiplyRowByN implements Expression {
   final Expression matrix;

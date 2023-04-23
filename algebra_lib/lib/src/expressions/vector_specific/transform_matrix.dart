@@ -1,5 +1,13 @@
-import 'package:algebra_lib/algebra_lib.dart';
-import 'package:algebra_lib/src/utils/exp_utils.dart';
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../../utils/exp_utils.dart';
+import '../equation_specific/gaussian_elimination.dart';
+import '../structures/boolean.dart';
+import '../structures/expression_set.dart';
+import '../structures/matrix.dart';
+import '../structures/vector.dart';
+import 'are_vectors_independent.dart';
 
 class TransformMatrix implements Expression {
   final Expression basisA;

@@ -1,4 +1,7 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../expressions/matrix_specific/add_row_to_row_n_times.dart';
+import '../expressions/matrix_specific/exchange_rows.dart';
+import '../expressions/matrix_specific/multiply_row_by_n.dart';
+import '../interfaces/expression.dart';
 
 class TexUtils {
   static String rowTransformToTeX(Expression exp, String transformation) {

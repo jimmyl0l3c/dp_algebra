@@ -1,4 +1,12 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../matrix_specific/alg_supplement.dart';
+import '../matrix_specific/determinant.dart';
+import '../structures/matrix.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
+import 'multiply.dart';
 
 class Inverse implements Expression {
   final Expression exp;

@@ -1,4 +1,12 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../general/inverse.dart';
+import '../general/multiply.dart';
+import '../matrix_specific/transpose.dart';
+import '../structures/matrix.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
 
 class SolveWithInverse implements Expression {
   final Expression matrix;

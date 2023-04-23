@@ -1,4 +1,11 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../general/divide.dart';
+import '../matrix_specific/determinant.dart';
+import '../structures/matrix.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
 
 class SolveWithCramer implements Expression {
   final Expression matrix;

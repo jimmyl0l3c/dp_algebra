@@ -1,4 +1,9 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../structures/scalar.dart';
+import '../structures/vector.dart';
+import 'matrix.dart';
 
 class Variable implements Expression {
   final Expression n;

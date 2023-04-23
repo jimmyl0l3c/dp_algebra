@@ -1,5 +1,7 @@
-import 'package:algebra_lib/algebra_lib.dart';
 import 'package:big_fraction/big_fraction.dart';
+
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
 
 class Scalar implements Expression {
   final BigFraction value;
