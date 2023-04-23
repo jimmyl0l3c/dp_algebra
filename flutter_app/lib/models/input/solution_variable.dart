@@ -69,6 +69,6 @@ class SolutionVariable {
       }
     });
 
-    return ParametrizedScalar(values: paramScalar);
+    return Polynomial(values: paramScalar);
   }
 }

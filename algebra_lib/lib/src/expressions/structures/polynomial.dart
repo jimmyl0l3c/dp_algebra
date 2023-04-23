@@ -7,10 +7,10 @@ import 'boolean.dart';
 import 'matrix.dart';
 import 'variable.dart';
 
-class ParametrizedScalar implements Expression {
+class Polynomial implements Expression {
   final List<Expression> values;
 
-  ParametrizedScalar({required this.values});
+  Polynomial({required this.values});
 
   @override
   Expression simplify() {
@@ -22,7 +22,7 @@ class ParametrizedScalar implements Expression {
       }
 
       if (value is! Scalar && value is! Variable) {
-        return ParametrizedScalar(
+        return Polynomial(
           values: List.from(values)
             ..removeAt(i)
             ..insert(i, value.simplify()),
@@ -50,7 +50,7 @@ class ParametrizedScalar implements Expression {
 
   @override
   bool operator ==(Object other) {
-    if (other is! ParametrizedScalar) return false;
+    if (other is! Polynomial) return false;
     if (other.values.length != values.length) return false;
 
     for (var i = 0; i < values.length; i++) {

@@ -1,7 +1,7 @@
 import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
 import '../structures/scalar.dart';
-import 'parametrized_scalar.dart';
+import 'polynomial.dart';
 import 'variable.dart';
 
 class Vector implements Expression {
@@ -21,7 +21,7 @@ class Vector implements Expression {
   Expression simplify() {
     for (var i = 0; i < items.length; i++) {
       if (items[i] is! Scalar &&
-          items[i] is! ParametrizedScalar &&
+          items[i] is! Polynomial &&
           items[i] is! Variable) {
         return Vector(
           items: List.from(items)
