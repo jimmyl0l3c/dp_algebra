@@ -2,7 +2,9 @@ import '../../exceptions.dart';
 import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
 import '../structures/matrix.dart';
+import '../structures/parametrized_scalar.dart';
 import '../structures/scalar.dart';
+import '../structures/variable.dart';
 import '../structures/vector.dart';
 import 'addition.dart';
 
@@ -24,13 +26,15 @@ class Multiply implements Expression {
     }
 
     // If left can be simplified, do it
-    if (left is! Vector && left is! Matrix && left is! Scalar) {
-      return Multiply(left: left.simplify(), right: right);
+    var simplifiedLeft = left.simplify();
+    if (left != simplifiedLeft) {
+      return Multiply(left: simplifiedLeft, right: right);
     }
 
     // If right can be simplified, do it
-    if (right is! Vector && right is! Matrix && right is! Scalar) {
-      return Multiply(left: left, right: right.simplify());
+    var simplifiedRight = right.simplify();
+    if (right != simplifiedRight) {
+      return Multiply(left: left, right: simplifiedRight);
     }
 
     if (left is Scalar && right is Scalar) {
@@ -148,27 +152,76 @@ class Multiply implements Expression {
       }
     }
 
+    if (left is Scalar && right is ParametrizedScalar) {
+      return ParametrizedScalar(
+        values: (right as ParametrizedScalar)
+            .values
+            .map((e) => Multiply(
+                  left: left,
+                  right: e,
+                ))
+            .toList(),
+      );
+    }
+
+    if (left is ParametrizedScalar && right is Scalar) {
+      return ParametrizedScalar(
+        values: (left as ParametrizedScalar)
+            .values
+            .map((e) => Multiply(
+                  left: e,
+                  right: right,
+                ))
+            .toList(),
+      );
+    }
+
+    if (left is Scalar && right is Variable) {
+      return Variable(
+        n: Multiply(left: left, right: (right as Variable).n),
+        param: (right as Variable).param,
+      );
+    }
+
+    if (left is Variable && right is Scalar) {
+      return Variable(
+        n: Multiply(left: (left as Variable).n, right: right),
+        param: (left as Variable).param,
+      );
+    }
+
+    // TODO: Variable and Variable ?
+
     throw UndefinedOperationException();
   }
 
   @override
   String toTeX({Set<TexFlags>? flags}) {
     StringBuffer buffer = StringBuffer();
-    if (left is Scalar && (left as Scalar).value.isNegative) {
+    bool encloseLeft = (left is Scalar && (left as Scalar).value.isNegative) ||
+        (left is ParametrizedScalar) ||
+        (left is Variable);
+
+    if (encloseLeft) {
       buffer.write('(');
     }
     buffer.write(left.toTeX());
-    if (left is Scalar && (left as Scalar).value.isNegative) {
+    if (encloseLeft) {
       buffer.write(')');
     }
 
     buffer.write(r'\cdot ');
 
-    if (right is Scalar && (right as Scalar).value.isNegative) {
+    bool encloseRight =
+        (right is Scalar && (right as Scalar).value.isNegative) ||
+            (right is ParametrizedScalar) ||
+            (right is Variable);
+
+    if (encloseRight) {
       buffer.write('(');
     }
     buffer.write(right.toTeX());
-    if (right is Scalar && (right as Scalar).value.isNegative) {
+    if (encloseRight) {
       buffer.write(')');
     }
 

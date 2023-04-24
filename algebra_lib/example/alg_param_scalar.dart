@@ -26,6 +26,10 @@ void main() {
     Expression addition = Addition(left: params[0], right: params[1]);
     printNSimplifications(addition, 3);
     print('');
+
+    Expression multiply = Multiply(left: params[0], right: params[1]);
+    printNSimplifications(multiply, 6);
+    print('');
   }
 
   print('\n');
