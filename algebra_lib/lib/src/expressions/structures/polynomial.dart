@@ -1,11 +1,9 @@
 import '../../exceptions.dart';
 import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
-import '../structures/scalar.dart';
 import '../structures/vector.dart';
 import 'boolean.dart';
 import 'matrix.dart';
-import 'variable.dart';
 
 class Polynomial implements Expression {
   final List<Expression> values;
@@ -21,11 +19,12 @@ class Polynomial implements Expression {
         throw UndefinedOperationException();
       }
 
-      if (value is! Scalar && value is! Variable) {
+      var simplifiedValue = value.simplify();
+      if (value != simplifiedValue) {
         return Polynomial(
           values: List.from(values)
             ..removeAt(i)
-            ..insert(i, value.simplify()),
+            ..insert(i, simplifiedValue),
         );
       }
     }

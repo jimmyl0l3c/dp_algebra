@@ -1,8 +1,12 @@
+import 'package:collection/collection.dart';
+
 import '../../exceptions.dart';
 import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
 import '../structures/matrix.dart';
+import '../structures/polynomial.dart';
 import '../structures/scalar.dart';
+import '../structures/variable.dart';
 import '../structures/vector.dart';
 
 class Addition implements Expression {
@@ -14,13 +18,15 @@ class Addition implements Expression {
   @override
   Expression simplify() {
     // If left can be simplified, do it
-    if (left is! Vector && left is! Matrix && left is! Scalar) {
-      return Addition(left: left.simplify(), right: right);
+    var simplifiedLeft = left.simplify();
+    if (left != simplifiedLeft) {
+      return Addition(left: simplifiedLeft, right: right);
     }
 
     // If right can be simplified, do it
-    if (right is! Vector && right is! Matrix && right is! Scalar) {
-      return Addition(left: left, right: right.simplify());
+    var simplifiedRight = right.simplify();
+    if (right != simplifiedRight) {
+      return Addition(left: left, right: simplifiedRight);
     }
 
     if (left is Scalar && right is Scalar) {
@@ -73,6 +79,82 @@ class Addition implements Expression {
         rowCount: leftMatrix.rowCount,
         columnCount: leftMatrix.columnCount,
       );
+    }
+
+    if (left is Polynomial && right is Polynomial) {
+      List<Expression> result = [];
+      Set<int> resolved = {};
+
+      for (var item in (left as Polynomial).values) {
+        if (item is Scalar) {
+          var rightScalar =
+              (right as Polynomial).values.firstWhereOrNull((e) => e is Scalar);
+          result.add(
+            rightScalar == null
+                ? item
+                : Addition(left: item, right: rightScalar),
+          );
+          resolved.add(-1);
+        } else {
+          var itemVar = item as Variable;
+          var rightVar = (right as Polynomial).values.firstWhereOrNull(
+              (e) => e is Variable && e.param == itemVar.param);
+          result.add(
+            rightVar == null
+                ? item
+                : Variable(
+                    n: Addition(
+                      left: itemVar.n,
+                      right: (rightVar as Variable).n,
+                    ),
+                    param: itemVar.param,
+                  ),
+          );
+          resolved.add(itemVar.param);
+        }
+      }
+
+      for (var item in (right as Polynomial).values) {
+        if ((item is Scalar && !resolved.contains(-1)) ||
+            (item is Variable && !resolved.contains(item.param))) {
+          result.add(item);
+        }
+      }
+      return Polynomial(values: result);
+    }
+
+    if (left is Polynomial && right is Scalar) {
+      Polynomial poly = left as Polynomial;
+      int i = poly.values.indexWhere((e) => e is Scalar);
+      if (i < 0) {
+        return Polynomial(
+          values: List.from(poly.values)..add(right),
+        );
+      } else {
+        var scalarValue = poly.values[i];
+        return Polynomial(
+          values: List.from(poly.values)
+            ..removeAt(i)
+            ..add(Addition(left: scalarValue, right: right)),
+        );
+      }
+    }
+
+    if (left is Scalar && right is Polynomial) {
+      Polynomial poly = right as Polynomial;
+      int i = poly.values.indexWhere((e) => e is Scalar);
+      if (i < 0) {
+        return Polynomial(
+          values: List.from(poly.values)..add(left),
+        );
+      } else {
+        var scalarValue = poly.values[i];
+        return Polynomial(
+          values: List.from(poly.values)
+            ..removeAt(i)
+            ..add(Addition(left: left, right: scalarValue)),
+        );
+      }
     }
 
     throw UndefinedOperationException();
