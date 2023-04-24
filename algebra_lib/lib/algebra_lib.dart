@@ -29,7 +29,7 @@ export 'src/expressions/matrix_specific/triangular_det.dart';
 export 'src/expressions/structures/boolean.dart';
 export 'src/expressions/structures/expression_set.dart';
 export 'src/expressions/structures/matrix.dart';
-export 'src/expressions/structures/polynomial.dart';
+export 'src/expressions/structures/parametrized_scalar.dart';
 export 'src/expressions/structures/scalar.dart';
 export 'src/expressions/structures/variable.dart';
 export 'src/expressions/structures/vector.dart';

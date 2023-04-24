@@ -7,13 +7,13 @@ import 'utils/scalar_provider.dart';
 void main() {
   // TODO: test error states
   group('Addition', () {
-    final testPolynomials = [
-      Polynomial(values: [
+    final testParamScalars = [
+      ParametrizedScalar(values: [
         Variable(n: ScalarProvider.get(2), param: 0),
         Variable(n: ScalarProvider.get(1), param: 1),
         Variable(n: ScalarProvider.get(-3), param: 2),
       ]),
-      Polynomial(values: [
+      ParametrizedScalar(values: [
         Variable(n: ScalarProvider.get(1), param: 0),
         Variable(n: ScalarProvider.get(-3), param: 2),
         ScalarProvider.get(3),
@@ -22,11 +22,11 @@ void main() {
 
     setUp(() {});
 
-    final polyWithScalarParams = [
+    final pScalarWithScalarParams = [
       [
         ScalarProvider.get(2),
-        testPolynomials[0],
-        Polynomial(values: [
+        testParamScalars[0],
+        ParametrizedScalar(values: [
           Variable(n: ScalarProvider.get(2), param: 0),
           Variable(n: ScalarProvider.get(1), param: 1),
           Variable(n: ScalarProvider.get(-3), param: 2),
@@ -35,8 +35,8 @@ void main() {
       ],
       [
         ScalarProvider.get(-4),
-        testPolynomials[0],
-        Polynomial(values: [
+        testParamScalars[0],
+        ParametrizedScalar(values: [
           Variable(n: ScalarProvider.get(2), param: 0),
           Variable(n: ScalarProvider.get(1), param: 1),
           Variable(n: ScalarProvider.get(-3), param: 2),
@@ -44,32 +44,32 @@ void main() {
         ]),
       ],
       [
-        testPolynomials[1],
+        testParamScalars[1],
         ScalarProvider.get(3),
-        Polynomial(values: [
+        ParametrizedScalar(values: [
           Variable(n: ScalarProvider.get(1), param: 0),
           Variable(n: ScalarProvider.get(-3), param: 2),
           ScalarProvider.get(6),
         ]),
       ],
       [
-        testPolynomials[1],
+        testParamScalars[1],
         ScalarProvider.get(-1),
-        Polynomial(values: [
+        ParametrizedScalar(values: [
           Variable(n: ScalarProvider.get(1), param: 0),
           Variable(n: ScalarProvider.get(-3), param: 2),
           ScalarProvider.get(2),
         ]),
       ],
     ];
-    for (var params in polyWithScalarParams) {
-      test('Polynomial + scalar: ${params[0]} + (${params[1]})', () {
+    for (var params in pScalarWithScalarParams) {
+      test('ParamScalar + scalar: ${params[0]} + (${params[1]})', () {
         Expression addition = Addition(left: params[0], right: params[1]);
 
         var result = ExpSimplifier.simplifyCompletely(addition);
 
         expect(result, params[2]);
-      }, tags: ['scalar', 'polynomial', 'addition']);
+      }, tags: ['scalar', 'parametrized_scalar', 'addition']);
     }
   });
 }

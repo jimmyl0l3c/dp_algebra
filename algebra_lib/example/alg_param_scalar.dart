@@ -3,26 +3,26 @@ import 'package:algebra_lib/algebra_lib.dart';
 import '../test/utils/scalar_provider.dart';
 
 void main() {
-  final testPolynomials = [
-    Polynomial(values: [
+  final testParamScalar = [
+    ParametrizedScalar(values: [
       Variable(n: ScalarProvider.get(2), param: 0),
       Variable(n: ScalarProvider.get(1), param: 1),
       Variable(n: ScalarProvider.get(-3), param: 2),
     ]),
-    Polynomial(values: [
+    ParametrizedScalar(values: [
       Variable(n: ScalarProvider.get(1), param: 0),
       Variable(n: ScalarProvider.get(-3), param: 2),
       ScalarProvider.get(3),
     ]),
   ];
 
-  final polyWithScalarParams = [
-    [ScalarProvider.get(2), testPolynomials[0]],
-    [ScalarProvider.get(-4), testPolynomials[0]],
-    [testPolynomials[1], ScalarProvider.get(3)],
-    [testPolynomials[1], ScalarProvider.get(-1)],
+  final paramScalarWithScalarParams = [
+    [ScalarProvider.get(2), testParamScalar[0]],
+    [ScalarProvider.get(-4), testParamScalar[0]],
+    [testParamScalar[1], ScalarProvider.get(3)],
+    [testParamScalar[1], ScalarProvider.get(-1)],
   ];
-  for (var params in polyWithScalarParams) {
+  for (var params in paramScalarWithScalarParams) {
     Expression addition = Addition(left: params[0], right: params[1]);
     printNSimplifications(addition, 3);
     print('');
@@ -30,13 +30,13 @@ void main() {
 
   print('\n');
 
-  final polyWithPolyParams = [
-    [testPolynomials[0], testPolynomials[0]],
-    [testPolynomials[0], testPolynomials[1]],
-    [testPolynomials[1], testPolynomials[0]],
-    [testPolynomials[1], testPolynomials[1]],
+  final paramScalarWithParamScalarsTest = [
+    [testParamScalar[0], testParamScalar[0]],
+    [testParamScalar[0], testParamScalar[1]],
+    [testParamScalar[1], testParamScalar[0]],
+    [testParamScalar[1], testParamScalar[1]],
   ];
-  for (var params in polyWithPolyParams) {
+  for (var params in paramScalarWithParamScalarsTest) {
     Expression addition = Addition(left: params[0], right: params[1]);
     printNSimplifications(addition, 6);
     print('');

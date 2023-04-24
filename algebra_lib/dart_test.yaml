@@ -3,7 +3,7 @@ tags:
   vector: { add_tags: [ scalar ] }
   matrix: { add_tags: [ scalar ] }
   variable: { add_tags: [ scalar ] }
-  polynomial: { add_tags: [ variable ] }
+  parametrized_scalar: { add_tags: [ variable ] }
 
   addition:
   divide:

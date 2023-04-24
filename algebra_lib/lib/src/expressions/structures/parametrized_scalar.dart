@@ -5,10 +5,10 @@ import '../structures/vector.dart';
 import 'boolean.dart';
 import 'matrix.dart';
 
-class Polynomial implements Expression {
+class ParametrizedScalar implements Expression {
   final List<Expression> values;
 
-  Polynomial({required this.values});
+  ParametrizedScalar({required this.values});
 
   @override
   Expression simplify() {
@@ -21,7 +21,7 @@ class Polynomial implements Expression {
 
       var simplifiedValue = value.simplify();
       if (value != simplifiedValue) {
-        return Polynomial(
+        return ParametrizedScalar(
           values: List.from(values)
             ..removeAt(i)
             ..insert(i, simplifiedValue),
@@ -49,7 +49,7 @@ class Polynomial implements Expression {
 
   @override
   bool operator ==(Object other) {
-    if (other is! Polynomial) return false;
+    if (other is! ParametrizedScalar) return false;
     if (other.values.length != values.length) return false;
 
     for (var i = 0; i < values.length; i++) {

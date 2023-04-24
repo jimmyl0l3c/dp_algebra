@@ -4,7 +4,7 @@ import '../../exceptions.dart';
 import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
 import '../structures/matrix.dart';
-import '../structures/polynomial.dart';
+import '../structures/parametrized_scalar.dart';
 import '../structures/scalar.dart';
 import '../structures/variable.dart';
 import '../structures/vector.dart';
@@ -81,14 +81,15 @@ class Addition implements Expression {
       );
     }
 
-    if (left is Polynomial && right is Polynomial) {
+    if (left is ParametrizedScalar && right is ParametrizedScalar) {
       List<Expression> result = [];
       Set<int> resolved = {};
 
-      for (var item in (left as Polynomial).values) {
+      for (var item in (left as ParametrizedScalar).values) {
         if (item is Scalar) {
-          var rightScalar =
-              (right as Polynomial).values.firstWhereOrNull((e) => e is Scalar);
+          var rightScalar = (right as ParametrizedScalar)
+              .values
+              .firstWhereOrNull((e) => e is Scalar);
           result.add(
             rightScalar == null
                 ? item
@@ -97,7 +98,7 @@ class Addition implements Expression {
           resolved.add(-1);
         } else {
           var itemVar = item as Variable;
-          var rightVar = (right as Polynomial).values.firstWhereOrNull(
+          var rightVar = (right as ParametrizedScalar).values.firstWhereOrNull(
               (e) => e is Variable && e.param == itemVar.param);
           result.add(
             rightVar == null
@@ -114,43 +115,43 @@ class Addition implements Expression {
         }
       }
 
-      for (var item in (right as Polynomial).values) {
+      for (var item in (right as ParametrizedScalar).values) {
         if ((item is Scalar && !resolved.contains(-1)) ||
             (item is Variable && !resolved.contains(item.param))) {
           result.add(item);
         }
       }
-      return Polynomial(values: result);
+      return ParametrizedScalar(values: result);
     }
 
-    if (left is Polynomial && right is Scalar) {
-      Polynomial poly = left as Polynomial;
-      int i = poly.values.indexWhere((e) => e is Scalar);
+    if (left is ParametrizedScalar && right is Scalar) {
+      ParametrizedScalar pScalar = left as ParametrizedScalar;
+      int i = pScalar.values.indexWhere((e) => e is Scalar);
       if (i < 0) {
-        return Polynomial(
-          values: List.from(poly.values)..add(right),
+        return ParametrizedScalar(
+          values: List.from(pScalar.values)..add(right),
         );
       } else {
-        var scalarValue = poly.values[i];
-        return Polynomial(
-          values: List.from(poly.values)
+        var scalarValue = pScalar.values[i];
+        return ParametrizedScalar(
+          values: List.from(pScalar.values)
             ..removeAt(i)
             ..add(Addition(left: scalarValue, right: right)),
         );
       }
     }
 
-    if (left is Scalar && right is Polynomial) {
-      Polynomial poly = right as Polynomial;
-      int i = poly.values.indexWhere((e) => e is Scalar);
+    if (left is Scalar && right is ParametrizedScalar) {
+      ParametrizedScalar pScalar = right as ParametrizedScalar;
+      int i = pScalar.values.indexWhere((e) => e is Scalar);
       if (i < 0) {
-        return Polynomial(
-          values: List.from(poly.values)..add(left),
+        return ParametrizedScalar(
+          values: List.from(pScalar.values)..add(left),
         );
       } else {
-        var scalarValue = poly.values[i];
-        return Polynomial(
-          values: List.from(poly.values)
+        var scalarValue = pScalar.values[i];
+        return ParametrizedScalar(
+          values: List.from(pScalar.values)
             ..removeAt(i)
             ..add(Addition(left: left, right: scalarValue)),
         );
