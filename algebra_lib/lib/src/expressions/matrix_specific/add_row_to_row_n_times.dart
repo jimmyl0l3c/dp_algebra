@@ -42,6 +42,7 @@ class AddRowToRowNTimes implements Expression {
 
   @override
   Expression simplify() {
+    // Commented, because n does not have to be simplified here
     // if (n is Matrix || n is Vector) {
     //   throw UndefinedOperationException();
     // }

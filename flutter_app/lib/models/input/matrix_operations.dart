@@ -13,9 +13,11 @@ enum BinaryMatrixOperation {
 
 enum UnaryMatrixOperation {
   det('Determinant'),
+  rank('Hodnost'),
   inverse('Inverzní matice'),
   transpose('Transponovaná matice'),
-  rank('Hodnost');
+  triangular('Trojúhelníková matice'),
+  reduce('Redukovaná matice');
 
   final String description;
 

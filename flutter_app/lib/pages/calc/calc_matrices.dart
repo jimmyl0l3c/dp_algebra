@@ -62,18 +62,8 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
             const SizedBox(height: 12),
             MatrixBinOperationSelection(),
             MatrixMultiplyByScalar(),
-            MatrixOperationSelection(
-              operation: UnaryMatrixOperation.det,
-            ),
-            MatrixOperationSelection(
-              operation: UnaryMatrixOperation.rank,
-            ),
-            MatrixOperationSelection(
-              operation: UnaryMatrixOperation.transpose,
-            ),
-            MatrixOperationSelection(
-              operation: UnaryMatrixOperation.inverse,
-            ),
+            for (var unaryOp in UnaryMatrixOperation.values)
+              MatrixOperationSelection(operation: unaryOp),
             const Divider(),
             Text(
               'Výsledky',
@@ -248,6 +238,12 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
       case UnaryMatrixOperation.rank:
         refName = PredefinedRef.matrixRank.refName;
         break;
+      case UnaryMatrixOperation.triangular:
+        refName = PredefinedRef.matrixTypes.refName;
+        break;
+      case UnaryMatrixOperation.reduce:
+        refName = PredefinedRef.reducedMatrix.refName;
+        break;
     }
     String operationDescription = '${operation.description}:';
 
@@ -310,8 +306,12 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                         case UnaryMatrixOperation.rank:
                           exp = Rank(matrix: expM);
                           break;
-                        default:
-                          return;
+                        case UnaryMatrixOperation.triangular:
+                          exp = Triangular(matrix: expM);
+                          break;
+                        case UnaryMatrixOperation.reduce:
+                          exp = Reduce(exp: expM);
+                          break;
                       }
 
                       getIt<CalcSolutionsModel>().addSolution(
