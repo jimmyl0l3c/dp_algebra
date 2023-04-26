@@ -1,6 +1,9 @@
+import 'package:big_fraction/big_fraction.dart';
+
 import '../../exceptions.dart';
 import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
+import '../structures/commutative_group.dart';
 import '../structures/matrix.dart';
 import '../structures/parametrized_scalar.dart';
 import '../structures/scalar.dart';
@@ -28,12 +31,22 @@ class Multiply implements Expression {
     // If left can be simplified, do it
     var simplifiedLeft = left.simplify();
     if (left != simplifiedLeft) {
+      if (simplifiedLeft is CommutativeGroup) {
+        return _simplifyExpWithCommutativeGroup(simplifiedLeft, right) ??
+            Multiply(left: simplifiedLeft, right: right);
+      }
+
       return Multiply(left: simplifiedLeft, right: right);
     }
 
     // If right can be simplified, do it
     var simplifiedRight = right.simplify();
     if (right != simplifiedRight) {
+      if (simplifiedRight is CommutativeGroup) {
+        return _simplifyExpWithCommutativeGroup(left, simplifiedRight) ??
+            Multiply(left: left, right: simplifiedRight);
+      }
+
       return Multiply(left: left, right: simplifiedRight);
     }
 
@@ -152,47 +165,135 @@ class Multiply implements Expression {
       }
     }
 
-    if (left is Scalar && right is ParametrizedScalar) {
-      return ParametrizedScalar(
-        values: (right as ParametrizedScalar)
-            .values
-            .map((e) => Multiply(
-                  left: left,
-                  right: e,
-                ))
-            .toList(),
-      );
+    // if (left is Scalar && right is ParametrizedScalar) {
+    //   return ParametrizedScalar(
+    //     values: (right as ParametrizedScalar)
+    //         .values
+    //         .map((e) => Multiply(
+    //               left: left,
+    //               right: e,
+    //             ))
+    //         .toList(),
+    //   );
+    // }
+    //
+    // if (left is ParametrizedScalar && right is Scalar) {
+    //   return ParametrizedScalar(
+    //     values: (left as ParametrizedScalar)
+    //         .values
+    //         .map((e) => Multiply(
+    //               left: e,
+    //               right: right,
+    //             ))
+    //         .toList(),
+    //   );
+    // }
+
+    if ((left is Scalar && right is Variable) ||
+        (left is Variable && right is Scalar) ||
+        (left is Variable && right is Variable)) {
+      return CommutativeGroup.multiply([left, right]);
     }
 
-    if (left is ParametrizedScalar && right is Scalar) {
-      return ParametrizedScalar(
-        values: (left as ParametrizedScalar)
-            .values
-            .map((e) => Multiply(
-                  left: e,
-                  right: right,
-                ))
-            .toList(),
-      );
+    var simplifiedGroup = _simplifyExpWithCommutativeGroup(left, right);
+    if (simplifiedGroup != null) {
+      return simplifiedGroup;
     }
-
-    if (left is Scalar && right is Variable) {
-      return Variable(
-        n: Multiply(left: left, right: (right as Variable).n),
-        param: (right as Variable).param,
-      );
-    }
-
-    if (left is Variable && right is Scalar) {
-      return Variable(
-        n: Multiply(left: (left as Variable).n, right: right),
-        param: (left as Variable).param,
-      );
-    }
-
-    // TODO: Variable and Variable ?
 
     throw UndefinedOperationException();
+  }
+
+  Expression? _simplifyExpWithCommutativeGroup(
+    Expression left,
+    Expression right,
+  ) {
+    if (left is Scalar && right is CommutativeGroup) {
+      if (right.operation == CommutativeOperation.multiplication) {
+        int i = right.values.indexWhere((e) => e is Scalar);
+        if (i < 0) {
+          return CommutativeGroup.multiply(List.from(right.values)..add(left));
+        } else {
+          BigFraction value = (right.values[i] as Scalar).value;
+          return CommutativeGroup.multiply(
+            List.from(right.values)
+              ..removeAt(i)
+              ..add(Scalar(value * left.value)),
+          );
+        }
+      } else if (right.operation == CommutativeOperation.addition) {
+        return CommutativeGroup.add(
+          right.values.map((e) => Multiply(left: left, right: e)).toList(),
+        );
+      }
+    }
+
+    if (left is CommutativeGroup && right is Scalar) {
+      if (left.operation == CommutativeOperation.multiplication) {
+        int i = left.values.indexWhere((e) => e is Scalar);
+        if (i < 0) {
+          return CommutativeGroup.multiply(List.from(left.values)..add(right));
+        } else {
+          BigFraction value = (left.values[i] as Scalar).value;
+          return CommutativeGroup.multiply(
+            List.from(left.values)
+              ..removeAt(i)
+              ..add(Scalar(value * right.value)),
+          );
+        }
+      } else if (left.operation == CommutativeOperation.addition) {
+        return CommutativeGroup.add(
+          left.values.map((e) => Multiply(left: e, right: right)).toList(),
+        );
+      }
+    }
+
+    if (left is CommutativeGroup && right is Variable) {
+      if (left.operation == CommutativeOperation.multiplication) {
+        return CommutativeGroup.multiply(List.from(left.values)..add(right));
+      } else if (left.operation == CommutativeOperation.addition) {
+        return CommutativeGroup.add(
+          left.values.map((e) => Multiply(left: e, right: right)).toList(),
+        );
+      }
+    }
+
+    if (left is Variable && right is CommutativeGroup) {
+      if (right.operation == CommutativeOperation.multiplication) {
+        return CommutativeGroup.multiply(List.from(right.values)..add(left));
+      } else if (right.operation == CommutativeOperation.addition) {
+        return CommutativeGroup.add(
+          right.values.map((e) => Multiply(left: left, right: e)).toList(),
+        );
+      }
+    }
+
+    if (left is CommutativeGroup && right is CommutativeGroup) {
+      if (left.operation == right.operation &&
+          left.operation == CommutativeOperation.multiplication) {
+        return CommutativeGroup.multiply([...left.values, ...right.values]);
+      } else if (left.operation == right.operation &&
+          left.operation == CommutativeOperation.addition) {
+        List<Expression> group = [];
+        for (var leftElement in left.values) {
+          for (var rightElement in right.values) {
+            group.add(Multiply(left: leftElement, right: rightElement));
+          }
+        }
+        return CommutativeGroup.add(group);
+      } else if (left.operation != right.operation &&
+          left.operation == CommutativeOperation.addition) {
+        return CommutativeGroup.add(
+          left.values.map((e) => Multiply(left: e, right: right)).toList(),
+        );
+      } else if (left.operation != right.operation &&
+          right.operation == CommutativeOperation.addition) {
+        return CommutativeGroup.add(
+          right.values.map((e) => Multiply(left: left, right: e)).toList(),
+        );
+      }
+    }
+
+    return null;
   }
 
   @override

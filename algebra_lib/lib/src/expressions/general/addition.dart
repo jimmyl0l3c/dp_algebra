@@ -1,10 +1,10 @@
-import 'package:collection/collection.dart';
+import 'package:big_fraction/big_fraction.dart';
 
 import '../../exceptions.dart';
 import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
+import '../structures/commutative_group.dart';
 import '../structures/matrix.dart';
-import '../structures/parametrized_scalar.dart';
 import '../structures/scalar.dart';
 import '../structures/variable.dart';
 import '../structures/vector.dart';
@@ -20,12 +20,22 @@ class Addition implements Expression {
     // If left can be simplified, do it
     var simplifiedLeft = left.simplify();
     if (left != simplifiedLeft) {
+      if (simplifiedLeft is CommutativeGroup) {
+        return _simplifyExpWithCommutativeGroup(simplifiedLeft, right) ??
+            Addition(left: simplifiedLeft, right: right);
+      }
+
       return Addition(left: simplifiedLeft, right: right);
     }
 
     // If right can be simplified, do it
     var simplifiedRight = right.simplify();
     if (right != simplifiedRight) {
+      if (simplifiedRight is CommutativeGroup) {
+        return _simplifyExpWithCommutativeGroup(left, simplifiedRight) ??
+            Addition(left: left, right: simplifiedRight);
+      }
+
       return Addition(left: left, right: simplifiedRight);
     }
 
@@ -81,84 +91,219 @@ class Addition implements Expression {
       );
     }
 
-    if (left is ParametrizedScalar && right is ParametrizedScalar) {
-      List<Expression> result = [];
-      Set<int> resolved = {};
-
-      for (var item in (left as ParametrizedScalar).values) {
-        if (item is Scalar) {
-          var rightScalar = (right as ParametrizedScalar)
-              .values
-              .firstWhereOrNull((e) => e is Scalar);
-          result.add(
-            rightScalar == null
-                ? item
-                : Addition(left: item, right: rightScalar),
-          );
-          resolved.add(-1);
-        } else {
-          var itemVar = item as Variable;
-          var rightVar = (right as ParametrizedScalar).values.firstWhereOrNull(
-              (e) => e is Variable && e.param == itemVar.param);
-          result.add(
-            rightVar == null
-                ? item
-                : Variable(
-                    n: Addition(
-                      left: itemVar.n,
-                      right: (rightVar as Variable).n,
-                    ),
-                    param: itemVar.param,
-                  ),
-          );
-          resolved.add(itemVar.param);
-        }
-      }
-
-      for (var item in (right as ParametrizedScalar).values) {
-        if ((item is Scalar && !resolved.contains(-1)) ||
-            (item is Variable && !resolved.contains(item.param))) {
-          result.add(item);
-        }
-      }
-      return ParametrizedScalar(values: result);
+    if ((left is Scalar && right is Variable) ||
+        (left is Variable && right is Scalar)) {
+      return CommutativeGroup.add([left, right]);
     }
 
-    if (left is ParametrizedScalar && right is Scalar) {
-      ParametrizedScalar pScalar = left as ParametrizedScalar;
-      int i = pScalar.values.indexWhere((e) => e is Scalar);
-      if (i < 0) {
-        return ParametrizedScalar(
-          values: List.from(pScalar.values)..add(right),
-        );
+    if (left is Variable && right is Variable) {
+      if (left == right) {
+        return CommutativeGroup.multiply([Scalar(BigFraction.from(2)), left]);
       } else {
-        var scalarValue = pScalar.values[i];
-        return ParametrizedScalar(
-          values: List.from(pScalar.values)
-            ..removeAt(i)
-            ..add(Addition(left: scalarValue, right: right)),
-        );
+        return CommutativeGroup.add([left, right]);
       }
     }
 
-    if (left is Scalar && right is ParametrizedScalar) {
-      ParametrizedScalar pScalar = right as ParametrizedScalar;
-      int i = pScalar.values.indexWhere((e) => e is Scalar);
-      if (i < 0) {
-        return ParametrizedScalar(
-          values: List.from(pScalar.values)..add(left),
-        );
-      } else {
-        var scalarValue = pScalar.values[i];
-        return ParametrizedScalar(
-          values: List.from(pScalar.values)
-            ..removeAt(i)
-            ..add(Addition(left: left, right: scalarValue)),
-        );
-      }
+    var simplifiedGroup = _simplifyExpWithCommutativeGroup(left, right);
+    if (simplifiedGroup != null) {
+      return simplifiedGroup;
     }
+
+    // if (left is ParametrizedScalar && right is ParametrizedScalar) {
+    //   List<Expression> result = [];
+    //   Set<int> resolved = {};
+    //
+    //   for (var item in (left as ParametrizedScalar).values) {
+    //     if (item is Scalar) {
+    //       var rightScalar = (right as ParametrizedScalar)
+    //           .values
+    //           .firstWhereOrNull((e) => e is Scalar);
+    //       result.add(
+    //         rightScalar == null
+    //             ? item
+    //             : Addition(left: item, right: rightScalar),
+    //       );
+    //       resolved.add(-1);
+    //     } else {
+    //       var itemVar = item as Variable;
+    //       var rightVar = (right as ParametrizedScalar).values.firstWhereOrNull(
+    //           (e) => e is Variable && e.index == itemVar.index);
+    //       result.add(
+    //         rightVar == null
+    //             ? item
+    //             : Variable(
+    //                 n: Addition(
+    //                   left: itemVar.n,
+    //                   right: (rightVar as Variable).n,
+    //                 ),
+    //                 index: itemVar.index,
+    //               ),
+    //       );
+    //       resolved.add(itemVar.index);
+    //     }
+    //   }
+    //
+    //   for (var item in (right as ParametrizedScalar).values) {
+    //     if ((item is Scalar && !resolved.contains(-1)) ||
+    //         (item is Variable && !resolved.contains(item.index))) {
+    //       result.add(item);
+    //     }
+    //   }
+    //   return ParametrizedScalar(values: result);
+    // }
+
+    // if (left is ParametrizedScalar && right is Scalar) {
+    //   ParametrizedScalar pScalar = left as ParametrizedScalar;
+    //   int i = pScalar.values.indexWhere((e) => e is Scalar);
+    //   if (i < 0) {
+    //     return ParametrizedScalar(
+    //       values: List.from(pScalar.values)..add(right),
+    //     );
+    //   } else {
+    //     var scalarValue = pScalar.values[i];
+    //     return ParametrizedScalar(
+    //       values: List.from(pScalar.values)
+    //         ..removeAt(i)
+    //         ..add(Addition(left: scalarValue, right: right)),
+    //     );
+    //   }
+    // }
+
+    // if (left is Scalar && right is ParametrizedScalar) {
+    //   ParametrizedScalar pScalar = right as ParametrizedScalar;
+    //   int i = pScalar.values.indexWhere((e) => e is Scalar);
+    //   if (i < 0) {
+    //     return ParametrizedScalar(
+    //       values: List.from(pScalar.values)..add(left),
+    //     );
+    //   } else {
+    //     var scalarValue = pScalar.values[i];
+    //     return ParametrizedScalar(
+    //       values: List.from(pScalar.values)
+    //         ..removeAt(i)
+    //         ..add(Addition(left: left, right: scalarValue)),
+    //     );
+    //   }
+    // }
 
     throw UndefinedOperationException();
+  }
+
+  Expression? _simplifyExpWithCommutativeGroup(
+    Expression left,
+    Expression right,
+  ) {
+    // Scalar and CommutativeGroup.Multiply
+    if ((left is Scalar &&
+            (right is CommutativeGroup &&
+                right.operation == CommutativeOperation.multiplication)) ||
+        ((left is CommutativeGroup &&
+                left.operation == CommutativeOperation.multiplication) &&
+            right is Scalar)) {
+      return CommutativeGroup.add([left, right]);
+    }
+
+    // Scalar and CommutativeGroup.Add
+    if (left is Scalar &&
+        right is CommutativeGroup &&
+        right.operation == CommutativeOperation.addition) {
+      int i = right.values.indexWhere((e) => e is Scalar);
+      if (i < 0) {
+        return CommutativeGroup.add(List.from(right.values)..add(left));
+      } else {
+        BigFraction value = (right.values[i] as Scalar).value;
+        return CommutativeGroup.add(
+          List.from(right.values)
+            ..removeAt(i)
+            ..add(Scalar(left.value + value)),
+        );
+      }
+    }
+
+    // CommutativeGroup.Add and Scalar
+    if (left is CommutativeGroup &&
+        left.operation == CommutativeOperation.addition &&
+        right is Scalar) {
+      int i = left.values.indexWhere((e) => e is Scalar);
+      if (i < 0) {
+        return CommutativeGroup.add(List.from(left.values)..add(right));
+      } else {
+        BigFraction value = (left.values[i] as Scalar).value;
+        return CommutativeGroup.add(
+          List.from(left.values)
+            ..removeAt(i)
+            ..add(Scalar(right.value + value)),
+        );
+      }
+    }
+
+    // Variable and CommutativeGroup.Multiply
+    if ((left is Variable &&
+            right is CommutativeGroup &&
+            right.operation == CommutativeOperation.multiplication) ||
+        (left is CommutativeGroup &&
+            left.operation == CommutativeOperation.multiplication &&
+            right is Variable)) {
+      return CommutativeGroup.add([left, right]);
+    }
+
+    // Variable and CommutativeGroup.Add
+    if (left is Variable &&
+        right is CommutativeGroup &&
+        right.operation == CommutativeOperation.addition) {
+      int i = right.values
+          .indexWhere((e) => e is Variable && e.index == (left).index);
+      if (i < 0) {
+        return CommutativeGroup.add(List.from(right.values)..add(left));
+      } else {
+        return CommutativeGroup.add(
+          List.from(right.values)
+            ..removeAt(i)
+            ..add(
+              CommutativeGroup.multiply([Scalar(BigFraction.from(2)), left]),
+            ),
+        );
+      }
+    }
+
+    // CommutativeGroup.Add and Variable
+    if (right is Variable &&
+        left is CommutativeGroup &&
+        left.operation == CommutativeOperation.addition) {
+      int i = left.values
+          .indexWhere((e) => e is Variable && e.index == (right).index);
+      if (i < 0) {
+        return CommutativeGroup.add(List.from(left.values)..add(right));
+      } else {
+        return CommutativeGroup.add(
+          List.from(left.values)
+            ..removeAt(i)
+            ..add(
+              CommutativeGroup.multiply([Scalar(BigFraction.from(2)), right]),
+            ),
+        );
+      }
+    }
+
+    if (left is CommutativeGroup && right is CommutativeGroup) {
+      if (left.operation == right.operation &&
+          left.operation == CommutativeOperation.multiplication) {
+        return CommutativeGroup.add([left, right]);
+      } else if (left.operation == right.operation &&
+          left.operation == CommutativeOperation.addition) {
+        return CommutativeGroup.add(
+          [...left.values, ...right.values],
+        );
+      } else if (left.operation != right.operation &&
+          left.operation == CommutativeOperation.addition) {
+        return CommutativeGroup.add(List.from(left.values)..add(right));
+      } else if (left.operation != right.operation &&
+          right.operation == CommutativeOperation.addition) {
+        return CommutativeGroup.add(List.from(right.values)..add(left));
+      }
+    }
+
+    return null;
   }
 
   @override
