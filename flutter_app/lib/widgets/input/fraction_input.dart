@@ -2,6 +2,8 @@ import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../utils/math_text_editing_controller.dart';
+
 class FractionInput extends StatelessWidget {
   final ValueChanged<BigFraction?> onChanged;
   final TextEditingController? controller;
@@ -12,7 +14,7 @@ class FractionInput extends StatelessWidget {
     required this.onChanged,
     required value,
     this.maxWidth,
-  })  : controller = TextEditingController(text: value),
+  })  : controller = MathTextEditingController(text: value),
         super(key: key);
 
   @override
