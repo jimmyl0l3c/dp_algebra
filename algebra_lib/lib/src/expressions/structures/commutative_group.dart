@@ -1,4 +1,14 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import '../../exceptions.dart';
+import '../../interfaces/expression.dart';
+import '../../tex_flags.dart';
+import '../general/addition.dart';
+import '../general/multiply.dart';
+import 'boolean.dart';
+import 'expression_set.dart';
+import 'matrix.dart';
+import 'scalar.dart';
+import 'variable.dart';
+import 'vector.dart';
 
 enum CommutativeOperation {
   addition('+'),
@@ -43,11 +53,19 @@ class CommutativeGroup implements Expression {
       }
     }
 
-    // All elements are CommutativeGroup, Scalar or Variable
+    // From here all elements are CommutativeGroup, Scalar or Variable
+
     List<Scalar> scalars = [];
+    Set<int> simplifiedVarGroups = {};
     for (var i = 0; i < values.length; i++) {
       Expression value = values[i];
 
+      // Save scalar to add/multiply them all
+      if (value is Scalar) {
+        scalars.add(value);
+      }
+
+      // Unpack if the inner operation is the same as outer
       if (value is CommutativeGroup && value.operation == operation) {
         return CommutativeGroup(
           values: List.from(values)
@@ -57,13 +75,64 @@ class CommutativeGroup implements Expression {
         );
       }
 
-      if (value is Scalar) {
-        scalars.add(value);
+      if (operation == CommutativeOperation.addition &&
+          value is CommutativeGroup &&
+          value.operation == CommutativeOperation.multiplication) {
+        var varGroup = Object.hashAllUnordered(
+          value.values.whereType<Variable>(),
+        );
+
+        if (simplifiedVarGroups.contains(varGroup)) {
+          continue;
+        }
+
+        simplifiedVarGroups.add(varGroup);
+        for (var j = i + 1; j < values.length; j++) {
+          var innerValue = values[j];
+          if (innerValue is! CommutativeGroup ||
+              innerValue.operation != CommutativeOperation.multiplication) {
+            continue;
+          }
+
+          if (varGroup ==
+              Object.hashAllUnordered(
+                innerValue.values.whereType<Variable>(),
+              )) {
+            return CommutativeGroup(
+              values: List.from(values)
+                ..remove(value)
+                ..remove(innerValue)
+                ..add(Addition(left: value, right: innerValue)),
+              operation: operation,
+            );
+          }
+        }
+      } else if (operation == CommutativeOperation.multiplication &&
+          value is CommutativeGroup &&
+          value.operation == CommutativeOperation.addition) {
+        if (values.length == 1) {
+          return value;
+        } else if (values.length == (i + 1)) {
+          var previousValue = values[i - 1];
+          return CommutativeGroup(
+            values: List.from(values)
+              ..remove(value)
+              ..remove(previousValue)
+              ..insert(0, Multiply(left: value, right: previousValue)),
+            operation: operation,
+          );
+        } else {
+          var nextValue = values[i + 1];
+          return CommutativeGroup(
+            values: List.from(values)
+              ..remove(value)
+              ..remove(nextValue)
+              ..insert(0, Multiply(left: value, right: nextValue)),
+            operation: operation,
+          );
+        }
       }
     }
-
-    // TODO: resolve inner CommutativeGroup.Multiply in CommutativeGroup.Add
-    // TODO: resolve inner CommutativeGroup.Add in CommutativeGroup.Multiply
 
     if (scalars.length > 1) {
       if (operation == CommutativeOperation.addition) {
