@@ -20,10 +20,10 @@ class Addition implements Expression {
     // If left can be simplified, do it
     var simplifiedLeft = left.simplify();
     if (left != simplifiedLeft) {
-      if (simplifiedLeft is CommutativeGroup) {
-        return _simplifyExpWithCommutativeGroup(simplifiedLeft, right) ??
-            Addition(left: simplifiedLeft, right: right);
-      }
+      // if (simplifiedLeft is CommutativeGroup) {
+      //   return _simplifyExpWithCommutativeGroup(simplifiedLeft, right) ??
+      //       Addition(left: simplifiedLeft, right: right);
+      // }
 
       return Addition(left: simplifiedLeft, right: right);
     }
@@ -31,10 +31,10 @@ class Addition implements Expression {
     // If right can be simplified, do it
     var simplifiedRight = right.simplify();
     if (right != simplifiedRight) {
-      if (simplifiedRight is CommutativeGroup) {
-        return _simplifyExpWithCommutativeGroup(left, simplifiedRight) ??
-            Addition(left: left, right: simplifiedRight);
-      }
+      // if (simplifiedRight is CommutativeGroup) {
+      //   return _simplifyExpWithCommutativeGroup(left, simplifiedRight) ??
+      //       Addition(left: left, right: simplifiedRight);
+      // }
 
       return Addition(left: left, right: simplifiedRight);
     }

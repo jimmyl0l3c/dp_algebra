@@ -20,5 +20,8 @@ class Variable implements Expression {
   }
 
   @override
+  String toString() => '$symbol$index';
+
+  @override
   int get hashCode => Object.hash(symbol, index);
 }

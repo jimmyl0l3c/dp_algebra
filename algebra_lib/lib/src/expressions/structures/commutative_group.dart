@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+
 import '../../exceptions.dart';
 import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
@@ -12,7 +14,7 @@ import 'vector.dart';
 
 enum CommutativeOperation {
   addition('+'),
-  multiplication(r'\cdot');
+  multiplication(r'\cdot ');
 
   final String texSign;
 
@@ -32,6 +34,10 @@ class CommutativeGroup implements Expression {
 
   @override
   Expression simplify() {
+    if (values.length == 1) {
+      return values.first;
+    }
+
     for (var i = 0; i < values.length; i++) {
       Expression value = values[i];
 
@@ -46,7 +52,7 @@ class CommutativeGroup implements Expression {
       if (value != simplifiedValue) {
         return CommutativeGroup(
           values: List.from(values)
-            ..removeAt(i)
+            ..remove(value)
             ..insert(i, simplifiedValue),
           operation: operation,
         );
@@ -76,11 +82,10 @@ class CommutativeGroup implements Expression {
       }
 
       if (operation == CommutativeOperation.addition &&
-          value is CommutativeGroup &&
-          value.operation == CommutativeOperation.multiplication) {
-        var varGroup = Object.hashAllUnordered(
-          value.values.whereType<Variable>(),
-        );
+              (value is CommutativeGroup &&
+                  value.operation == CommutativeOperation.multiplication) ||
+          (value is Variable)) {
+        var varGroup = _getGroupVarHash(value);
 
         if (simplifiedVarGroups.contains(varGroup)) {
           continue;
@@ -89,20 +94,45 @@ class CommutativeGroup implements Expression {
         simplifiedVarGroups.add(varGroup);
         for (var j = i + 1; j < values.length; j++) {
           var innerValue = values[j];
-          if (innerValue is! CommutativeGroup ||
-              innerValue.operation != CommutativeOperation.multiplication) {
+          if (innerValue is! Variable &&
+              (innerValue is! CommutativeGroup ||
+                  innerValue.operation !=
+                      CommutativeOperation.multiplication)) {
             continue;
           }
 
-          if (varGroup ==
-              Object.hashAllUnordered(
-                innerValue.values.whereType<Variable>(),
-              )) {
+          if (varGroup == _getGroupVarHash(innerValue)) {
+            Expression newValue = Addition(left: value, right: innerValue);
+            if (value is CommutativeGroup && innerValue is CommutativeGroup) {
+              var leftScalar =
+                  value.values.firstWhereOrNull((e) => e is Scalar);
+              var rightScalar =
+                  innerValue.values.firstWhereOrNull((e) => e is Scalar);
+
+              List<Expression> resultingGroup =
+                  List.from(value.values.whereNot((e) => e is Scalar));
+
+              if (leftScalar != null && rightScalar != null) {
+                resultingGroup.add(Addition(
+                  left: leftScalar,
+                  right: rightScalar,
+                ));
+              } else if (leftScalar != null) {
+                resultingGroup.add(leftScalar);
+              } else if (rightScalar != null) {
+                resultingGroup.add(rightScalar);
+              }
+
+              newValue = CommutativeGroup(
+                values: resultingGroup,
+                operation: CommutativeOperation.multiplication,
+              );
+            }
             return CommutativeGroup(
               values: List.from(values)
                 ..remove(value)
                 ..remove(innerValue)
-                ..add(Addition(left: value, right: innerValue)),
+                ..add(newValue),
               operation: operation,
             );
           }
@@ -110,9 +140,7 @@ class CommutativeGroup implements Expression {
       } else if (operation == CommutativeOperation.multiplication &&
           value is CommutativeGroup &&
           value.operation == CommutativeOperation.addition) {
-        if (values.length == 1) {
-          return value;
-        } else if (values.length == (i + 1)) {
+        if (values.length == (i + 1)) {
           var previousValue = values[i - 1];
           return CommutativeGroup(
             values: List.from(values)
@@ -165,7 +193,7 @@ class CommutativeGroup implements Expression {
 
   @override
   String toTeX({Set<TexFlags>? flags}) {
-    StringBuffer buffer = StringBuffer();
+    StringBuffer buffer = StringBuffer('\\{');
     for (var i = 0; i < values.length; i++) {
       String tex = values[i].toTeX();
 
@@ -188,7 +216,13 @@ class CommutativeGroup implements Expression {
         buffer.write(')');
       }
     }
+    buffer.write('\\}');
     return buffer.toString();
+  }
+
+  int _getGroupVarHash(Expression exp) {
+    if (exp is CommutativeGroup) return Object.hashAllUnordered(exp.values);
+    return exp.hashCode;
   }
 
   @override
@@ -196,12 +230,12 @@ class CommutativeGroup implements Expression {
     if (other is! CommutativeGroup) return false;
     if (other.values.length != values.length) return false;
 
-    for (var i = 0; i < values.length; i++) {
-      if (values[i] != other.values[i]) return false;
+    for (var value in values) {
+      if (!other.values.contains(value)) return false;
     }
     return true;
   }
 
   @override
-  int get hashCode => Object.hashAll(values);
+  int get hashCode => Object.hashAllUnordered(values);
 }
