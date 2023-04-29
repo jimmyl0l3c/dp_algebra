@@ -6,6 +6,7 @@ import 'package:flutter_math_fork/flutter_math.dart';
 
 import '../../../data/predefined_refs.dart';
 import '../../../models/calc/calc_result.dart';
+import '../../../utils/exc_utils.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/forms/button_row.dart';
 import '../../generic/exercise_page.dart';
@@ -92,7 +93,53 @@ class _HomomorphismsExcState extends State<HomomorphismsExc> {
   }
 
   Expression _randomMappingItem(int inputNum) {
-    // TODO: implement
-    return Scalar.one();
+    int groupLen = _random.nextInt(inputNum) + 1;
+    bool includeScalar = _random.nextBool();
+
+    List<Expression> groupItems = [
+      if (includeScalar) ExerciseUtils.generateNonZeroScalar(nonOneValue: true),
+    ];
+
+    if (includeScalar) {
+      groupLen--;
+    }
+
+    for (var i = 0; i < groupLen; i++) {
+      if (_random.nextBool()) {
+        groupItems.add(_generateRandomMultiplyGroup(inputNum));
+      } else {
+        groupItems.add(Variable(index: _random.nextInt(inputNum)));
+      }
+    }
+
+    Expression item = groupItems.length == 1
+        ? groupItems.first
+        : CommutativeGroup.add(groupItems);
+    Expression simplifiedItem = item;
+
+    do {
+      item = simplifiedItem;
+      simplifiedItem = item.simplify();
+    } while (item != simplifiedItem);
+
+    return item;
+  }
+
+  Expression _generateRandomMultiplyGroup(int inputNum) {
+    int groupLen = _random.nextInt(inputNum) + 1;
+    Expression group = CommutativeGroup.multiply([
+      for (var i = 0; i < groupLen; i++)
+        _generateSimpleItem(inputNum, nonOne: true),
+    ]);
+
+    return group;
+  }
+
+  Expression _generateSimpleItem(int inputNum, {bool nonOne = false}) {
+    if (_random.nextBool()) {
+      return ExerciseUtils.generateNonZeroScalar(nonOneValue: nonOne);
+    } else {
+      return Variable(index: _random.nextInt(inputNum));
+    }
   }
 }

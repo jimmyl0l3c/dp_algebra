@@ -49,6 +49,15 @@ class ExerciseUtils {
     return num.toBigFraction();
   }
 
+  static Scalar generateNonZeroScalar({bool nonOneValue = false}) {
+    int num = random.nextInt(21) - 10;
+    if (num == 0 || (nonOneValue && num == 1)) {
+      num = -1;
+    }
+
+    return Scalar(num.toBigFraction());
+  }
+
   static int generateSize({int max = 4, int min = 1}) =>
       random.nextInt(max - min + 1) + min;
 
