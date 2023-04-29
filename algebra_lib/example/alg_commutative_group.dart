@@ -56,6 +56,15 @@ void main() {
     ),
   ]);
   printAllSimplifications(problematicExample);
+
+  print('');
+  final problematicExample2 = CommutativeGroup.add([
+    CommutativeGroup.multiply(
+      [Scalar(BigFraction.minusOne()), Variable(index: 0)],
+    ),
+    Variable(index: 0),
+  ]);
+  printAllSimplifications(problematicExample2);
 }
 
 void printAllSimplifications(Expression expression, {bool addNewLine = false}) {

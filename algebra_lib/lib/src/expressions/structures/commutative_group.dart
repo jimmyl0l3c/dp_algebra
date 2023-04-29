@@ -202,11 +202,16 @@ class CommutativeGroup implements Expression {
                 values: resultingGroup,
                 operation: CommutativeOperation.multiplication,
               );
-            } else if (innerValue is CommutativeGroup) {
-              Scalar? innerScalar =
-                  innerValue.values.whereType<Scalar>().firstOrNull;
-              Scalar newScalar = innerScalar != null
-                  ? Scalar(innerScalar.value + BigFraction.one())
+            } else if (innerValue is CommutativeGroup ||
+                value is CommutativeGroup) {
+              Scalar? currScalar = innerValue is CommutativeGroup
+                  ? innerValue.values.whereType<Scalar>().firstOrNull
+                  : (value as CommutativeGroup)
+                      .values
+                      .whereType<Scalar>()
+                      .firstOrNull;
+              Scalar newScalar = currScalar != null
+                  ? Scalar(currScalar.value + BigFraction.one())
                   : Scalar(BigFraction.from(2));
 
               if (newScalar == Scalar.zero()) {
@@ -221,7 +226,11 @@ class CommutativeGroup implements Expression {
               }
 
               newValue = CommutativeGroup(
-                values: [newScalar, value],
+                values: [
+                  newScalar,
+                  if (value is Variable) value,
+                  if (innerValue is Variable) innerValue,
+                ],
                 operation: CommutativeOperation.multiplication,
               );
             }
