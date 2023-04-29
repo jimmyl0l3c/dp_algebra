@@ -8,29 +8,29 @@ import '../structures/vector.dart';
 
 class Mapping implements Expression {
   final Expression inVector;
-  final Expression outVector;
+  final Expression mappingVector;
 
-  const Mapping({required this.inVector, required this.outVector});
+  const Mapping({required this.inVector, required this.mappingVector});
 
   @override
   Expression simplify() {
     var simplifiedIn = inVector.simplify();
     if (simplifiedIn != inVector) {
-      return Mapping(inVector: simplifiedIn, outVector: outVector);
+      return Mapping(inVector: simplifiedIn, mappingVector: mappingVector);
     }
 
-    var simplifiedOut = outVector.simplify();
-    if (simplifiedOut != outVector) {
-      return Mapping(inVector: inVector, outVector: simplifiedOut);
+    var simplifiedOut = mappingVector.simplify();
+    if (simplifiedOut != mappingVector) {
+      return Mapping(inVector: inVector, mappingVector: simplifiedOut);
     }
 
-    if (inVector is! Vector || outVector is! Vector) {
+    if (inVector is! Vector || mappingVector is! Vector) {
       throw UndefinedOperationException();
     }
 
     Vector input = inVector as Vector;
     List<Expression> output = [];
-    for (var item in (outVector as Vector).items) {
+    for (var item in (mappingVector as Vector).items) {
       if (item is Scalar) {
         output.add(item);
       } else if (item is Variable) {
@@ -69,5 +69,5 @@ class Mapping implements Expression {
 
   @override
   String toTeX({Set<TexFlags>? flags}) =>
-      '${inVector.toTeX()} \\to ${outVector.toTeX()}';
+      '${inVector.toTeX()} \\to ${mappingVector.toTeX()}';
 }

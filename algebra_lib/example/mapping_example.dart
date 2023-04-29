@@ -24,7 +24,7 @@ void main() {
       Variable(index: 0, symbol: 'a'),
       Variable(index: 0, symbol: 'b'),
     ]),
-    outVector: function,
+    mappingVector: function,
   );
 
   printAllSimplifications(mappingExample);
@@ -35,7 +35,7 @@ void main() {
       Scalar(BigFraction.from(2)),
       Scalar(BigFraction.from(-3)),
     ]),
-    outVector: function,
+    mappingVector: function,
   );
 
   printAllSimplifications(mappingExample2);

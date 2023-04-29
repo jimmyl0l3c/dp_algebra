@@ -5,6 +5,7 @@ library algebra_lib;
 
 export 'src/algebra_lib_base.dart';
 export 'src/exceptions.dart';
+export 'src/expressions/bool_operations/and.dart';
 export 'src/expressions/bool_operations/are_equal.dart';
 export 'src/expressions/equation_specific/gaussian_elimination.dart';
 export 'src/expressions/equation_specific/is_solvable.dart';
@@ -36,6 +37,7 @@ export 'src/expressions/structures/variable.dart';
 export 'src/expressions/structures/vector.dart';
 export 'src/expressions/vector_specific/are_vectors_independent.dart';
 export 'src/expressions/vector_specific/find_basis.dart';
+export 'src/expressions/vector_specific/is_homomorphism.dart';
 export 'src/expressions/vector_specific/mapping.dart';
 export 'src/expressions/vector_specific/transform_coords.dart';
 export 'src/expressions/vector_specific/transform_matrix.dart';

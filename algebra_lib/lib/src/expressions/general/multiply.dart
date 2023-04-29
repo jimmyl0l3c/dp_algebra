@@ -54,7 +54,8 @@ class Multiply implements Expression {
       return Scalar((left as Scalar).value * (right as Scalar).value);
     }
 
-    if (left is Scalar && right is Vector) {
+    if ((left is Scalar || left is Variable || left is CommutativeGroup) &&
+        right is Vector) {
       List<Expression> multipliedVector = [];
 
       for (var item in (right as Vector).items) {
@@ -64,7 +65,8 @@ class Multiply implements Expression {
       return Vector(items: multipliedVector);
     }
 
-    if (left is Vector && right is Scalar) {
+    if (left is Vector &&
+        (right is Scalar || right is Variable || right is CommutativeGroup)) {
       List<Expression> multipliedVector = [];
 
       for (var item in (left as Vector).items) {
