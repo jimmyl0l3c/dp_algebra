@@ -36,6 +36,7 @@ export 'src/expressions/structures/variable.dart';
 export 'src/expressions/structures/vector.dart';
 export 'src/expressions/vector_specific/are_vectors_independent.dart';
 export 'src/expressions/vector_specific/find_basis.dart';
+export 'src/expressions/vector_specific/mapping.dart';
 export 'src/expressions/vector_specific/transform_coords.dart';
 export 'src/expressions/vector_specific/transform_matrix.dart';
 export 'src/interfaces/expression.dart';
