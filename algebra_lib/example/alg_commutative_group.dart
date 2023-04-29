@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:big_fraction/big_fraction.dart';
 
 import '../test/utils/scalar_provider.dart';
 
@@ -46,6 +47,15 @@ void main() {
     // printNSimplifications(addition, 10);
     print('');
   }
+
+  print('');
+  final problematicExample = CommutativeGroup.add([
+    Variable(index: 0),
+    CommutativeGroup.multiply(
+      [Scalar(BigFraction.minusOne()), Variable(index: 0)],
+    ),
+  ]);
+  printAllSimplifications(problematicExample);
 }
 
 void printAllSimplifications(Expression expression, {bool addNewLine = false}) {

@@ -56,6 +56,10 @@ class CommutativeGroup implements Expression {
 
       // Save scalar to add/multiply them all
       if (value is Scalar) {
+        if (value == Scalar.zero()) {
+          return Scalar.zero();
+        }
+
         scalars.add(value);
       }
 
@@ -166,6 +170,9 @@ class CommutativeGroup implements Expression {
                         left: Scalar(BigFraction.minusOne()),
                         right: innerValue,
                       ));
+            List<Expression> newGroup = List.from(values)
+              ..remove(value)
+              ..remove(innerValue);
             if (value is CommutativeGroup && innerValue is CommutativeGroup) {
               var leftScalar =
                   value.values.firstWhereOrNull((e) => e is Scalar);
@@ -195,12 +202,31 @@ class CommutativeGroup implements Expression {
                 values: resultingGroup,
                 operation: CommutativeOperation.multiplication,
               );
+            } else if (innerValue is CommutativeGroup) {
+              Scalar? innerScalar =
+                  innerValue.values.whereType<Scalar>().firstOrNull;
+              Scalar newScalar = innerScalar != null
+                  ? Scalar(innerScalar.value + BigFraction.one())
+                  : Scalar(BigFraction.from(2));
+
+              if (newScalar == Scalar.zero()) {
+                if (newGroup.isEmpty) {
+                  return Scalar.zero();
+                } else {
+                  return CommutativeGroup(
+                    values: newGroup,
+                    operation: operation,
+                  );
+                }
+              }
+
+              newValue = CommutativeGroup(
+                values: [newScalar, value],
+                operation: CommutativeOperation.multiplication,
+              );
             }
             return CommutativeGroup(
-              values: List.from(values)
-                ..remove(value)
-                ..remove(innerValue)
-                ..add(newValue),
+              values: newGroup..add(newValue),
               operation: operation,
             );
           }
@@ -296,8 +322,10 @@ class CommutativeGroup implements Expression {
   }
 
   int _getGroupVarHash(Expression exp) {
-    if (exp is CommutativeGroup) return Object.hashAllUnordered(exp.values);
-    return exp.hashCode;
+    if (exp is CommutativeGroup) {
+      return Object.hashAllUnordered(exp.values.whereType<Variable>());
+    }
+    return Object.hashAllUnordered([exp]);
   }
 
   @override
