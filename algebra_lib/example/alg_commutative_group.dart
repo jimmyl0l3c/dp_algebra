@@ -53,7 +53,7 @@ void printAllSimplifications(Expression expression, {bool addNewLine = false}) {
   Expression lastExp = expression;
   print(expression.toTeX());
   if (addNewLine) {
-    print("");
+    print('');
   }
 
   do {
@@ -61,7 +61,7 @@ void printAllSimplifications(Expression expression, {bool addNewLine = false}) {
     lastExp = lastExp.simplify();
     print(lastExp.toTeX());
     if (addNewLine) {
-      print("");
+      print('');
     }
   } while (prevExp != lastExp);
 }

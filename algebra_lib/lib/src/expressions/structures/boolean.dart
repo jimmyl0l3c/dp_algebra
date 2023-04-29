@@ -10,7 +10,7 @@ class Boolean implements Expression {
   Expression simplify() => this;
 
   @override
-  String toTeX({Set<TexFlags>? flags}) => value ? "Pravda" : "Nepravda";
+  String toTeX({Set<TexFlags>? flags}) => value ? 'Pravda' : 'Nepravda';
 
   @override
   bool operator ==(Object other) {

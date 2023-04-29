@@ -1,5 +1,4 @@
 import 'package:algebra_lib/algebra_lib.dart';
-import 'package:algebra_lib/src/expressions/structures/commutative_group.dart';
 
 import '../test/utils/scalar_provider.dart';
 
@@ -53,7 +52,7 @@ void printNSimplifications(Expression expression, int n,
   for (var i = 0; i < n; i++) {
     print(simplifyNTimes(expression, i).toTeX());
     if (addNewLine) {
-      print("");
+      print('');
     }
   }
 }
