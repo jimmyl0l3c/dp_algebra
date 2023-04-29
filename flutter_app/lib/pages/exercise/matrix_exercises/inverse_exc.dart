@@ -86,7 +86,7 @@ class _InverseMatrixExcState extends State<InverseMatrixExc> {
       strSolution = null;
     } on CalcExpressionException {
       correctSolution = CalcResult.calculate(Determinant(det: matrix));
-      strSolution = "Inverzní matice k zadané matici neexistuje";
+      strSolution = 'Inverzní matice k zadané matici neexistuje';
     }
   }
 }

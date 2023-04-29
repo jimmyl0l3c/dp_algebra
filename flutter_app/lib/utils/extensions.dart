@@ -31,7 +31,7 @@ extension StringExtension on String {
       pattern.allMatchesWithSep(this);
 
   String capitalize() =>
-      "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+      '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
 }
 
 extension HintsExtension on Expression {

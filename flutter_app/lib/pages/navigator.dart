@@ -153,7 +153,7 @@ class _AlgebraNavigatorState extends State<AlgebraNavigator> {
         else if (routeState.route.pathTemplate.startsWith('/exercise'))
           AlgebraTransitionPage(
             key: _exerciseKey,
-            child: AlgMenuView(
+            child: const AlgMenuView(
               sectionTitle: 'Procvičování',
               sectionPath: 'exercise',
               chapters: exerciseChapters,

@@ -29,13 +29,13 @@ class CalcResult {
       // Catch all exceptions, hopefully prevent freezing of the app
       logger.e(e.toString());
       throw CalcExpressionException(
-        friendlyMessage: "Exception occurred while calculating expression",
+        friendlyMessage: 'Exception occurred while calculating expression',
         cause: e,
       );
     } on Error catch (e) {
       logger.e(e.toString());
       throw CalcExpressionException(
-        friendlyMessage: "Exception occurred while calculating expression",
+        friendlyMessage: 'Exception occurred while calculating expression',
         cause: e,
       );
     }
@@ -70,13 +70,13 @@ class CalcResult {
           // Catch all exceptions, hopefully prevent freezing of the app
           logger.e(e.toString());
           throw CalcExpressionException(
-            friendlyMessage: "Exception occurred while calculating expression",
+            friendlyMessage: 'Exception occurred while calculating expression',
             cause: e,
           );
         } on Error catch (e) {
           logger.e(e.toString());
           throw CalcExpressionException(
-            friendlyMessage: "Exception occurred while calculating expression",
+            friendlyMessage: 'Exception occurred while calculating expression',
             cause: e,
           );
         }
