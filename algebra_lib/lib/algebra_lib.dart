@@ -31,7 +31,6 @@ export 'src/expressions/structures/boolean.dart';
 export 'src/expressions/structures/commutative_group.dart';
 export 'src/expressions/structures/expression_set.dart';
 export 'src/expressions/structures/matrix.dart';
-export 'src/expressions/structures/parametrized_scalar.dart';
 export 'src/expressions/structures/scalar.dart';
 export 'src/expressions/structures/variable.dart';
 export 'src/expressions/structures/vector.dart';

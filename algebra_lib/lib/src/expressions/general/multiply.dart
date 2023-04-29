@@ -5,7 +5,6 @@ import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
 import '../structures/commutative_group.dart';
 import '../structures/matrix.dart';
-import '../structures/parametrized_scalar.dart';
 import '../structures/scalar.dart';
 import '../structures/variable.dart';
 import '../structures/vector.dart';
@@ -302,7 +301,6 @@ class Multiply implements Expression {
   String toTeX({Set<TexFlags>? flags}) {
     StringBuffer buffer = StringBuffer();
     bool encloseLeft = (left is Scalar && (left as Scalar).value.isNegative) ||
-        (left is ParametrizedScalar) ||
         (left is Variable);
 
     if (encloseLeft) {
@@ -317,7 +315,6 @@ class Multiply implements Expression {
 
     bool encloseRight =
         (right is Scalar && (right as Scalar).value.isNegative) ||
-            (right is ParametrizedScalar) ||
             (right is Variable);
 
     if (encloseRight) {
