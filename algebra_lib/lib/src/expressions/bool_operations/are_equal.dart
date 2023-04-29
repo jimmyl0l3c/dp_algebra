@@ -1,9 +1,6 @@
 import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
 import '../structures/boolean.dart';
-import '../structures/matrix.dart';
-import '../structures/scalar.dart';
-import '../structures/vector.dart';
 
 class AreEqual implements Expression {
   final Expression left;
@@ -13,12 +10,14 @@ class AreEqual implements Expression {
 
   @override
   Expression simplify() {
-    if (left is! Vector && left is! Matrix && left is! Scalar) {
-      return AreEqual(left: left.simplify(), right: right);
+    var simplifiedLeft = left.simplify();
+    if (left != simplifiedLeft) {
+      return AreEqual(left: simplifiedLeft, right: right);
     }
 
-    if (right is! Vector && right is! Matrix && right is! Scalar) {
-      return AreEqual(left: left, right: right.simplify());
+    var simplifiedRight = right.simplify();
+    if (right != simplifiedRight) {
+      return AreEqual(left: left, right: simplifiedRight);
     }
 
     return Boolean(left == right);
