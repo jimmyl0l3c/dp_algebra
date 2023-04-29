@@ -5,6 +5,7 @@ import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
 import '../structures/scalar.dart';
 import '../structures/vector.dart';
+import 'commutative_group.dart';
 import 'expression_set.dart';
 
 class Matrix implements Expression {
@@ -131,7 +132,11 @@ class Matrix implements Expression {
     buffer.write(
       rows
           .map((row) => row is Vector
-              ? row.items.map((c) => c.toTeX()).join(' & ')
+              ? row.items
+                  .map((c) => c.toTeX(flags: {
+                        if (c is CommutativeGroup) TexFlags.dontEnclose,
+                      }))
+                  .join(' & ')
               : row.toTeX())
           .join(r' \\ '),
     );
