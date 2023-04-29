@@ -5,6 +5,7 @@ import '../pages/exercise/matrix_exercises/binary_matrix_exc.dart';
 import '../pages/exercise/matrix_exercises/determinant_exc.dart';
 import '../pages/exercise/matrix_exercises/inverse_exc.dart';
 import '../pages/exercise/vector_exercises/basis_exc.dart';
+import '../pages/exercise/vector_exercises/homomorphism_exc.dart';
 import '../pages/exercise/vector_exercises/lin_independence_exc.dart';
 import '../pages/exercise/vector_exercises/transform_matrix_exc.dart';
 
@@ -44,6 +45,10 @@ const List<SectionChapterModel> exerciseChapters = [
       SectionPageModel(
         title: 'Transformace souřadnic',
         page: TransformMatrixExc(),
+      ),
+      SectionPageModel(
+        title: 'Homomorfismy',
+        page: HomomorphismsExc(),
       ),
     ],
   ),
