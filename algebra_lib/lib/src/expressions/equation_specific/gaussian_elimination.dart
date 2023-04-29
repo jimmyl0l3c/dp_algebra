@@ -5,8 +5,8 @@ import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
 import '../matrix_specific/reduce.dart';
 import '../matrix_specific/triangular.dart';
+import '../structures/commutative_group.dart';
 import '../structures/matrix.dart';
-import '../structures/parametrized_scalar.dart';
 import '../structures/scalar.dart';
 import '../structures/variable.dart';
 import '../structures/vector.dart';
@@ -75,13 +75,12 @@ class GaussianElimination implements Expression {
             parametrizedScalar.add(numSolution[i]);
           }
           solution[i]?.forEach(
-            (key, value) => parametrizedScalar.add(Variable(
-              n: value,
-              param: key,
-            )),
+            (key, value) => parametrizedScalar.add(
+              CommutativeGroup.multiply([value, Variable(index: key)]),
+            ),
           );
 
-          solutionVector.add(ParametrizedScalar(values: parametrizedScalar));
+          solutionVector.add(CommutativeGroup.add(parametrizedScalar));
         }
       }
       return Vector(items: solutionVector);

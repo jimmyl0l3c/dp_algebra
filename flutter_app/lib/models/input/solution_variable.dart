@@ -62,13 +62,29 @@ class SolutionVariable {
     }
     solution.forEach((key, value) {
       if (value != 0.toBigFraction()) {
-        paramScalar.add(Variable(
-          n: Scalar(value),
-          param: key,
-        ));
+        paramScalar.add(
+          value == BigFraction.one()
+              ? Variable(index: key)
+              : CommutativeGroup(
+                  values: [Scalar(value), Variable(index: key)],
+                  operation: CommutativeOperation.multiplication,
+                ),
+        );
       }
     });
 
-    return ParametrizedScalar(values: paramScalar);
+    Expression group = CommutativeGroup(
+      values: paramScalar,
+      operation: CommutativeOperation.addition,
+    );
+    Expression lastGroup = group;
+
+    // Make sure it is simplified as much as possible for correct comparison
+    do {
+      group = lastGroup;
+      lastGroup = group.simplify();
+    } while (group != lastGroup);
+
+    return lastGroup;
   }
 }

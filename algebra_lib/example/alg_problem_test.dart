@@ -69,7 +69,7 @@ void main() {
     }
     print(output.last.toTeX());
   } on ExpressionException {
-    print("Not solvable");
+    print('Not solvable');
   }
 }
 
@@ -78,7 +78,7 @@ void printNSimplifications(Expression expression, int n,
   for (var i = 0; i < n; i++) {
     print(simplifyNTimes(expression, i).toTeX());
     if (addNewLine) {
-      print("");
+      print('');
     }
   }
 }

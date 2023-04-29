@@ -24,15 +24,15 @@ class LLiterature {
   });
 
   LLiterature.fromJson(Map<dynamic, dynamic> json)
-      : refName = json["ref_name"],
-        author = json["author"],
-        year = json["year"],
-        title = json["title"],
-        location = json["location"],
-        publisher = json["publisher"],
-        isbn = json["isbn"],
-        edition = json["edition"],
-        pages = json["pages"];
+      : refName = json['ref_name'],
+        author = json['author'],
+        year = json['year'],
+        title = json['title'],
+        location = json['location'],
+        publisher = json['publisher'],
+        isbn = json['isbn'],
+        edition = json['edition'],
+        pages = json['pages'];
 
   String get firstAuthor =>
       RegExp(r'(\S*?),').firstMatch(author)?.group(1)?.capitalize() ?? '...';

@@ -29,59 +29,16 @@ class CalcResult {
       // Catch all exceptions, hopefully prevent freezing of the app
       logger.e(e.toString());
       throw CalcExpressionException(
-        friendlyMessage: "Exception occurred while calculating expression",
+        friendlyMessage: 'Exception occurred while calculating expression',
         cause: e,
       );
     } on Error catch (e) {
       logger.e(e.toString());
       throw CalcExpressionException(
-        friendlyMessage: "Exception occurred while calculating expression",
+        friendlyMessage: 'Exception occurred while calculating expression',
         cause: e,
       );
     }
-  }
-
-  static Future<CalcResult> calculateAsync(Expression calculation) {
-    return Future(
-      () {
-        try {
-          List<Expression> steps = [];
-
-          Expression prevExp = calculation;
-          Expression lastExp = calculation;
-
-          do {
-            steps.add(lastExp);
-            prevExp = lastExp;
-            lastExp = lastExp.simplify();
-
-            // TODO: remove when certain the freezing is fixed
-            print(prevExp.toTeX());
-          } while (prevExp != lastExp);
-
-          return CalcResult(
-            calculation: calculation,
-            result: steps.last,
-            steps: steps,
-          );
-        } on ExpressionException catch (e) {
-          throw CalcExpressionException.fromExpressionException(calculation, e);
-        } on Exception catch (e) {
-          // Catch all exceptions, hopefully prevent freezing of the app
-          logger.e(e.toString());
-          throw CalcExpressionException(
-            friendlyMessage: "Exception occurred while calculating expression",
-            cause: e,
-          );
-        } on Error catch (e) {
-          logger.e(e.toString());
-          throw CalcExpressionException(
-            friendlyMessage: "Exception occurred while calculating expression",
-            cause: e,
-          );
-        }
-      },
-    );
   }
 
   static List<Expression> _getCalculationSteps(Expression calculation) {

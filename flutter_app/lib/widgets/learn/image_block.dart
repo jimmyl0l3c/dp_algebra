@@ -22,7 +22,7 @@ class ImageBlock extends StatelessWidget {
             errorWidget: (context, url, error) => Column(
               children: const [
                 Icon(Icons.error),
-                Text("Error occurred when loading an image"),
+                Text('Error occurred when loading an image'),
               ],
             ),
             fit: BoxFit.contain,
@@ -35,7 +35,7 @@ class ImageBlock extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 6.0, top: 12.0),
             child: Text(
-              "${block.typeTitle}$imgNum: ${block.title}",
+              '${block.typeTitle}$imgNum: ${block.title}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),

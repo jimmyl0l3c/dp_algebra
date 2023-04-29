@@ -83,7 +83,7 @@ class _EquationExcState extends State<EquationExc> {
         ),
       ],
       solution: correctSolution ?? isSolvable,
-      strSolution: correctSolution == null ? "Soustava nemá řešení" : null,
+      strSolution: correctSolution == null ? 'Soustava nemá řešení' : null,
       hintRef: PredefinedRef.gaussianElimination.refName,
     );
   }

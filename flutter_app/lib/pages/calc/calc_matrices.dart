@@ -128,7 +128,7 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
             refName: PredefinedRef.multiplyMatrixByScalar.refName,
             placeholder: multiplyMatrixByScalar,
             text: multiplyMatrixByScalar,
-            tooltip: "Zjistit více",
+            tooltip: 'Zjistit více',
           ),
           const SizedBox(
             width: 8.0,
@@ -224,7 +224,7 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
     Map<String, MatrixModel> matrices =
         watchX((CalcMatrixModel x) => x.matrices);
 
-    String refName = "";
+    String refName = '';
     switch (operation) {
       case UnaryMatrixOperation.det:
         refName = PredefinedRef.determinant.refName;
@@ -263,7 +263,7 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                   refName: refName,
                   placeholder: operationDescription,
                   text: operationDescription,
-                  tooltip: "Zjistit více",
+                  tooltip: 'Zjistit více',
                 );
               } else {
                 return SizedBox(
@@ -274,7 +274,7 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
                       refName: refName,
                       placeholder: operationDescription,
                       text: operationDescription,
-                      tooltip: "Zjistit více",
+                      tooltip: 'Zjistit více',
                     ),
                   ),
                 );
@@ -371,7 +371,7 @@ class _MatrixBinOperationSelectionState
             refName: PredefinedRef.matrixAddition.refName,
             placeholder: binaryOperation,
             text: binaryOperation,
-            tooltip: "Zjistit více",
+            tooltip: 'Zjistit více',
           ),
           const SizedBox(
             width: 8.0,
@@ -490,7 +490,7 @@ class _MatrixBinOperationSelectionState
             child: const Text('='),
           ),
           Tooltip(
-            message: "Vyměnit matice",
+            message: 'Vyměnit matice',
             child: TextButton(
               style: ButtonStyle(
                 shape: MaterialStateProperty.all(const CircleBorder()),

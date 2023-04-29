@@ -27,11 +27,11 @@ void main() {
     ],
   );
   printNSimplifications(v1, 4);
-  print("\n");
+  print('\n');
 
   var multiply1 = Multiply(left: s1, right: v1);
   printNSimplifications(multiply1, 6);
-  print("\n");
+  print('\n');
 
   var m1 = Matrix(
     rows: [
@@ -50,7 +50,7 @@ void main() {
   print(m1.toTeX());
   var multiply2 = Multiply(left: s1, right: m1);
   printNSimplifications(multiply2, 6);
-  print("\n");
+  print('\n');
 
   var m2 = Matrix(
     rows: [
@@ -116,7 +116,7 @@ void main() {
   );
   printNSimplifications(divide, 3);
 
-  print("\n");
+  print('\n');
   var triangular = Triangular(matrix: m3);
   print(triangular.toTeX());
   printNSimplifications(triangular, 54);
@@ -143,21 +143,21 @@ void main() {
     columnCount: 3,
   );
 
-  print("\n");
+  print('\n');
   var triangularDet = TriangularDet(det: m4);
   print(triangularDet.toTeX());
   printNSimplifications(triangularDet, 40);
 
-  print("\n");
+  print('\n');
   var det = Determinant(det: m4);
   printNSimplifications(det, 40);
 
-  print("\n");
+  print('\n');
   var transpose = Transpose(matrix: m3);
   print(transpose.toTeX());
   print(transpose.simplify().toTeX());
 
-  print("\n");
+  print('\n');
   var inverse = Inverse(exp: m4);
   printNSimplifications(inverse, 114, addNewLine: true);
 
@@ -209,7 +209,7 @@ void main() {
   ]));
   printNSimplifications(basis, 85);
 
-  print("\n");
+  print('\n');
   var generalEq = GaussianElimination(
     matrix: Matrix.fromVectors([
       Vector(items: [
@@ -228,7 +228,7 @@ void main() {
   );
   printNSimplifications(generalEq, 85);
 
-  print("\n");
+  print('\n');
   var independent = AreVectorsLinearlyIndependent(vectors: [
     Vector(items: [
       Scalar(BigFraction.one()),
@@ -316,7 +316,7 @@ void printNSimplifications(Expression expression, int n,
   for (var i = 0; i < n; i++) {
     print(simplifyNTimes(expression, i).toTeX());
     if (addNewLine) {
-      print("");
+      print('');
     }
   }
 }

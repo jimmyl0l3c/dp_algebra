@@ -1,8 +1,6 @@
 import '../../interfaces/expression.dart';
 import '../../tex_flags.dart';
-import '../structures/scalar.dart';
-import 'parametrized_scalar.dart';
-import 'variable.dart';
+import 'commutative_group.dart';
 
 class Vector implements Expression {
   final List<Expression> items;
@@ -20,13 +18,14 @@ class Vector implements Expression {
   @override
   Expression simplify() {
     for (var i = 0; i < items.length; i++) {
-      if (items[i] is! Scalar &&
-          items[i] is! ParametrizedScalar &&
-          items[i] is! Variable) {
+      var item = items[i];
+      var simplifiedItem = item.simplify();
+
+      if (item != simplifiedItem) {
         return Vector(
           items: List.from(items)
             ..removeAt(i)
-            ..insert(i, items[i].simplify()),
+            ..insert(i, simplifiedItem),
         );
       }
     }
@@ -37,7 +36,11 @@ class Vector implements Expression {
   String toTeX({Set<TexFlags>? flags}) {
     StringBuffer buffer = StringBuffer(r'\begin{pmatrix} ');
 
-    buffer.write(items.map((e) => e.toTeX()).join(' & '));
+    buffer.write(items
+        .map((e) => e.toTeX(flags: {
+              if (e is CommutativeGroup) TexFlags.dontEnclose,
+            }))
+        .join(' & '));
 
     buffer.write(r' \end{pmatrix}');
     return buffer.toString();

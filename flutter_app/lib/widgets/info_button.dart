@@ -52,7 +52,7 @@ class InfoButton extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 20),
           padding: EdgeInsets.zero,
           color: Colors.deepPurpleAccent,
-          tooltip: tooltip ?? "Zjistit více",
+          tooltip: tooltip ?? 'Zjistit více',
         );
       },
     );

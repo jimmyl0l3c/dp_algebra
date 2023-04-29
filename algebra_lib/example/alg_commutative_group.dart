@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:big_fraction/big_fraction.dart';
 
 import '../test/utils/scalar_provider.dart';
 
@@ -24,7 +25,7 @@ void main() {
   ];
   for (var params in paramScalarWithScalarParams) {
     Expression addition = Addition(left: params[0], right: params[1]);
-    printNSimplifications(addition, 3);
+    printAllSimplifications(addition);
     print('');
 
     // Expression multiply = Multiply(left: params[0], right: params[1]);
@@ -42,25 +43,44 @@ void main() {
   ];
   for (var params in paramScalarWithParamScalarsTest) {
     Expression addition = Addition(left: params[0], right: params[1]);
-    printNSimplifications(addition, 6);
+    printAllSimplifications(addition);
+    // printNSimplifications(addition, 10);
     print('');
   }
+
+  print('');
+  final problematicExample = CommutativeGroup.add([
+    Variable(index: 0),
+    CommutativeGroup.multiply(
+      [Scalar(BigFraction.minusOne()), Variable(index: 0)],
+    ),
+  ]);
+  printAllSimplifications(problematicExample);
+
+  print('');
+  final problematicExample2 = CommutativeGroup.add([
+    CommutativeGroup.multiply(
+      [Scalar(BigFraction.minusOne()), Variable(index: 0)],
+    ),
+    Variable(index: 0),
+  ]);
+  printAllSimplifications(problematicExample2);
 }
 
-void printNSimplifications(Expression expression, int n,
-    {bool addNewLine = false}) {
-  for (var i = 0; i < n; i++) {
-    print(simplifyNTimes(expression, i).toTeX());
+void printAllSimplifications(Expression expression, {bool addNewLine = false}) {
+  Expression prevExp = expression;
+  Expression lastExp = expression;
+  print(expression.toTeX());
+  if (addNewLine) {
+    print('');
+  }
+
+  do {
+    prevExp = lastExp;
+    lastExp = lastExp.simplify();
+    print(lastExp.toTeX());
     if (addNewLine) {
       print('');
     }
-  }
-}
-
-Expression simplifyNTimes(Expression expression, int n) {
-  Expression exp = expression;
-  for (var i = 0; i < n; i++) {
-    exp = exp.simplify();
-  }
-  return exp;
+  } while (prevExp != lastExp);
 }

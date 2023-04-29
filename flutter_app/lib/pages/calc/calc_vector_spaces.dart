@@ -35,8 +35,8 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
     List<CalcResult> solutions =
         watchX((CalcSolutionsModel x) => x.vectorSolutions);
 
-    const String linIndependence = "Lineární nezávislost:";
-    const String findBasis = "Nalezení báze:";
+    const String linIndependence = 'Lineární nezávislost:';
+    const String findBasis = 'Nalezení báze:';
 
     return SingleChildScrollView(
       child: Padding(
@@ -86,7 +86,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                     refName: PredefinedRef.vectorLinIndependence.refName,
                     placeholder: linIndependence,
                     text: linIndependence,
-                    tooltip: "Zjistit více",
+                    tooltip: 'Zjistit více',
                   ),
                   const SizedBox(width: 8.0),
                   StyledPopupButton<int>(
@@ -102,7 +102,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                         ),
                     ],
                     child: vectorSelectionString(independenceSelection),
-                    tooltip: "Zvolte vektory",
+                    tooltip: 'Zvolte vektory',
                   ),
                   const SizedBox(width: 8.0),
                   ElevatedButton(
@@ -148,7 +148,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                     refName: PredefinedRef.basis.refName,
                     placeholder: findBasis,
                     text: findBasis,
-                    tooltip: "Zjistit více",
+                    tooltip: 'Zjistit více',
                   ),
                   const SizedBox(width: 8.0),
                   StyledPopupButton<int>(
@@ -164,7 +164,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
                         ),
                     ],
                     child: vectorSelectionString(baseSelection),
-                    tooltip: "Zvolte vektory generující bázi",
+                    tooltip: 'Zvolte vektory generující bázi',
                   ),
                   const SizedBox(width: 8.0),
                   ElevatedButton(
@@ -264,7 +264,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
       selectedCoordinateVector = null;
     }
 
-    const String coordsToTransform = "Souřadnice:";
+    const String coordsToTransform = 'Souřadnice:';
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -279,7 +279,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                 style: Theme.of(context).textTheme.headlineSmall!,
               ),
               const SizedBox(width: 8),
-              const Hint("Výpočet transformace souřadnic od báze A k bázi B"),
+              const Hint('Výpočet transformace souřadnic od báze A k bázi B'),
               const SizedBox(width: 8),
               InfoButton(refName: PredefinedRef.transformMatrix.refName),
             ],
@@ -307,7 +307,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                   ],
                   placeholder: 'Báze A',
                   child: vectorSelectionString(transformA),
-                  tooltip: "Zvolte vektory báze A",
+                  tooltip: 'Zvolte vektory báze A',
                 ),
                 const SizedBox(width: 8.0),
                 StyledPopupButton<int>(
@@ -324,7 +324,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                   ],
                   placeholder: 'Báze B',
                   child: vectorSelectionString(transformB),
-                  tooltip: "Zvolte vektory báze B",
+                  tooltip: 'Zvolte vektory báze B',
                 ),
                 const SizedBox(width: 8.0),
                 ElevatedButton(
@@ -361,7 +361,7 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                 refName: PredefinedRef.transformCoords.refName,
                 placeholder: coordsToTransform,
                 text: coordsToTransform,
-                tooltip: "Zjistit více",
+                tooltip: 'Zjistit více',
               ),
               const SizedBox(width: 8.0),
               StyledDropdownButton<int>(

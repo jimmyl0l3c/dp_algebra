@@ -52,35 +52,14 @@ class CalcEquations extends StatelessWidget with GetItMixin {
                     onPressed: () async {
                       Matrix m = equationMatrix.toMatrix();
 
-                      CalcResult.calculateAsync(
-                        GaussianElimination(matrix: m),
-                      )
-                          .then(
-                        (value) => getIt<CalcSolutionsModel>().addSolution(
-                          value,
+                      try {
+                        getIt<CalcSolutionsModel>().addSolution(
+                          CalcResult.calculate(GaussianElimination(matrix: m)),
                           CalcCategory.equation,
-                        ),
-                      )
-                          .catchError(
-                        (err) {
-                          if (err is CalcExpressionException) {
-                            showSnackBarMessage(context, err.friendlyMessage);
-                          } else {
-                            throw err;
-                          }
-                        },
-                      ).timeout(const Duration(seconds: 5));
-
-                      // try {
-                      //   getIt<CalcSolutionsModel>().addSolution(
-                      //     CalcResult.calculate(GaussianElimination(
-                      //       matrix: m,
-                      //     )),
-                      //     CalcCategory.equation,
-                      //   );
-                      // } on CalcExpressionException catch (e) {
-                      //   showSnackBarMessage(context, e.friendlyMessage);
-                      // }
+                        );
+                      } on CalcExpressionException catch (e) {
+                        showSnackBarMessage(context, e.friendlyMessage);
+                      }
                     },
                     child: const Text('Gaussova eliminační metoda'),
                   ),

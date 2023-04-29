@@ -43,7 +43,7 @@ class _SolutionViewState extends State<SolutionView> {
                 },
                 icon: const Icon(Icons.calculate),
                 splashRadius: 20,
-                tooltip: showSteps ? "Skrýt postup" : "Zobrazit postup",
+                tooltip: showSteps ? 'Skrýt postup' : 'Zobrazit postup',
               ),
               Expanded(
                 child: Wrap(
@@ -83,7 +83,7 @@ class _SolutionViewState extends State<SolutionView> {
                         if (m == null) {
                           showSnackBarMessage(
                             context,
-                            "Nelze překročit maximální počet matic, je třeba nějakou odebrat před přidáním další.",
+                            'Nelze překročit maximální počet matic, je třeba nějakou odebrat před přidáním další.',
                           );
                         }
                       }
@@ -97,7 +97,7 @@ class _SolutionViewState extends State<SolutionView> {
                         if (v == null) {
                           showSnackBarMessage(
                             context,
-                            "Nelze překročit maximální počet vektorů, je třeba nějaký odebrat před přidáním dalšího.",
+                            'Nelze překročit maximální počet vektorů, je třeba nějaký odebrat před přidáním dalšího.',
                           );
                         }
                       }
@@ -125,7 +125,7 @@ class _SolutionViewState extends State<SolutionView> {
                       child: Text('Smazat'),
                     ),
                 ],
-                tooltip: "Možnosti",
+                tooltip: 'Možnosti',
               ), // placeholder
             ],
           ),

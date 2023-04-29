@@ -125,7 +125,7 @@ class DbService {
         final data = await json.decode(response.body);
 
         Map<String, LLiterature> literature = {};
-        for (var lit in data["literature"]) {
+        for (var lit in data['literature']) {
           var value = LLiterature.fromJson(lit);
           literature[value.refName] = value;
         }

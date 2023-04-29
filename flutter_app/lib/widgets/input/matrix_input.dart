@@ -40,7 +40,7 @@ class _MatrixInputState extends State<MatrixInput> {
                 if (widget.name != null) Text(widget.name!),
                 MenuAnchor(
                   builder: (context, controller, child) => IconButton(
-                    tooltip: "Upravit matici",
+                    tooltip: 'Upravit matici',
                     onPressed: () {
                       if (controller.isOpen) {
                         controller.close();
@@ -90,7 +90,7 @@ class _MatrixInputState extends State<MatrixInput> {
                               child: Text('Odebrat $i.'),
                             ),
                       ],
-                      child: const Text("Řádek"),
+                      child: const Text('Řádek'),
                     ),
                     SubmenuButton(
                       menuChildren: [
@@ -105,12 +105,12 @@ class _MatrixInputState extends State<MatrixInput> {
                               child: Text('Odebrat $i.'),
                             ),
                       ],
-                      child: const Text("Sloupec"),
+                      child: const Text('Sloupec'),
                     ),
                   ],
                 ),
                 const Hint(
-                  "Hodnoty lze pro lepší přesnost zadávat ve zlomcích, např. 1/2",
+                  'Hodnoty lze pro lepší přesnost zadávat ve zlomcích, např. 1/2',
                 ),
               ],
             ),

@@ -16,10 +16,10 @@ class LRef {
   );
 
   LRef.fromJson(Map<dynamic, dynamic> json)
-      : refName = json["ref_label"],
-        blockType = json["block_type"],
-        blockNumber = json["block_number"],
-        pageId = json["page_order"] + 1,
-        articleId = json["article"],
-        chapterId = json["chapter"];
+      : refName = json['ref_label'],
+        blockType = json['block_type'],
+        blockNumber = json['block_number'],
+        pageId = json['page_order'] + 1,
+        articleId = json['article'],
+        chapterId = json['chapter'];
 }
