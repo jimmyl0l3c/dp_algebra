@@ -67,5 +67,5 @@ class IsHomomorphism implements Expression {
 
   @override
   String toTeX({Set<TexFlags>? flags}) =>
-      'isHomomorphism\\left(${_inputVectorX.toTeX()} \\to ${mappingVector.toTeX()}\\right)';
+      'jeHomomorfismus\\left(${_inputVectorX.toTeX()} \\to ${mappingVector.toTeX()}\\right)';
 }

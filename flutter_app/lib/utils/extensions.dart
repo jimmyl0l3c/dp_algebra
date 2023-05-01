@@ -39,7 +39,11 @@ extension HintsExtension on Expression {
     final String tex = toTeX();
     return CalcOperation.values
         .where(
-          (e) => tex.contains(RegExp(e.name + r'((\\begin\{[pv]matrix\})|\()')),
+          (e) =>
+              tex.contains(
+                RegExp(e.texName + r'((\\begin\{[pv]matrix\})|\()'),
+              ) ||
+              tex.startsWith(e.texName),
         )
         .toList();
   }

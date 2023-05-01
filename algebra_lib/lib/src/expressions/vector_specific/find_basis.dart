@@ -59,5 +59,5 @@ class FindBasis implements Expression {
 
   @override
   String toTeX({Set<TexFlags>? flags}) =>
-      'basis\\left(${matrix.toTeX(flags: {TexFlags.dontEnclose})}\\right)';
+      'najdiBázi\\left(${matrix.toTeX(flags: {TexFlags.dontEnclose})}\\right)';
 }

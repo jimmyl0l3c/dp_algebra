@@ -91,5 +91,5 @@ class TransformMatrix implements Expression {
 
   @override
   String toTeX({Set<TexFlags>? flags}) =>
-      'transformMatrix(${basisA.toTeX()}, ${basisB.toTeX()})';
+      'maticePřechodu(${basisA.toTeX()}, ${basisB.toTeX()})';
 }

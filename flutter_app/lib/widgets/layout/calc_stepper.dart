@@ -86,7 +86,9 @@ class _CalcStepperState extends State<CalcStepper> {
             ),
             const SizedBox(width: 12.0),
             if (hints.isNotEmpty)
-              Hint(hints.map((e) => '${e.name}: ${e.description}').join('\n')),
+              Hint(hints
+                  .map((e) => '${e.texName}: ${e.description}')
+                  .join('\n')),
             if (hints.isEmpty) const SizedBox(width: 18),
           ],
         ),

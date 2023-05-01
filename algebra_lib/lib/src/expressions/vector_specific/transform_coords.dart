@@ -63,5 +63,5 @@ class TransformCoords implements Expression {
 
   @override
   String toTeX({Set<TexFlags>? flags}) =>
-      'transformCoords(${transformMatrix.toTeX()}, ${coords.toTeX()})';
+      'transformujSouřadnice(${transformMatrix.toTeX()}, ${coords.toTeX()})';
 }

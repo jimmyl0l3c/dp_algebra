@@ -50,7 +50,7 @@ class AreVectorsLinearlyIndependent implements Expression {
 
   @override
   String toTeX({Set<TexFlags>? flags}) {
-    StringBuffer buffer = StringBuffer(r'linIndependent \begin{Bmatrix}');
+    StringBuffer buffer = StringBuffer(r'linNezávislé \begin{Bmatrix}');
     for (var i = 0; i < vectors.length; i++) {
       buffer.write(vectors[i].toTeX());
       if (i != vectors.length - 1) {

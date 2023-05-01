@@ -56,7 +56,7 @@ class SolveWithInverse implements Expression {
   @override
   String toTeX({Set<TexFlags>? flags}) {
     StringBuffer buffer = StringBuffer();
-    buffer.write(r'solveWithInverse \left( \begin{matrix} ');
+    buffer.write(r'řešitPomocíInvezníM \left( \begin{matrix} ');
 
     buffer.write(matrix.toTeX());
 
