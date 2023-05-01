@@ -1,4 +1,5 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
@@ -86,9 +87,24 @@ class _CalcStepperState extends State<CalcStepper> {
             ),
             const SizedBox(width: 12.0),
             if (hints.isNotEmpty)
-              Hint(hints
-                  .map((e) => '${e.texName}: ${e.description}')
-                  .join('\n')),
+              Hint(
+                richMessage: hints
+                    .mapIndexed(
+                      (i, e) => TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '${e.texName}: ',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(text: e.description),
+                          if (i != hints.length - 1) const TextSpan(text: '\n'),
+                        ],
+                      ),
+                    )
+                    .toList(),
+              ),
             if (hints.isEmpty) const SizedBox(width: 18),
           ],
         ),

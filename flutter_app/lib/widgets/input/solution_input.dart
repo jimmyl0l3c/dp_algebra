@@ -37,7 +37,8 @@ class _SolutionInputState extends State<SolutionInput> {
                   Text(widget.name),
                   const SizedBox(width: 8.0),
                   const Hint(
-                    'Pokud má soustava více řešení, zadejte řešení parametricky, např. (x0, 2x0+1)',
+                    message:
+                        'Pokud má soustava více řešení, zadejte řešení parametricky, např. (x0, 2x0+1)',
                   ),
                 ],
               ),

@@ -22,6 +22,16 @@ ThemeData _algebraTheme() {
     toggleButtonsTheme: _algebraToggleButtonTheme(),
     inputDecorationTheme: _algebraInputTheme(),
     snackBarTheme: _algebraSnackbarTheme(),
+    tooltipTheme: const TooltipThemeData(
+      textStyle: TextStyle(
+        color: Colors.black,
+        fontSize: 14.0,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+        color: Colors.white70, // or white70
+      ),
+    ),
   );
 }
 

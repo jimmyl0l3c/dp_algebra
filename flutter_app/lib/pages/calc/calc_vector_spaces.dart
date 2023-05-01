@@ -279,7 +279,9 @@ class _VectorTransformMatrixState extends State<VectorTransformMatrix>
                 style: Theme.of(context).textTheme.headlineSmall!,
               ),
               const SizedBox(width: 8),
-              const Hint('Výpočet transformace souřadnic od báze A k bázi B'),
+              const Hint(
+                message: 'Výpočet transformace souřadnic od báze A k bázi B',
+              ),
               const SizedBox(width: 8),
               InfoButton(refName: PredefinedRef.transformMatrix.refName),
             ],

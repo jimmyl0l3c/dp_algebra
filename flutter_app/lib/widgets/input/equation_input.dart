@@ -189,7 +189,9 @@ class _EquationInputState extends State<EquationInput> {
                 ),
                 const SizedBox(width: 8),
                 const Hint(
-                    'Kliknutím na název proměnné lze odebrat rovnici/neznámou (pokud je rovnic/neznámých >2)'),
+                  message:
+                      'Kliknutím na název proměnné lze odebrat rovnici/neznámou (pokud je rovnic/neznámých >2)',
+                ),
               ],
             )
           ],

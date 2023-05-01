@@ -110,7 +110,8 @@ class _MatrixInputState extends State<MatrixInput> {
                   ],
                 ),
                 const Hint(
-                  'Hodnoty lze pro lepší přesnost zadávat ve zlomcích, např. 1/2',
+                  message:
+                      'Hodnoty lze pro lepší přesnost zadávat ve zlomcích, např. 1/2',
                 ),
               ],
             ),
