@@ -47,8 +47,10 @@ class LiteratureCitation extends StatelessWidget {
                             child: Text('[${i + 1}]'),
                           ),
                           const SizedBox(width: 16),
-                          SelectableText(
-                            e?.fullCitation ?? 'Literatura nenalezena',
+                          Flexible(
+                            child: SelectableText(
+                              e?.fullCitation ?? 'Literatura nenalezena',
+                            ),
                           ),
                         ],
                       ),

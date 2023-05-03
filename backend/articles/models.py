@@ -194,6 +194,13 @@ class BlockTranslation(models.Model):
     content = models.TextField()
 
     def save(self, *args, **kwargs):
+        # Search for label, remove it from content afterwards
+        label = re.search(r"\\label{(.*)}", self.content)
+        if label and label.group(1).strip():
+            self.block.ref_label = label.group(1).strip()
+            self.block.save()
+        self.content = re.sub(r"\\label{.*}", "", self.content)
+        self.content = self.content.strip()
         # Replace end of paragraph with \break tag
         self.content = re.sub(r"(\r?\n){2,}", r" \\break ", self.content)
         # Filter out extra white spaces
