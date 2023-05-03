@@ -69,7 +69,8 @@ class LPageView extends StatelessWidget {
           } else if (part is LBlockListContent) {
             List<List<Widget>> listContent = [];
             for (var row in part.content) {
-              listContent.add(_getParagraphContent(row.content, context).first);
+              var listItemContent = _getParagraphContent(row.content, context);
+              listContent.add([for (var item in listItemContent) ...item]);
             }
 
             content.add([
