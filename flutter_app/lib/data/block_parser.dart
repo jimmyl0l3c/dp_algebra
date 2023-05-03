@@ -199,12 +199,16 @@ class BlockParser {
         type: previous.type,
       ));
 
-      // Add space between two inline math blocks
-      if (previous.type == LBlockSegmentType.inlineMath && isInlineMath) {
-        blockContent.add(LBlockSegment(' ', type: LBlockSegmentType.text));
-      }
       return segment.substring(1);
     }
+
+    // Add space between two inline math blocks
+    if (blockContent.isNotEmpty &&
+        blockContent.last.type == LBlockSegmentType.inlineMath &&
+        isInlineMath) {
+      blockContent.add(LBlockSegment(' ', type: LBlockSegmentType.text));
+    }
+
     return segment;
   }
 
