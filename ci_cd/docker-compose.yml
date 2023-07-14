@@ -7,6 +7,8 @@ services:
       context: ..
       dockerfile: ./flutter_app/Dockerfile
     container_name: algebra_app
+    networks:
+      - traefik
     expose:
       - 8080 
     labels:
@@ -19,6 +21,8 @@ services:
     build: ../backend
     container_name: algebra_api
     command: bash -c 'python manage.py collectstatic; while !</dev/tcp/db/5432; do sleep 1; done; gunicorn --bind 0.0.0.0:5001 algebra_api.wsgi'
+    networks:
+      - traefik
     volumes:
       - backend_user_data:/home/app/web/user_files/:z
     expose:
@@ -46,29 +50,11 @@ services:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
       - POSTGRES_DB=algebra_db
-  traefik:
-    image: prod_traefik
-    build:
-      context: .
-      dockerfile: Dockerfile.traefik
-    container_name: traefik_prod
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - traefik-public-certificates:/certificates
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.joska.dev`)"
-      - "traefik.http.routers.dashboard.tls=true"
-      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.middlewares=auth"
-      - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PW}"
 
 volumes:
   postgres_data:
-  traefik-public-certificates:
   backend_user_data:
 
+networks:
+  traefik:
+    external: true
