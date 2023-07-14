@@ -7,8 +7,6 @@ services:
       context: ..
       dockerfile: ./flutter_app/Dockerfile
     container_name: algebra_app
-    networks:
-      - traefik
     expose:
       - 8080 
     labels:
@@ -21,8 +19,6 @@ services:
     build: ../backend
     container_name: algebra_api
     command: bash -c 'python manage.py collectstatic; while !</dev/tcp/db/5432; do sleep 1; done; gunicorn --bind 0.0.0.0:5001 algebra_api.wsgi'
-    networks:
-      - traefik
     volumes:
       - backend_user_data:/home/app/web/user_files/:z
     expose:
@@ -56,5 +52,6 @@ volumes:
   backend_user_data:
 
 networks:
-  traefik:
+  default:
+    name: traefik
     external: true
