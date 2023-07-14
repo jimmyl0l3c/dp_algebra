@@ -7,6 +7,7 @@ services:
       context: ..
       dockerfile: ./flutter_app/Dockerfile
     container_name: algebra_app
+    restart: unless-stopped
     expose:
       - 8080 
     labels:
@@ -18,6 +19,7 @@ services:
     image: algebra_api
     build: ../backend
     container_name: algebra_api
+    restart: unless-stopped
     command: bash -c 'python manage.py collectstatic; while !</dev/tcp/db/5432; do sleep 1; done; gunicorn --bind 0.0.0.0:5001 algebra_api.wsgi'
     volumes:
       - backend_user_data:/home/app/web/user_files/:z
@@ -38,6 +40,7 @@ services:
   db:
     image: postgres:15-alpine
     container_name: algebra_db
+    restart: unless-stopped
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     expose:
