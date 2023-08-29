@@ -19,7 +19,7 @@ class RouteParser extends RouteInformationParser<ParsedRoute> {
   @override
   Future<ParsedRoute> parseRouteInformation(
       RouteInformation routeInformation) async {
-    final path = routeInformation.location!;
+    final path = routeInformation.location;
     final queryParams = Uri.parse(path).queryParameters;
     var parsedRoute = initialRoute;
 

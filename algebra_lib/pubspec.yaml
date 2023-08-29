@@ -12,4 +12,4 @@ dev_dependencies:
   test: ^1.24.6
 dependencies:
   big_fraction: ^6.0.0
-  collection: ^1.18.0
+  collection: ^1.17.2

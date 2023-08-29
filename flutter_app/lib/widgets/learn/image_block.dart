@@ -19,8 +19,8 @@ class ImageBlock extends StatelessWidget {
           fit: BoxFit.contain,
           // TODO: have dynamic constrains based on screen size
           child: CachedNetworkImage(
-            errorWidget: (context, url, error) => Column(
-              children: const [
+            errorWidget: (context, url, error) => const Column(
+              children: [
                 Icon(Icons.error),
                 Text('Error occurred when loading an image'),
               ],
