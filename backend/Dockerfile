@@ -1,14 +1,13 @@
 # BUILDER
 
-FROM python:3.11-slim as builder
+FROM python:3.11-alpine as builder
 
 WORKDIR /usr/src/app
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc
+RUN apk add --update --no-cache gcc
 
 RUN pip install --upgrade pip
 COPY . ./api
@@ -17,10 +16,10 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r ./api/
 
 
 # FINAL
-FROM python:3.11-slim
+FROM python:3.11-alpine
 
 RUN mkdir -p /home/app
-RUN addgroup --system app && adduser --system --group app
+RUN addgroup -S app && adduser -S app -G app
 
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
