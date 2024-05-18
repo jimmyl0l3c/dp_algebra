@@ -4,6 +4,6 @@ django-cors-headers==4.3.0
 djangorestframework==3.14.0
 psycopg2-binary==2.9.9
 Markdown==3.5
-gunicorn==21.2.0
+gunicorn==22.0.0
 whitenoise==6.6.0
 Pillow==10.1.0
