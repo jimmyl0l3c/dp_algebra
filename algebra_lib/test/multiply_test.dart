@@ -1,7 +1,7 @@
 import 'package:algebra_lib/algebra_lib.dart';
+import 'package:algebra_lib/src/utils/exp_utils.dart';
 import 'package:test/test.dart';
 
-import 'utils/exp_simplifier.dart';
 import 'utils/scalar_provider.dart';
 
 void main() {
@@ -33,7 +33,7 @@ void main() {
       test('Scalars: ${params[0]} * (${params[1]})', () {
         Expression multiply = Multiply(left: params[0], right: params[1]);
 
-        var result = ExpSimplifier.simplifyCompletely(multiply);
+        var result = simplifyAsMuchAsPossible(multiply);
 
         expect(result, params[2]);
       }, tags: ['scalar', 'multiply']);
@@ -81,7 +81,7 @@ void main() {
       test('Vector by scalar: ${params[0]} * (${params[1]})', () {
         Expression multiply = Multiply(left: params[0], right: params[1]);
 
-        var result = ExpSimplifier.simplifyCompletely(multiply);
+        var result = simplifyAsMuchAsPossible(multiply);
 
         expect(result, params[2]);
       }, tags: ['scalar', 'vector', 'multiply']);
