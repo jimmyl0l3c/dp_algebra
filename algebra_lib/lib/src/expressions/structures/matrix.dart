@@ -150,6 +150,9 @@ class Matrix implements Expression {
   }
 
   @override
+  String toString() => "(${rows.map((e) => e.toString()).join("; ")})";
+
+  @override
   bool operator ==(Object other) {
     if (other is! Matrix ||
         other.rowCount != rowCount ||

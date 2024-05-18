@@ -47,6 +47,9 @@ class Vector implements Expression {
   }
 
   @override
+  String toString() => "(${items.map((e) => e.toString()).join(" ")})";
+
+  @override
   bool operator ==(Object other) {
     if (other is! Vector || other.length != length) return false;
 

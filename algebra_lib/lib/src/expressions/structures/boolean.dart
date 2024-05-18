@@ -13,6 +13,9 @@ class Boolean implements Expression {
   String toTeX({Set<TexFlags>? flags}) => value ? 'Pravda' : 'Nepravda';
 
   @override
+  String toString() => value.toString();
+
+  @override
   bool operator ==(Object other) {
     if (other is! Boolean) return false;
     return other.value == value;
