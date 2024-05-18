@@ -39,7 +39,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   url_strategy: ^0.2.0
   quiver: ^3.2.1
-  collection: ^1.17.2
+  collection: ^1.18.0
   path_to_regexp: ^0.4.0
   flutter_math_fork: ^0.7.1
   get_it: ^7.6.0
