@@ -5,10 +5,12 @@ on:
     branches: [ "main" ]
     paths:
       - 'flutter_app/**'
+      - '.github/workflows/**'
   pull_request:
     branches: [ "main" ]
     paths:
       - 'flutter_app/**'
+      - '.github/workflows/**'
 
 jobs:
   build:
