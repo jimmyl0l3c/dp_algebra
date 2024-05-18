@@ -150,7 +150,7 @@ class Matrix implements Expression {
   }
 
   @override
-  String toString() => "(${rows.map((e) => e.toString()).join("; ")})";
+  String toString() => "[${rows.map((e) => e.toString()).join("; ")}]";
 
   @override
   bool operator ==(Object other) {

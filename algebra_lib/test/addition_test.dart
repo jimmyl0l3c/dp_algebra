@@ -95,11 +95,80 @@ void main() {
         );
       }, tags: ['vector', 'addition']);
     }
-  });
 
-  // TODO: test matrix addition
-  // TODO: test matrix size mismatch exc
-  // TODO: test variables
-  // TODO: test scalar and variable
-  // TODO: test commutative group related addition in separate test file
+    final matrixWithMatrixParams = [
+      [
+        Matrix.fromVectors([testVectors[0], testVectors[1]]),
+        Matrix.fromVectors([testVectors[0], testVectors[0]]),
+        Matrix.fromVectors([
+          Vector(items: [
+            ScalarProvider.get(14),
+            ScalarProvider.get(6),
+            ScalarProvider.get(-4),
+          ]),
+          Vector(items: [
+            ScalarProvider.get(8),
+            ScalarProvider.get(5),
+            ScalarProvider.get(1),
+          ]),
+        ])
+      ],
+      [
+        Matrix.fromVectors([testVectors[2], testVectors[3]]),
+        Matrix.fromVectors([testVectors[2], testVectors[2]]),
+        Matrix.fromVectors([
+          Vector(items: [
+            ScalarProvider.get(8),
+            ScalarProvider.get(10),
+            ScalarProvider.get(12),
+            ScalarProvider.get(14),
+          ]),
+          Vector(items: [
+            ScalarProvider.get(6),
+            ScalarProvider.get(4),
+            ScalarProvider.get(14),
+            ScalarProvider.get(5),
+          ])
+        ])
+      ],
+    ];
+    for (var params in matrixWithMatrixParams) {
+      test('Matrices: ${params[0]} + (${params[1]})', () {
+        Expression add = Addition(left: params[0], right: params[1]);
+
+        var result = simplifyAsMuchAsPossible(add);
+
+        expect(result, params[2]);
+      }, tags: ['matrix', 'addition']);
+    }
+
+    final matrixMismatchParams = [
+      [
+        Matrix.fromVectors([testVectors[0], testVectors[1]]),
+        Matrix.fromVectors([testVectors[2], testVectors[3]]),
+      ],
+      [
+        Matrix.fromVectors([testVectors[0], testVectors[1]]),
+        Matrix.fromVectors([testVectors[1], testVectors[0]], vertical: true),
+      ],
+      [
+        Matrix.fromVectors([testVectors[2], testVectors[3]]),
+        Matrix.fromVectors([testVectors[3], testVectors[2]], vertical: true),
+      ],
+    ];
+    for (var params in matrixMismatchParams) {
+      test('MismatchedMatrices: ${params[0]} + (${params[1]})', () {
+        Expression add = Addition(left: params[0], right: params[1]);
+
+        expect(
+          () => add.simplify(),
+          throwsA(TypeMatcher<MatrixSizeMismatchException>()),
+        );
+      }, tags: ['matrix', 'addition']);
+    }
+
+    // TODO: test variables
+    // TODO: test scalar and variable
+    // TODO: test commutative group related addition in separate test file
+  });
 }
