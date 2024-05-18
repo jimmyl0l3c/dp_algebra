@@ -4,10 +4,12 @@ on:
     branches: [ "main" ]
     paths:
       - 'algebra_lib/**'
+      - '.github/workflows/**'
   pull_request:
     branches: [ "main" ]
     paths:
       - 'algebra_lib/**'
+      - '.github/workflows/**'
 jobs:
   build:
     runs-on: ubuntu-latest
