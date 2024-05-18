@@ -1,0 +1,51 @@
+name: Flutter lint and format check
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'algebra_lib/**'
+      - 'flutter_app/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'algebra_lib/**'
+      - 'flutter_app/**'
+      - '.github/workflows/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        sdk: [3.13.1]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            sparse-checkout: |
+              .github
+              algebra_lib
+              flutter_app
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ matrix.sdk }}
+          channel: 'stable'
+
+      - name: Install dependencies
+        working-directory: ./flutter_app
+        run: flutter pub get
+
+      - name: Verify formatting
+        working-directory: ./flutter_app
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze project source
+        working-directory: ./flutter_app
+        run: flutter analyze
+
+      # - name: Run tests
+      #   working-directory: ./flutter_app
+      #   run: flutter test
