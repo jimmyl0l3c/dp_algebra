@@ -4,11 +4,13 @@ on:
   push:
     branches: [ "main" ]
     paths:
+      - 'algebra_lib/**'
       - 'flutter_app/**'
       - '.github/workflows/**'
   pull_request:
     branches: [ "main" ]
     paths:
+      - 'algebra_lib/**'
       - 'flutter_app/**'
       - '.github/workflows/**'
 
@@ -24,6 +26,7 @@ jobs:
         with:
             sparse-checkout: |
               .github
+              algebra_lib
               flutter_app
 
       - uses: subosito/flutter-action@v2
