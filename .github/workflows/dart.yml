@@ -2,8 +2,12 @@ name: Dart
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'algebra_lib/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'algebra_lib/**'
 jobs:
   build:
     runs-on: ubuntu-latest
