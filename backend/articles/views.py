@@ -1,15 +1,13 @@
-import os.path
-
 from django.db.models import F
-from django.http import HttpRequest, JsonResponse, FileResponse
+from django.http import FileResponse, HttpRequest, JsonResponse
 from django.views.decorators.http import require_http_methods
 
 from algebra_api.settings import MEDIA_ROOT
-from articles.models import Chapter, Article, Block, Literature, LearnImage
+from articles.models import Article, Block, Chapter, LearnImage, Literature
 
 
 @require_http_methods(["GET"])
-def chapters_view(request: HttpRequest, locale_id: int):
+def chapters_view(request: HttpRequest, locale_id: int) -> JsonResponse:  # noqa: ARG001
     chapters = Chapter.objects.filter(chaptertranslation__language=locale_id).values(
         chapter_id=F("id"),
         chapter_title=F("chaptertranslation__title"),
@@ -19,7 +17,7 @@ def chapters_view(request: HttpRequest, locale_id: int):
 
 
 @require_http_methods(["GET"])
-def chapter_view(request: HttpRequest, locale_id: int, chapter_id: int):
+def chapter_view(request: HttpRequest, locale_id: int, chapter_id: int) -> JsonResponse:  # noqa: ARG001
     chapter = Chapter.objects.filter(
         id=chapter_id, chaptertranslation__language=locale_id
     ).values(
@@ -43,7 +41,7 @@ def chapter_view(request: HttpRequest, locale_id: int, chapter_id: int):
 
 
 @require_http_methods(["GET"])
-def article_view(request: HttpRequest, locale_id: int, article_id: int):
+def article_view(request: HttpRequest, locale_id: int, article_id: int) -> JsonResponse:  # noqa: ARG001
     article = Article.objects.filter(
         id=article_id,
         chapter__chaptertranslation__language=locale_id,
@@ -51,7 +49,7 @@ def article_view(request: HttpRequest, locale_id: int, article_id: int):
     ).values(
         "chapter_id",
         chapter_title=F("chapter__chaptertranslation__title"),
-        article_id=F("id"),  # TODO: remove, unnecessary
+        article_id=F("id"),  # TODO: remove, unnecessary, # noqa: FIX002
         article_title=F("articletranslation__title"),
     )
 
@@ -87,7 +85,7 @@ def article_view(request: HttpRequest, locale_id: int, article_id: int):
 
 
 @require_http_methods(["GET"])
-def get_literature_view(request: HttpRequest):
+def get_literature_view(request: HttpRequest) -> JsonResponse:
     if "ref_name" in request.GET:
         lit = Literature.objects.filter(
             ref_name__iexact=request.GET["ref_name"]
@@ -97,12 +95,11 @@ def get_literature_view(request: HttpRequest):
             return JsonResponse({"error": "Literature not found"}, status=404)
 
         return JsonResponse({**lit.get()})
-    else:
-        return JsonResponse({"literature": list(Literature.objects.all().values())})
+    return JsonResponse({"literature": list(Literature.objects.all().values())})
 
 
 @require_http_methods(["GET"])
-def get_reference_view(request: HttpRequest):
+def get_reference_view(request: HttpRequest) -> JsonResponse:
     is_filtered = "ref_name" in request.GET
     if is_filtered:
         ref = Block.objects.filter(ref_label__iexact=request.GET["ref_name"])
@@ -125,12 +122,12 @@ def get_reference_view(request: HttpRequest):
 
 
 @require_http_methods(["GET"])
-def get_learn_image_view(request: HttpRequest, ref_name: str):
+def get_learn_image_view(request: HttpRequest, ref_name: str) -> FileResponse | JsonResponse:  # noqa: ARG001
     image_path_q = LearnImage.objects.filter(ref_name__iexact=ref_name).values("image")
 
     if image_path_q.exists():  # Check if the image is in the database
-        image_path = os.path.join(MEDIA_ROOT, image_path_q.get()["image"])
-        if os.path.exists(image_path):  # Check if the image file exists
-            return FileResponse(open(image_path, "rb"))
+        image_path = MEDIA_ROOT / image_path_q.get()["image"]
+        if image_path.exists():  # Check if the image file exists
+            return FileResponse(image_path.open("rb"))
 
     return JsonResponse({"error": "Image not found"}, status=404)

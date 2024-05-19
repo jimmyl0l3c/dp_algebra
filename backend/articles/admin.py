@@ -1,18 +1,18 @@
 from django.contrib import admin
 
 from .models import (
-    Language,
-    Chapter,
-    ChapterTranslation,
     Article,
     ArticleTranslation,
-    Page,
     Block,
     BlockTranslation,
     BlockType,
     BlockTypeTranslation,
-    Literature,
+    Chapter,
+    ChapterTranslation,
+    Language,
     LearnImage,
+    Literature,
+    Page,
 )
 
 

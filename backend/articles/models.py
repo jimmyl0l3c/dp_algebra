@@ -8,15 +8,18 @@ class Language(models.Model):
     code = models.CharField(max_length=5, unique=True)
     name = models.CharField(max_length=150)
 
-    def __str__(self):
-        return f"{self.id}: {self.code}"
-
     class Meta:
         ordering = ["code"]
+
+    def __str__(self):
+        return f"{self.id}: {self.code}"
 
 
 class Chapter(models.Model):
     order = models.BigIntegerField(db_index=True)
+
+    class Meta:
+        ordering = ["order"]
 
     def __str__(self):
         translation = (
@@ -28,9 +31,6 @@ class Chapter(models.Model):
             return f'{self.id}: {translation.get()["name"]} ({self.order})'
         return f"Chapter: {self.id} ({self.order})"
 
-    class Meta:
-        ordering = ["order"]
-
 
 class ChapterTranslation(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
@@ -38,18 +38,21 @@ class ChapterTranslation(models.Model):
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=250, blank=True)
 
-    def __str__(self):
-        return f"{self.chapter}/{self.language}: {self.title}"
-
     class Meta:
         db_table = "articles_chapter_translations"
         ordering = ["language"]
+
+    def __str__(self):
+        return f"{self.chapter}/{self.language}: {self.title}"
 
 
 class Article(models.Model):
     order = models.BigIntegerField(db_index=True)
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
     published_at = models.DateField()
+
+    class Meta:
+        ordering = ["chapter__order", "order"]
 
     def __str__(self):
         article_translation = (
@@ -61,9 +64,6 @@ class Article(models.Model):
             return f'{self.id}: {article_translation.get()["name"]} ({self.order})'
         return f"{self.chapter}, Article: {self.id} ({self.order})"
 
-    class Meta:
-        ordering = ["chapter__order", "order"]
-
 
 class ArticleTranslation(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
@@ -71,23 +71,23 @@ class ArticleTranslation(models.Model):
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=250, blank=True)
 
-    def __str__(self):
-        return f"{self.article}/{self.language}: {self.title}"
-
     class Meta:
         db_table = "articles_article_translations"
         ordering = ["language"]
+
+    def __str__(self):
+        return f"{self.article}/{self.language}: {self.title}"
 
 
 class Page(models.Model):
     order = models.BigIntegerField(db_index=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.article}, Page: {self.id} ({self.order})"
-
     class Meta:
         ordering = ["article__chapter__order", "article__order", "order"]
+
+    def __str__(self):
+        return f"{self.article}, Page: {self.id} ({self.order})"
 
 
 class BlockType(models.Model):
@@ -96,11 +96,11 @@ class BlockType(models.Model):
     figure = models.BooleanField(db_index=True)
     code = models.CharField(max_length=50, unique=True)
 
-    def __str__(self):
-        return f"{self.id}: {self.code}"
-
     class Meta:
         ordering = ["id"]
+
+    def __str__(self):
+        return f"{self.id}: {self.code}"
 
 
 class BlockTypeTranslation(models.Model):
@@ -108,11 +108,11 @@ class BlockTypeTranslation(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
 
-    def __str__(self):
-        return f"{self.block_type}/{self.language}: {self.title}"
-
     class Meta:
         ordering = ["language"]
+
+    def __str__(self):
+        return f"{self.block_type}/{self.language}: {self.title}"
 
 
 class Block(models.Model):
@@ -121,6 +121,23 @@ class Block(models.Model):
     type = models.ForeignKey(BlockType, on_delete=models.CASCADE)
     number = models.PositiveIntegerField(null=True, blank=True)
     ref_label = models.CharField(max_length=50, unique=True, null=True, blank=True)
+
+    class Meta:
+        ordering = [
+            "page__article__chapter__order",
+            "page__article__order",
+            "page__order",
+            "order",
+        ]
+
+    def __str__(self):
+        return f"{self.page}, Block: {self.id} ({self.order})"
+
+    def save(self, *args, **kwargs) -> None:  # noqa: ANN002, ANN003
+        if self.type.enumerated or self.type.figure:
+            self.number = self.calculate_number()
+            self.__update_following_enumerated()
+        super().save(*args, **kwargs)
 
     def calculate_number(self) -> int | None:
         if not self.type.enumerated and not self.type.figure:
@@ -161,30 +178,11 @@ class Block(models.Model):
             "page__article__order",
             "page__order",
             "order",
-        )[
-            :1
-        ]
+        )[:1]
         if following:
             block = following.first()
             block.number = block.calculate_number()
             block.save()
-
-    def save(self, *args, **kwargs):
-        if self.type.enumerated or self.type.figure:
-            self.number = self.calculate_number()
-            self.__update_following_enumerated()
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.page}, Block: {self.id} ({self.order})"
-
-    class Meta:
-        ordering = [
-            "page__article__chapter__order",
-            "page__article__order",
-            "page__order",
-            "order",
-        ]
 
 
 class BlockTranslation(models.Model):
@@ -193,7 +191,14 @@ class BlockTranslation(models.Model):
     title = models.CharField(max_length=150, blank=True)
     content = models.TextField()
 
-    def save(self, *args, **kwargs):
+    class Meta:
+        db_table = "articles_block_translations"
+        ordering = ["language"]
+
+    def __str__(self):
+        return f"{self.block}/{self.language}"
+
+    def save(self, *args, **kwargs) -> None:  # noqa: ANN002, ANN003
         # Search for label, remove it from content afterwards
         label = re.search(r"\\label{(.*)}", self.content)
         if label and label.group(1).strip():
@@ -220,13 +225,6 @@ class BlockTranslation(models.Model):
         self.content = re.sub(r"\\uv{(.*?)}", "\u201e\\g<1>\u201c", self.content)
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return f"{self.block}/{self.language}"
-
-    class Meta:
-        db_table = "articles_block_translations"
-        ordering = ["language"]
-
 
 class Literature(models.Model):
     ref_name = models.CharField(max_length=50, unique=True)
@@ -239,19 +237,19 @@ class Literature(models.Model):
     edition = models.IntegerField(blank=True, null=True)
     pages = models.IntegerField(blank=True, null=True)
 
-    def __str__(self):
-        return f"{self.ref_name}: {self.author}, {self.year}, {self.title}"
-
     class Meta:
         ordering = ["ref_name"]
+
+    def __str__(self):
+        return f"{self.ref_name}: {self.author}, {self.year}, {self.title}"
 
 
 class LearnImage(models.Model):
     ref_name = models.CharField(max_length=50, unique=True)
-    image = models.ImageField(upload_to=f"learn_images")
-
-    def __str__(self):
-        return self.ref_name
+    image = models.ImageField(upload_to="learn_images")
 
     class Meta:
         ordering = ["ref_name"]
+
+    def __str__(self):
+        return self.ref_name
