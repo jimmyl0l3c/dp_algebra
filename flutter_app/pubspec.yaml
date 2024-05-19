@@ -44,7 +44,7 @@ dependencies:
   flutter_math_fork: ^0.7.1
   get_it: ^7.6.0
   get_it_mixin: ^4.2.0
-  http: ^1.1.0
+  http: ^1.2.1
 
   algebra_lib:
     path: ../algebra_lib
