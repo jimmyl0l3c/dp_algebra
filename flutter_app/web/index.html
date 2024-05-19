@@ -111,12 +111,6 @@
       background-color: #323232;
     }
   </style>
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
 </head>
 <body id="bg">
   <div id="loading-div">
@@ -126,22 +120,21 @@
     <div id="loading"></div>
   </div>
   <script>
-    window.addEventListener('load', function(ev) {
-      var loading = document.querySelector('#loading');
-      loading.textContent = "Loading entrypoint...";
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        }
-      }).then(function(engineInitializer) {
+    {{flutter_js}}
+    {{flutter_build_config}}
+
+    const loading = document.querySelector('#loading');
+    loading.textContent = "Loading entrypoint...";
+    _flutter.loader.load({
+      onEntrypointLoaded: async function(engineInitializer) {
         loading.textContent = "Initializing engine...";
         loading.style.color = "#e6ffa0";
-        return engineInitializer.initializeEngine();
-      }).then(function(appRunner) {
+        const appRunner = await engineInitializer.initializeEngine();
+
         loading.textContent = "Running app...";
         loading.style.color = "#87ff07";
-        return appRunner.runApp();
-      });
+        await appRunner.runApp();
+      }
     });
   </script>
 </body>

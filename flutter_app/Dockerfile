@@ -10,7 +10,7 @@ USER flutter:flutter
 
 WORKDIR /home/flutter
 
-RUN git clone https://github.com/flutter/flutter.git --branch 3.19.6 flutter-sdk
+RUN git clone https://github.com/flutter/flutter.git --branch 3.22.0 flutter-sdk
 
 RUN flutter-sdk/bin/flutter precache
 
