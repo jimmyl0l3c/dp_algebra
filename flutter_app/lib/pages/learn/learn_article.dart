@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../models/db/learn_article.dart';
 import '../../models/db/learn_page.dart';
-import '../../routing/route_state.dart';
 import '../../widgets/layout/main_scaffold.dart';
 import '../../widgets/learn/lpage_view.dart';
 import '../../widgets/loading.dart';
@@ -21,7 +21,6 @@ class LearnArticle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routeState = RouteStateScope.of(context);
     final scrollController = ScrollController();
 
     return FutureBuilder<LArticle?>(
@@ -47,7 +46,7 @@ class LearnArticle extends StatelessWidget {
                     duration: const Duration(milliseconds: 250),
                     curve: Curves.easeIn,
                   );
-                  routeState.go(
+                  context.go(
                     '/chapter/$currentChapter/$articleId/${currentPage + 1}',
                   );
                 },
@@ -66,7 +65,7 @@ class LearnArticle extends StatelessWidget {
                     duration: const Duration(milliseconds: 250),
                     curve: Curves.easeIn,
                   );
-                  routeState.go(
+                  context.go(
                     '/chapter/$currentChapter/$articleId/${currentPage - 1}',
                   );
                 },

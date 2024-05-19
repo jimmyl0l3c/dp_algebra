@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../routing/route_state.dart';
+import 'package:go_router/go_router.dart';
 
 class MainScaffold extends StatelessWidget {
   final String title;
@@ -18,7 +17,6 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routeState = RouteStateScope.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -26,7 +24,7 @@ class MainScaffold extends StatelessWidget {
         leading: isSectionRoot
             ? BackButton(
                 onPressed: () {
-                  routeState.go('/');
+                  context.go('/');
                 },
               )
             : null,
@@ -34,7 +32,7 @@ class MainScaffold extends StatelessWidget {
           IconButton(
             tooltip: 'Návrat do hlavního menu',
             onPressed: () {
-              routeState.go('/');
+              context.go('/');
             },
             icon: const Icon(Icons.home),
           )

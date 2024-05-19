@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-
-import '../routing/route_state.dart';
+import 'package:go_router/go_router.dart';
 
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final routeState = RouteStateScope.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lineární algebra \u2014 menu'),
@@ -24,7 +21,7 @@ class Menu extends StatelessWidget {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () {
-                    routeState.go('/chapter');
+                    context.go('/chapter');
                   },
                   child: const Text('Výuka'),
                 ),
@@ -34,7 +31,7 @@ class Menu extends StatelessWidget {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () {
-                    routeState.go('/exercise');
+                    context.go('/exercise');
                   },
                   child: const Text('Procvičování'),
                 ),
@@ -44,7 +41,7 @@ class Menu extends StatelessWidget {
                 height: 40,
                 child: ElevatedButton(
                     onPressed: () {
-                      routeState.go('/calc');
+                      context.go('/calc');
                     },
                     child: const Text('Kalkulačka')),
               ),

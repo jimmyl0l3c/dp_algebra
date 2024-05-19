@@ -9,6 +9,7 @@ import 'models/calc_state/calc_equation_model.dart';
 import 'models/calc_state/calc_matrix_model.dart';
 import 'models/calc_state/calc_solutions_model.dart';
 import 'models/calc_state/calc_vector_model.dart';
+import 'router.dart';
 
 final getIt = GetIt.instance;
 final logger = Logger();
@@ -28,4 +29,6 @@ void setup() {
   getIt.registerSingleton<CalcVectorModel>(CalcVectorModel());
 
   getIt.registerSingleton<DbService>(DbService());
+
+  getIt.registerSingleton<AlgebraRouter>(AlgebraRouter());
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 import '../data/db_service.dart';
 import '../models/db/learn_ref.dart';
-import '../routing/route_state.dart';
 
 class InfoButton extends StatelessWidget {
   final String refName;
@@ -14,7 +14,6 @@ class InfoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routeState = RouteStateScope.of(context);
     DbService dbService = GetIt.instance.get<DbService>();
 
     return FutureBuilder(
@@ -40,7 +39,7 @@ class InfoButton extends StatelessWidget {
 
         return IconButton(
           onPressed: () {
-            routeState.go(
+            context.go(
               '/chapter/${ref.chapterId}/${ref.articleId}/${ref.pageId}',
             );
           },

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../routing/route_state.dart';
+import 'package:go_router/go_router.dart';
 
 class Section {
   final String title;
@@ -20,7 +19,6 @@ class SectionMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routeState = RouteStateScope.of(context);
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 1000),
@@ -38,7 +36,7 @@ class SectionMenu extends StatelessWidget {
                 onPressed: section.path == null
                     ? null
                     : () {
-                        routeState.go(section.path!);
+                        context.go(section.path!);
                       },
                 child: ListTile(
                   title: Text(section.title),
