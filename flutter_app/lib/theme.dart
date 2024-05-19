@@ -69,20 +69,20 @@ ElevatedButtonThemeData _algebraElevatedButtonTheme() =>
 OutlinedButtonThemeData _algebraOutlinedButtonTheme() =>
     OutlinedButtonThemeData(
         style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.pressed)) {
+      backgroundColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.pressed)) {
           return Colors.yellow.withOpacity(.15);
         }
-        if (states.contains(MaterialState.focused) ||
-            states.contains(MaterialState.hovered)) {
+        if (states.contains(WidgetState.focused) ||
+            states.contains(WidgetState.hovered)) {
           return Colors.orangeAccent.withOpacity(.1);
         }
         return Colors.transparent;
       }),
-      foregroundColor: MaterialStateProperty.resolveWith((states) {
+      foregroundColor: WidgetStateProperty.resolveWith((states) {
         return Colors.orange;
       }),
-      side: MaterialStateProperty.resolveWith((states) {
+      side: WidgetStateProperty.resolveWith((states) {
         return const BorderSide(color: Colors.orange);
       }),
     ));

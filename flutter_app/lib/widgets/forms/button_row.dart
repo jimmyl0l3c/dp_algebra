@@ -66,29 +66,29 @@ class ButtonRow extends StatelessWidget {
   Widget _getRowButton(BuildContext context, ButtonRowItem item) => TextButton(
         onPressed: item.onPressed,
         style: ButtonStyle(
-          padding: MaterialStateProperty.all(padding ??
+          padding: WidgetStateProperty.all(padding ??
               const EdgeInsets.symmetric(
                 vertical: 20,
                 horizontal: 8,
               )),
-          backgroundColor: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.disabled)) {
+          backgroundColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.disabled)) {
               return Colors.white12;
             }
-            if (states.contains(MaterialState.pressed)) {
+            if (states.contains(WidgetState.pressed)) {
               return Colors.deepPurpleAccent[100];
             }
-            if (states.contains(MaterialState.hovered) ||
-                states.contains(MaterialState.focused)) {
+            if (states.contains(WidgetState.hovered) ||
+                states.contains(WidgetState.focused)) {
               return Colors.deepPurpleAccent;
             }
             return Theme.of(context).colorScheme.primary;
           }),
-          foregroundColor: MaterialStateProperty.all(
+          foregroundColor: WidgetStateProperty.all(
             Theme.of(context).colorScheme.onPrimary,
           ),
-          side: MaterialStateProperty.all(BorderSide.none),
-          shape: MaterialStateProperty.all(const RoundedRectangleBorder()),
+          side: WidgetStateProperty.all(BorderSide.none),
+          shape: WidgetStateProperty.all(const RoundedRectangleBorder()),
         ),
         child: item.child,
       );

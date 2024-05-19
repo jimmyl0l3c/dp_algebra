@@ -17,10 +17,10 @@ class InTextButton extends StatelessWidget {
     return TextButton(
       style: const ButtonStyle(
         // Infinite is ignored
-        fixedSize: MaterialStatePropertyAll(Size.infinite),
+        fixedSize: WidgetStatePropertyAll(Size.infinite),
         // Disable minimum size and padding
-        minimumSize: MaterialStatePropertyAll(Size.zero),
-        padding: MaterialStatePropertyAll(EdgeInsets.zero),
+        minimumSize: WidgetStatePropertyAll(Size.zero),
+        padding: WidgetStatePropertyAll(EdgeInsets.zero),
       ),
       onPressed: onPressed,
       child: Text(

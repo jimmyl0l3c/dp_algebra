@@ -493,16 +493,16 @@ class _MatrixBinOperationSelectionState
             message: 'Vyměnit matice',
             child: TextButton(
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(const CircleBorder()),
-                backgroundColor: MaterialStateProperty.resolveWith((states) {
-                  if (states.contains(MaterialState.disabled)) {
+                shape: WidgetStateProperty.all(const CircleBorder()),
+                backgroundColor: WidgetStateProperty.resolveWith((states) {
+                  if (states.contains(WidgetState.disabled)) {
                     return Colors.white12;
                   }
-                  if (states.contains(MaterialState.pressed)) {
+                  if (states.contains(WidgetState.pressed)) {
                     return Colors.deepPurpleAccent[100];
                   }
-                  if (states.contains(MaterialState.hovered) ||
-                      states.contains(MaterialState.focused)) {
+                  if (states.contains(WidgetState.hovered) ||
+                      states.contains(WidgetState.focused)) {
                     return Colors.deepPurpleAccent;
                   }
                   return Theme.of(context).colorScheme.primary;
