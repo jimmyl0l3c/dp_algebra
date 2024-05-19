@@ -12,12 +12,12 @@ class AlgChapterView extends StatelessWidget {
   final int chapterId;
 
   const AlgChapterView({
-    Key? key,
+    super.key,
     required this.sectionTitle,
     required this.sectionPath,
     required this.chapter,
     required this.chapterId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

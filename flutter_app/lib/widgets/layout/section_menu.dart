@@ -13,9 +13,9 @@ class SectionMenu extends StatelessWidget {
   final List<Section> sections;
 
   const SectionMenu({
-    Key? key,
+    super.key,
     required this.sections,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

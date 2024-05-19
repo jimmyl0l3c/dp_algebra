@@ -14,13 +14,13 @@ class MatrixInput extends StatefulWidget {
   final bool randomGenerationAllowed;
 
   const MatrixInput({
-    Key? key,
+    super.key,
     required this.matrix,
     this.name,
     this.deleteMatrix,
     this.duplicateMatrix,
     this.randomGenerationAllowed = false,
-  }) : super(key: key);
+  });
 
   @override
   State<MatrixInput> createState() => _MatrixInputState();

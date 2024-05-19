@@ -8,7 +8,7 @@ import '../../widgets/layout/section_menu.dart';
 import '../../widgets/loading.dart';
 
 class LearnMenu extends StatelessWidget {
-  const LearnMenu({Key? key}) : super(key: key);
+  const LearnMenu({super.key});
 
   @override
   Widget build(BuildContext context) {

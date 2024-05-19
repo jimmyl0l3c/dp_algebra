@@ -5,10 +5,10 @@ class BulletList extends StatelessWidget {
   final bool enumerated;
 
   const BulletList({
-    Key? key,
+    super.key,
     required this.items,
     this.enumerated = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

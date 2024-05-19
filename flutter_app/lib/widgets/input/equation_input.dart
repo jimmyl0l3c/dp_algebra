@@ -12,10 +12,10 @@ class EquationInput extends StatefulWidget {
   final bool randomGenerationAllowed;
 
   const EquationInput({
-    Key? key,
+    super.key,
     required this.matrix,
     this.randomGenerationAllowed = false,
-  }) : super(key: key);
+  });
 
   @override
   State<EquationInput> createState() => _EquationInputState();

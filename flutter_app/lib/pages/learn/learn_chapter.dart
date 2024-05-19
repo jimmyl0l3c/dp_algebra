@@ -10,9 +10,9 @@ class LearnChapter extends StatelessWidget {
   final Future<LChapter?> chapter;
 
   const LearnChapter({
-    Key? key,
+    super.key,
     required this.chapter,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

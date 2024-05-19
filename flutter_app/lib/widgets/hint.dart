@@ -4,7 +4,7 @@ class Hint extends StatelessWidget {
   final List<InlineSpan>? richMessage;
   final String? message;
 
-  const Hint({Key? key, this.message, this.richMessage}) : super(key: key);
+  const Hint({super.key, this.message, this.richMessage});
 
   @override
   Widget build(BuildContext context) {

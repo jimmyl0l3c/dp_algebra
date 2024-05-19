@@ -14,12 +14,12 @@ class VectorInput extends StatefulWidget {
   final bool randomGenerationAllowed;
 
   const VectorInput({
-    Key? key,
+    super.key,
     required this.vector,
     this.name,
     this.deleteVector,
     this.randomGenerationAllowed = false,
-  }) : super(key: key);
+  });
 
   @override
   State<VectorInput> createState() => _VectorInputState();

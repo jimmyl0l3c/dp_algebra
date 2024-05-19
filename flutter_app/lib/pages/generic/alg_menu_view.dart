@@ -11,11 +11,11 @@ class AlgMenuView extends StatelessWidget {
   final List<SectionChapterModel> chapters;
 
   const AlgMenuView({
-    Key? key,
+    super.key,
     required this.sectionTitle,
     required this.sectionPath,
     required this.chapters,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) => MainScaffold(

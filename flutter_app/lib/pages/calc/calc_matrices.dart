@@ -21,7 +21,7 @@ import '../../widgets/layout/solution_view.dart';
 import '../../widgets/learn/block_ref_button.dart';
 
 class CalcMatrices extends StatelessWidget with GetItMixin {
-  CalcMatrices({Key? key}) : super(key: key);
+  CalcMatrices({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +98,7 @@ class CalcMatrices extends StatelessWidget with GetItMixin {
 
 class MatrixMultiplyByScalar extends StatefulWidget
     with GetItStatefulWidgetMixin {
-  MatrixMultiplyByScalar({Key? key}) : super(key: key);
+  MatrixMultiplyByScalar({super.key});
 
   @override
   State<MatrixMultiplyByScalar> createState() => _MatrixMultiplyByScalarState();
@@ -177,7 +177,7 @@ class _MatrixMultiplyByScalarState extends State<MatrixMultiplyByScalar>
 }
 
 class MatrixInputWrap extends StatelessWidget with GetItMixin {
-  MatrixInputWrap({Key? key}) : super(key: key);
+  MatrixInputWrap({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -215,9 +215,9 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
   final UnaryMatrixOperation operation;
 
   MatrixOperationSelection({
-    Key? key,
+    super.key,
     required this.operation,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -334,8 +334,8 @@ class MatrixOperationSelection extends StatelessWidget with GetItMixin {
 class MatrixBinOperationSelection extends StatefulWidget
     with GetItStatefulWidgetMixin {
   MatrixBinOperationSelection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<MatrixBinOperationSelection> createState() =>

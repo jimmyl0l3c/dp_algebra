@@ -11,11 +11,11 @@ class SolutionInput extends StatefulWidget {
   final int variableCount;
 
   const SolutionInput({
-    Key? key,
+    super.key,
     required this.solution,
     required this.name,
     required this.variableCount,
-  }) : super(key: key);
+  });
 
   @override
   State<SolutionInput> createState() => _SolutionInputState();

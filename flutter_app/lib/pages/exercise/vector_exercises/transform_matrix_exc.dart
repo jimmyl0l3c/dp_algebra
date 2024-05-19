@@ -13,7 +13,7 @@ import '../../../widgets/input/matrix_input.dart';
 import '../../generic/exercise_page.dart';
 
 class TransformMatrixExc extends StatefulWidget {
-  const TransformMatrixExc({Key? key}) : super(key: key);
+  const TransformMatrixExc({super.key});
 
   @override
   State<TransformMatrixExc> createState() => _TransformMatrixExcState();

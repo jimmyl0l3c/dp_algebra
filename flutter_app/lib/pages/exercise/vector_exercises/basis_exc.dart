@@ -13,7 +13,7 @@ import '../../../widgets/input/vector_input.dart';
 import '../../generic/exercise_page.dart';
 
 class BasisExc extends StatefulWidget {
-  const BasisExc({Key? key}) : super(key: key);
+  const BasisExc({super.key});
 
   @override
   State<BasisExc> createState() => _BasisExcState();

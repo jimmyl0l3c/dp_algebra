@@ -13,12 +13,12 @@ class BlockRefButton extends StatelessWidget {
   final String? tooltip;
 
   const BlockRefButton({
-    Key? key,
+    super.key,
     required this.refName,
     this.placeholder,
     this.text,
     this.tooltip,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

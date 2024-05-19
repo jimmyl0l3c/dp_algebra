@@ -16,8 +16,7 @@ class SolutionView extends StatefulWidget {
   final CalcResult solution;
   final Function(SolutionOptions)? onSelected;
 
-  const SolutionView({Key? key, required this.solution, this.onSelected})
-      : super(key: key);
+  const SolutionView({super.key, required this.solution, this.onSelected});
 
   @override
   State<SolutionView> createState() => _SolutionViewState();

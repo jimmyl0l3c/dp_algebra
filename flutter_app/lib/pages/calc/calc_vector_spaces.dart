@@ -22,7 +22,7 @@ import '../../widgets/layout/solution_view.dart';
 import '../../widgets/learn/block_ref_button.dart';
 
 class CalcVectorSpaces extends StatelessWidget with GetItMixin {
-  CalcVectorSpaces({Key? key}) : super(key: key);
+  CalcVectorSpaces({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -242,7 +242,7 @@ class CalcVectorSpaces extends StatelessWidget with GetItMixin {
 
 class VectorTransformMatrix extends StatefulWidget
     with GetItStatefulWidgetMixin {
-  VectorTransformMatrix({Key? key}) : super(key: key);
+  VectorTransformMatrix({super.key});
 
   @override
   State<VectorTransformMatrix> createState() => _VectorTransformMatrixState();

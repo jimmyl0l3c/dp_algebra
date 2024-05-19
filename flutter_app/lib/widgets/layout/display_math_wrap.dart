@@ -6,10 +6,10 @@ class DisplayMathWrap extends StatelessWidget {
   final Widget? citation;
 
   const DisplayMathWrap({
-    Key? key,
+    super.key,
     required this.content,
     this.citation,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

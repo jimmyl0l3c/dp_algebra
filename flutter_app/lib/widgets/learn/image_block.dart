@@ -7,7 +7,7 @@ import '../../models/db/learn_block.dart';
 class ImageBlock extends StatelessWidget {
   final LBlock block;
 
-  const ImageBlock({Key? key, required this.block}) : super(key: key);
+  const ImageBlock({super.key, required this.block});
 
   @override
   Widget build(BuildContext context) {

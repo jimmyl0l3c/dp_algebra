@@ -14,7 +14,7 @@ import '../../../widgets/input/fraction_input.dart';
 import '../../generic/exercise_page.dart';
 
 class DeterminantExc extends StatefulWidget {
-  const DeterminantExc({Key? key}) : super(key: key);
+  const DeterminantExc({super.key});
 
   @override
   State<DeterminantExc> createState() => _DeterminantExcState();

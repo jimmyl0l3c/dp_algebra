@@ -15,7 +15,7 @@ import '../../../widgets/input/solution_input.dart';
 import '../../generic/exercise_page.dart';
 
 class EquationExc extends StatefulWidget {
-  const EquationExc({Key? key}) : super(key: key);
+  const EquationExc({super.key});
 
   @override
   State<EquationExc> createState() => _EquationExcState();

@@ -10,11 +10,11 @@ class AlgPageView extends StatelessWidget {
   final SectionPageModel page;
 
   const AlgPageView({
-    Key? key,
+    super.key,
     required this.sectionTitle,
     required this.chapter,
     required this.page,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) => MainScaffold(

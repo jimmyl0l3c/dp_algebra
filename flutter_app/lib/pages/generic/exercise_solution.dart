@@ -11,11 +11,11 @@ class ExerciseSolution extends StatefulWidget {
   final String? hintRef;
 
   const ExerciseSolution({
-    Key? key,
+    super.key,
     this.solution,
     this.strSolution,
     this.hintRef,
-  }) : super(key: key);
+  });
 
   @override
   State<ExerciseSolution> createState() => _ExerciseSolutionState();

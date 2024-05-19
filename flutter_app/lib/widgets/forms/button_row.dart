@@ -14,11 +14,11 @@ class ButtonRow extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
 
   const ButtonRow({
-    Key? key,
+    super.key,
     required this.children,
     this.borderRadius,
     this.padding,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

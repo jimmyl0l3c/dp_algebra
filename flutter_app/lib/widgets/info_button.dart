@@ -9,8 +9,7 @@ class InfoButton extends StatelessWidget {
   final String refName;
   final String? tooltip;
 
-  const InfoButton({Key? key, required this.refName, this.tooltip})
-      : super(key: key);
+  const InfoButton({super.key, required this.refName, this.tooltip});
 
   @override
   Widget build(BuildContext context) {

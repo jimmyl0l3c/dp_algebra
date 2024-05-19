@@ -4,9 +4,9 @@ class HorizontallyScrollable extends StatelessWidget {
   final Widget child;
 
   const HorizontallyScrollable({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

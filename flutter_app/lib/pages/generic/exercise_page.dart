@@ -14,7 +14,7 @@ class ExercisePage extends StatelessWidget {
   final String? hintRef;
 
   const ExercisePage({
-    Key? key,
+    super.key,
     required this.generateButtons,
     required this.example,
     this.result,
@@ -22,7 +22,7 @@ class ExercisePage extends StatelessWidget {
     this.solution,
     this.strSolution,
     this.hintRef,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -9,14 +9,14 @@ class StyledDropdownButton<T> extends StatelessWidget {
   final bool? isExpanded;
 
   const StyledDropdownButton({
-    Key? key,
+    super.key,
     this.value,
     this.items,
     this.onChanged,
     this.valueAlignment,
     this.maxWidth,
     this.isExpanded,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

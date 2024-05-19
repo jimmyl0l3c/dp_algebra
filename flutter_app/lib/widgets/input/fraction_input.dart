@@ -10,12 +10,11 @@ class FractionInput extends StatelessWidget {
   final double? maxWidth;
 
   FractionInput({
-    Key? key,
+    super.key,
     required this.onChanged,
     required value,
     this.maxWidth,
-  })  : controller = MathTextEditingController(text: value),
-        super(key: key);
+  }) : controller = MathTextEditingController(text: value);
 
   @override
   Widget build(BuildContext context) {

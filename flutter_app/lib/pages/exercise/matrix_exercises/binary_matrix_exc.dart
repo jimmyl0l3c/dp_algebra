@@ -14,7 +14,7 @@ import '../../../widgets/input/matrix_input.dart';
 import '../../generic/exercise_page.dart';
 
 class BinaryMatrixExc extends StatefulWidget {
-  const BinaryMatrixExc({Key? key}) : super(key: key);
+  const BinaryMatrixExc({super.key});
 
   @override
   State<BinaryMatrixExc> createState() => _BinaryMatrixExcState();

@@ -12,7 +12,7 @@ import 'horizontally_scrollable.dart';
 class CalcStepper extends StatefulWidget {
   final List<Expression> steps;
 
-  const CalcStepper({Key? key, required this.steps}) : super(key: key);
+  const CalcStepper({super.key, required this.steps});
 
   @override
   State<CalcStepper> createState() => _CalcStepperState();

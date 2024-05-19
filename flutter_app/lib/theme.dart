@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 final ThemeData algebraTheme = _algebraTheme();
 
 ThemeData _algebraTheme() {
-  final ThemeData base = ThemeData.dark();
+  final ThemeData base = ThemeData.dark(useMaterial3: false);
 
   return base.copyWith(
     colorScheme: base.colorScheme.copyWith(

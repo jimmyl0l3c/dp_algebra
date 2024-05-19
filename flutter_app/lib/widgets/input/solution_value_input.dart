@@ -12,13 +12,12 @@ class SolutionValueInput extends StatelessWidget {
   final int variableCount;
 
   SolutionValueInput({
-    Key? key,
+    super.key,
     required this.onChanged,
     required value,
     this.maxWidth,
     required this.variableCount,
-  })  : controller = TextEditingController(text: value),
-        super(key: key);
+  }) : controller = TextEditingController(text: value);
 
   @override
   Widget build(BuildContext context) {

@@ -8,10 +8,10 @@ class LiteratureReference extends StatelessWidget {
   final ScrollController? scrollController;
 
   const LiteratureReference({
-    Key? key,
+    super.key,
     required this.segment,
     this.scrollController,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

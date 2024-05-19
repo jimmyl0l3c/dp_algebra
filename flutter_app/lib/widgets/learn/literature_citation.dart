@@ -8,9 +8,9 @@ class LiteratureCitation extends StatelessWidget {
   final LBlockLiteratureContent segment;
 
   const LiteratureCitation({
-    Key? key,
+    super.key,
     required this.segment,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

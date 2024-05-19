@@ -8,12 +8,12 @@ class MainScaffold extends StatelessWidget {
   final Widget? floatingActionButton;
 
   const MainScaffold({
-    Key? key,
+    super.key,
     required this.title,
     this.child,
     this.isSectionRoot = false,
     this.floatingActionButton,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

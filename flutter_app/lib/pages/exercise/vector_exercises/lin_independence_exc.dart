@@ -14,7 +14,7 @@ import '../../../widgets/forms/button_row.dart';
 import '../../generic/exercise_page.dart';
 
 class LinIndependenceExc extends StatefulWidget {
-  const LinIndependenceExc({Key? key}) : super(key: key);
+  const LinIndependenceExc({super.key});
 
   @override
   State<LinIndependenceExc> createState() => _LinIndependenceExcState();

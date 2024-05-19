@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// TextEditingController subclass that replaces '-' with proper minus sign
 class MathTextEditingController extends TextEditingController {
-  MathTextEditingController({required text}) : super(text: text);
+  MathTextEditingController({required super.text});
 
   @override
   TextSpan buildTextSpan({

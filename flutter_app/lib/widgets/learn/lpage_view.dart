@@ -19,10 +19,10 @@ class LPageView extends StatelessWidget {
   final ScrollController? scrollController;
 
   const LPageView({
-    Key? key,
+    super.key,
     required this.page,
     this.scrollController,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

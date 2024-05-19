@@ -10,17 +10,17 @@ class StyledPopupButton<T> extends StatelessWidget {
   final bool? isExpanded;
   final String? tooltip;
 
-  const StyledPopupButton(
-      {Key? key,
-      this.onSelected,
-      this.child,
-      this.placeholder,
-      required this.itemBuilder,
-      this.valueAlignment,
-      this.maxWidth,
-      this.isExpanded,
-      this.tooltip})
-      : super(key: key);
+  const StyledPopupButton({
+    super.key,
+    this.onSelected,
+    this.child,
+    this.placeholder,
+    required this.itemBuilder,
+    this.valueAlignment,
+    this.maxWidth,
+    this.isExpanded,
+    this.tooltip,
+  });
 
   @override
   Widget build(BuildContext context) {

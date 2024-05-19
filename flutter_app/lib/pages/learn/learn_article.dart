@@ -13,11 +13,11 @@ class LearnArticle extends StatelessWidget {
   final int currentPage;
 
   const LearnArticle({
-    Key? key,
+    super.key,
     required this.currentChapter,
     this.currentPage = 1,
     required this.article,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

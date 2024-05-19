@@ -6,7 +6,7 @@ import 'router.dart';
 import 'theme.dart';
 
 class AlgebraApp extends StatefulWidget {
-  const AlgebraApp({Key? key}) : super(key: key);
+  const AlgebraApp({super.key});
 
   @override
   State<AlgebraApp> createState() => _AlgebraAppState();

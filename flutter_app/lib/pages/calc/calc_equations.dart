@@ -16,7 +16,7 @@ import '../../widgets/input/equation_input.dart';
 import '../../widgets/layout/solution_view.dart';
 
 class CalcEquations extends StatelessWidget with GetItMixin {
-  CalcEquations({Key? key}) : super(key: key);
+  CalcEquations({super.key});
 
   @override
   Widget build(BuildContext context) {

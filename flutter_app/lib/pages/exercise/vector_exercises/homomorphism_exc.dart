@@ -12,7 +12,7 @@ import '../../../widgets/forms/button_row.dart';
 import '../../generic/exercise_page.dart';
 
 class HomomorphismsExc extends StatefulWidget {
-  const HomomorphismsExc({Key? key}) : super(key: key);
+  const HomomorphismsExc({super.key});
 
   @override
   State<HomomorphismsExc> createState() => _HomomorphismsExcState();

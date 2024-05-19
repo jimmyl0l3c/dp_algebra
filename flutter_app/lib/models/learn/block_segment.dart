@@ -21,8 +21,8 @@ class LBlockTabularCellSegment extends LBlockSegment {
   final int width;
 
   LBlockTabularCellSegment(
-    String content, {
+    super.content, {
     required this.cells,
     required this.width,
-  }) : super(content, type: LBlockSegmentType.tabular);
+  }) : super(type: LBlockSegmentType.tabular);
 }

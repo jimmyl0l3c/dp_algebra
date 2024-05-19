@@ -13,7 +13,7 @@ import '../../../widgets/input/matrix_input.dart';
 import '../../generic/exercise_page.dart';
 
 class InverseMatrixExc extends StatefulWidget {
-  const InverseMatrixExc({Key? key}) : super(key: key);
+  const InverseMatrixExc({super.key});
 
   @override
   State<InverseMatrixExc> createState() => _InverseMatrixExcState();

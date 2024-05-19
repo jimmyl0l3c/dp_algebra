@@ -5,10 +5,10 @@ class InTextButton extends StatelessWidget {
   final Function()? onPressed;
 
   const InTextButton({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
