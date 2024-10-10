@@ -46,7 +46,7 @@ dependencies:
 
   algebra_expressions: 1.0.0
   big_fraction: ^6.0.0
-  logger: ^2.0.0
+  logger: ^2.4.0
   cached_network_image: ^3.0.0
   go_router: ^14.0.0
 
