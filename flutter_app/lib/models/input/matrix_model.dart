@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:algebra_lib/algebra_lib.dart';
+import 'package:algebra_expressions/algebra_expressions.dart';
 import 'package:big_fraction/big_fraction.dart';
 
 import '../../utils/extensions.dart';

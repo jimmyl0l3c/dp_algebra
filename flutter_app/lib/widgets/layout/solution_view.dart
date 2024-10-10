@@ -1,4 +1,4 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import 'package:algebra_expressions/algebra_expressions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 

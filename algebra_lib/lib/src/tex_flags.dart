@@ -1,4 +1,0 @@
-enum TexFlags {
-  dontEnclose,
-  isInsideAddition,
-}

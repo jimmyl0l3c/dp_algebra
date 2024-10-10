@@ -19,11 +19,9 @@ RUN flutter-sdk/bin/flutter config --no-analytics
 ENV PATH="$PATH:/home/flutter/flutter-sdk/bin"
 ENV PATH="$PATH:/home/flutter/flutter-sdk/bin/cache/dart-sdk/bin"
 
-COPY ./algebra_lib ./algebra_lib
 COPY ./flutter_app ./flutter_app
 
 USER root:root
-RUN chown -R flutter:flutter ./algebra_lib
 RUN chown -R flutter:flutter ./flutter_app
 
 USER flutter:flutter

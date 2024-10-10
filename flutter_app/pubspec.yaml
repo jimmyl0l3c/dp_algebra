@@ -44,8 +44,7 @@ dependencies:
   get_it_mixin: ^4.0.0
   http: ^1.0.0
 
-  algebra_lib:
-    path: ../algebra_lib
+  algebra_expressions: 1.0.0
   big_fraction: ^6.0.0
   logger: ^2.0.0
   cached_network_image: ^3.0.0

@@ -1,4 +1,4 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import 'package:algebra_expressions/algebra_expressions.dart';
 import 'package:big_fraction/big_fraction.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it_mixin/get_it_mixin.dart';

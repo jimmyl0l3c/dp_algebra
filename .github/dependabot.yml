@@ -10,10 +10,6 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "pub"
-    directory: "/algebra_lib/"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "pub"
     directory: "/flutter_app/"
     schedule:
       interval: "weekly"

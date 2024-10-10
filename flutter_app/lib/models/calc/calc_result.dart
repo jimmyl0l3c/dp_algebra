@@ -1,4 +1,4 @@
-import 'package:algebra_lib/algebra_lib.dart';
+import 'package:algebra_expressions/algebra_expressions.dart';
 
 import '../../main.dart';
 import 'calc_expression_exception.dart';
