@@ -1,11 +1,11 @@
 # BUILDER
 
-FROM python:3.11-alpine as builder
+FROM python:3.12-alpine as builder
 
 WORKDIR /usr/src/app
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 RUN apk add --update --no-cache gcc
 
@@ -16,7 +16,7 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r ./api/
 
 
 # FINAL
-FROM python:3.11-alpine
+FROM python:3.12-alpine
 
 RUN mkdir -p /home/app
 RUN addgroup -S app && adduser -S app -G app
