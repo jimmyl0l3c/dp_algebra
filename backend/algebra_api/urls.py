@@ -8,6 +8,7 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import permissions
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
@@ -16,7 +17,7 @@ from rest_framework.views import APIView
 class APIRootView(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def get(self, request):
+    def get(self, request: Request) -> Response:
         return Response({
             "Learn API v2": reverse("learn-root", request=request),
         })
