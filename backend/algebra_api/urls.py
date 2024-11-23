@@ -18,9 +18,11 @@ class APIRootView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request: Request) -> Response:
-        return Response({
-            "Learn API v2": reverse("learn-root", request=request),
-        })
+        return Response(
+            {
+                "Learn API v2": reverse("learn-root", request=request),
+            }
+        )
 
 
 urlpatterns = [
