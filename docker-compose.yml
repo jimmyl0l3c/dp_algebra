@@ -1,30 +1,24 @@
-version: '3.8'
+name: dp_algebra
 
 services:
   frontend:
-    image: algebra_app
-    build:
-      context: ..
-      dockerfile: ./flutter_app/Dockerfile
+    image: ghcr.io/jimmyl0l3c/dp_algebra-app:latest
+    build: ./flutter_app
     container_name: algebra_app
     restart: unless-stopped
-    expose:
-      - 8080 
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.flutter.rule=Host(`algebra.joska.dev`)"
       - "traefik.http.routers.flutter.tls=true"
       - "traefik.http.routers.flutter.tls.certresolver=letsencrypt"
+
   api:
-    image: algebra_api
-    build: ../backend
+    image: ghcr.io/jimmyl0l3c/dp_algebra-api:latest
+    build: ./backend
     container_name: algebra_api
     restart: unless-stopped
-    command: sh -c 'python manage.py collectstatic; gunicorn --bind 0.0.0.0:5001 algebra_api.wsgi'
     volumes:
       - backend_user_data:/home/app/web/user_files/:z
-    expose:
-      - 5001
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/algebra_db
       - DJANGO_ALLOWED_HOSTS=.joska.dev
@@ -37,6 +31,7 @@ services:
       - "traefik.http.routers.django.rule=Host(`algebra2.joska.dev`)"
       - "traefik.http.routers.django.tls=true"
       - "traefik.http.routers.django.tls.certresolver=letsencrypt"
+
   db:
     image: postgres:15-alpine
     container_name: algebra_db

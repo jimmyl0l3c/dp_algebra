@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as builder
+FROM ubuntu:22.04 AS builder
 
 RUN apt-get update && \
     apt-get install -y bash curl file git unzip xz-utils zip libglu1-mesa && \
@@ -19,7 +19,7 @@ RUN flutter-sdk/bin/flutter config --no-analytics
 ENV PATH="$PATH:/home/flutter/flutter-sdk/bin"
 ENV PATH="$PATH:/home/flutter/flutter-sdk/bin/cache/dart-sdk/bin"
 
-COPY ./flutter_app ./flutter_app
+COPY . ./flutter_app
 
 USER root:root
 RUN chown -R flutter:flutter ./flutter_app
@@ -33,3 +33,4 @@ RUN flutter build web
 # Final
 FROM devforth/spa-to-http:latest
 COPY --from=builder /home/flutter/flutter_app/build/web/ .
+EXPOSE 8080
