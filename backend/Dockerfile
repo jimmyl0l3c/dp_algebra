@@ -1,6 +1,6 @@
 # BUILDER
 
-FROM python:3.12-alpine as builder
+FROM python:3.12-alpine AS builder
 
 WORKDIR /usr/src/app
 
@@ -10,10 +10,9 @@ ENV PYTHONUNBUFFERED=1
 RUN apk add --update --no-cache gcc
 
 RUN pip install --upgrade pip
-COPY . ./api
+COPY ./requirements.txt .
 
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r ./api/requirements.txt
-
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r ./requirements.txt
 
 # FINAL
 FROM python:3.12-alpine
@@ -23,13 +22,12 @@ RUN addgroup -S app && adduser -S app -G app
 
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
-RUN mkdir $APP_HOME
 RUN mkdir -p $APP_HOME/user_files/learn_images
+
 WORKDIR $APP_HOME
 
 # install dependencies
 COPY --from=builder /usr/src/app/wheels /wheels
-COPY --from=builder /usr/src/app/api/requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache /wheels/*
 
@@ -41,3 +39,7 @@ RUN chown -R app:app $APP_HOME
 
 # change to the app user
 USER app
+
+EXPOSE 5001
+
+ENTRYPOINT sh run-api.sh
