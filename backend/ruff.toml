@@ -31,12 +31,10 @@ exclude = [
     "migrations",
 ]
 
-# Same as Black.
 line-length = 120
 indent-width = 4
 
-# Assume Python 3.8
-target-version = "py311"
+target-version = "py312"
 
 [lint]
 # Rules list: https://docs.astral.sh/ruff/rules/
@@ -60,7 +58,7 @@ select = [
     "SLF",  # flake8-slf (private-member access)
     "SLOT", "INP",  # flake8-slot, flake8-no-pep-420
     "PTH",  # flake8-use-pathlib
-    "FIX", # flake8-fixme (alternatively use flake8-todos to force the TODO tag to contain a reference to jira ticket)
+#    "FIX", # flake8-fixme (alternatively use flake8-todos to force the TODO tag to contain a reference to jira ticket)
     "DJ01",  # flake8-django, optionally "DJ008" (requires all models to have __str__ defined)
     "T20"  # Bans print statements, comment it if needed
 ]

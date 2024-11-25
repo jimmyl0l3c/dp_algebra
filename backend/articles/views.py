@@ -18,9 +18,7 @@ def chapters_view(request: HttpRequest, locale_id: int) -> JsonResponse:  # noqa
 
 @require_http_methods(["GET"])
 def chapter_view(request: HttpRequest, locale_id: int, chapter_id: int) -> JsonResponse:  # noqa: ARG001
-    chapter = Chapter.objects.filter(
-        id=chapter_id, chaptertranslation__language=locale_id
-    ).values(
+    chapter = Chapter.objects.filter(id=chapter_id, chaptertranslation__language=locale_id).values(
         chapter_id=F("id"),
         chapter_title=F("chaptertranslation__title"),
         chapter_description=F("chaptertranslation__description"),
@@ -29,9 +27,7 @@ def chapter_view(request: HttpRequest, locale_id: int, chapter_id: int) -> JsonR
     if not chapter.exists():
         return JsonResponse({"error": "Chapter not found"}, status=404)
 
-    articles = Article.objects.filter(
-        chapter=chapter_id, articletranslation__language=locale_id
-    ).values(
+    articles = Article.objects.filter(chapter=chapter_id, articletranslation__language=locale_id).values(
         article_id=F("id"),
         article_title=F("articletranslation__title"),
         article_description=F("articletranslation__description"),
@@ -87,9 +83,7 @@ def article_view(request: HttpRequest, locale_id: int, article_id: int) -> JsonR
 @require_http_methods(["GET"])
 def get_literature_view(request: HttpRequest) -> JsonResponse:
     if "ref_name" in request.GET:
-        lit = Literature.objects.filter(
-            ref_name__iexact=request.GET["ref_name"]
-        ).values()
+        lit = Literature.objects.filter(ref_name__iexact=request.GET["ref_name"]).values()
 
         if not lit.exists():
             return JsonResponse({"error": "Literature not found"}, status=404)

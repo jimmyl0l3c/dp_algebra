@@ -213,12 +213,8 @@ class BlockTranslation(models.Model):
         self.content = re.sub(r" {2,}", " ", self.content)
         self.content = re.sub(r"(\\cite{\S+)\s+(\S+})", r"\g<1>\g<2>", self.content)
         # Replace \begin{align} with matrix in display math block
-        self.content = re.sub(
-            r"(\\begin{)align\*(})", r"$$\g<1>matrix\g<2>", self.content
-        )
-        self.content = re.sub(
-            r"(\\end{)align\*(})", r"\g<1>matrix\g<2>$$", self.content
-        )
+        self.content = re.sub(r"(\\begin{)align\*(})", r"$$\g<1>matrix\g<2>", self.content)
+        self.content = re.sub(r"(\\end{)align\*(})", r"\g<1>matrix\g<2>$$", self.content)
         # Replace tilda
         self.content = re.sub(r"~", " ", self.content)
         # Replace \uv{}
