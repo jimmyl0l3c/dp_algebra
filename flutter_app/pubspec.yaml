@@ -39,7 +39,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   url_strategy: ^0.3.0
   collection: ^1.0.0
-  flutter_math_fork: ^0.7.0
+  flutter_math_fork: ^0.7.3
   get_it: ^7.0.0
   get_it_mixin: ^4.0.0
   http: ^1.2.2
