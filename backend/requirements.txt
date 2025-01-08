@@ -19,13 +19,11 @@ gunicorn==23.0.0
     # via -r requirements.in
 packaging==24.1
     # via gunicorn
-pillow==11.0.0
+pillow==11.1.0
     # via -r requirements.in
 psycopg2-binary==2.9.10
     # via -r requirements.in
 sqlparse==0.5.1
-    # via django
-tzdata==2024.2
     # via django
 whitenoise==6.8.2
     # via -r requirements.in
