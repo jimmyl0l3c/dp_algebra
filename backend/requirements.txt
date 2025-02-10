@@ -25,5 +25,5 @@ psycopg2-binary==2.9.10
     # via -r requirements.in
 sqlparse==0.5.1
     # via django
-whitenoise==6.8.2
+whitenoise==6.9.0
     # via -r requirements.in
