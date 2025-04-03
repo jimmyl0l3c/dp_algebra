@@ -19,35 +19,23 @@ services:
     restart: unless-stopped
     volumes:
       - backend_user_data:/home/app/web/user_files/:z
+      - db_data:/home/app/web/db.sqlite3
     environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/algebra_db
       - DJANGO_ALLOWED_HOSTS=.joska.dev
       - DJANGO_SECRET_KEY
-      - DJANGO_DEBUG=False
-    depends_on:
-      - db
+      - DJANGO_DEBUG=0
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.django.rule=Host(`algebra2.joska.dev`)"
+      - "traefik.http.routers.django2.rule=Host(`algebra2.joska.dev`)"
+      - "traefik.http.routers.django2.tls=true"
+      - "traefik.http.routers.django2.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.django.rule=Host(`api.algebra.joska.dev`)"
       - "traefik.http.routers.django.tls=true"
       - "traefik.http.routers.django.tls.certresolver=letsencrypt"
 
-  db:
-    image: postgres:15-alpine
-    container_name: algebra_db
-    restart: unless-stopped
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    expose:
-      - 5432
-    environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB=algebra_db
-
 volumes:
-  postgres_data:
   backend_user_data:
+  db_data:
 
 networks:
   default:

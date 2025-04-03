@@ -10,12 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
-import environ
 from django.utils.translation import gettext_lazy as _
-
-env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,12 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("DJANGO_SECRET_KEY", default="test")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", default="test")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DJANGO_DEBUG", default=True)
-ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS", default=[])
+DEBUG = os.getenv("DJANGO_DEBUG", default="0") == "1"
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", default=[])
 
 CSRF_TRUSTED_ORIGINS = ["https://*.joska.dev"]
 
@@ -42,8 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "articles",
     "corsheaders",
+    # apps
+    "articles",
 ]
 
 MIDDLEWARE = [
@@ -84,15 +81,12 @@ WSGI_APPLICATION = "algebra_api.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
-else:
-    DATABASES = {"default": env.db()}
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
