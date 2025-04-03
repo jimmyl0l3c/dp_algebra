@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
     volumes:
       - backend_user_data:/home/app/web/user_files/:z
-      - db_data:/home/app/web/db.sqlite3
+      - ./db.sqlite3:/home/app/web/db.sqlite3
     environment:
       - DJANGO_ALLOWED_HOSTS=.joska.dev
       - DJANGO_SECRET_KEY
@@ -35,7 +35,6 @@ services:
 
 volumes:
   backend_user_data:
-  db_data:
 
 networks:
   default:
