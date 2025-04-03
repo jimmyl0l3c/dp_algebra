@@ -21,10 +21,10 @@ jobs:
           - image: api
             file: ./backend/Dockerfile
           - image: app
-            context: .
+            context: ./flutter_app
           - image: app
             file: ./flutter_app/Dockerfile
-  
+
     runs-on: ubuntu-latest
     permissions:
       contents: read
