@@ -26,7 +26,10 @@ services:
       - DJANGO_DEBUG=0
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.django.rule=Host(`algebra2.joska.dev`)"
+      - "traefik.http.routers.django2.rule=Host(`algebra2.joska.dev`)"
+      - "traefik.http.routers.django2.tls=true"
+      - "traefik.http.routers.django2.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.django.rule=Host(`api.algebra.joska.dev`)"
       - "traefik.http.routers.django.tls=true"
       - "traefik.http.routers.django.tls.certresolver=letsencrypt"
 
