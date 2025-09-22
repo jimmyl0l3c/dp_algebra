@@ -9,7 +9,7 @@ django==5.2.4
     #   -r requirements.in
     #   django-cors-headers
     #   djangorestframework
-django-cors-headers==4.7.0
+django-cors-headers==4.9.0
     # via -r requirements.in
 djangorestframework==3.16.0
     # via -r requirements.in
