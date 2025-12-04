@@ -1,42 +1,30 @@
-# BUILDER
-FROM python:3.13-alpine AS builder
+FROM python:3.14-alpine
 
-WORKDIR /usr/src/app
-
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-RUN pip install --upgrade pip
-COPY ./requirements.txt .
-
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r ./requirements.txt
-
-# FINAL
-FROM python:3.13-alpine
-
-RUN mkdir -p /home/app
 RUN addgroup -S app && adduser -S app -G app
 
-ENV HOME=/home/app
-ENV APP_HOME=/home/app/web
-RUN mkdir -p $APP_HOME/user_files/learn_images
+WORKDIR /home/app/web
 
-WORKDIR $APP_HOME
+COPY requirements.txt /
+RUN pip install -r /requirements.txt
 
-# install dependencies
-COPY --from=builder /usr/src/app/wheels /wheels
-RUN pip install --upgrade pip
-RUN pip install --no-cache /wheels/*
+COPY --chown=app:app pyproject.toml ./
+COPY --chown=app:app uv.lock ./
 
-# copy project
-COPY . $APP_HOME
+RUN uv sync
 
-# chown all the files to the app user
-RUN chown -R app:app $APP_HOME
+RUN chown -R app:app /home/app
 
-# change to the app user
+COPY --chown=app:app . .
+
+RUN mkdir -p /certs
+
 USER app
+
+RUN mkdir -p db
+
+RUN uv run manage.py collectstatic --noinput --clear
 
 EXPOSE 5001
 
-ENTRYPOINT sh run-api.sh
+ENTRYPOINT ["uv run granian"]
+CMD ["--interface", "wsgi", "algebra_api.wsgi"]
