@@ -17,6 +17,7 @@ services:
     build: ./backend
     container_name: algebra_api
     restart: unless-stopped
+    command: "uv run granian --interface wsgi --host 0.0.0.0 --port 5001 algebra_api.wsgi:application"
     volumes:
       - backend_user_data:/home/app/web/user_files/:z
       - ./db.sqlite3:/home/app/web/db.sqlite3

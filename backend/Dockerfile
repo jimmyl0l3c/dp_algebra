@@ -25,6 +25,3 @@ RUN mkdir -p db
 RUN uv run manage.py collectstatic --noinput --clear
 
 EXPOSE 5001
-
-ENTRYPOINT ["uv run granian"]
-CMD ["--interface", "wsgi", "algebra_api.wsgi"]

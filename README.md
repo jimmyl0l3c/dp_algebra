@@ -5,9 +5,8 @@ This project is my master thesis. The app is currently only in Czech but is plan
 ## Requirements
 
 - **Backend**
-  - Python 3.12
-  - Dependencies specified in `backend/requirements.txt`
+  - Python 3.14
+  - Dependencies managed by uv, see [pyproject.toml](./backend/pyproject.toml)
 - **Frontend**
   - Flutter SDK 3.24.3
-  - Dependencies specified in `flutter_app/pubspec.yaml`
-
+  - Dependencies specified in [flutter_app/pubspec.yaml](./flutter_app/pubspec.yaml)
