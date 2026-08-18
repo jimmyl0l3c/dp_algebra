@@ -9,7 +9,7 @@ dependencies = [
     "django-cors-headers>=4.9.0",
     "djangorestframework>=3.17.1",
     "granian>=2.7.4",
-    "pillow>=12.2.0",
+    "pillow>=12.3.0",
     "whitenoise>=6.12.0",
 ]
 
