@@ -71,11 +71,11 @@ OutlinedButtonThemeData _algebraOutlinedButtonTheme() =>
         style: ButtonStyle(
       backgroundColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.pressed)) {
-          return Colors.yellow.withOpacity(.15);
+          return Colors.yellow.withValues(alpha: .15);
         }
         if (states.contains(WidgetState.focused) ||
             states.contains(WidgetState.hovered)) {
-          return Colors.orangeAccent.withOpacity(.1);
+          return Colors.orangeAccent.withValues(alpha: .1);
         }
         return Colors.transparent;
       }),

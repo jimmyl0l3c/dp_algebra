@@ -475,8 +475,8 @@ class _MatrixBinOperationSelectionState
                         case BinaryMatrixOperation.multiply:
                           exp = Multiply(left: expLeftM, right: expRightM);
                           break;
-                        default:
-                          return;
+                        // default:
+                        //   return;
                       }
 
                       getIt<CalcSolutionsModel>().addSolution(
