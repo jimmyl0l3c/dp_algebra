@@ -28,7 +28,7 @@ class Chapter(models.Model):
             .order_by("chaptertranslation__language")[:1]
         )
         if translation.exists():
-            return f'{self.id}: {translation.get()["name"]} ({self.order})'
+            return f"{self.id}: {translation.get()['name']} ({self.order})"
         return f"Chapter: {self.id} ({self.order})"
 
 
@@ -61,7 +61,7 @@ class Article(models.Model):
             .order_by("articletranslation__language")[:1]
         )
         if article_translation.exists():
-            return f'{self.id}: {article_translation.get()["name"]} ({self.order})'
+            return f"{self.id}: {article_translation.get()['name']} ({self.order})"
         return f"{self.chapter}, Article: {self.id} ({self.order})"
 
 
